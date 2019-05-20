@@ -14,6 +14,7 @@
     <module>shop-module</module>
     <module>shop-module-api</module>
     <module>shop-eureka</module>
+    <module>shop-admin</module>
   </modules>
   <packaging>pom</packaging>
 
