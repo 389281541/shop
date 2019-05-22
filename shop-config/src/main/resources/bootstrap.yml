@@ -19,8 +19,7 @@ spring:
     config:
       server:
         git:
-#          uri: https://github.com/389281541/shop.git
-          uri: http://localhost:8080
+          uri: https://github.com/389281541/shop.git
           searchPaths: ${tianxiao-config.base-url}/base,${tianxiao-config.base-url}/local,${tianxiao-config.base-url}/dev,${tianxiao-config.base-url}/test,${tianxiao-config.base-url}/online
           username: 389281541@qq.com
           password: ljw19910712
