@@ -30,6 +30,7 @@
     <properties>
         <swagger.version>2.9.2</swagger.version>
         <swagger.boot.version>1.8.0.RELEASE</swagger.boot.version>
+        <spring-boot.version>2.0.5.RELEASE</spring-boot.version>
         <swagger-bootstrap-ui.version>1.8.9</swagger-bootstrap-ui.version>
         <spring-cloud.version>Finchley.SR2</spring-cloud.version>
     </properties>
@@ -150,23 +151,36 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>pl.project13.maven</groupId>
-                    <artifactId>git-commit-id-plugin</artifactId>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <configuration>
-                        <delimiters>
-                            <delimiter>${*}</delimiter>     <!-- 使用${..}作为占位符 -->
-                        </delimiters>
-                        <!-- 使用默认的占位符（@..@） -->
-                        <useDefaultDelimiters>false</useDefaultDelimiters>
-                    </configuration>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>build-info</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <delimiters>
+                        <delimiter>${*}</delimiter>     <!-- 使用${..}作为占位符 -->
+                    </delimiters>
+                    <!-- 使用默认的占位符（@..@） -->
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
