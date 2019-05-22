@@ -12,8 +12,7 @@
     <artifactId>shop-module-api</artifactId>
 
     <name>shop-module-api</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,16 +28,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <finalName>${project.name}-${project.version}</finalName>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

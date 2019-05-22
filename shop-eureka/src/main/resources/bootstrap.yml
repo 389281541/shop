@@ -1,0 +1,44 @@
+server:
+  port: 1025
+
+
+spring:
+  application:
+    name:${pom.artifactId}
+
+  security:
+    basic:
+      enabled:true
+    user:
+      name: rainbow
+      password: 112233
+
+  profiles:
+    active: ${spring.profiles.active}
+
+
+# 注册中心
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true         # 注册到Eureka Server上的是IP
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://rainbow:112233@${spring.eureka-url}/eureka/
+  server:
+    eviction-interval-timer-in-ms: 4000   # 清理间隔（单位毫秒，默认是60*1000）
+    enable-self-preservation: true       # 设为false，关闭自我保护
+    renewal-percent-threshold: 0.9
+    peer-node-read-timeout-ms: 2000
+
+
+# 本机环境配置
+---
+spring:
+  profiles: local
+  eureka-url: localhost:1025
+
+
+

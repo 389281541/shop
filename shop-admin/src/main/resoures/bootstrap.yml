@@ -1,0 +1,28 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: ${spring.profiles.active}-shop-admin
+
+  profiles:
+    active: ${spring.profiles.active}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+
+  client:
+    service-url:
+      defaultZone: http://rainbow:112233@${spring.eureka-url}/eureka/
+
+swagger:
+  base-package: com.rainbow.admin.controller
+  base-path: /**
+
+
+#开发环境配置
+---
+spring:
+  profiles: local
+  eureka-url: localhost:1025
