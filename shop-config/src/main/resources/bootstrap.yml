@@ -1,0 +1,55 @@
+##原访问git环境
+server:
+  port: 4001
+
+shop-config:
+  base-url: shop-config/src/main/resources/config
+
+spring:
+  application:
+    name: shop-config
+
+  # 激活环境
+  profiles:
+    active: ${spring.profiles.active}
+
+
+  # 配置中心
+  cloud:
+    config:
+      server:
+        git:
+#          uri: https://github.com/389281541/shop.git
+          uri: http://localhost:8080
+          searchPaths: ${tianxiao-config.base-url}/base,${tianxiao-config.base-url}/local,${tianxiao-config.base-url}/dev,${tianxiao-config.base-url}/test,${tianxiao-config.base-url}/online
+          username: 389281541@qq.com
+          password: ljw19910712
+          default-label: ${spring.profiles.active}  #默认master ,preoperties不生效
+
+# 注册中心配置
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://rainbow:112233@${spring.eureka-url}/eureka/
+
+---
+# 本机环境配置
+spring:
+  profiles: local
+  eureka-url: localhost:1025
+
+---
+# 开发环境配置
+spring:
+  profiles: dev
+  eureka-url: test-internal-eureka.tianxiao100.com
+
+---
+# 测试环境配置
+spring:
+  profiles: test
+  eureka-url: test-internal-eureka.rainbow.com
+
+

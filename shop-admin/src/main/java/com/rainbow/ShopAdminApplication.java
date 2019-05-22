@@ -1,4 +1,4 @@
-package com.rainbow.admin;
+package com.rainbow;
 
 
 import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
- *
+ * Admin启动类
  *
  * @author lujinwei
  * @Date 2019-05-20 20:51
@@ -20,7 +20,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 public class ShopAdminApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ShopAdminApplication.class,args);
+        SpringApplication.run(ShopAdminApplication.class, args);
     }
 
 }
