@@ -1,0 +1,9 @@
+# 配置参考：https://github.com/SpringForAll/spring-boot-starter-swagger
+test:
+  word1: a
+  title: wefdw
+  description: 天校SpringCloud接口文档
+
+
+
+

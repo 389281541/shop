@@ -2,7 +2,7 @@
 swagger:
   enabled: true
   title: 虹雨电商接口文档
-  description: 天校SpringCloud接口文档
+  description: 虹雨电商SpringCloud接口文档
   contact:
     name: vigo
 
