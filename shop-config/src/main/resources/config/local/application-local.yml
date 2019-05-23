@@ -1,5 +1,5 @@
 # 配置参考：https://github.com/SpringForAll/spring-boot-starter-swagger
-swagger:
+curry:
   enabled: true
   title: 虹雨电商接口文档
   description: 虹雨电商SpringCloud接口文档
