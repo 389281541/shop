@@ -1,4 +1,4 @@
-package com.rainbow;
+package com.rainbow.admin;
 
 
 import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;

@@ -16,7 +16,8 @@ spring:
       discovery:
         enabled: true
         service-id: shop-config
-      label: ${spring.profiles.active}
+      label: master
+#      uri: http://localhost:4001
 
 eureka:
   instance:

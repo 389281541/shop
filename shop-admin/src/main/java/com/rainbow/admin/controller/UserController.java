@@ -2,6 +2,7 @@ package com.rainbow.admin.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    @ApiOperation(value = "测试swagger",notes = "测试用",httpMethod = "POST")
+//    @Value("${swagger.enabled}")
+//    private String swaggerEnable;
+//
+//    @Value("${swagger.title}")
+//    private String swaggerTitle;
+//
+//    @Value("${swagger.description}")
+//    private String swaggerDescription;
+//
+//    @RequestMapping(value = "/value")
+//    public String getUserInfo() {
+//        return "swaggerEnable:" + swaggerEnable + " swaggerTitle:" + swaggerTitle + " swaggerDescription:" + swaggerDescription;
+//    }
+
+    @ApiOperation(value = "测试swagger", notes = "测试用", httpMethod = "POST")
     @PostMapping("/test")
     public void testSwagger() {
         System.out.println("hello,world");
