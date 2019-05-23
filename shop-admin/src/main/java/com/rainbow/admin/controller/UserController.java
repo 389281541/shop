@@ -18,19 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-//    @Value("${swagger.enabled}")
-//    private String swaggerEnable;
-//
-//    @Value("${swagger.title}")
-//    private String swaggerTitle;
-//
-//    @Value("${swagger.description}")
-//    private String swaggerDescription;
-//
-//    @RequestMapping(value = "/value")
-//    public String getUserInfo() {
-//        return "swaggerEnable:" + swaggerEnable + " swaggerTitle:" + swaggerTitle + " swaggerDescription:" + swaggerDescription;
-//    }
+    @Value("${swagger.enabled}")
+    private String swaggerEnable;
+
+    @Value("${swagger.title}")
+    private String swaggerTitle;
+
+    @Value("${swagger.description}")
+    private String swaggerDescription;
+
+    @RequestMapping(value = "/value")
+    public String getUserInfo() {
+        return "swaggerEnable:" + swaggerEnable + " swaggerTitle:" + swaggerTitle + " swaggerDescription:" + swaggerDescription;
+    }
 
     @ApiOperation(value = "测试swagger", notes = "测试用", httpMethod = "POST")
     @PostMapping("/test")

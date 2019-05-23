@@ -10,14 +10,16 @@ spring:
 
   cloud:
     config:
-      fail-fast: true
-      name: ${spring.application.name}
-      profile: ${spring.profiles.active}
-      discovery:
-        enabled: true
-        service-id: shop-config
       label: master
-#      uri: http://localhost:4001
+      uri: http://localhost:4001/master/application-local.yml
+      profile: local
+#      fail-fast: true
+#      name: ${spring.application.name}
+#      profile: ${spring.profiles.active}
+#      discovery:
+#        enabled: true
+#        service-id: shop-config
+#      label: master
 
 eureka:
   instance:
