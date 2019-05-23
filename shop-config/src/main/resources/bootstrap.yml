@@ -20,7 +20,7 @@ spring:
       server:
         git:
           uri: https://github.com/389281541/shop.git
-          searchPaths: ${tianxiao-config.base-url}/base,${tianxiao-config.base-url}/local,${tianxiao-config.base-url}/dev,${tianxiao-config.base-url}/test,${tianxiao-config.base-url}/online
+          searchPaths: ${shop-config.base-url}/base,${shop-config.base-url}/local,${shop-config.base-url}/dev,${shop-config.base-url}/test,${shop-config.base-url}/online
           username: 389281541@qq.com
           password: ljw19910712
           default-label: ${spring.profiles.active}  #默认master ,preoperties不生效
