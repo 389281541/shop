@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * TODO:
+ * 用户传输DTO
  *
  * @author lujinwei
  * @since 2019-05-31
@@ -18,6 +18,7 @@ public class LoginDTO extends BaseDTO {
     @ApiModelProperty(value = "密码")
     private String password;
 
-    @ApiModelProperty(value = "验证码")
-    private String verifyCode;
+    @ApiModelProperty(value = "图片验证码")
+    private String captcha;
+
 }
