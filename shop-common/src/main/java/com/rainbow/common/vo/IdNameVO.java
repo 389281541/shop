@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * 用户id和name
  *
- * @author: huangjian
+ * @author: lujinwei
  * @since: 2018-12-17
  */
 @Data
