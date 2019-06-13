@@ -1,10 +1,10 @@
 package com.rainbow;
 
 /**
- * todo
+ * 基于eureka到注册中心
  *
- * @author lujinwei
- * @Date 2019-05-21 15:17
+ * @author: lujinwei
+ * @since: 2018-12-17
  */
 public class ShopModuleApplication {
     public static void main(String[] args) {

@@ -7,7 +7,7 @@ import lombok.Data;
  * 响应信息主体
  *
  * @author lujinwei
- * @date 2018/9/27 下午5:15
+ * @since 2018-09-27
  */
 @Data
 public class R<T> extends BaseDTO {

@@ -7,7 +7,7 @@ import lombok.Getter;
  * 异常来源方
  *
  * @author lujinwei
- * @Date 2018/11/9 16:09
+ * @since 2018-11-09
  */
 @Getter
 public enum ErrorSideEnum implements IEnum<Integer> {

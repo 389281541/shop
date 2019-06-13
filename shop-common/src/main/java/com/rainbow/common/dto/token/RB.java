@@ -3,8 +3,9 @@ package com.rainbow.common.dto.token;
 
 /**
  * 天校ThreadLocal authToken存储
+ *
  * @author lujinwei
- * @date 2019/1/7 上午11:55
+ * @since 2019-01-07 
  */
 public class RB extends AbstractTXContext {
 

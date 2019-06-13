@@ -4,7 +4,7 @@ package com.rainbow.common.exception.errorcode;
  * 统一异常类定义
  *
  * @author lujinwei
- * @Date 2018/11/9 16:08
+ * @since 2018-11-09 
  */
 public interface UniverseErrorCode {
 

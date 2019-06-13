@@ -6,8 +6,9 @@ import java.util.Map;
 
 /**
  * ThreadLocal基础类
+ *
  * @author lujinwei
- * @date 2019/1/7 上午11:48
+ * @since 2019-01-07
  */
 public abstract class AbstractTXContext {
 

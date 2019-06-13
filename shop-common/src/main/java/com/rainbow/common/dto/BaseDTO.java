@@ -8,8 +8,9 @@ import java.io.Serializable;
 
 /**
  * 基础DTO，已序列化
+ *
  * @author lujinwei
- * @date 2019/1/7 上午11:00
+ * @since 2019-01-07
  */
 @ToString
 @EqualsAndHashCode

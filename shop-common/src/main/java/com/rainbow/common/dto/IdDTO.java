@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * ID DTO
  *
  * @author lujinwei
- * @Date 2018/11/12 14:34
+ * @since 2018-11-12
  */
 @Data
 @AllArgsConstructor

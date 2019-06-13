@@ -7,7 +7,7 @@ import lombok.Getter;
  * 系统子系统划分
  *
  * @author lujinwei
- * @Date 2018/11/9 16:10
+ * @since 2018-11-09
  */
 @Getter
 public enum SubModuleEnum implements IEnum<Integer> {

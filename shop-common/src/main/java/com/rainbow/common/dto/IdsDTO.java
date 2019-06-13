@@ -10,8 +10,9 @@ import java.util.List;
 
 /**
  * 主键ID列表DTO
+ *
  * @author: lujinwei
- * @date: 2018-11-07
+ * @since: 2018-11-07
  */
 @Data
 @ApiModel(value = "IdsDTO", description = "主键ID列表DTO")

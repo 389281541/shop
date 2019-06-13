@@ -7,8 +7,9 @@ import lombok.ToString;
 
 /**
  * 用户id、name和avatar
- * Author: lujinwei
- * Date: 2018-11-07
+ *
+ * @author lujinwei
+ * @since 2019-05-31
  */
 @Data
 @ToString(callSuper = true)

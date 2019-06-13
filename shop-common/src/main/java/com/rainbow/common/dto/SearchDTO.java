@@ -8,7 +8,7 @@ import lombok.Data;
  * 搜索基类
  *
  * @author lujinwei
- * @Date 2019-02-22 20:24
+ * @since 2019-02-22
  */
 @Data
 @ApiModel(value = "SearchDTO", description = "搜索基类")

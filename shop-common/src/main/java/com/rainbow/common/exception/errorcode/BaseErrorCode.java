@@ -2,8 +2,9 @@ package com.rainbow.common.exception.errorcode;
 
 /**
  * 公共异常处理
+ *
  * @author lujinwei
- * @date 2019/1/8 上午10:11
+ * @since 2019-01-08
  */
 public enum BaseErrorCode implements UniverseErrorCode {
 

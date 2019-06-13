@@ -6,6 +6,9 @@ import lombok.Data;
 
 /**
  * 用户访问授权 DTO
+ *
+ * @author lujinwei
+ * @since 2019-06-13
  */
 @Data
 public class AuthToken extends BaseDTO {

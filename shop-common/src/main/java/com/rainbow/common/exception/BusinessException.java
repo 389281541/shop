@@ -5,8 +5,9 @@ import lombok.Getter;
 
 /**
  * 业务逻辑异常
+ *
  * @author lujinwei
- * @date 2019/1/8 上午10:06
+ * @since 2019-01-08
  */
 @Getter
 public class BusinessException extends CustomException {

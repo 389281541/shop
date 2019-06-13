@@ -7,8 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * web验证
  *
- * @author lujinwei
- * @Date 2019-05-21 16:44
+ * @author: lujinwei
+ * @since: 2018-12-17
  */
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {

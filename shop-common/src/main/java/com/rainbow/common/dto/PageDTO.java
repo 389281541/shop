@@ -10,7 +10,7 @@ import javax.validation.constraints.Min;
  * 分页 DTO
  *
  * @author lujinwei
- * @Date 2018/11/12 16:26
+ * @since 2018-11-12
  */
 @Data
 @ApiModel(value = "PageDTO", description = "分页DTO")

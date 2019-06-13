@@ -6,7 +6,7 @@ import com.rainbow.common.exception.errorcode.UniverseErrorCode;
  * 自定义异常类
  *
  * @author lujinwei
- * @Date 2018/11/9 16:59
+ * @since 2018-11-09
  */
 public class CustomException extends RuntimeException {
 
