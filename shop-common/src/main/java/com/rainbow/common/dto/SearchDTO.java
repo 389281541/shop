@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "SearchDTO", description = "搜索基类")
-public class SearchDTO extends BaseDTO{
+public class SearchDTO extends BaseDTO {
 
     @ApiModelProperty("搜索关键字")
     private String keyword;

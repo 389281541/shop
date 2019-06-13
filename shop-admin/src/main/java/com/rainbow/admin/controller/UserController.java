@@ -2,7 +2,10 @@ package com.rainbow.admin.controller;
 
 
 import com.rainbow.admin.module.LoginDTO;
+import com.rainbow.admin.service.IUserService;
 import com.rainbow.common.dto.R;
+import com.rainbow.common.vo.IdNameAvatarTokenVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +24,13 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    private IUserService userService;
+
 
     @PostMapping("/login")
-    public R login(@Valid @RequestBody LoginDTO req) {
-
-        return null;
+    public R<IdNameAvatarTokenVO> login(@Valid @RequestBody LoginDTO req) {
+        return new R<>(userService.loginByPassword(req));
     }
 
 
