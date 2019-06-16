@@ -13,8 +13,8 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
-@ApiModel(value = "IdNameAvatarTokenVO", description = "Id，名字，头像，token")
-public class IdNameAvatarTokenVO extends IdNameAvatarVO {
+@ApiModel(value = "IdNameTokenVO", description = "Id，名字，token")
+public class IdNameTokenVO extends IdNameVO {
 
     @ApiModelProperty("token")
     private String token;

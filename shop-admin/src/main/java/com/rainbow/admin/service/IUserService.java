@@ -1,9 +1,9 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rainbow.admin.module.LoginDTO;
-import com.rainbow.common.vo.IdNameAvatarTokenVO;
+import com.rainbow.admin.api.dto.LoginDTO;
+import com.rainbow.admin.entity.User;
+import com.rainbow.common.vo.IdNameTokenVO;
 
 /**
  * 后台管理用户表 服务类
@@ -18,5 +18,10 @@ public interface IUserService extends IService<User> {
      * @param req
      * @return
      */
-    IdNameAvatarTokenVO loginByPassword(LoginDTO req);
+    IdNameTokenVO loginByPassword(LoginDTO req);
+
+    /**
+     * 添加用户
+     */
+
 }

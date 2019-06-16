@@ -27,7 +27,7 @@ public class User extends Model<User> {
 
     @ApiModelProperty(value = "主键ID")
     @TableId("id")
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "用户名")
     @TableField("user_name")

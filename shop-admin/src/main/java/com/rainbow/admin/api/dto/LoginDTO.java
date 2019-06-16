@@ -1,4 +1,4 @@
-package com.rainbow.admin.module;
+package com.rainbow.admin.api.dto;
 
 import com.rainbow.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
