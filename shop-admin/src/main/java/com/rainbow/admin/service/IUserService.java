@@ -20,8 +20,4 @@ public interface IUserService extends IService<User> {
      */
     IdNameTokenVO loginByPassword(LoginDTO req);
 
-    /**
-     * 添加用户
-     */
-
 }

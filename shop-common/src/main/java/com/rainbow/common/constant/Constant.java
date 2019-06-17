@@ -15,4 +15,7 @@ public interface Constant {
     //缓存常量
     int USER_SESSION_CACHE_TIME = 60 * 24 * 2;
     String CACHE_USER_ID_PREFIX = "admin_user_id_";
+
+    //数据库
+    String DATASOURCE_USER = "user";
 }

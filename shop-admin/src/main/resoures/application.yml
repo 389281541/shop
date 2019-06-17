@@ -6,4 +6,17 @@ swagger:
   contact:
     name: vigo
 
+# 数据源
+hikari:
+  user:
+    jdbc-url: jdbc:mysql://127.0.0.1:3306/vvshop_user?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username: root
+    password: mysql
+    maximum-pool-size: 80
+    pool-name: user
+    connection-timeout: 30000
+    idle-timeout: 600000
+    max-lifetime: 1765000
+    minimum-idle: 5
+
 
