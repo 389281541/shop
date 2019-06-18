@@ -28,7 +28,6 @@ public class UserMapperTest {
     @Resource
     private UserMapper userMapper;
 
-
     @Test
     public void testSave() {
 
@@ -42,6 +41,7 @@ public class UserMapperTest {
         String dbPassword = MD5Utils.encodeByMd5AndSalt(formPasswd,salt);
         System.out.println("db password:" + dbPassword);
         User user = new User();
+        user.setId(1L);
         user.setCreateTime(LocalDateTime.now());
         user.setDelStatus(DelFlagEnum.NO.getValue());
         user.setLastLoginTime(LocalDateTime.now());
@@ -52,6 +52,12 @@ public class UserMapperTest {
         user.setUpdateTime(LocalDateTime.now());
         user.setLastLoginTime(LocalDateTime.now());
         userMapper.insert(user);
+    }
+
+
+    @Test
+    public void testClasspath() {
+        System.out.println(System.getProperty("java.class.path"));
     }
 
 

@@ -1,4 +1,4 @@
-CREATE TABLE shop_user.user
+CREATE TABLE vvshop_user.user
 (
     id              bigint(20)   AUTO_INCREMENT         NOT NULL COMMENT '主键ID',
     user_name       varchar(256) COLLATE utf8mb4_bin    NOT NULL COMMENT '用户名',

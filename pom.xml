@@ -147,12 +147,6 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
-<!--                <includes>-->
-<!--                    <include>bootstrap.yml</include>-->
-<!--                    <include>bootstrap-${spring.profiles.active}.yml</include>-->
-<!--                    <include>*/*.xml</include>-->
-<!--                    <include>*.xml</include>-->
-<!--                </includes>-->
             </resource>
         </resources>
         <testResources>
