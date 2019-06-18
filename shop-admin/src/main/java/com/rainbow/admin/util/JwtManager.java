@@ -25,7 +25,7 @@ public class JwtManager {
     private static final Logger logger = LoggerFactory.getLogger(JwtManager.class);
     private static final String NO_EXPIRE = "0";    // 未过期
     private static final String OVER_EXPIRE = "1";  // 已过期
-//    private static final String GOING_EXPIRE = "2"; // 即将过期
+    private static final String GOING_EXPIRE = "2"; // 即将过期
     private static final String ERROR_TOKEN = "4";  // 错误token
 
     // 创建token

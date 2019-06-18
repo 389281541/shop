@@ -5,8 +5,6 @@ import com.spring4all.swagger.EnableSwagger2Doc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * 管理项目启动类
@@ -15,7 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since 2019-06-17
  */
 @SpringBootApplication
-@EnableTransactionManagement
 @EnableEurekaClient
 @EnableSwaggerBootstrapUI
 @EnableSwagger2Doc
