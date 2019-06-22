@@ -37,6 +37,5 @@ public class UserController {
         return new R<>(userService.loginByPassword(req));
     }
 
-
 }
 

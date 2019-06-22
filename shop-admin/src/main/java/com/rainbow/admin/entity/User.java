@@ -61,5 +61,4 @@ public class User extends Model<User> {
     @TableField("last_login_time")
     private LocalDateTime lastLoginTime;
 
-
 }

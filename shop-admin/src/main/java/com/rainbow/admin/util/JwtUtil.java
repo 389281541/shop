@@ -16,11 +16,11 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * @author zhongquanliang
- * @version V1.0
- * @createTime 2017年5月4日 下午2:02:14 json web token
+ * json web token工具类
+ *
+ * @author lujinwei
+ * @since 2019-05-31
  */
-
 public class JwtUtil {
 
 

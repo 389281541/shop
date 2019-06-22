@@ -36,6 +36,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
+    /**
+     * 通过用户名密码登录
+     * @param req
+     * @return
+     */
     @Override
     public IdNameTokenVO loginByPassword(LoginDTO req) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
@@ -59,6 +64,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
 
+    /**
+     * 生成token
+     * @param user
+     * @return
+     */
     private String genToken(User user) {
         TokenModel tokenModel = new TokenModel();
         tokenModel.setUserId(user.getId());

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lujinwei on 2018/9/4.
+ * Mybatis自动生成类
  */
 public class MpGenerator {
 
@@ -39,9 +39,9 @@ public class MpGenerator {
                 .setDriverName("com.mysql.jdbc.Driver");
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig
-                .setCapitalMode(true)//开启全局大写命名
+                .setCapitalMode(true)           //开启全局大写命名
                 .setEntityColumnConstant(true)
-                .setTablePrefix("")       //生成表注解
+                .setTablePrefix("")             //生成表注解
                 .setEntityColumnConstant(false)
                 .setVersionFieldName("")
                 .setEntityLombokModel(true)
