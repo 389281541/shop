@@ -39,7 +39,7 @@ spring:
           username: root
           password: mysql
           driver-class-name: com.mysql.jdbc.Driver
-          url: jdbc:mysql://127.0.0.1:3306/vvshop_user?useSSL=false&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+          url: jdbc:mysql://192.168.113.128:3306/vvshop_user?useSSL=false&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
           initialSize: 5
           minIdle: 5
           maxActive: 20

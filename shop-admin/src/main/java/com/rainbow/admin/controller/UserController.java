@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 /**
- * 后台管理用户表 前端控制器
+ * 后台管理用户控制器
  *
  * @author lujinwei
  * @since 2019-05-31

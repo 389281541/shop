@@ -35,7 +35,7 @@ public class UserMapperTest {
         String salt = PasswordUtils.randomStr(8);
         System.out.println("server salt:" + salt);
         //传输过来的password进行加密
-        String formPasswd = MD5Utils.encodeByMd5AndSalt("rainbow", "a1b2c3d4");
+        String formPasswd = MD5Utils.encodeByMd5AndSalt("admin", "a1b2c3d4");
         System.out.println("form password:" + formPasswd);
         //生成服务器密码
         String dbPassword = MD5Utils.encodeByMd5AndSalt(formPasswd,salt);
@@ -46,7 +46,7 @@ public class UserMapperTest {
         user.setDelStatus(DelFlagEnum.NO.getValue());
         user.setLastLoginTime(LocalDateTime.now());
         user.setMobile("15801248054");
-        user.setUserName("rainbow");
+        user.setUserName("admin");
         user.setSalt(salt);
         user.setPassword(dbPassword);
         user.setUpdateTime(LocalDateTime.now());

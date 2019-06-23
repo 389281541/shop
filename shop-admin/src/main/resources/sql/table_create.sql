@@ -1,7 +1,7 @@
 CREATE TABLE vvshop_user.user
 (
     id              bigint(20)   AUTO_INCREMENT         NOT NULL COMMENT '主键ID',
-    user_name       varchar(256) COLLATE utf8mb4_bin    NOT NULL COMMENT '用户名',
+    user_name       varchar(100) COLLATE utf8mb4_bin    NOT NULL COMMENT '用户名',
     password        varchar(256) COLLATE utf8mb4_bin    NOT NULL COMMENT '密码',
     salt            varchar(100) COLLATE utf8mb4_bin    NOT NULL COMMENT '盐',
     mobile          varchar(100) COLLATE utf8mb4_bin    NOT NULL COMMENT '用户电话',
