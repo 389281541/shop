@@ -4,6 +4,7 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.rainbow.admin.api.dto.VerifyCodeDTO;
+import com.rainbow.admin.util.IPAddressUtil;
 import com.rainbow.common.dto.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,17 +42,18 @@ public class KaptchaController {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    private static String PREFIX_KAPTCHA = "passport_captcha_";
+    private static String PREFIX_KAPTCHA = "passport.captcha.";
 
     @ApiOperation(value = "获取验证码", notes = "获取验证码", httpMethod = "POST")
     @PostMapping("/get")
-    public void getCaptcha(HttpServletResponse response) throws Exception {
+    public void getCaptcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
         byte[] captchaChallengeAsJpeg = null;
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
         try {
             //产生验证码字符串并保存到redis中
             String createText = captchaProducer.createText();
-            redisTemplate.opsForValue().set(PREFIX_KAPTCHA + createText, createText,1, TimeUnit.MINUTES);
+            String key = IPAddressUtil.getClientIPAddress(request);
+            redisTemplate.opsForValue().set(PREFIX_KAPTCHA + key, createText,1, TimeUnit.MINUTES);
             //使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
             BufferedImage challenge = captchaProducer.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);
@@ -76,13 +78,12 @@ public class KaptchaController {
 
     @ApiOperation(value = "校验验证码", notes = "校验验证码", httpMethod = "POST")
     @PostMapping("/verify")
-    public R<Map<String,Boolean>> verifyKaptcha(@RequestBody @Valid VerifyCodeDTO req) {
-        //获取输入验证码
-        String inputVerifyCode = req.getVrifyCode();
+    public R<Map<String,Boolean>> verifyKaptcha(HttpServletRequest request, @RequestBody @Valid VerifyCodeDTO req) {
         //从缓存中获取验证码
-        String cacheVerifyCode = redisTemplate.opsForValue().get(PREFIX_KAPTCHA + inputVerifyCode);
+        String key = IPAddressUtil.getClientIPAddress(request);
+        String cacheVerifyCode = redisTemplate.opsForValue().get(PREFIX_KAPTCHA + key);
         //删除缓存
-        redisTemplate.opsForValue().getOperations().delete(PREFIX_KAPTCHA + inputVerifyCode);
+        redisTemplate.opsForValue().getOperations().delete(PREFIX_KAPTCHA + key);
         //比较两处的验证码是否匹配
         Map<String,Boolean> map = Maps.newHashMap();
         map.put("result", Objects.equal(cacheVerifyCode, req.getVrifyCode()));
