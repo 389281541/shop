@@ -60,7 +60,9 @@ public class KaptchaController {
             String createText = captchaProducer.createText();
             String captchaKey = CookieUtil.getCookie(request, BOM_CAPTCHA_KEY);
             if(StringUtils.isBlank(captchaKey)) {
-                captchaKey = UUID.randomUUID().toString();
+                captchaKey = UUID.randomUUID().toString()
+                        .replaceAll("-","")
+                        .toUpperCase();
                 log.info("New user coming,captcha_key = {}", captchaKey);
                 CookieUtil.addCookie(response, BOM_CAPTCHA_KEY, captchaKey);
             }
