@@ -12,9 +12,10 @@ import org.springframework.context.annotation.Profile;
 @MapperScan("com.rainbow.admin.mapper*")
 public class MybatisPlusConfiguration {
 
-    /*
+    /**
      * 分页插件，自动识别数据库类型
      * 多租户，请参考官网【插件扩展】
+     * @return
      */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
@@ -24,6 +25,7 @@ public class MybatisPlusConfiguration {
 
     /**
      * SQL执行效率插件
+     * @return
      */
     @Bean
     @Profile({"local", "dev", "test"})// 设置 dev test 环境开启
@@ -36,6 +38,7 @@ public class MybatisPlusConfiguration {
 
     /**
      * mybatis-plus逻辑删除插件
+     * @return
      */
     @Bean
     public LogicSqlInjector logicSqlInjector() {

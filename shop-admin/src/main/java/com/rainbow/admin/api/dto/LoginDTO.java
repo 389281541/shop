@@ -29,8 +29,4 @@ public class LoginDTO extends BaseDTO {
     @NotBlank(message = "密码不能为空！")
     private String password;
 
-    @ApiModelProperty(value = "图片验证码")
-    @NotBlank(message = "图片验证码不能为空！")
-    private String captcha;
-
 }

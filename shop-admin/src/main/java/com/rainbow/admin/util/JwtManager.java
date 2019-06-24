@@ -45,6 +45,7 @@ public class JwtManager {
 
     /**
      * 创建token字符
+     *
      * @param user
      * @return
      */
@@ -64,6 +65,7 @@ public class JwtManager {
 
     /**
      * 获取token中的用户信息
+     *
      * @param jwt
      * @return
      */
@@ -84,6 +86,7 @@ public class JwtManager {
 
     /**
      * 注销登录-token
+     *
      * @param token
      * @return
      */

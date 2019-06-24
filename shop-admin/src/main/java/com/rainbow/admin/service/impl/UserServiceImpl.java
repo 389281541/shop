@@ -78,7 +78,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         tokenModel.setSessionTime(Constant.USER_SESSION_CACHE_TIME);
 
         String token = jwtManager.createTokenStr(tokenModel);
-        String cacheKey = Constant.CACHE_USER_ID_PREFIX + "_" + user.getId();
+        String cacheKey = Constant.CACHE_USER_ID_PREFIX + user.getId();
         redisTemplate.opsForValue().set(cacheKey, token, tokenModel.getSessionTime(), TimeUnit.MINUTES);
         return token;
     }

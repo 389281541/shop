@@ -13,9 +13,7 @@ public interface Constant {
     long JWT_REFRESH_TTL = 2 * 365 * 24 * 60 * 60 * 1000L;
 
     //缓存常量
-    int USER_SESSION_CACHE_TIME = 60 * 24 * 2;
+    int USER_SESSION_CACHE_TIME = 60 * 24;
     String CACHE_USER_ID_PREFIX = "admin_user_id_";
 
-    //数据库
-    String DATASOURCE_USER = "user";
 }

@@ -4,10 +4,12 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.rainbow.admin.api.dto.VerifyCodeDTO;
-import com.rainbow.admin.util.IPAddressUtil;
+import com.rainbow.admin.util.CookieUtil;
 import com.rainbow.common.dto.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,7 @@ import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -34,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 @Api(value = "/kaptcha", position = 2, tags = "验证码服务")
 @RestController
 @RequestMapping("/kaptcha")
+@Slf4j
 public class KaptchaController {
 
     @Autowired
@@ -42,7 +46,9 @@ public class KaptchaController {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    private static String PREFIX_KAPTCHA = "passport.captcha.";
+    private static String PREFIX_KAPTCHA = "CAPTCHA_";
+
+    private static final String BOM_CAPTCHA_KEY = "BOM_CAPTCHA_KEY";
 
     @ApiOperation(value = "获取验证码", notes = "获取验证码", httpMethod = "POST")
     @PostMapping("/get")
@@ -52,8 +58,13 @@ public class KaptchaController {
         try {
             //产生验证码字符串并保存到redis中
             String createText = captchaProducer.createText();
-            String key = IPAddressUtil.getClientIPAddress(request);
-            redisTemplate.opsForValue().set(PREFIX_KAPTCHA + key, createText,1, TimeUnit.MINUTES);
+            String captchaKey = CookieUtil.getCookie(request, BOM_CAPTCHA_KEY);
+            if(StringUtils.isBlank(captchaKey)) {
+                captchaKey = UUID.randomUUID().toString();
+                log.info("New user coming,captcha_key = {}", captchaKey);
+                CookieUtil.addCookie(response, BOM_CAPTCHA_KEY, captchaKey);
+            }
+            redisTemplate.opsForValue().set(PREFIX_KAPTCHA + captchaKey, createText, 1, TimeUnit.MINUTES);
             //使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
             BufferedImage challenge = captchaProducer.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);
@@ -61,7 +72,6 @@ public class KaptchaController {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-
         //定义response输出类型为image/jpeg类型，使用response输出流输出图片的byte数组
         captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
         response.setHeader("Cache-Control", "no-store");
@@ -78,14 +88,15 @@ public class KaptchaController {
 
     @ApiOperation(value = "校验验证码", notes = "校验验证码", httpMethod = "POST")
     @PostMapping("/verify")
-    public R<Map<String,Boolean>> verifyKaptcha(HttpServletRequest request, @RequestBody @Valid VerifyCodeDTO req) {
+    public R<Map<String, Boolean>> verifyKaptcha(HttpServletRequest request, @RequestBody @Valid VerifyCodeDTO req) {
+        //获取验证码Cookie值
+        String captchaKey = CookieUtil.getCookie(request, BOM_CAPTCHA_KEY);
         //从缓存中获取验证码
-        String key = IPAddressUtil.getClientIPAddress(request);
-        String cacheVerifyCode = redisTemplate.opsForValue().get(PREFIX_KAPTCHA + key);
+        String cacheVerifyCode = redisTemplate.opsForValue().get(PREFIX_KAPTCHA + captchaKey);
         //删除缓存
-        redisTemplate.opsForValue().getOperations().delete(PREFIX_KAPTCHA + key);
+        redisTemplate.opsForValue().getOperations().delete(PREFIX_KAPTCHA + captchaKey);
         //比较两处的验证码是否匹配
-        Map<String,Boolean> map = Maps.newHashMap();
+        Map<String, Boolean> map = Maps.newHashMap();
         map.put("result", Objects.equal(cacheVerifyCode, req.getVrifyCode()));
         return new R<>(map);
     }
