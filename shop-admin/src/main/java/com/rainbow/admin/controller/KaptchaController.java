@@ -59,9 +59,9 @@ public class KaptchaController {
             //产生验证码字符串并保存到redis中
             String createText = captchaProducer.createText();
             String captchaKey = CookieUtil.getCookie(request, BOM_CAPTCHA_KEY);
-            if(StringUtils.isBlank(captchaKey)) {
+            if (StringUtils.isBlank(captchaKey)) {
                 captchaKey = UUID.randomUUID().toString()
-                        .replaceAll("-","")
+                        .replaceAll("-", "")
                         .toUpperCase();
                 log.info("New user coming,captcha_key = {}", captchaKey);
                 CookieUtil.addCookie(response, BOM_CAPTCHA_KEY, captchaKey);
@@ -88,9 +88,10 @@ public class KaptchaController {
     }
 
 
-    @ApiOperation(value = "校验验证码", notes = "校验验证码", httpMethod = "POST")
+    @ApiOperation(value = "校验验证码", notes = "返回值0-验证成功，1-验证失败，2-验证码过期", httpMethod = "POST")
     @PostMapping("/verify")
-    public R<Map<String, Boolean>> verifyKaptcha(HttpServletRequest request, @RequestBody @Valid VerifyCodeDTO req) {
+    public R<Map<String, Integer>> verifyKaptcha(HttpServletRequest request, @RequestBody @Valid VerifyCodeDTO req) {
+        int result;
         //获取验证码Cookie值
         String captchaKey = CookieUtil.getCookie(request, BOM_CAPTCHA_KEY);
         //从缓存中获取验证码
@@ -98,10 +99,17 @@ public class KaptchaController {
         //删除缓存
         redisTemplate.opsForValue().getOperations().delete(PREFIX_KAPTCHA + captchaKey);
         //比较两处的验证码是否匹配
-        Map<String, Boolean> map = Maps.newHashMap();
-        map.put("result", Objects.equal(cacheVerifyCode, req.getVrifyCode()));
+        Map<String, Integer> map = Maps.newHashMap();
+        if (StringUtils.isBlank(cacheVerifyCode)) {
+            result = 2;
+        } else {
+            if(Objects.equal(cacheVerifyCode,req.getVrifyCode())) {
+                result = 0;
+            } else {
+                result = 1;
+            }
+        }
+        map.put("result", result);
         return new R<>(map);
     }
-
-
 }

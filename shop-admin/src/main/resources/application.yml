@@ -10,7 +10,7 @@ swagger:
 spring:
   # redis 相关
   redis:
-    host: 192.168.113.128
+    host: 127.0.0.1
     port: 6379
     password: 123456
   autoconfigure:
@@ -44,7 +44,7 @@ spring:
           username: root
           password: mysql
           driver-class-name: com.mysql.jdbc.Driver
-          url: jdbc:mysql://192.168.113.128:3306/vvshop_user?useSSL=false&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+          url: jdbc:mysql://127.0.0.1:3306/vvshop_user?useSSL=false&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
           initialSize: 5
           minIdle: 5
           maxActive: 20
