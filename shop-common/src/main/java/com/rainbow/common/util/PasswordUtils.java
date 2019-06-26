@@ -13,8 +13,9 @@ import java.security.spec.InvalidKeySpecException;
 
 /**
  * 密码处理工具，兼容PHP的hash_pbkdf2
- * @author wangzukun
- * @date 2019/1/8 上午11:25
+ *
+ * @author lujinwei
+ * @since 2019-01-08
  */
 public class PasswordUtils {
     private static final String PREFIX = "sha256";

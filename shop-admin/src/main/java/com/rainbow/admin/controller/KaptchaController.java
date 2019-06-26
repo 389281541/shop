@@ -4,6 +4,7 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.rainbow.admin.api.dto.VerifyCodeDTO;
+import com.rainbow.admin.enums.KaptchaStatusEnum;
 import com.rainbow.admin.util.CookieUtil;
 import com.rainbow.common.dto.R;
 import io.swagger.annotations.Api;
@@ -91,7 +92,7 @@ public class KaptchaController {
     @ApiOperation(value = "校验验证码", notes = "返回值0-验证成功，1-验证失败，2-验证码过期", httpMethod = "POST")
     @PostMapping("/verify")
     public R<Map<String, Integer>> verifyKaptcha(HttpServletRequest request, @RequestBody @Valid VerifyCodeDTO req) {
-        int result;
+        Integer result;
         //获取验证码Cookie值
         String captchaKey = CookieUtil.getCookie(request, BOM_CAPTCHA_KEY);
         //从缓存中获取验证码
@@ -101,12 +102,12 @@ public class KaptchaController {
         //比较两处的验证码是否匹配
         Map<String, Integer> map = Maps.newHashMap();
         if (StringUtils.isBlank(cacheVerifyCode)) {
-            result = 2;
+            result = KaptchaStatusEnum.EXPIRED.getValue();
         } else {
             if(Objects.equal(cacheVerifyCode,req.getVrifyCode())) {
-                result = 0;
+                result = KaptchaStatusEnum.SUCESS.getValue();
             } else {
-                result = 1;
+                result = KaptchaStatusEnum.FAIL.getValue();
             }
         }
         map.put("result", result);
