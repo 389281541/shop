@@ -13,10 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -52,7 +49,7 @@ public class KaptchaController {
     private static final String BOM_CAPTCHA_KEY = "BOM_CAPTCHA_KEY";
 
     @ApiOperation(value = "获取验证码", notes = "获取验证码", httpMethod = "POST")
-    @PostMapping("/get")
+    @GetMapping("/get")
     public void getCaptcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
         byte[] captchaChallengeAsJpeg = null;
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
