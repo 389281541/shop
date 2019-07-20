@@ -16,5 +16,5 @@ public class VerifyCodeDTO {
 
     @ApiModelProperty(value = "表单验证码")
     @NotBlank(message = "验证码不能为空")
-    private String vrifyCode;
+    private String verifyCode;
 }
