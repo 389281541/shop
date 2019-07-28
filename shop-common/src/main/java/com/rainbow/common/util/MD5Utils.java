@@ -69,7 +69,7 @@ public class MD5Utils {
      * @return
      */
     public static String encodeByMd5AndSalt(String inbuf, String salt) {
-        return EncoderByMd5(EncoderByMd5(inbuf) + salt);
+        return encrypByMd5(encrypByMd5(inbuf) + salt);
     }
 
 

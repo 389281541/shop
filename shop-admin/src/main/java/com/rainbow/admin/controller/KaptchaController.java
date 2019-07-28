@@ -32,9 +32,9 @@ import java.util.concurrent.TimeUnit;
  * @author lujinwei
  * @since 2019-06-23
  */
-@Api(value = "/api/kaptcha", position = 2, tags = "验证码服务")
+@Api(value = "/kaptcha", position = 2, tags = "验证码服务")
 @RestController
-@RequestMapping("/api/kaptcha")
+@RequestMapping("/kaptcha")
 @Slf4j
 public class KaptchaController {
 
