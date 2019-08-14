@@ -50,3 +50,11 @@ spring:
           maxActive: 20
 
 
+store:
+  qiniu:
+    accesskey: "JWMLX5km-j7I7gQ0o6zutj7s1Wjh-iO8IX46QD_R"
+    secretkey: "F4VJ9kP_VkvJ4dMvYL5ylYTt929qBgGd7ZdJxoii"
+    bucket: "rainbow"
+    domain: "http://pw7pqrtwr.bkt.clouddn.com"
+
+
