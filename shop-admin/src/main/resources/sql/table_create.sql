@@ -6,7 +6,7 @@ CREATE TABLE vvshop_user.user
     salt            varchar(100) COLLATE utf8mb4_bin    NOT NULL COMMENT '盐',
     mobile          varchar(100) COLLATE utf8mb4_bin    NOT NULL COMMENT '用户电话',
     avatar          varchar(512) COLLATE utf8mb4_bin    NULL COMMENT '用户头像',
-    del_status      tinyint   default 0                 NOT NULL COMMENT '删除状态',
+    del_status      tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time     timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time     timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     last_login_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '上次登陆时间',
@@ -19,11 +19,11 @@ CREATE TABLE vvshop_goods.brand
 (
     id  bigint(20)  AUTO_INCREMENT  COMMENT '主键ID',
     name varchar(100) COLLATE utf8mb4_bin NOT NULL COMMENT '品牌名称',
-    del_status tinyint default 0          NOT NULL COMMENT '删除状态',
+    del_status tinyint default 0          NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     logo  varchar(256) COLLATE utf8mb4_bin NULL COMMENT '品牌logo',
-    introduce  varchar(1024) COLLATE utf8mb4_bin NULL COMMENT '品牌介绍',
+    desc  varchar(1024) COLLATE utf8mb4_bin NULL COMMENT '品牌描述',
     url varchar(256) COLLATE utf8mb4_bin NULL COMMENT '官方地址',
     item_id bigint(20) NOT NULL COMMENT '类别ID',
     PRIMARY KEY (id),
@@ -36,7 +36,9 @@ CREATE TABLE vvshop_goods.product
     id bigint(20)  AUTO_INCREMENT COMMENT '主键ID',
     name varchar(256) COLLATE utf8mb4_bin NOT NULL COMMENT '商品名称',
     brand_id bigint(20) COLLATE utf8mb4_bin NULL COMMENT '品牌',
-    del_status tinyint default 0 NOT NULL COMMENT '删除状态',
+    item_id bigint(20) NOT NULL COMMENT '类别ID',
+    desc varchar(1000) DEFAULT NULL COMMENT '商品描述',
+    del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品表';
@@ -49,8 +51,8 @@ CREATE TABLE vvshop_goods.item
     name varchar(256) COLLATE utf8mb4_bin NOT NULL COMMENT '类别名称',
     parent_id bigint(20) NULL COMMENT '父类别ID',
     sort_id bigint(20) NOT NULL COMMENT '排序ID',
-    is_parent tinyint(1) NOT NULL comment '是否父级别',
-    del_status tinyint default 0 NOT NULL COMMENT '删除状态',
+    is_parent tinyint(1) NOT NULL comment '是否父级别 0-非父级别 1-父级别',
+    del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '类别表';
@@ -71,7 +73,7 @@ CREATE TABLE vvshop_goods.attribute_name
     is_search tinyint(1) default 0 NOT NULL COMMENT '是否搜索字段 0-不是 1-是',
     is_must  tinyint(1) default 0 NOT NULL COMMENT '是否必须 0-不是 1-是',
     is_multiple  tinyint(1) default 0 NOT NULL COMMENT '是否多选 0-不是 1-是',
-    del_status tinyint default 0 NOT NULL COMMENT '删除状态',
+    del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '属性名称表';
@@ -84,7 +86,7 @@ CREATE TABLE vvshop_goods.attribute_value
     attribute_id bigint(20) NOT NULL COMMENT '属性名ID',
     sort_id int(11) NOT NULL COMMENT '排序ID',
     is_multiple  tinyint(1) default 0 NOT NULL COMMENT '是否多选 0-不是 1-是',
-    del_status tinyint default 0 NOT NULL COMMENT '删除状态',
+    del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '属性值表';
@@ -96,7 +98,7 @@ CREATE TABLE vvshop_goods.product_img
     product_id bigint(20) NOT NULL COMMENT '商品ID',
     img_url varchar(256) NOT NULL COMMENT '图片地址',
     img_position int(11) NOT NULL COMMENT '图片位置',
-    del_status tinyint default 0 NOT NULL COMMENT '删除状态',
+    del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品图片表';
@@ -111,7 +113,7 @@ CREATE TABLE vvshop_goods.product_attribute
     attr_value_id bigint(20)                          NOT NULL COMMENT '属性值ID',
     is_sku        tinyint(1)                          NOT NULL COMMENT '是否SKU',
     sku_id        bigint(20)                          NOT NULL COMMENT 'SKUID',
-    del_status    tinyint   default 0                 NOT NULL COMMENT '删除状态',
+    del_status    tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time   timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time   timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品基本属性表';
@@ -125,7 +127,7 @@ CREATE TABLE vvshop_goods.product_sku
     price         BIGINT(20) NOT NULL COMMENT '价格',
     sku_name      varchar(256) NOT NULL COMMENT 'SKU名称',
     attr_str      varchar(256) NOT NULL COMMENT '属性字符串',
-    del_status    tinyint   default 0                 NOT NULL COMMENT '删除状态',
+    del_status    tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time   timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time   timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品sku表';
