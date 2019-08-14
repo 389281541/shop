@@ -48,7 +48,7 @@ public class KaptchaController {
 
     private static final String BOM_CAPTCHA_KEY = "BOM_CAPTCHA_KEY";
 
-    @ApiOperation(value = "获取验证码", notes = "获取验证码", httpMethod = "POST")
+    @ApiOperation(value = "获取验证码", notes = "获取验证码", httpMethod = "GET")
     @GetMapping("/get")
     public void getCaptcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
         byte[] captchaChallengeAsJpeg = null;

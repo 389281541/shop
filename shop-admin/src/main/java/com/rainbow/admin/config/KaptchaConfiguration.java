@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Properties;
 
 @Configuration
-public class KaptchaConfig {
+public class KaptchaConfiguration {
     @Bean
     public DefaultKaptcha getDefaultKaptcha() {
         DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
