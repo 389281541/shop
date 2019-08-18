@@ -1,7 +1,8 @@
 package com.rainbow.admin.config.yml;
 
+import com.qiniu.util.Auth;
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,17 +11,41 @@ import org.springframework.stereotype.Component;
  * @author lujinwei
  * @since 2019-08-14
  */
-@Data
 @Component
-@ConfigurationProperties(prefix = "store.qiniu")
 public class QiniuProperty {
 
-    private String accesskey;
+    private static String accesskey;
 
-    private String secretkey;
+    private static String secretkey;
 
-    private String bucket;
+    public static String bucket;
 
-    private String domain;
+    public static String domain;
+
+
+    @Value("${store.qiniu.accesskey}")
+    public void setAccessKey(String accessKey) {
+        this.accesskey = accessKey;
+    }
+
+    @Value("${store.qiniu.secretkey}")
+    public void setSecretKey(String secretKey) {
+        this.secretkey = secretKey;
+    }
+
+    @Value("${store.qiniu.domain}")
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    @Value("${store.qiniu.bucket}")
+    public void setBucket(String bucket) {
+        this.bucket = bucket;
+    }
+
+
+    public static Auth getAuth() {
+        return Auth.create(accesskey, secretkey);
+    }
 
 }

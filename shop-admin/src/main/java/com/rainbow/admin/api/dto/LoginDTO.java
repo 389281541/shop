@@ -15,10 +15,10 @@ import javax.validation.constraints.NotBlank;
  * @author lujinwei
  * @since 2019-05-31
  */
-@Data
+@ApiModel(value = "LoginDTO", description = "登陆数据传输对象")
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "LoginDTO", description = "登陆数据传输对象")
+@Data
 public class LoginDTO extends BaseDTO {
 
     @ApiModelProperty(value = "用户名")
