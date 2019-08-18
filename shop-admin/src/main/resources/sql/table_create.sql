@@ -23,7 +23,7 @@ CREATE TABLE vvshop_goods.brand
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     logo  varchar(256) COLLATE utf8mb4_bin NULL COMMENT '品牌logo',
-    desc  varchar(1024) COLLATE utf8mb4_bin NULL COMMENT '品牌描述',
+    description  varchar(1024) COLLATE utf8mb4_bin NULL COMMENT '品牌描述',
     url varchar(256) COLLATE utf8mb4_bin NULL COMMENT '官方地址',
     item_id bigint(20) NOT NULL COMMENT '类别ID',
     PRIMARY KEY (id),
@@ -37,10 +37,11 @@ CREATE TABLE vvshop_goods.product
     name varchar(256) COLLATE utf8mb4_bin NOT NULL COMMENT '商品名称',
     brand_id bigint(20) COLLATE utf8mb4_bin NULL COMMENT '品牌',
     item_id bigint(20) NOT NULL COMMENT '类别ID',
-    desc varchar(1000) DEFAULT NULL COMMENT '商品描述',
+    description varchar(1000) DEFAULT NULL COMMENT '商品描述',
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
-    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
+    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品表';
 
 
@@ -48,13 +49,15 @@ CREATE TABLE vvshop_goods.product
 CREATE TABLE vvshop_goods.item
 (
     id bigint(20)  AUTO_INCREMENT COMMENT '主键ID',
-    name varchar(256) COLLATE utf8mb4_bin NOT NULL COMMENT '类别名称',
+    name varchar(100) COLLATE utf8mb4_bin NOT NULL COMMENT '类别名称',
     parent_id bigint(20) NULL COMMENT '父类别ID',
     sort_id bigint(20) NOT NULL COMMENT '排序ID',
     is_parent tinyint(1) NOT NULL comment '是否父级别 0-非父级别 1-父级别',
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
-    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
+    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id),
+    UNIQUE KEY unique_name (name) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '类别表';
 
 
@@ -75,7 +78,8 @@ CREATE TABLE vvshop_goods.attribute_name
     is_multiple  tinyint(1) default 0 NOT NULL COMMENT '是否多选 0-不是 1-是',
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
-    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
+    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '属性名称表';
 
 
@@ -88,7 +92,8 @@ CREATE TABLE vvshop_goods.attribute_value
     is_multiple  tinyint(1) default 0 NOT NULL COMMENT '是否多选 0-不是 1-是',
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
-    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
+    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '属性值表';
 
 
@@ -100,7 +105,8 @@ CREATE TABLE vvshop_goods.product_img
     img_position int(11) NOT NULL COMMENT '图片位置',
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
-    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
+    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品图片表';
 
 
@@ -115,7 +121,8 @@ CREATE TABLE vvshop_goods.product_attribute
     sku_id        bigint(20)                          NOT NULL COMMENT 'SKUID',
     del_status    tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time   timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
-    create_time   timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
+    create_time   timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品基本属性表';
 
 
@@ -129,7 +136,8 @@ CREATE TABLE vvshop_goods.product_sku
     attr_str      varchar(256) NOT NULL COMMENT '属性字符串',
     del_status    tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time   timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
-    create_time   timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
+    create_time   timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品sku表';
 
 
