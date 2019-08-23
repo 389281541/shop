@@ -23,7 +23,7 @@ CREATE TABLE vvshop_goods.brand
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     logo  varchar(256) COLLATE utf8mb4_bin NULL COMMENT '品牌logo',
-    desc  varchar(1024) COLLATE utf8mb4_bin NULL COMMENT '品牌描述',
+    description  varchar(1024) COLLATE utf8mb4_bin NULL COMMENT '品牌描述',
     url varchar(256) COLLATE utf8mb4_bin NULL COMMENT '官方地址',
     item_id bigint(20) NOT NULL COMMENT '类别ID',
     PRIMARY KEY (id),
@@ -37,7 +37,7 @@ CREATE TABLE vvshop_goods.product
     name varchar(256) COLLATE utf8mb4_bin NOT NULL COMMENT '商品名称',
     brand_id bigint(20) COLLATE utf8mb4_bin NULL COMMENT '品牌',
     item_id bigint(20) NOT NULL COMMENT '类别ID',
-    desc varchar(1000) DEFAULT NULL COMMENT '商品描述',
+    description varchar(1000) DEFAULT NULL COMMENT '商品描述',
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
