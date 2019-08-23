@@ -1,7 +1,6 @@
 package com.rainbow.admin.config.yml;
 
 import com.qiniu.util.Auth;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
