@@ -3,7 +3,7 @@ package com.rainbow.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainbow.admin.entity.User;
-import com.rainbow.admin.mapper.user.UserMapper;
+import com.rainbow.admin.mapper.UserMapper;
 import com.rainbow.admin.api.dto.LoginDTO;
 import com.rainbow.admin.module.TokenModel;
 import com.rainbow.admin.service.IUserService;

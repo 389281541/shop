@@ -7,18 +7,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+
 /**
- * 搜索基类
+ * IdName DTO
  *
  * @author lujinwei
- * @since 2019-02-22
+ * @since 2018-11-12
  */
 @Data
+@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "SearchDTO", description = "搜索基类")
-public class SearchDTO extends BaseDTO {
+@ApiModel(value = "IdNameDTO", description = "Id-Name传输对象")
+public class IdNameDTO extends IdDTO {
 
-    @ApiModelProperty("搜索关键字")
-    private String keyword;
+    @ApiModelProperty(value = "名称")
+    @NotBlank(message = "名称不能为空")
+    private String name;
+
 }

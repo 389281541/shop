@@ -1,5 +1,6 @@
 package com.rainbow.common.dto;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,10 +17,10 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel(value = "IdDTO", description = "Id传输对象")
 public class IdDTO extends BaseDTO {
 
     @ApiModelProperty(value = "主键ID", required = true)
-    @NotNull(message = "主键ID不能为空")
     private Long id;
 
 }

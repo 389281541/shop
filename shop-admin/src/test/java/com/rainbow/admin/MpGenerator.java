@@ -25,12 +25,12 @@ public class MpGenerator {
     public void generateCode() {
         String packageName = "com.rainbow.admin";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "user");
+        generateByTables(serviceNameStartWithI, packageName, "item");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://127.0.0.1:3306/vvshop_user";
+        String dbUrl = "jdbc:mysql://192.168.113.128:3306/vvshop_goods";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
@@ -73,7 +73,8 @@ public class MpGenerator {
         focList.add(new FileOutConfig(xmlVM) {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return  "src/main/resoures/mapper/" + tableInfo.getEntityName() + "Mapper.xml";
+                String tableName = tableInfo.getEntityName();
+                return  "src/main/resources/mapper/" + tableName + "Mapper.xml";
             }
         });
 

@@ -1,7 +1,7 @@
 package com.rainbow.admin;
 
 import com.rainbow.admin.entity.User;
-import com.rainbow.admin.mapper.user.UserMapper;
+import com.rainbow.admin.mapper.UserMapper;
 import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.util.MD5Utils;
 import com.rainbow.common.util.PasswordUtils;
@@ -41,7 +41,7 @@ public class UserMapperTest {
         String dbPassword = MD5Utils.encodeByMd5AndSalt(formPasswd,salt);
         System.out.println("db password:" + dbPassword);
         User user = new User();
-        user.setId(2L);
+        user.setId(3L);
         user.setCreateTime(LocalDateTime.now());
         user.setDelStatus(DelFlagEnum.NO.getValue());
         user.setLastLoginTime(LocalDateTime.now());

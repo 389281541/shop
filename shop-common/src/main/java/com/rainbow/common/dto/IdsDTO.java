@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -15,9 +16,10 @@ import java.util.List;
  * @since: 2018-11-07
  */
 @Data
-@ApiModel(value = "IdsDTO", description = "主键ID列表DTO")
+@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel(value = "IdsDTO", description = "主键ID列表DTO")
 public class IdsDTO extends BaseDTO {
 
     @ApiModelProperty(value = "主键ID列表")

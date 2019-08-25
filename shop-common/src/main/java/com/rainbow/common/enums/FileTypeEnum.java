@@ -1,23 +1,19 @@
 package com.rainbow.common.enums;
 
+
 import com.baomidou.mybatisplus.core.enums.IEnum;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/**
- * 删除枚举类
- * @author lujinwei
- * @date 2019-01-07
- */
 @Getter
 @AllArgsConstructor
-public enum DelFlagEnum implements IEnum<Integer> {
+public enum FileTypeEnum implements IEnum<Integer> {
 
-    NO(0, "未删除"),
-    YES(1, "已删除"),
+    PICTURE(1, "图片"),
+    AUDIO(2, "音频"),
+    VIDEO(3, "视频"),
+    EXCEL(4, "Excel"),
     ;
-
     private Integer value;
     private String desc;
 

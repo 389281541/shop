@@ -2,7 +2,10 @@ package com.rainbow.common.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Min;
 
@@ -13,6 +16,9 @@ import javax.validation.constraints.Min;
  * @since 2018-11-12
  */
 @Data
+@Accessors(chain = true)
+@AllArgsConstructor
+@NoArgsConstructor
 @ApiModel(value = "PageDTO", description = "分页DTO")
 public class PageDTO extends BaseDTO {
 

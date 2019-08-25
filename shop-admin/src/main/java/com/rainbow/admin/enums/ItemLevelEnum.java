@@ -4,21 +4,23 @@ import com.baomidou.mybatisplus.core.enums.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 /**
- * 验证码状态枚举
+ * 枚举
  *
  * @author lujinwei
  * @since 2019-06-26
  */
 @Getter
 @AllArgsConstructor
-public enum KaptchaStatusEnum implements IEnum<Integer> {
+public enum ItemLevelEnum implements IEnum<Boolean> {
 
-    SUCESS(0, "验证成功"),
-    FAIL(1, "验证失败"),
-    EXPIRED(2, "验证码过期");
+    NON_PARENT(FALSE, "二级"),
+    PARENT(TRUE, "一级");
 
-    private Integer value;
+    private Boolean value;
     private String desc;
 }
 

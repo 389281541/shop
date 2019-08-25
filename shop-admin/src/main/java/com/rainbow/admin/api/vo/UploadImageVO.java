@@ -7,11 +7,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
-@ApiModel(value = "UploadImageVO", description = "上传VO")
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@ApiModel(value = "UploadImageVO", description = "上传VO")
 public class UploadImageVO extends BaseDTO {
 
     @ApiModelProperty(value = "图片链接")
