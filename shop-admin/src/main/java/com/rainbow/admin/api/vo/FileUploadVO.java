@@ -33,7 +33,4 @@ public class FileUploadVO extends BaseDTO {
     @ApiModelProperty(value = "高")
     private Integer height;
 
-    @ApiModelProperty(value = "音/视频时长(毫秒)")
-    private Long duration;
-
 }

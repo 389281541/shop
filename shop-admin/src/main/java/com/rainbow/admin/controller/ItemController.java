@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.admin.api.dto.ItemDTO;
 import com.rainbow.admin.api.vo.ItemSimpleVO;
 import com.rainbow.admin.service.IItemService;
-import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdPageDTO;
 import com.rainbow.common.dto.PageDTO;
 import com.rainbow.common.dto.R;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +26,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/item")
+@Api(value = "/item", tags = "类别服务")
 public class ItemController {
 
     @Autowired
@@ -58,7 +59,6 @@ public class ItemController {
         } else {
             return new R<>(Boolean.FALSE);
         }
-
     }
 
 
