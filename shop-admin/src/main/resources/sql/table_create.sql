@@ -26,12 +26,13 @@ CREATE TABLE vvshop_goods.brand
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     logo  varchar(256) COLLATE utf8mb4_bin NULL COMMENT '品牌logo',
     description  varchar(1024) COLLATE utf8mb4_bin NULL COMMENT '品牌描述',
-    url varchar(256) COLLATE utf8mb4_bin NULL COMMENT '官方地址',
+    sort_id bigint(20) NOT NULL COMMENT '排序ID',
     item_id bigint(20) NOT NULL COMMENT '类别ID',
     PRIMARY KEY (id),
     UNIQUE KEY unique_brand_name (name) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '品牌表';
 
+INSERT INTO vvshop_goods.brand VALUES (1, '卡尼尔', 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'http://pw7pqrtwr.bkt.clouddn.com/4e56f8f814bb400fb613168901232acd','卡尼尔，英文名Garnier，全称AIfred Amour Garnier,创建于1903年，是一种法国的化妆品', 1, 11);
 
 
 CREATE TABLE vvshop_goods.item

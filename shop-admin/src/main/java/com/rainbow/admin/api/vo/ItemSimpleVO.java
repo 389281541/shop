@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "ItemVO", description = "类别VO")
+@ApiModel(value = "ItemSimpleVO", description = "类别VO")
 public class ItemSimpleVO extends IdNameVO {
 
     @ApiModelProperty(value = "编号")

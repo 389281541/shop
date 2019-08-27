@@ -24,7 +24,7 @@ import javax.validation.Valid;
 public class BrandController {
 
 //    @ApiOperation(value = "品牌列表", notes = "品牌列表", httpMethod = "POST")
-//    @PostMapping("/pageBrand")
+//    @PostMapping("/page")
 //    public R<IPage<ItemSimpleVO>> pageParentItem(@Valid @RequestBody IdPageDTO param) {
 //        return new R<>(itemService.pageParentItem(param));
 //    }
