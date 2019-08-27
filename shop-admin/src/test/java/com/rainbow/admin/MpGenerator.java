@@ -25,12 +25,13 @@ public class MpGenerator {
     public void generateCode() {
         String packageName = "com.rainbow.admin";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "item");
+        generateByTables(serviceNameStartWithI, packageName, "brand");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://192.168.113.128:3306/vvshop_goods";
+//        String dbUrl = "jdbc:mysql://192.168.113.128:3306/vvshop_goods";
+        String dbUrl = "jdbc:mysql://127.0.0.1:3306/vvshop_goods";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)

@@ -22,9 +22,9 @@ import javax.validation.Valid;
  * @author lujinwei
  * @since 2019-05-31
  */
-@Api(value = "/user", tags = "用户相关")
 @RestController
 @RequestMapping("/user")
+@Api(value = "/user", tags = "用户相关")
 public class UserController {
 
     @Autowired

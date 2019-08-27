@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@Slf4j
 @RestController
 @RequestMapping("/upload")
 @Api(value = "/upload", tags = "验证码服务")
