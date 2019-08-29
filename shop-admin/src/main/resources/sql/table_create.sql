@@ -153,15 +153,32 @@ CREATE TABLE vvshop_goods.attribute_name
 CREATE TABLE vvshop_goods.attribute_value
 (
     id bigint(20)  AUTO_INCREMENT COMMENT '主键ID',
-    name varchar(128) NOT NULL COMMENT '属性值名称',
     attribute_id bigint(20) NOT NULL COMMENT '属性名ID',
+    attribute_value varchar(128) NOT NULL COMMENT '属性值',
     sort_id int(11) NOT NULL COMMENT '排序ID',
-    is_multiple  tinyint(1) default 0 NOT NULL COMMENT '是否多选 0-不是 1-是',
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '属性值表';
+
+
+CREATE TABLE vvshop_goods.shop
+(
+    id bigint(20)  AUTO_INCREMENT COMMENT '主键ID',
+    name varchar(256) COLLATE utf8mb4_bin NOT NULL COMMENT '店铺名称',
+    type TINYINT NOT NULL COMMENT '店铺类型：1.自营，2.平台',
+    phone_number VARCHAR(50) NOT NULL COMMENT '联系电话',
+    bank_name VARCHAR(50) NOT NULL COMMENT '供应商开户银行名称',
+    bank_account VARCHAR(50) NOT NULL COMMENT '银行账号',
+    address VARCHAR(200) NOT NULL COMMENT '供应商地址',
+    audit_status TINYINT NOT NULL DEFAULT 0 COMMENT '状态 0禁止，1启用',
+    del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
+    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY  (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='店铺表';
+
 
 
 CREATE TABLE vvshop_goods.product
@@ -172,6 +189,8 @@ CREATE TABLE vvshop_goods.product
     brand_id bigint(20) COLLATE utf8mb4_bin NULL COMMENT '品牌',
     item_id bigint(20) NOT NULL COMMENT '类别ID',
     description varchar(1000) DEFAULT NULL COMMENT '商品描述',
+    sale_status TINYINT NOT NULL DEFAULT 0 COMMENT '上下架状态 0下架 1上架',
+    audit_status TINYINT NOT NULL DEFAULT 0 COMMENT '审核状态：0未审核，1审核通过，2审核驳回',
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
@@ -184,7 +203,8 @@ CREATE TABLE vvshop_goods.product_img
     id bigint(20)  AUTO_INCREMENT COMMENT '主键ID',
     product_id bigint(20) NOT NULL COMMENT '商品ID',
     img_url varchar(256) NOT NULL COMMENT '图片地址',
-    img_position int(11) NOT NULL COMMENT '图片位置',
+    is_master tinyint NOT NULL DEFAULT 0 COMMENT '是否主图 0-非主图 1-主图',
+    sort_id int(11) NOT NULL COMMENT '图片位置',
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
@@ -198,9 +218,6 @@ CREATE TABLE vvshop_goods.product_attribute
     id            bigint(20) AUTO_INCREMENT COMMENT '主键ID',
     product_id    bigint(20)                          NOT NULL COMMENT '商品ID',
     attr_name_id  bigint(20)                          NOT NULL COMMENT '属性名ID',
-    attr_value_id bigint(20)                          NOT NULL COMMENT '属性值ID',
-    is_sku        tinyint(1)                          NOT NULL COMMENT '是否SKU',
-    sku_id        bigint(20)                          NOT NULL COMMENT 'SKUID',
     del_status    tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time   timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time   timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
@@ -211,6 +228,7 @@ CREATE TABLE vvshop_goods.product_attribute
 CREATE TABLE vvshop_goods.sku
 (
     id            bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    sku_num       bigint(20) NOT NULL COMMENT '商品编码',
     product_id    bigint(20) NOT NULL COMMENT '商品ID',
     amount        int(11)    NOT NULL COMMENT '数量',
     price         BIGINT(20) NOT NULL COMMENT '价格',

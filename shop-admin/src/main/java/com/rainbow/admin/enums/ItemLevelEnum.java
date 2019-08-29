@@ -16,9 +16,8 @@ import static java.lang.Boolean.TRUE;
 @Getter
 @AllArgsConstructor
 public enum ItemLevelEnum implements IEnum<Boolean> {
-
-    NON_PARENT(FALSE, "二级"),
-    PARENT(TRUE, "一级");
+    PARENT(TRUE, "一级"),
+    NON_PARENT(FALSE, "二级");
 
     private Boolean value;
     private String desc;
