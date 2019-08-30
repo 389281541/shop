@@ -186,8 +186,9 @@ CREATE TABLE vvshop_goods.product
     id bigint(20)  AUTO_INCREMENT COMMENT '主键ID',
     name varchar(256) COLLATE utf8mb4_bin NOT NULL COMMENT '商品名称',
     product_number bigint(20) NOT NULL COMMENT '商品编码',
-    brand_id bigint(20) COLLATE utf8mb4_bin NULL COMMENT '品牌',
+    brand_id bigint(20) NOT NULL COMMENT '品牌ID',
     item_id bigint(20) NOT NULL COMMENT '类别ID',
+    shop_id bigint(20) NOT NULL COMMENT '店铺ID',
     description varchar(1000) DEFAULT NULL COMMENT '商品描述',
     sale_status TINYINT NOT NULL DEFAULT 0 COMMENT '上下架状态 0下架 1上架',
     audit_status TINYINT NOT NULL DEFAULT 0 COMMENT '审核状态：0未审核，1审核通过，2审核驳回',
@@ -228,18 +229,45 @@ CREATE TABLE vvshop_goods.product_attribute
 CREATE TABLE vvshop_goods.sku
 (
     id            bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    sku_name      varchar(256) NOT NULL COMMENT 'SKU名称',
     sku_num       bigint(20) NOT NULL COMMENT '商品编码',
     product_id    bigint(20) NOT NULL COMMENT '商品ID',
-    amount        int(11)    NOT NULL COMMENT '数量',
+    shop_id       bigint(20) NOT NULL COMMENT '店铺ID',
+    stock         int(11) NOT NULL COMMENT '库存',
     price         BIGINT(20) NOT NULL COMMENT '价格',
-    sku_name      varchar(256) NOT NULL COMMENT 'SKU名称',
-    attr_str      varchar(256) NOT NULL COMMENT '属性字符串',
     del_status    tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time   timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
     create_time   timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品sku表';
 
+
+
+CREATE TABLE vvshop_goods.sku_attribute
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    sku_id              bigint(20) NOT NULL COMMENT 'SKUID',
+    attribute_id        bigint(20) NOT NULL COMMENT '属性名ID',
+    attribute_value     varchar(128) NOT NULL COMMENT '属性值',
+    sort_id             int(11) NOT NULL COMMENT '排序ID',
+    del_status          tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    update_time         timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品sku属性关联表';
+
+
+
+
+CREATE TABLE vvshop_goods.cart
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+
+    del_status          tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    update_time         timestamp default CURRENT_TIMESTAMP NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '购物车表';
 
 
 
