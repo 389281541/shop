@@ -38,9 +38,10 @@ CREATE TABLE vvshop_user.customer
     UNIQUE KEY unique_user_name (user_name) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '顾客登录表';
 
-CREATE TABLE vvshop_user.customer_address (
+CREATE TABLE vvshop_user.receiver (
     id                  bigint(20)   AUTO_INCREMENT         NOT NULL COMMENT '主键ID',
-    customer_id         bigint(20)  NOT NULL COMMENT 'customer表的自增ID',
+    customer_id         bigint(20)  NOT NULL COMMENT '用户ID',
+    receiver_name       varchar(64) NOT NULL COMMENT '收货人姓名',
     zip                 varchar(64) NOT NULL COMMENT '邮编',
     province_code       smallint    NOT NULL COMMENT '地区表中省份的code',
     city_code           smallint    NOT NULL COMMENT '地区表中城市的code',
@@ -66,7 +67,7 @@ CREATE TABLE vvshop_user.customer_account (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '顾客账号信息';
 
-CREATE TABLE customer_level(
+CREATE TABLE vvshop_user.customer_level(
    id          bigint(20)   AUTO_INCREMENT   NOT NULL COMMENT '主键ID',
    level_name  varchar(10) NOT NULL COMMENT '会员级别名称',
    min_point INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '该级别最低积分',
@@ -314,7 +315,7 @@ CREATE TABLE vvshop_goods.sku_spec
     update_time         timestamp default NULL NULL COMMENT '更新时间',
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品sku属性关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment 'sku属性关联表';
 
 
 
@@ -327,8 +328,7 @@ CREATE TABLE vvshop_goods.cart
     customer_id         bigint(20) NOT NULL COMMENT '用户ID',
     shop_id             bigint(20) NOT NULL COMMENT '店铺ID',
     amount              int(11) NOT NULL COMMENT '商品数量',
-    price               BIGINT(20) NOT NULL COMMENT '价格',
-    del_status          tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    price               bigint(20) NOT NULL COMMENT '价格',
     update_time         timestamp default NULL NULL COMMENT '更新时间',
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)
@@ -342,15 +342,81 @@ CREATE TABLE vvshop_goods.order
     item_count          int(11) NOT NULL COMMENT '商品项数',
     customer_id         bigint(20) NOT NULL COMMENT '用户ID',
     shop_id             bigint(20) NOT NULL COMMENT '店铺ID',
-    payment_mode        tinyint   default 0                 NOT NULL COMMENT '支付方式 0：支付宝，1：微信，2：银行卡',
+    flow_id             bigint(20) NOT NULL COMMENT '物流ID',
+    payment_mode        tinyint   default NULL NULL COMMENT '支付方式 0：支付宝，1：微信，2：银行卡',
     payment_time        timestamp default NULL NULL COMMENT '支付时间',
-    order_status        tinyint   default 0                 NOT NULL COMMENT '订单状态',
-    del_status          tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    status              tinyint   default 0 NOT NULL COMMENT '订单状态',
+    trade_no            bigint(20) default NULL NULL COMMENT '支付交易号',
+    original_amount     bigint(20) NOT NULL COMMENT '原价总额',
+    total_amount        bigint(20) NOT NULL COMMENT '总额',
+    deliver_mode        tinyint default 0 NULL COMMENT '配送方式：0-快递 1-自取',
+    deliver_fee         bigint(20) NOT NULL COMMENT '运费',
+    del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time         timestamp default NULL NULL COMMENT '更新时间',
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '订单表';
 
+
+CREATE TABLE vvshop_goods.order_sku
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    order_no            bigint(20) NOT NULL COMMENT '订单编号',
+    sku_id              bigint(20) NOT NULL COMMENT 'SKUID',
+    spu_id              bigint(20) NOT NULL COMMENT 'SPUID',
+    shop_id             bigint(20) NOT NULL COMMENT '店铺ID',
+    amount              int(11) NOT NULL COMMENT '商品数量',
+    price               bigint(20) NOT NULL COMMENT '价格',
+    del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '订单-sku关联表';
+
+
+
+
+CREATE TABLE vvshop_goods.flow
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    order_no            bigint(20) NOT NULL COMMENT '订单编号',
+    company_id          bigint(20) NOT NULL COMMENT '物流公司ID',
+    flow_no             bigint(20) NULL COMMENT '快递单号',
+    send_time           timestamp default NULL NULL COMMENT '发货时间',
+    arrival_time        timestamp default NULL NULL COMMENT '到达时间',
+    receiver_address
+    del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '物流表';
+
+
+CREATE TABLE vvshop_goods.flow_logistics
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    order_no            bigint(20) NOT NULL COMMENT '订单编号',
+    flow_status         tinyint   default 0 NOT NULL COMMENT '状态 0-待揽件 1-运输  3-派送',
+    staff               varchar(50)   NULL COMMENT '录入人',
+    phone               varchar(50)  NULL COMMENT '电话',
+    remark              varchar(256)  NULL COMMENT '备注信息',
+    address             varchar(256)  NULL COMMENT '地点',
+    del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '物流记录表';
+
+
+
+CREATE TABLE vvshop_goods.flow_company
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    name                varchar(256)  COMMENT '物流公司名称',
+    del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '物流公司列表';
 
 
 
