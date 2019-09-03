@@ -47,7 +47,7 @@ CREATE TABLE vvshop_user.receiver (
     city_code           smallint    NOT NULL COMMENT '地区表中城市的code',
     district_code       smallint    NOT NULL COMMENT '地区表中的区code',
     address             varchar(200) NOT NULL COMMENT '具体的地址门牌号',
-    is_default          tinyint default 0 NOT NULL COMMENT '是否默认',
+    is_default          tinyint default 0 NOT NULL COMMENT '是否默认 0-否 1-是',
     del_status      tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time     timestamp default NULL NULL COMMENT '更新时间',
     create_time     timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
@@ -348,7 +348,10 @@ CREATE TABLE vvshop_goods.order
     status              tinyint   default 0 NOT NULL COMMENT '订单状态',
     trade_no            bigint(20) default NULL NULL COMMENT '支付交易号',
     original_amount     bigint(20) NOT NULL COMMENT '原价总额',
-    total_amount        bigint(20) NOT NULL COMMENT '总额',
+    discount_amount     bigint(20) NOT NULL COMMENT '折扣金额',
+    points_amount       bigint(20) NOT NULL COMMENT '积分金额',
+    coupon_amount       bigint(20) NOT NULL COMMENT '优惠券金额',
+    total_amount        bigint(20) NOT NULL COMMENT '支付金额',
     deliver_mode        tinyint default 0 NULL COMMENT '配送方式：0-快递 1-自取',
     deliver_fee         bigint(20) NOT NULL COMMENT '运费',
     del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
@@ -384,7 +387,7 @@ CREATE TABLE vvshop_goods.flow
     flow_no             bigint(20) NULL COMMENT '快递单号',
     send_time           timestamp default NULL NULL COMMENT '发货时间',
     arrival_time        timestamp default NULL NULL COMMENT '到达时间',
-    receiver_address
+    receiver_address    varchar(256)  NOT NULL COMMENT '收货地址',
     del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time         timestamp default NULL NULL COMMENT '更新时间',
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
@@ -397,10 +400,10 @@ CREATE TABLE vvshop_goods.flow_logistics
     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
     order_no            bigint(20) NOT NULL COMMENT '订单编号',
     flow_status         tinyint   default 0 NOT NULL COMMENT '状态 0-待揽件 1-运输  3-派送',
-    staff               varchar(50)   NULL COMMENT '录入人',
-    phone               varchar(50)  NULL COMMENT '电话',
-    remark              varchar(256)  NULL COMMENT '备注信息',
-    address             varchar(256)  NULL COMMENT '地点',
+    staff               varchar(50)  NOT NULL COMMENT '录入人',
+    phone               varchar(50)  NOT NULL COMMENT '电话',
+    remark              varchar(256)  NOT NULL COMMENT '备注信息',
+    address             varchar(256)  NOT NULL COMMENT '地点',
     del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time         timestamp default NULL NULL COMMENT '更新时间',
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
@@ -417,6 +420,52 @@ CREATE TABLE vvshop_goods.flow_company
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '物流公司列表';
+
+
+CREATE TABLE vvshop_goods.payment_record
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    order_no            bigint(20) NOT NULL COMMENT '订单编号',
+    payment_mode        tinyint   default NULL NULL COMMENT '支付方式 0：支付宝，1：微信，2：银行卡',
+    param               varchar(256)  COMMENT '支付参数json',
+    remark              varchar(256)  NOT NULL COMMENT '备注信息',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '支付记录表';
+
+
+
+CREATE TABLE vvshop_goods.order_comment
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    sku_id              bigint(20) NOT NULL COMMENT 'SKUID',
+    spu_id              bigint(20) NOT NULL COMMENT 'SPUID',
+    customer_id         bigint(20) NOT NULL COMMENT '用户ID',
+    user_name           varchar(100) COLLATE utf8mb4_bin    NOT NULL COMMENT '用户名',
+    thumbs_up           bigint(20) NOT NULL COMMENT '点赞数',
+    content             varchar(2048)  NOT NULL COMMENT '备注信息',
+    score               smallint  NOT NULL COMMENT '评分',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '支付记录表';
+
+
+CREATE TABLE vvshop_goods.order_return
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    order_no            bigint(20) NOT NULL COMMENT '订单编号',
+    customer_id         bigint(20) NOT NULL COMMENT '用户ID',
+    user_name           varchar(100) COLLATE utf8mb4_bin    NOT NULL COMMENT '用户名',
+    thumbs_up           bigint(20) NOT NULL COMMENT '点赞数',
+    content             varchar(2048)  NOT NULL COMMENT '备注信息',
+    score               smallint  NOT NULL COMMENT '评分',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '支付记录表';
+
+
+
+
 
 
 
