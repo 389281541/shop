@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * 品牌表
+ * 品牌种类关联表
  *
  * @author lujinwei
  * @since 2019-09-08
@@ -22,25 +22,25 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("brand")
-@ApiModel(value="Brand对象", description="品牌表")
-public class Brand extends Model<Brand> {
+@TableName("brand_item")
+@ApiModel(value="BrandItem对象", description="品牌种类关联表")
+public class BrandItem extends Model<BrandItem> {
 
     @ApiModelProperty(value = "主键ID")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "品牌名称")
-    @TableField("name")
-    private String name;
+    @ApiModelProperty(value = "类别ID")
+    @TableField("item_id")
+    private Long itemId;
 
-    @ApiModelProperty(value = "品牌logo")
-    @TableField("logo")
-    private String logo;
+    @ApiModelProperty(value = "品牌ID")
+    @TableField("brand_id")
+    private Long brandId;
 
-    @ApiModelProperty(value = "品牌描述")
-    @TableField("description")
-    private String description;
+    @ApiModelProperty(value = "排序ID")
+    @TableField("sort_id")
+    private Long sortId;
 
     @ApiModelProperty(value = "删除状态 0-未删除 1-已删除")
     @TableField("del_status")

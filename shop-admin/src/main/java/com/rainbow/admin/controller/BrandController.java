@@ -1,9 +1,14 @@
 package com.rainbow.admin.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.rainbow.admin.api.vo.BrandSimpleVO;
+import com.rainbow.admin.service.IBrandService;
 import com.rainbow.common.dto.IdPageDTO;
+import com.rainbow.common.dto.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +28,14 @@ import javax.validation.Valid;
 @Api(value = "/brand", tags = "品牌服务")
 public class BrandController {
 
-//    @ApiOperation(value = "品牌列表", notes = "品牌列表", httpMethod = "POST")
-//    @PostMapping("/page")
-//    public R<IPage<ItemSimpleVO>> pageParentItem(@Valid @RequestBody IdPageDTO param) {
-//        return new R<>(itemService.pageParentItem(param));
-//    }
+    @Autowired
+    private IBrandService brandService;
+
+    @ApiOperation(value = "品牌列表", notes = "品牌列表", httpMethod = "POST")
+    @PostMapping("/page")
+    public R<IPage<BrandSimpleVO>> pageParentItem(@Valid @RequestBody IdPageDTO param) {
+        return new R<>(brandService.pageBrandByItem(param));
+    }
 
 }
 

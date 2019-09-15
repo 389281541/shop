@@ -1,7 +1,9 @@
 package ${package.Entity};
 
 #foreach($pkg in ${table.importPackages})
+#if(${pkg} != "java.io.Serializable")
 import ${pkg};
+#end
 #end
 #if(${swagger2})
 import io.swagger.annotations.ApiModel;
