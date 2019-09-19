@@ -1,5 +1,6 @@
 package com.rainbow.admin.mapper;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rainbow.admin.entity.Brand;
@@ -14,6 +15,7 @@ import java.util.List;
  * @author lujinwei
  * @since 2019-09-08
  */
+@DS("goods")
 public interface BrandMapper extends BaseMapper<Brand> {
 
     List<Brand> pageBrandByItemId(@Param("itemId") Long ItemId, IPage<Brand> page);

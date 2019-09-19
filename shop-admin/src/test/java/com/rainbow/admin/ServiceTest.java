@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ShopAdminApplication.class)
-@ActiveProfiles("dev")
+@ActiveProfiles("local")
 public class ServiceTest {
 
     @Resource

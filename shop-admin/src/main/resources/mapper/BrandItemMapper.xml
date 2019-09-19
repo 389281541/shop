@@ -5,8 +5,8 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.rainbow.admin.entity.BrandItem">
         <id column="id" property="id" />
-        <result column="item_id" property="itemId" />
         <result column="brand_id" property="brandId" />
+        <result column="item_id" property="itemId" />
         <result column="sort_id" property="sortId" />
         <result column="del_status" property="delStatus" />
         <result column="update_time" property="updateTime" />
@@ -15,9 +15,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, item_id, brand_id, sort_id, del_status, update_time, create_time
+        id, brand_id, item_id, sort_id, del_status, update_time, create_time
     </sql>
-
-
 
 </mapper>

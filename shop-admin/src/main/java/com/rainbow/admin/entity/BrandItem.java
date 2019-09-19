@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
  * 品牌种类关联表
  *
  * @author lujinwei
- * @since 2019-09-08
+ * @since 2019-09-17
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,13 +30,13 @@ public class BrandItem extends Model<BrandItem> {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "类别ID")
-    @TableField("item_id")
-    private Long itemId;
-
     @ApiModelProperty(value = "品牌ID")
     @TableField("brand_id")
     private Long brandId;
+
+    @ApiModelProperty(value = "类别ID")
+    @TableField("item_id")
+    private Long itemId;
 
     @ApiModelProperty(value = "排序ID")
     @TableField("sort_id")
