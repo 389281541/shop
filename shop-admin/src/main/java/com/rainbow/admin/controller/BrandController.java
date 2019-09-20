@@ -4,6 +4,7 @@ package com.rainbow.admin.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.admin.api.vo.BrandSimpleVO;
 import com.rainbow.admin.service.IBrandService;
+import com.rainbow.common.dto.IdNamePageDTO;
 import com.rainbow.common.dto.IdPageDTO;
 import com.rainbow.common.dto.R;
 import io.swagger.annotations.Api;
@@ -33,7 +34,13 @@ public class BrandController {
 
     @ApiOperation(value = "品牌列表", notes = "品牌列表", httpMethod = "POST")
     @PostMapping("/page")
-    public R<IPage<BrandSimpleVO>> pageParentItem(@Valid @RequestBody IdPageDTO param) {
+    public R<IPage<BrandSimpleVO>> pageBrandByItem(@Valid @RequestBody IdNamePageDTO param) {
+        return new R<>(brandService.pageBrandByItem(param));
+    }
+
+    @ApiOperation(value = "添加品牌", notes = "添加品牌", httpMethod = "POST")
+    @PostMapping("/add")
+    public R<IPage<BrandSimpleVO>> add(@Valid @RequestBody IdPageDTO param) {
         return new R<>(brandService.pageBrandByItem(param));
     }
 

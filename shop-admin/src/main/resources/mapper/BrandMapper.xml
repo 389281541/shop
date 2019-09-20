@@ -32,7 +32,13 @@
             RIGHT JOIN brand_item bi
             ON b.id = bi.brand_id
         WHERE
-            bi.item_id = #{itemId}
+        b.del_status = 0
+        <if test="itemId != null">
+            AND bi.item_id = #{itemId}
+        </if>
+        <if test="brandName!=null">
+            AND b.name = #{brandName}
+        </if>
         ORDER BY
             bi.sort_id ASC
     </select>

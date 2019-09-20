@@ -7,10 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 /**
- * ID分页传输对象
+ * 分页传输对象
  *
  * @author lujinwei
  * @since 2019-02-14
@@ -19,10 +19,9 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "IdPageDTO", description = "ID分页传输对象")
-public class IdPageDTO extends PageDTO {
+@ApiModel(value = "IdNamePageDTO", description = "分页传输对象")
+public class IdNamePageDTO extends IdPageDTO {
 
-    @ApiModelProperty(value = "ID")
-    private Long id;
-
+    @ApiModelProperty(value = "名称")
+    private String name;
 }

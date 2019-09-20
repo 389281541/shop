@@ -7,6 +7,7 @@ import com.rainbow.admin.entity.Brand;
 import com.rainbow.admin.mapper.BrandMapper;
 import com.rainbow.admin.service.IBrandService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rainbow.common.dto.IdNamePageDTO;
 import com.rainbow.common.dto.IdPageDTO;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +23,9 @@ import java.util.List;
 public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements IBrandService {
 
     @Override
-    public IPage<BrandSimpleVO> pageBrandByItem(IdPageDTO idPageDTO) {
-        IPage<Brand> brandPage = new Page<>(idPageDTO.getPageNum(), idPageDTO.getPageSize());
-        List<Brand> brands = baseMapper.pageBrandByItemId(idPageDTO.getId(), brandPage);
+    public IPage<BrandSimpleVO> pageBrandByItem(IdNamePageDTO idNamePageDTO) {
+        IPage<Brand> brandPage = new Page<>(idNamePageDTO.getPageNum(), idNamePageDTO.getPageSize());
+        List<Brand> brands = baseMapper.pageBrandByItemId(idNamePageDTO.getId(), idNamePageDTO.getName(), brandPage);
         brandPage.setRecords(brands);
         return brandPage.convert(
                 brand -> {
@@ -32,10 +33,16 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
                     brandSimpleVO.setId(brand.getId());
                     brandSimpleVO.setName(brand.getName());
                     brandSimpleVO.setCreateTime(brand.getCreateTime());
+                    brandSimpleVO.setUpdateTime(brand.getUpdateTime());
                     brandSimpleVO.setDescription(brand.getDescription());
                     brandSimpleVO.setLogo(brand.getLogo());
                     return brandSimpleVO;
                 }
         );
+    }
+
+    @Override
+    public Boolean addBrand() {
+        return null;
     }
 }
