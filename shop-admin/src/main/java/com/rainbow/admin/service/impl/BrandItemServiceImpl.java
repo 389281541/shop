@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * 品牌种类关联表 服务实现类
  *
  * @author lujinwei
- * @since 2019-09-17
+ * @since 2019-09-22
  */
 @Service
 public class BrandItemServiceImpl extends ServiceImpl<BrandItemMapper, BrandItem> implements IBrandItemService {

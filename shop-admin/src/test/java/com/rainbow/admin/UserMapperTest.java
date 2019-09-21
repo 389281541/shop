@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -22,13 +23,14 @@ import java.time.LocalDateTime;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ShopAdminApplication.class)
-@ActiveProfiles("dev")
+@ActiveProfiles("local")
 public class UserMapperTest {
 
     @Resource
     private UserMapper userMapper;
 
     @Test
+    @Transactional
     public void testSave() {
 
         //生成服务器盐

@@ -34,13 +34,6 @@ swagger:
   base-path: /**
 
 
-#开发环境配置
----
-spring:
-  profiles: local
-  eureka-url: localhost:1025
-
-
 #mybatis
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*Mapper.xml
@@ -68,3 +61,12 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#开发环境配置
+---
+spring:
+  profiles: local
+  eureka-url: localhost:1025
+
+
+

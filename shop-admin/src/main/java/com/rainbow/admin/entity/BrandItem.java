@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
  * 品牌种类关联表
  *
  * @author lujinwei
- * @since 2019-09-17
+ * @since 2019-09-22
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

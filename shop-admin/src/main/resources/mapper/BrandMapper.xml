@@ -37,7 +37,7 @@
             AND bi.item_id = #{itemId}
         </if>
         <if test="brandName!=null">
-            AND b.name = #{brandName}
+            AND b.name like CONCAT('%',#{brandName},'%')
         </if>
         ORDER BY
             bi.sort_id ASC

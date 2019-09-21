@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.rainbow.common","com.rainbow.admin"})
 @EnableEurekaClient
-@EnableTransactionManagement
 @EnableSwaggerBootstrapUI
 @EnableSwagger2Doc
 public class ShopAdminApplication {

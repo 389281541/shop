@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 public class IdDTO extends BaseDTO {
 
     @ApiModelProperty(value = "主键ID", required = true)
+    @NotNull(message = "主键ID不能为空")
     private Long id;
 
 }

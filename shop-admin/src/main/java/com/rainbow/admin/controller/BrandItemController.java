@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 品牌种类关联表 前端控制器
  *
  * @author lujinwei
- * @since 2019-09-17
+ * @since 2019-09-22
  */
 @RestController
 @RequestMapping("/brandItem")

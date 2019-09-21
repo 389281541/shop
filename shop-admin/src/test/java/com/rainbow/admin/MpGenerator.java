@@ -23,6 +23,7 @@ public class MpGenerator {
     private static String controllerVM = "/templates/controller.java.vm";
     private static String serviceVM = "/templates/service.java.vm";
     private static String serviceImplVM = "/templates/serviceImpl.java.vm";
+    private static String mapperVM = "/templates/mapper.java.vm";
     private static String xmlVM = "/templates/mapper.xml.vm";
     @Test
     public void generateCode() {
@@ -84,31 +85,31 @@ public class MpGenerator {
         });
 
         cfg.setFileOutConfigList(focList);
-        cfg.setFileCreate(new IFileCreate() {
-            @Override
-            public boolean isCreate(ConfigBuilder configBuilder, FileType fileType, String filePath) {
-                // 判断自定义文件夹是否需要创建,这里调用默认的方法
-//                checkDir(filePath);
-                //对于已存在的文件，只需重复生成 entity 和 mapper.xml
-//                File file = new File(filePath);
-//                boolean exist = file.exists();
-//                if(exist){
-//                    if (filePath.endsWith("Mapper.xml")||FileType.ENTITY==fileType){
-//                        return true;
-//                    }else {
-//                        return false;
-//                    }
+//        cfg.setFileCreate(new IFileCreate() {
+//            @Override
+//            public boolean isCreate(ConfigBuilder configBuilder, FileType fileType, String filePath) {
+//                // 判断自定义文件夹是否需要创建,这里调用默认的方法
+////                checkDir(filePath);
+//                //对于已存在的文件，只需重复生成 entity 和 mapper.xml
+////                File file = new File(filePath);
+////                boolean exist = file.exists();
+////                if(exist){
+////                    if (filePath.endsWith("Mapper.xml")||FileType.ENTITY==fileType){
+////                        return true;
+////                    }else {
+////                        return false;
+////                    }
+////                }
+//
+//                if (filePath.endsWith("Mapper.xml")||FileType.ENTITY==fileType){
+//                    return true;
+//                }else {
+//                    return false;
 //                }
-
-                if (filePath.endsWith("Mapper.xml")||FileType.ENTITY==fileType){
-                    return true;
-                }else {
-                    return false;
-                }
-                //不存在的文件都需要创建
-//                return  true;
-            }
-        });
+//                //不存在的文件都需要创建
+////                return  true;
+//            }
+//        });
         if (!serviceNameStartWithI) {
             config.setServiceName("%sService");
         }
@@ -121,6 +122,7 @@ public class MpGenerator {
                                 .setController("controller")
                                 .setService("service")
                                 .setEntity("entity")
+                                .setMapper("mapper")
                                 .setServiceImpl("service.impl")
                 )
                 .setCfg(cfg)
@@ -130,6 +132,8 @@ public class MpGenerator {
                                             .setController(controllerVM)
                                             .setService(serviceVM)
                                             .setServiceImpl(serviceImplVM)
+                                            .setMapper(mapperVM)
+
                             )
                 .execute();
     }

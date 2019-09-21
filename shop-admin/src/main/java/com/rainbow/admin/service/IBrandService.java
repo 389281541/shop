@@ -2,8 +2,10 @@ package com.rainbow.admin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rainbow.admin.api.dto.BrandDTO;
 import com.rainbow.admin.api.vo.BrandSimpleVO;
 import com.rainbow.admin.entity.Brand;
+import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdNamePageDTO;
 
 /**
@@ -21,5 +23,17 @@ public interface IBrandService extends IService<Brand> {
      */
     IPage<BrandSimpleVO> pageBrandByItem(IdNamePageDTO param);
 
-    Boolean addBrand();
+    /**
+     * 添加品牌
+     * @param param
+     * @return
+     */
+    Integer addBrand(BrandDTO param);
+
+    /**
+     * 移除品牌
+     * @param param
+     * @return
+     */
+    Integer removeBrand(IdDTO param);
 }

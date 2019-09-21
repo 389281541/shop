@@ -9,6 +9,7 @@ import ${superMapperClassPackage};
  * @author ${author}
  * @since ${date}
  */
+@DS("")
 #if(${kotlin})
 interface ${table.mapperName} : ${superMapperClass}<${entity}>
 #else
