@@ -1,5 +1,6 @@
 package com.rainbow.admin.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,6 +10,7 @@ import com.rainbow.admin.api.vo.BrandSimpleVO;
 import com.rainbow.admin.entity.Brand;
 import com.rainbow.admin.entity.BrandItem;
 import com.rainbow.admin.entity.User;
+import com.rainbow.admin.mapper.BrandItemMapper;
 import com.rainbow.admin.mapper.BrandMapper;
 import com.rainbow.admin.mapper.UserMapper;
 import com.rainbow.admin.service.IBrandItemService;
@@ -20,10 +22,13 @@ import com.rainbow.common.util.MD5Utils;
 import com.rainbow.common.util.PasswordUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 品牌表 服务实现类
@@ -35,10 +40,7 @@ import java.util.List;
 public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements IBrandService {
 
     @Resource
-    private IBrandItemService brandItemService;
-
-    @Resource
-    private UserMapper userMapper;
+    private BrandItemMapper brandItemMapper;
 
     @Override
     public IPage<BrandSimpleVO> pageBrandByItem(IdNamePageDTO idNamePageDTO) {
@@ -60,7 +62,8 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
+    @DS("goods")
     public Integer addBrand(BrandDTO param) {
 
         //添加品牌
@@ -75,23 +78,33 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         //获取该类别品牌总数
         LambdaQueryWrapper<BrandItem> wrapper = new LambdaQueryWrapper();
         wrapper.eq(BrandItem::getItemId,param.getItemId());
-        Integer count = brandItemService.count(wrapper);
+        Integer count = brandItemMapper.selectCount(wrapper);
 
         //建立品牌类别关联关系
         BrandItem brandItem = new BrandItem();
-        brandItem.setBrandId(12L);
+        brandItem.setBrandId(brand.getId());
         brandItem.setItemId(param.getItemId());
         brandItem.setCreateTime(LocalDateTime.now());
         brandItem.setDelStatus(DelFlagEnum.NO.getValue());
         brandItem.setSortId(Long.valueOf(count+1));
-        brandItemService.save(brandItem);
+        brandItemMapper.insert(brandItem);
 
         return result;
     }
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Integer removeBrand(IdDTO param) {
-        return baseMapper.deleteById(param.getId());
+        Integer result = baseMapper.deleteById(param.getId());
+        LambdaQueryWrapper<BrandItem> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(BrandItem::getBrandId, param.getId());
+        List<BrandItem> brandItems = brandItemMapper.selectList(wrapper);
+        if(!CollectionUtils.isEmpty(brandItems)) {
+            Set<Long> ids = brandItems.stream().map(BrandItem::getId).collect(Collectors.toSet());
+            brandItemMapper.deleteBatchIds(ids);
+        }
+
+        return result;
     }
 }

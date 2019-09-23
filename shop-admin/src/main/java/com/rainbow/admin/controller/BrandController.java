@@ -62,5 +62,17 @@ public class BrandController {
         }
 
     }
+
+    @ApiOperation(value = "更改品牌", notes = "更改品牌", httpMethod = "POST")
+    @PostMapping("/update")
+    public R<Boolean> update(@Valid @RequestBody IdDTO param) {
+        Integer result = brandService.removeBrand(param);
+        if(result > 0) {
+            return new R<>(Boolean.TRUE);
+        } else {
+            return new R<>(Boolean.FALSE);
+        }
+
+    }
 }
 

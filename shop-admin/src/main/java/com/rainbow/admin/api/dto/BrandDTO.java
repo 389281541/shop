@@ -1,6 +1,7 @@
 package com.rainbow.admin.api.dto;
 
 import com.rainbow.common.dto.BaseDTO;
+import com.rainbow.common.dto.IdNameDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -22,11 +23,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "BrandDTO", description = "品牌VO")
-public class BrandDTO extends BaseDTO {
-
-    @ApiModelProperty(value = "品牌名称")
-    @NotBlank(message = "品牌名不能为空")
-    private String name;
+public class BrandDTO extends IdNameDTO {
 
     @ApiModelProperty(value = "品牌logo")
     private String logo;

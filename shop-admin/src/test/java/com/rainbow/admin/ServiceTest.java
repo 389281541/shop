@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.admin.api.dto.BrandDTO;
 import com.rainbow.admin.api.vo.BrandSimpleVO;
 import com.rainbow.admin.service.IBrandService;
+import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdNamePageDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +43,14 @@ public class ServiceTest {
 
         int result = brandService.addBrand(brandDTO);
         System.out.println(result);
+    }
+
+    @Test
+    public void testRemoveBrand() {
+        IdDTO idDTO = new IdDTO();
+        idDTO.setId(10L);
+        Integer integer = brandService.removeBrand(idDTO);
+        System.out.println(integer);
     }
 
 }
