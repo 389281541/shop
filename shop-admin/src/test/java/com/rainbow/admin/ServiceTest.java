@@ -1,7 +1,7 @@
 package com.rainbow.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rainbow.admin.api.dto.BrandDTO;
+import com.rainbow.admin.api.dto.BrandSaveDTO;
 import com.rainbow.admin.api.vo.BrandSimpleVO;
 import com.rainbow.admin.service.IBrandService;
 import com.rainbow.common.dto.IdDTO;
@@ -36,7 +36,7 @@ public class ServiceTest {
 
     @Test
     public void testAddBrand() {
-        BrandDTO brandDTO = new BrandDTO();
+        BrandSaveDTO brandDTO = new BrandSaveDTO();
         brandDTO.setName("清扬");
         brandDTO.setDescription("清扬男士洗发水，无屑可击");
         brandDTO.setItemId(20L);

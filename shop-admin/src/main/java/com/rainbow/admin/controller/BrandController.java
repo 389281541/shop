@@ -2,7 +2,8 @@ package com.rainbow.admin.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rainbow.admin.api.dto.BrandDTO;
+import com.rainbow.admin.api.dto.BrandSaveDTO;
+import com.rainbow.admin.api.dto.BrandUpdateDTO;
 import com.rainbow.admin.api.vo.BrandSimpleVO;
 import com.rainbow.admin.service.IBrandService;
 import com.rainbow.common.dto.IdDTO;
@@ -40,7 +41,7 @@ public class BrandController {
 
     @ApiOperation(value = "添加品牌", notes = "添加品牌", httpMethod = "POST")
     @PostMapping("/add")
-    public R<Boolean> add(@Valid @RequestBody BrandDTO param) {
+    public R<Boolean> add(@Valid @RequestBody BrandSaveDTO param) {
         Integer result = brandService.addBrand(param);
         if(result > 0) {
             return new R<>(Boolean.TRUE);
@@ -65,13 +66,9 @@ public class BrandController {
 
     @ApiOperation(value = "更改品牌", notes = "更改品牌", httpMethod = "POST")
     @PostMapping("/update")
-    public R<Boolean> update(@Valid @RequestBody IdDTO param) {
-        Integer result = brandService.removeBrand(param);
-        if(result > 0) {
-            return new R<>(Boolean.TRUE);
-        } else {
-            return new R<>(Boolean.FALSE);
-        }
+    public R<Boolean> update(@Valid @RequestBody BrandUpdateDTO param) {
+
+        return new R<>();
 
     }
 }

@@ -5,27 +5,25 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rainbow.admin.api.dto.BrandDTO;
+import com.google.common.collect.Maps;
+import com.rainbow.admin.api.dto.BrandSaveDTO;
+import com.rainbow.admin.api.dto.BrandUpdateDTO;
 import com.rainbow.admin.api.vo.BrandSimpleVO;
 import com.rainbow.admin.entity.Brand;
 import com.rainbow.admin.entity.BrandItem;
-import com.rainbow.admin.entity.User;
 import com.rainbow.admin.mapper.BrandItemMapper;
 import com.rainbow.admin.mapper.BrandMapper;
-import com.rainbow.admin.mapper.UserMapper;
-import com.rainbow.admin.service.IBrandItemService;
 import com.rainbow.admin.service.IBrandService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdNamePageDTO;
 import com.rainbow.common.enums.DelFlagEnum;
-import com.rainbow.common.util.MD5Utils;
-import com.rainbow.common.util.PasswordUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -63,8 +61,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @DS("goods")
-    public Integer addBrand(BrandDTO param) {
+    public Integer addBrand(BrandSaveDTO param) {
 
         //添加品牌
         Brand brand = new Brand();
@@ -75,20 +72,30 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         brand.setLogo(param.getLogo());
         Integer result = baseMapper.insert(brand);
 
-        //获取该类别品牌总数
-        LambdaQueryWrapper<BrandItem> wrapper = new LambdaQueryWrapper();
-        wrapper.eq(BrandItem::getItemId,param.getItemId());
-        Integer count = brandItemMapper.selectCount(wrapper);
+        //获取类别
+        Set<Long> itemIds = new HashSet<>();
+        String itemIdsStr = param.getItemIdsStr();
+        String[] itemIdsArray = itemIdsStr.split(",");
+        for(String itemIdStr:itemIdsArray) {
+            itemIds.add(Long.parseLong(itemIdStr));
+        }
 
-        //建立品牌类别关联关系
-        BrandItem brandItem = new BrandItem();
-        brandItem.setBrandId(brand.getId());
-        brandItem.setItemId(param.getItemId());
-        brandItem.setCreateTime(LocalDateTime.now());
-        brandItem.setDelStatus(DelFlagEnum.NO.getValue());
-        brandItem.setSortId(Long.valueOf(count+1));
+        for(Long itemId:itemIds) {
+            //获取该类别品牌总数
+            LambdaQueryWrapper<BrandItem> wrapper = new LambdaQueryWrapper();
+            wrapper.in(BrandItem::getItemId,itemIds);
+            Integer count = brandItemMapper.selectCount(wrapper);
+
+            //建立品牌类别关联关系
+            BrandItem brandItem = new BrandItem();
+            brandItem.setBrandId(brand.getId());
+            brandItem.setItemId(param.getItemId());
+            brandItem.setCreateTime(LocalDateTime.now());
+            brandItem.setDelStatus(DelFlagEnum.NO.getValue());
+            brandItem.setSortId(Long.valueOf(count+1));
+        }
+
         brandItemMapper.insert(brandItem);
-
         return result;
     }
 
@@ -106,5 +113,23 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         }
 
         return result;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Integer updateBrand(BrandUpdateDTO param) {
+
+        Brand brand = new Brand();
+        brand.setId(param.getId());
+        brand.setName(param.getName());
+        brand.setLogo(param.getLogo());
+        brand.setDescription(param.getDescription());
+        brand.setDelStatus(DelFlagEnum.NO.getValue());
+        brand.setCreateTime(LocalDateTime.now());
+        brand.setUpdateTime(LocalDateTime.now());
+
+        baseMapper.updateById(brand);
+
+        return null;
     }
 }

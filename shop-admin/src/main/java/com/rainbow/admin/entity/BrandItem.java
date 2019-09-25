@@ -44,7 +44,6 @@ public class BrandItem extends Model<BrandItem> {
 
     @ApiModelProperty(value = "删除状态 0-未删除 1-已删除")
     @TableField("del_status")
-    @TableLogic
     private Integer delStatus;
 
     @ApiModelProperty(value = "更新时间")
