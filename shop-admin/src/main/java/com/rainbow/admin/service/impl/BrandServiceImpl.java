@@ -73,23 +73,20 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         Integer result = baseMapper.insert(brand);
 
         //获取类别
-        Set<Long> itemIds = new HashSet<>();
         String itemIdsStr = param.getItemIdsStr();
         String[] itemIdsArray = itemIdsStr.split(",");
         for(String itemIdStr:itemIdsArray) {
-            itemIds.add(Long.parseLong(itemIdStr));
-        }
+            Long itemId = Long.parseLong(itemIdStr);
 
-        for(Long itemId:itemIds) {
             //获取该类别品牌总数
             LambdaQueryWrapper<BrandItem> wrapper = new LambdaQueryWrapper();
-            wrapper.in(BrandItem::getItemId,itemIds);
+            wrapper.eq(BrandItem::getItemId,itemId);
             Integer count = brandItemMapper.selectCount(wrapper);
 
             //建立品牌类别关联关系
             BrandItem brandItem = new BrandItem();
             brandItem.setBrandId(brand.getId());
-            brandItem.setItemId(param.getItemId());
+            brandItem.setItemId(itemId);
             brandItem.setCreateTime(LocalDateTime.now());
             brandItem.setDelStatus(DelFlagEnum.NO.getValue());
             brandItem.setSortId(Long.valueOf(count+1));

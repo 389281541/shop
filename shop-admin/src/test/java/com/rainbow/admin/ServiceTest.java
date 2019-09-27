@@ -39,7 +39,7 @@ public class ServiceTest {
         BrandSaveDTO brandDTO = new BrandSaveDTO();
         brandDTO.setName("清扬");
         brandDTO.setDescription("清扬男士洗发水，无屑可击");
-        brandDTO.setItemId(20L);
+        brandDTO.setItemIdsStr("20");
 
         int result = brandService.addBrand(brandDTO);
         System.out.println(result);
@@ -51,6 +51,12 @@ public class ServiceTest {
         idDTO.setId(10L);
         Integer integer = brandService.removeBrand(idDTO);
         System.out.println(integer);
+    }
+
+    @Test
+    public void testEquesl() {
+        Long a = -1L;
+        System.out.println(a.equals(-1L));
     }
 
 }
