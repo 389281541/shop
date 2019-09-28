@@ -2,7 +2,9 @@ package com.rainbow.admin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rainbow.admin.api.dto.ItemDTO;
+import com.rainbow.admin.api.dto.ItemSaveDTO;
+import com.rainbow.admin.api.dto.ItemUpdateDTO;
+import com.rainbow.admin.api.vo.ItemDetailVO;
 import com.rainbow.admin.api.vo.ItemSimpleVO;
 import com.rainbow.admin.entity.Item;
 import com.rainbow.common.dto.IdDTO;
@@ -38,7 +40,7 @@ public interface IItemService extends IService<Item> {
      * @param param
      * @return
      */
-    Integer saveItem(ItemDTO param);
+    Integer saveItem(ItemSaveDTO param);
 
 
     /**
@@ -46,5 +48,20 @@ public interface IItemService extends IService<Item> {
      * @param param
      * @return
      */
-    Integer updateItem(ItemDTO param);
+    Integer updateItem(ItemUpdateDTO param);
+
+
+    /**
+     * 获取类别详情
+     * @param param
+     * @return
+     */
+    ItemDetailVO getItemDetailById(IdDTO param);
+
+    /**
+     * 删除类别
+     * @param param
+     * @return
+     */
+    Integer removeItem(IdDTO param);
 }

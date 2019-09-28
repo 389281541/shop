@@ -1,9 +1,6 @@
 package com.rainbow.admin.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -52,6 +49,7 @@ public class Item extends Model<Item> {
 
     @ApiModelProperty(value = "删除状态 0-未删除 1-已删除")
     @TableField("del_status")
+    @TableLogic
     private Integer delStatus;
 
     @ApiModelProperty(value = "更新时间")

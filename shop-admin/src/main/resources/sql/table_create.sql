@@ -111,29 +111,28 @@ CREATE TABLE vvshop_goods.brand_item
     brand_id bigint(20) NOT NULL COMMENT '品牌ID',
     item_id bigint(20) NOT NULL COMMENT '类别ID',
     sort_id bigint(20) NOT NULL COMMENT '排序ID',
-    del_status tinyint default 0          NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default NULL NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id),
     UNIQUE KEY (item_id, sort_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '品牌种类关联表';
 
-INSERT INTO vvshop_goods.brand_item values (1, 1, 9, 1, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (2, 1, 11, 1, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (3, 1, 14, 1, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (4, 2, 28, 1, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (5, 2, 32, 1, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (6, 3, 20, 1, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (7, 3, 21, 1, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (8, 4, 29, 1, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (9, 4, 27, 1, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (10, 5, 20, 2, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (11, 5, 21, 2, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (12, 6, 36, 1, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (13, 6, 38, 1, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (14, 7, 36, 2, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (15, 8, 28, 2, 0 , NULL, CURRENT_TIMESTAMP());
-INSERT INTO vvshop_goods.brand_item values (16, 8, 29, 2, 0 , NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (1, 1, 9, 1, NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (2, 1, 11, 1,  NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (3, 1, 14, 1, NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (4, 2, 28, 1, NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (5, 2, 32, 1,  NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (6, 3, 20, 1,  NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (7, 3, 21, 1,  NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (8, 4, 29, 1,  NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (9, 4, 27, 1,  NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (10, 5, 20, 2,  NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (11, 5, 21, 2,  NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (12, 6, 36, 1,  NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (13, 6, 38, 1,  NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (14, 7, 36, 2,  NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (15, 8, 28, 2,  NULL, CURRENT_TIMESTAMP());
+INSERT INTO vvshop_goods.brand_item values (16, 8, 29, 2,  NULL, CURRENT_TIMESTAMP());
 
 DROP TABLE  vvshop_goods.item;
 CREATE TABLE vvshop_goods.item
@@ -147,6 +146,7 @@ CREATE TABLE vvshop_goods.item
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default NULL NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    UNIQUE KEY (item_no)
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '类别表';
 

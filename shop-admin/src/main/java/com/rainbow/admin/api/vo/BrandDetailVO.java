@@ -1,6 +1,6 @@
 package com.rainbow.admin.api.vo;
 
-import com.rainbow.common.vo.IdNameVO;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -8,18 +8,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "ItemSimpleVO", description = "类别VO")
-public class ItemSimpleVO extends IdNameVO {
+@ApiModel(value = "BrandDetailVO", description = "品牌VO")
+public class BrandDetailVO extends BrandSimpleVO {
 
-    @ApiModelProperty(value = "编号")
-    private Long itemNo;
-
-    @ApiModelProperty(value = "级别")
-    private String level;
-
+    @ApiModelProperty(value = "类别ID")
+    private List<Long> itemIds;
 }

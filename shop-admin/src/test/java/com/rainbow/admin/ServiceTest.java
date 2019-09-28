@@ -3,9 +3,12 @@ package com.rainbow.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.admin.api.dto.BrandSaveDTO;
 import com.rainbow.admin.api.vo.BrandSimpleVO;
+import com.rainbow.admin.mapper.BrandItemMapper;
 import com.rainbow.admin.service.IBrandService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdNamePageDTO;
+import com.rainbow.common.model.KV;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ShopAdminApplication.class)
@@ -21,6 +25,9 @@ public class ServiceTest {
 
     @Resource
     private IBrandService brandService;
+
+    @Resource
+    private BrandItemMapper brandItemMapper;
 
 
     @Test
@@ -39,7 +46,9 @@ public class ServiceTest {
         BrandSaveDTO brandDTO = new BrandSaveDTO();
         brandDTO.setName("清扬");
         brandDTO.setDescription("清扬男士洗发水，无屑可击");
-        brandDTO.setItemIdsStr("20");
+        List<Long> itemIds = Lists.newArrayList();
+        itemIds.add(20L);
+        brandDTO.setItemIds(itemIds);
 
         int result = brandService.addBrand(brandDTO);
         System.out.println(result);
@@ -57,6 +66,12 @@ public class ServiceTest {
     public void testEquesl() {
         Long a = -1L;
         System.out.println(a.equals(-1L));
+    }
+
+    @Test
+    public void testBrandItemMapper() {
+        List<KV<Long, Long>> list = brandItemMapper.getBrandCountByItemId();
+        System.out.println(list);
     }
 
 }

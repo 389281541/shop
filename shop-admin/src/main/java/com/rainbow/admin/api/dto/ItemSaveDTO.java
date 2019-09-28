@@ -1,6 +1,7 @@
 package com.rainbow.admin.api.dto;
 
 
+import com.rainbow.common.dto.BaseDTO;
 import com.rainbow.common.dto.IdNameDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,12 +11,18 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "ItemDTO", description = "类别传输对象")
-public class ItemDTO extends IdNameDTO {
+@ApiModel(value = "ItemSaveDTO", description = "类别保存传输对象")
+public class ItemSaveDTO extends BaseDTO {
+
+    @ApiModelProperty(value = "名称")
+    @NotBlank(message = "名称不能为空")
+    private String name;
 
     @ApiModelProperty(value = "父类别ID")
     private Long parentId;

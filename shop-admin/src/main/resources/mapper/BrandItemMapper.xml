@@ -8,14 +8,30 @@
         <result column="brand_id" property="brandId" />
         <result column="item_id" property="itemId" />
         <result column="sort_id" property="sortId" />
-        <result column="del_status" property="delStatus" />
         <result column="update_time" property="updateTime" />
         <result column="create_time" property="createTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, brand_id, item_id, sort_id, del_status, update_time, create_time
+        id, brand_id, item_id, sort_id, update_time, create_time
     </sql>
 
+    <select id="getBrandCountByItemId" resultType="com.rainbow.common.model.KV">
+        select item_id as k, count(id) as v
+        from brand_item
+        group by item_id
+    </select>
+
+
+    <insert id="insertBatch">
+        insert into
+            brand_item (brand_id, item_id, sort_id, update_time, create_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.brandId}, #{item.itemId}, #{item.sortId},
+            #{item.updateTime}, #{item.createTime}
+            )
+        </foreach>
+    </insert>
 </mapper>

@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 品牌数据传输对象
@@ -32,8 +33,8 @@ public class BrandSaveDTO extends BaseDTO {
     private String logo;
 
     @ApiModelProperty(value = "类别ID")
-    @NotBlank(message = "类别不能为空")
-    private String itemIdsStr;
+    @NotNull(message = "类别不能为空")
+    private List<Long> itemIds;
 
     @ApiModelProperty(value = "品牌描述")
     private String description;

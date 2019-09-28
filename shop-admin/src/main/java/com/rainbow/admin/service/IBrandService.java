@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.admin.api.dto.BrandSaveDTO;
 import com.rainbow.admin.api.dto.BrandUpdateDTO;
+import com.rainbow.admin.api.vo.BrandDetailVO;
 import com.rainbow.admin.api.vo.BrandSimpleVO;
 import com.rainbow.admin.entity.Brand;
 import com.rainbow.common.dto.IdDTO;
@@ -43,5 +44,11 @@ public interface IBrandService extends IService<Brand> {
      * @param param
      * @return
      */
-    Integer updateBrand(BrandUpdateDTO param);
+    Boolean updateBrand(BrandUpdateDTO param);
+
+    /**
+     * 获取品牌详情
+     */
+    BrandDetailVO getBrandDetailById(IdDTO param);
+
 }

@@ -2,9 +2,12 @@ package com.rainbow.admin.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rainbow.admin.api.dto.ItemDTO;
+import com.rainbow.admin.api.dto.ItemSaveDTO;
+import com.rainbow.admin.api.dto.ItemUpdateDTO;
+import com.rainbow.admin.api.vo.ItemDetailVO;
 import com.rainbow.admin.api.vo.ItemSimpleVO;
 import com.rainbow.admin.service.IItemService;
+import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdPageDTO;
 import com.rainbow.common.dto.PageDTO;
 import com.rainbow.common.dto.R;
@@ -45,20 +48,31 @@ public class ItemController {
     }
 
     @ApiOperation(value = "类别添加", notes = "类别添加", httpMethod = "POST")
-    @PostMapping("/save")
-    public R<Integer> save(@Valid @RequestBody ItemDTO param) {
+    @PostMapping("/add")
+    public R<Integer> save(@Valid @RequestBody ItemSaveDTO param) {
         return new R<>(itemService.saveItem(param));
     }
 
     @ApiOperation(value = "类别更新", notes = "类别更新", httpMethod = "POST")
     @PostMapping("/update")
-    public R<Boolean> update(@Valid @RequestBody ItemDTO param) {
+    public R<Boolean> update(@Valid @RequestBody ItemUpdateDTO param) {
         Integer count = itemService.updateItem(param);
-        if (count > 0) {
-            return new R<>(Boolean.TRUE);
-        } else {
-            return new R<>(Boolean.FALSE);
-        }
+        return new R<>(count > 0 ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+
+    @ApiOperation(value = "类别详情", notes = "类别详情", httpMethod = "POST")
+    @PostMapping("/detail")
+    public R<ItemDetailVO> detail(@Valid @RequestBody IdDTO param) {
+        return new R<>(itemService.getItemDetailById(param));
+    }
+
+
+    @ApiOperation(value = "类别移除", notes = "类别移除", httpMethod = "POST")
+    @PostMapping("/remove")
+    public R<Boolean> remove(@Valid @RequestBody IdDTO param) {
+        Integer result = itemService.removeItem(param);
+        return new R<>(result > 0 ? Boolean.TRUE : Boolean.FALSE);
     }
 
 
