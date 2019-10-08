@@ -5,6 +5,8 @@ import com.rainbow.admin.api.dto.LoginDTO;
 import com.rainbow.admin.entity.User;
 import com.rainbow.common.vo.IdNameTokenVO;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 后台管理用户表 服务类
  *
@@ -15,9 +17,10 @@ public interface IUserService extends IService<User> {
 
     /**
      * 通过用户名和密码登陆
-     * @param req
+     * @param loginRequest
+     * @param httpResponse
      * @return
      */
-    IdNameTokenVO loginByPassword(LoginDTO req);
+    IdNameTokenVO loginByPassword(LoginDTO loginRequest, HttpServletResponse httpResponse);
 
 }

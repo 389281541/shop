@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -33,8 +34,8 @@ public class UserController {
 
     @ApiOperation(value = "登陆", notes = "通过用户名登陆", httpMethod = "POST")
     @PostMapping("/login")
-    public R<IdNameTokenVO> login(@Valid @RequestBody LoginDTO req) {
-        return new R<>(userService.loginByPassword(req));
+    public R<IdNameTokenVO> login(@Valid @RequestBody LoginDTO loginRequest, HttpServletResponse httpResponse) {
+        return new R<>(userService.loginByPassword(loginRequest, httpResponse));
     }
 
 }

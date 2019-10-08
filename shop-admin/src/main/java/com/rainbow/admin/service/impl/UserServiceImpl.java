@@ -2,11 +2,12 @@ package com.rainbow.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rainbow.admin.api.dto.LoginDTO;
 import com.rainbow.admin.entity.User;
 import com.rainbow.admin.mapper.UserMapper;
-import com.rainbow.admin.api.dto.LoginDTO;
 import com.rainbow.admin.module.TokenModel;
 import com.rainbow.admin.service.IUserService;
+import com.rainbow.admin.util.CookieUtil;
 import com.rainbow.admin.util.JwtManager;
 import com.rainbow.common.constant.Constant;
 import com.rainbow.common.exception.BusinessException;
@@ -17,6 +18,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -38,19 +40,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     /**
      * 通过用户名密码登录
-     * @param req
+     * @param loginRequest
+     * @param httpResponse
      * @return
      */
     @Override
-    public IdNameTokenVO loginByPassword(LoginDTO req) {
+    public IdNameTokenVO loginByPassword(LoginDTO loginRequest, HttpServletResponse httpResponse) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getUserName, req.getUserName());
+        queryWrapper.eq(User::getUserName, loginRequest.getUserName());
         User user = this.getOne(queryWrapper);
         //用户不存在
         if (user == null) {
             throw new BusinessException(BaseErrorCode.NO_USER);
         }
-        String encodePassword = MD5Utils.encodeByMd5AndSalt(req.getPassword(), user.getSalt());
+        String encodePassword = MD5Utils.encodeByMd5AndSalt(loginRequest.getPassword(), user.getSalt());
         //密码错误
         if (!Objects.equals(user.getPassword(), encodePassword)) {
             throw new BusinessException(BaseErrorCode.ERROR_PASSWORD);
@@ -59,7 +62,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         IdNameTokenVO idNameTokenVO = new IdNameTokenVO();
         idNameTokenVO.setId(user.getId());
         idNameTokenVO.setName(user.getUserName());
-        idNameTokenVO.setToken(genToken(user));
+        idNameTokenVO.setToken(genToken(user,httpResponse));
         return idNameTokenVO;
     }
 
@@ -67,9 +70,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     /**
      * 生成token
      * @param user
+     * @param httpResponse
      * @return
      */
-    private String genToken(User user) {
+    private String genToken(User user, HttpServletResponse httpResponse) {
         TokenModel tokenModel = new TokenModel();
         tokenModel.setUserId(user.getId());
         tokenModel.setUserName(user.getUserName());
@@ -80,6 +84,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         String token = jwtManager.createTokenStr(tokenModel);
         String cacheKey = Constant.CACHE_USER_ID_PREFIX + user.getId();
         redisTemplate.opsForValue().set(cacheKey, token, tokenModel.getSessionTime(), TimeUnit.MINUTES);
+        CookieUtil.addCookie(httpResponse,Constant.LOGIN_TOKEN_COOKIE_NAME, token);
         return token;
     }
 }

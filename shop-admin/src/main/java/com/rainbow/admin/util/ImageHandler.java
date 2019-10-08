@@ -9,7 +9,7 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
-import com.rainbow.admin.config.yml.QiniuProperty;
+import com.rainbow.admin.config.yml.QiniuConfiguration;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
@@ -23,11 +23,11 @@ import java.io.InputStream;
 @Slf4j
 public class ImageHandler {
 
-    private static String bucket = QiniuProperty.bucket;
+    private static String bucket = QiniuConfiguration.bucket;
 
-    private static String domain = QiniuProperty.domain;
+    private static String domain = QiniuConfiguration.domain;
 
-    private static Auth auth = QiniuProperty.getAuth();
+    private static Auth auth = QiniuConfiguration.getAuth();
 
     public final static Zone zone = Zone.zone1();
 

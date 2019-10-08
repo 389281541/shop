@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @since 2019-08-14
  */
 @Component
-public class QiniuProperty {
+public class QiniuConfiguration {
 
     private static String accesskey;
 

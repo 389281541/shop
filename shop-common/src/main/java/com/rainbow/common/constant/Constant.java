@@ -15,5 +15,6 @@ public interface Constant {
     //缓存常量
     int USER_SESSION_CACHE_TIME = 60 * 24;
     String CACHE_USER_ID_PREFIX = "admin_user_id_";
+    String LOGIN_TOKEN_COOKIE_NAME = "loginToken";
 
 }
