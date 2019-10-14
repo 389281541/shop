@@ -44,7 +44,7 @@ public class KaptchaServiceImpl implements IKaptchaService {
     private static final String BOM_CAPTCHA_KEY = "BOM_CAPTCHA_KEY";
 
     @Override
-    public Boolean getCaptcha(HttpServletRequest request, HttpServletResponse response) {
+    public void getCaptcha(HttpServletRequest request, HttpServletResponse response) {
         byte[] captchaChallengeAsJpeg = null;
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
         try {
@@ -76,15 +76,11 @@ public class KaptchaServiceImpl implements IKaptchaService {
             responseOutputStream.close();
         } catch (IllegalArgumentException e) {
             log.error("非法参数错误：" + e.getMessage());
-            return Boolean.FALSE;
         } catch (IOException e) {
             log.error("IO错误：" + e.getMessage());
-            return Boolean.FALSE;
         } catch (Exception e) {
             log.error("错误：" + e.getMessage());
-            return Boolean.FALSE;
         }
-        return Boolean.TRUE;
     }
 
 

@@ -31,8 +31,8 @@ public class KaptchaController {
 
     @ApiOperation(value = "获取验证码", notes = "获取验证码", httpMethod = "GET")
     @GetMapping("/get")
-    public R<Boolean> getCaptcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return new R<>(kaptchaService.getCaptcha(request, response));
+    public void getCaptcha(HttpServletRequest request, HttpServletResponse response) {
+        kaptchaService.getCaptcha(request, response);
     }
 
 

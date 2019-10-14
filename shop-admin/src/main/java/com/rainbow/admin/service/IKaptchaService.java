@@ -15,7 +15,7 @@ public interface IKaptchaService {
      * @param response
      * @return
      */
-    Boolean getCaptcha(HttpServletRequest request, HttpServletResponse response);
+    void getCaptcha(HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 验证码校验
