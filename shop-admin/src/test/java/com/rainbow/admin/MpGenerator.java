@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import org.junit.Test;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,18 +28,21 @@ public class MpGenerator {
     public void generateCode() {
         String packageName = "com.rainbow.admin";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "brand_item");
+        generateByTables(serviceNameStartWithI, packageName, "administrator");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://192.168.113.128:3306/vvshop_goods";
-//        String dbUrl = "jdbc:mysql://127.0.0.1:3306/vvshop_goods";
+//        String dbUrl = "jdbc:mysql://172.21.139.13:3312/tx_yunying";
+//        String dbUrl = "jdbc:mysql://192.168.113.128:3306/vvshop_goods";
+        String dbUrl = "jdbc:mysql://127.0.0.1:3306/vvshop_user";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
                 .setUsername("root")
                 .setPassword("mysql")
+//                .setUsername("chaikutianxiao")
+//                .setPassword("testchaiku")
                 .setDriverName("com.mysql.jdbc.Driver");
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig
@@ -63,8 +65,8 @@ public class MpGenerator {
                 .setOutputDir("src/main/java")
                 .setSwagger2(true)
                 .setEnableCache(false)
-                .setBaseResultMap(true)
-                .setBaseColumnList(true)
+//                .setBaseResultMap(true)
+//                .setBaseColumnList(true)
                 .setFileOverride(true);//生成基本的SQL片段 ;
 
         // 注入自定义配置，可以在 VM 中使用 cfg.abc 【可无】
@@ -85,31 +87,31 @@ public class MpGenerator {
         });
 
         cfg.setFileOutConfigList(focList);
-//        cfg.setFileCreate(new IFileCreate() {
-//            @Override
-//            public boolean isCreate(ConfigBuilder configBuilder, FileType fileType, String filePath) {
-//                // 判断自定义文件夹是否需要创建,这里调用默认的方法
-////                checkDir(filePath);
-//                //对于已存在的文件，只需重复生成 entity 和 mapper.xml
-////                File file = new File(filePath);
-////                boolean exist = file.exists();
-////                if(exist){
-////                    if (filePath.endsWith("Mapper.xml")||FileType.ENTITY==fileType){
-////                        return true;
-////                    }else {
-////                        return false;
-////                    }
-////                }
-//
-//                if (filePath.endsWith("Mapper.xml")||FileType.ENTITY==fileType){
+        cfg.setFileCreate(new IFileCreate() {
+            @Override
+            public boolean isCreate(ConfigBuilder configBuilder, FileType fileType, String filePath) {
+                // 判断自定义文件夹是否需要创建,这里调用默认的方法
+//                checkDir(filePath);
+                //对于已存在的文件，只需重复生成 entity 和 mapper.xml
+//                File file = new File(filePath);
+//                boolean exist = file.exists();
+//                if(exist){
+//                    if (filePath.endsWith("Mapper.xml")||FileType.ENTITY==fileType){
+//                        return true;
+//                    }else {
+//                        return false;
+//                    }
+//                }
+
+//                if (FileType.ENTITY==fileType||filePath.contains("Mapper")){
 //                    return true;
 //                }else {
 //                    return false;
 //                }
-//                //不存在的文件都需要创建
-////                return  true;
-//            }
-//        });
+                //不存在的文件都需要创建
+                return  true;
+            }
+        });
         if (!serviceNameStartWithI) {
             config.setServiceName("%sService");
         }

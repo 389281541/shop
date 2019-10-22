@@ -14,8 +14,8 @@ CREATE TABLE vvshop_user.administrator
     UNIQUE KEY unique_user_name (user_name) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '后台管理用户表';
 
-INSERT INTO vvshop_user.administrator VALUES (1, 'admin', '55136CC33446A61D43FAB2A7F6B6F662', 'e8iN9Zpb', '15801248054', null, 0, '2019-06-20 20:05:52', '2019-06-20 20:05:46', '2019-06-20 20:05:53');
-INSERT INTO vvshop_user.administrator VALUES (2, 'rainbow', '9275B6FA484E35F444705132ACD5B98F', 'ZaUoItV1', '15801248054', null, 0, '2019-06-21 15:32:39', '2019-06-21 15:32:35', '2019-06-21 15:32:40');
+INSERT INTO vvshop_user.administrator VALUES (1, 'admin', '55136CC33446A61D43FAB2A7F6B6F662', 'e8iN9Zpb', '15801248054', 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg.jpg', 0, '2019-06-20 20:05:52', '2019-06-20 20:05:46', '2019-06-20 20:05:53');
+INSERT INTO vvshop_user.administrator VALUES (2, 'rainbow', '9275B6FA484E35F444705132ACD5B98F', 'ZaUoItV1', '15801248054', 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg.jpg', 0, '2019-06-21 15:32:39', '2019-06-21 15:32:35', '2019-06-21 15:32:40');
 
 
 CREATE TABLE vvshop_user.customer

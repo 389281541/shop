@@ -1,7 +1,7 @@
 package com.rainbow.admin;
 
-import com.rainbow.admin.entity.User;
-import com.rainbow.admin.mapper.UserMapper;
+import com.rainbow.admin.entity.Administrator;
+import com.rainbow.admin.mapper.AdministratorMapper;
 import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.util.MD5Utils;
 import com.rainbow.common.util.PasswordUtils;
@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 public class UserMapperTest {
 
     @Resource
-    private UserMapper userMapper;
+    private AdministratorMapper administratorMapper;
 
     @Test
     @Transactional
@@ -42,18 +42,18 @@ public class UserMapperTest {
         //生成服务器密码
         String dbPassword = MD5Utils.encodeByMd5AndSalt(formPasswd,salt);
         System.out.println("db password:" + dbPassword);
-        User user = new User();
-        user.setId(3L);
-        user.setCreateTime(LocalDateTime.now());
-        user.setDelStatus(DelFlagEnum.NO.getValue());
-        user.setLastLoginTime(LocalDateTime.now());
-        user.setMobile("13690724216");
-        user.setUserName("vigo");
-        user.setSalt(salt);
-        user.setPassword(dbPassword);
-        user.setUpdateTime(LocalDateTime.now());
-        user.setLastLoginTime(LocalDateTime.now());
-        userMapper.insert(user);
+        Administrator administrator = new Administrator();
+        administrator.setId(3L);
+        administrator.setCreateTime(LocalDateTime.now());
+        administrator.setDelStatus(DelFlagEnum.NO.getValue());
+        administrator.setLastLoginTime(LocalDateTime.now());
+        administrator.setMobile("13690724216");
+        administrator.setUserName("vigo");
+        administrator.setSalt(salt);
+        administrator.setPassword(dbPassword);
+        administrator.setUpdateTime(LocalDateTime.now());
+        administrator.setLastLoginTime(LocalDateTime.now());
+        administratorMapper.insert(administrator);
     }
 
 
