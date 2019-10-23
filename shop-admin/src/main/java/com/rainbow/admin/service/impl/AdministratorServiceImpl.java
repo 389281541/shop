@@ -1,13 +1,12 @@
 package com.rainbow.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainbow.admin.api.dto.LoginDTO;
 import com.rainbow.admin.entity.Administrator;
-import com.rainbow.admin.entity.User;
 import com.rainbow.admin.mapper.AdministratorMapper;
 import com.rainbow.admin.module.TokenModel;
 import com.rainbow.admin.service.IAdministratorService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainbow.admin.util.CookieUtil;
 import com.rainbow.admin.util.JwtManager;
 import com.rainbow.common.constant.Constant;

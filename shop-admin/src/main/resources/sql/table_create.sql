@@ -60,7 +60,7 @@ INSERT INTO vvshop_user.permission VALUES (6, 1, '品牌管理', 'pms:brand:read
 INSERT INTO vvshop_user.permission VALUES (7, 2, '编辑商品', 'pms:product:update', 2, '/pms/product/updateProduct', 1, CURRENT_TIME, CURRENT_TIME);
 INSERT INTO vvshop_user.permission VALUES (8, 2, '删除商品', 'pms:product:delete', 2, '/pms/product/delete', 1, CURRENT_TIME, CURRENT_TIME);
 INSERT INTO vvshop_user.permission VALUES (9, 4, '添加商品分类', 'pms:productCategory:create', 2, '/pms/productCate/create', 1, CURRENT_TIME, CURRENT_TIME);
-INSERT INTO vvshop_user.permission VALUES (10 4, '修改商品分类', 'pms:productCategory:update', 2, '/pms/productCate/update', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (10, 4, '修改商品分类', 'pms:productCategory:update', 2, '/pms/productCate/update', 1, CURRENT_TIME, CURRENT_TIME);
 INSERT INTO vvshop_user.permission VALUES (11, 4, '删除商品分类', 'pms:productCategory:delete', 2, '/pms/productAttr/delete', 1, CURRENT_TIME, CURRENT_TIME);
 INSERT INTO vvshop_user.permission VALUES (12, 5, '添加商品类型', 'pms:productAttribute:create', 2, '/pms/productAttr/create', 1, CURRENT_TIME, CURRENT_TIME);
 INSERT INTO vvshop_user.permission VALUES (13, 5, '修改商品类型', 'pms:productAttribute:update', 2, '/pms/productAttr/update', 1, CURRENT_TIME, CURRENT_TIME);
@@ -70,8 +70,8 @@ INSERT INTO vvshop_user.permission VALUES (16, 6, '修改品牌', 'pms:brand:upd
 INSERT INTO vvshop_user.permission VALUES (17, 6, '删除品牌', 'pms:brand:delete', 2, '/pms/brand/delete', 1, CURRENT_TIME, CURRENT_TIME);
 INSERT INTO vvshop_user.permission VALUES (18, 0, '首页', null, 0, null, 1, CURRENT_TIME, CURRENT_TIME);
 
-DROP TABLE IF EXISTS admin_role_relation;
-CREATE TABLE admin_role_relation
+DROP TABLE IF EXISTS administrator_role;
+CREATE TABLE administrator_role
 (
     id  bigint(20)  AUTO_INCREMENT  COMMENT '主键ID',
     admin_id bigint(20) NOT NULL COMMENT '管理用户ID',
@@ -81,8 +81,8 @@ CREATE TABLE admin_role_relation
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '用户和角色关联表';
 
 
-DROP TABLE IF EXISTS role_permission_relation;
-CREATE TABLE role_permission_relation
+DROP TABLE IF EXISTS role_permission;
+CREATE TABLE role_permission
 (
     id  bigint(20)  AUTO_INCREMENT  COMMENT '主键ID',
     role_id bigint(20) NOT NULL COMMENT '角色ID',
