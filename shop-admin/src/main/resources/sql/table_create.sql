@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS administrator;
 CREATE TABLE vvshop_user.administrator
 (
     id              bigint(20)   AUTO_INCREMENT         NOT NULL COMMENT '主键ID',
@@ -16,6 +17,79 @@ CREATE TABLE vvshop_user.administrator
 
 INSERT INTO vvshop_user.administrator VALUES (1, 'admin', '55136CC33446A61D43FAB2A7F6B6F662', 'e8iN9Zpb', '15801248054', 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg.jpg', 0, '2019-06-20 20:05:52', '2019-06-20 20:05:46', '2019-06-20 20:05:53');
 INSERT INTO vvshop_user.administrator VALUES (2, 'rainbow', '9275B6FA484E35F444705132ACD5B98F', 'ZaUoItV1', '15801248054', 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg.jpg', 0, '2019-06-21 15:32:39', '2019-06-21 15:32:35', '2019-06-21 15:32:40');
+
+DROP TABLE IF EXISTS role;
+CREATE TABLE vvshop_user.role
+(
+    id  bigint(20)  AUTO_INCREMENT  COMMENT '主键ID',
+    name varchar(40) COLLATE utf8mb4_bin NOT NULL COMMENT '角色名称',
+    description varchar(500) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '角色描述',
+    status tinyint  default 1 NOT NULL COMMENT  '0-禁用 1-启用',
+    update_time     timestamp default NULL NULL COMMENT '更新时间',
+    create_time     timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id),
+    UNIQUE KEY unique_role_name (name) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '角色表';
+
+INSERT INTO vvshop_user.role VALUES (1, '商品管理员', '商品管理员', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO vvshop_user.role VALUES (2, '商品分类管理员', '商品分类管理员', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO vvshop_user.role VALUES (3, '商品类型管理员', '商品类型管理员', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO vvshop_user.role VALUES (4, '品牌管理员', '品牌管理员', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+DROP TABLE IF EXISTS permission;
+CREATE TABLE vvshop_user.permission
+(
+    id  bigint(20)  AUTO_INCREMENT  COMMENT '主键ID',
+    pid bigint(20) DEFAULT NULL COMMENT '父级权限id',
+    name varchar(100) COLLATE utf8mb4_bin NOT NULL COMMENT '名称',
+    value varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '权限值',
+    type tinyint NOT NULL COMMENT '权限类型：0->目录；1->菜单；2->按钮（接口绑定权限）',
+    uri varchar(200) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '前端资源路径',
+    status tinyint DEFAULT NULL COMMENT '启用状态；0->禁用；1->启用',
+    update_time     timestamp default NULL NULL COMMENT '更新时间',
+    create_time     timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '权限表';
+
+INSERT INTO vvshop_user.permission VALUES (1, 0, '商品', null, 0, null, 1, CURRENT_TIME , CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (2, 1, '商品列表', 'pms:product:read', 1, '/pms/product/index', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (3, 1, '添加商品', 'pms:product:create', 1, '/pms/product/add', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (4, 1, '商品分类', 'pms:productCategory:read', 1, '/pms/productCate/index', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (5, 1, '商品类型', 'pms:productAttribute:read', 1, '/pms/productAttr/index', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (6, 1, '品牌管理', 'pms:brand:read', 1, '/pms/brand/index', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (7, 2, '编辑商品', 'pms:product:update', 2, '/pms/product/updateProduct', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (8, 2, '删除商品', 'pms:product:delete', 2, '/pms/product/delete', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (9, 4, '添加商品分类', 'pms:productCategory:create', 2, '/pms/productCate/create', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (10 4, '修改商品分类', 'pms:productCategory:update', 2, '/pms/productCate/update', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (11, 4, '删除商品分类', 'pms:productCategory:delete', 2, '/pms/productAttr/delete', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (12, 5, '添加商品类型', 'pms:productAttribute:create', 2, '/pms/productAttr/create', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (13, 5, '修改商品类型', 'pms:productAttribute:update', 2, '/pms/productAttr/update', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (14, 5, '删除商品类型', 'pms:productAttribute:delete', 2, '/pms/productAttr/delete', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (15, 6, '添加品牌', 'pms:brand:create', 2, '/pms/brand/add', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (16, 6, '修改品牌', 'pms:brand:update', 2, '/pms/brand/update', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (17, 6, '删除品牌', 'pms:brand:delete', 2, '/pms/brand/delete', 1, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO vvshop_user.permission VALUES (18, 0, '首页', null, 0, null, 1, CURRENT_TIME, CURRENT_TIME);
+
+DROP TABLE IF EXISTS admin_role_relation;
+CREATE TABLE admin_role_relation
+(
+    id  bigint(20)  AUTO_INCREMENT  COMMENT '主键ID',
+    admin_id bigint(20) NOT NULL COMMENT '管理用户ID',
+    role_id bigint(20) NOT NULL COMMENT '角色ID',
+    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '用户和角色关联表';
+
+
+DROP TABLE IF EXISTS role_permission_relation;
+CREATE TABLE role_permission_relation
+(
+    id  bigint(20)  AUTO_INCREMENT  COMMENT '主键ID',
+    role_id bigint(20) NOT NULL COMMENT '角色ID',
+    permission_id bigint(20) NOT NULL COMMENT '权限ID',
+    create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '用户和权限关联表';
 
 
 CREATE TABLE vvshop_user.customer
