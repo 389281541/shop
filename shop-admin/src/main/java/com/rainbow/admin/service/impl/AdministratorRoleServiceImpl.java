@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * 用户和角色关联表 服务实现类
  *
  * @author lujinwei
- * @since 2019-10-24
+ * @since 2019-10-23
  */
 @Service
 public class AdministratorRoleServiceImpl extends ServiceImpl<AdministratorRoleMapper, AdministratorRole> implements IAdministratorRoleService {

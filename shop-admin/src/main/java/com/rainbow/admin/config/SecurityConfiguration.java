@@ -3,6 +3,7 @@ package com.rainbow.admin.config;
 import com.rainbow.admin.module.JwtAuthenticationTokenFilter;
 import com.rainbow.admin.module.RestAuthenticationEntryPoint;
 import com.rainbow.admin.module.RestfulAccessDeniedHandler;
+import com.rainbow.admin.module.RestfulAuthenticationEntryPoint;
 import com.rainbow.admin.service.IAdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +18,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.List;
@@ -41,71 +40,48 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
 
     @Autowired
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private RestfulAuthenticationEntryPoint restfulAuthenticationEntryPoint;
 
+    @Autowired
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf()// 由于使用的是JWT，我们这里不需要csrf
-                .disable()
-                .sessionManagement()// 基于token，所以不需要session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, // 允许对于网站静态资源的无授权访问
-                        "/",
-                        "/*.html",
-                        "/favicon.ico",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js"
-                )
+        httpSecurity
+                .cors()             //开启跨域
+            .and()
+                .csrf().disable()   //由于使用的是JWT，我们这里不需要csrf
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)// 基于token，所以不需要session
+            .and()
+                .authorizeRequests()    //允许匿名访问的url
+                .antMatchers("/administrator/login","/administrator/register")
                 .permitAll()
-                .antMatchers("/administrator/login", "/administrator/register")// 对登录注册要允许匿名访问
+                .antMatchers("/kaptcha/get","/kaptcha/verify")       //验证码
                 .permitAll()
-                .antMatchers("/**")     //测试时全部运行访问
+            .and()
+                .formLogin()
+                .successHandler()           //登录成功处理
+                .failureHandler()           //登录失败处理
+                .authenticationDetailsSource()     //自定义验证逻辑，增加验证码信息
+                .usernameParameter("userName")  //默认的用户名参数
+                .passwordParameter("passWord")  //默认的密码参数
                 .permitAll()
-                .anyRequest()                       // 除上面外的所有请求全部需要鉴权认证
-                .authenticated();
-        // 禁用缓存
-        httpSecurity.headers().cacheControl();
-        // 添加JWT filter
-        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        //添加自定义未授权和未登录结果返回
-        httpSecurity.exceptionHandling()
-                .accessDeniedHandler(restfulAccessDeniedHandler)
-                .authenticationEntryPoint(restAuthenticationEntryPoint);
+            .and()
+                .headers()
+                .cacheControl()
+            .and()
+                .logout()
+                .logoutSuccessHandler()         //
+            .and()
+                .exceptionHandling()            //异常处理
+                .accessDeniedHandler()          //当访问接口没有权限时，自定义返回结果
+                .authenticationEntryPoint()    //当未登录或者token失效访问接口时，自定义的返回结果
+            .and()
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService())
-                .passwordEncoder(passwordEncoder());
-    }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        //获取登录用户信息
-        return username -> {
-            UmsAdmin admin = adminService.getAdminByUsername(username);
-            if (admin != null) {
-                List<UmsPermission> permissionList = adminService.getPermissionList(admin.getId());
-                return new AdminUserDetails(admin,permissionList);
-            }
-            throw new UsernameNotFoundException("用户名或密码错误");
-        };
-    }
 
-    @Bean
-    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
-        return new JwtAuthenticationTokenFilter();
-    }
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
 
 
 

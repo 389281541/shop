@@ -1,8 +1,9 @@
 package com.rainbow.admin.mapper;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.rainbow.admin.entity.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.dynamic.datasource.annotation.DS;
+
 /**
  * 权限表 Mapper 接口
  *
