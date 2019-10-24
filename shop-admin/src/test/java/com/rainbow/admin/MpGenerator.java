@@ -28,14 +28,14 @@ public class MpGenerator {
     public void generateCode() {
         String packageName = "com.rainbow.admin";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "role_permission");
+        generateByTables(serviceNameStartWithI, packageName, "permission");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
 //        String dbUrl = "jdbc:mysql://172.21.139.13:3312/tx_yunying";
-        String dbUrl = "jdbc:mysql://192.168.113.128:3306/vvshop_user";
-//        String dbUrl = "jdbc:mysql://127.0.0.1:3306/vvshop_user";
+//        String dbUrl = "jdbc:mysql://192.168.113.128:3306/vvshop_user";
+        String dbUrl = "jdbc:mysql://127.0.0.1:3306/vvshop_user";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
