@@ -1,5 +1,6 @@
-package com.rainbow.admin.module;
+package com.rainbow.admin.security;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -14,10 +15,12 @@ import java.io.IOException;
  * @author lujinwei
  * @since 2019-10-24
  */
+@Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
     }
+
 }

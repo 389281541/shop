@@ -1,4 +1,4 @@
-package com.rainbow.admin.module;
+package com.rainbow.admin.security;
 
 import com.alibaba.fastjson.JSON;
 import com.rainbow.common.dto.R;
