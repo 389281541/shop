@@ -11,10 +11,11 @@ import com.rainbow.common.util.MD5Utils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * json web token管理类
@@ -120,16 +121,75 @@ public class JwtManager {
         return false;
     }
 
-    public TokenModel getTokenModel(String authToken) throws BusinessException {
-        if (StringUtils.isBlank(authToken)) {
+    /**
+     * 获取TokenModel
+     * @param token
+     * @return
+     * @throws BusinessException
+     */
+    public TokenModel getTokenModel(String token) throws BusinessException {
+        if (StringUtils.isBlank(token)) {
             throw new BusinessException(BaseErrorCode.TOKEN_ERROR);
         }
 
-        JSONObject jsonObject = getSubject(authToken);
+        JSONObject jsonObject = getSubject(token);
         if (jsonObject == null) {
             throw new BusinessException(BaseErrorCode.TOKEN_ERROR);
         }
         return JSON.toJavaObject(jsonObject, TokenModel.class);
+    }
+
+
+    /**
+     * 验证token是否还有效
+     *
+     * @param token       客户端传入的token
+     * @param userDetails 从数据库中查询出来的用户信息
+     */
+    public boolean validateToken(String token, UserDetails userDetails) {
+        TokenModel tokenModel = getTokenModel(token);
+        if(tokenModel == null) {
+            return false;
+        }
+        return Objects.equals(tokenModel.getUserName(), userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    /**
+     * 判断token是否已经失效
+     */
+    private boolean isTokenExpired(String token) {
+        Date expiredDate = getExpiredDateFromToken(token);
+        return expiredDate.before(new Date());
+    }
+
+
+    /**
+     * 从token中获取过期时间
+     */
+    private Date getExpiredDateFromToken(String token) {
+        Claims claims = getClaimsFromToken(token);
+        return claims.getExpiration();
+    }
+
+
+    /**
+     * 获取token中的用户信息
+     *
+     * @param jwt
+     * @return
+     */
+    public Claims getClaimsFromToken(String jwt) {
+        if (StringUtils.isBlank(jwt)) {
+            return null;
+        }
+        JwtUtil jwtUtil = new JwtUtil();
+        Claims claims = null;
+        try {
+            claims = jwtUtil.parseJWT(jwt);
+        } catch (Exception e) {
+            return null;
+        }
+        return claims;
     }
 
 }

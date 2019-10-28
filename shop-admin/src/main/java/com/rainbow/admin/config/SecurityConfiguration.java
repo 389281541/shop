@@ -45,7 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private IAdministratorService administratorService;
 
-
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
