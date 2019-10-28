@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * 权限表
  *
  * @author lujinwei
- * @since 2019-10-24
+ * @since 2019-10-28
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

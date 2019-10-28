@@ -16,5 +16,6 @@ public interface Constant {
     int USER_SESSION_CACHE_TIME = 60 * 24;
     String CACHE_USER_ID_PREFIX = "admin_user_id_";
     String LOGIN_TOKEN_COOKIE_NAME = "loginToken";
+    String AUTH_TOKEN_NAME = "Authorization";
 
 }

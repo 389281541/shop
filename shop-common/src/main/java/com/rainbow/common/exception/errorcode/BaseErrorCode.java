@@ -35,6 +35,7 @@ public enum BaseErrorCode implements UniverseErrorCode {
     BUSINESS_ERROR(800, "业务处理异常"),
     NEED_RE_LOGIN(900, "权限已变更，请重新登录"),
     SYSTEM_ERROR(999, "系统处理异常"),
+    TOKEN_ERROR(901,"TOKEN错误")
     ;
 
     private ErrorSideEnum errorSideEnum;

@@ -1,27 +1,35 @@
 package com.rainbow.admin.config;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.rainbow.admin.entity.Administrator;
+import com.rainbow.admin.entity.Permission;
+import com.rainbow.admin.module.AdminUserDetails;
 import com.rainbow.admin.security.JwtAuthenticationTokenFilter;
 import com.rainbow.admin.service.IAdministratorService;
 import com.rainbow.common.dto.R;
+import com.rainbow.common.exception.BusinessException;
 import com.rainbow.common.exception.errorcode.BaseErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * spring security配置
@@ -71,6 +79,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService());
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return userName -> {
+            LambdaQueryWrapper<Administrator> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Administrator::getUserName, userName);
+            //获取用户信息
+            Administrator administrator = administratorService.getOne(queryWrapper);
+            //用户不存在
+            if (administrator == null) {
+                throw new BusinessException(BaseErrorCode.NO_USER);
+            }
+            //获取权限
+            List<Permission> permissionList = administratorService.getPermissionByUserId(administrator.getId());
+            return new AdminUserDetails(administrator,permissionList);
+        };
+    }
+
+
     /**
      * 无访问权限处理
      * @return
@@ -100,11 +131,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             response.getWriter().flush();
         };
     }
-
-
-
-
-
 
 
 }

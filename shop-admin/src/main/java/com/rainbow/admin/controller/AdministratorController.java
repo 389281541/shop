@@ -31,8 +31,8 @@ public class AdministratorController {
 
     @ApiOperation(value = "登陆", notes = "通过用户名登陆", httpMethod = "POST")
     @PostMapping("/login")
-    public R<IdNameTokenVO> login(@Valid @RequestBody LoginDTO loginRequest, HttpServletResponse httpResponse) {
-        return new R<>(administratorService.loginByPassword(loginRequest, httpResponse));
+    public R<IdNameTokenVO> login(@Valid @RequestBody LoginDTO loginDTO, HttpServletResponse httpResponse) {
+        return new R<>(administratorService.loginByPassword(loginDTO.getUsername(), loginDTO.getPassword(), httpResponse));
     }
 
 

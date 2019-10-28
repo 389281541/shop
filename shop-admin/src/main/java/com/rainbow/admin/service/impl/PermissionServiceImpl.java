@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * 权限表 服务实现类
  *
  * @author lujinwei
- * @since 2019-10-24
+ * @since 2019-10-28
  */
 @Service
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements IPermissionService {

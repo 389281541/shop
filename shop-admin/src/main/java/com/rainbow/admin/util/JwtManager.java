@@ -1,15 +1,19 @@
 package com.rainbow.admin.util;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.rainbow.admin.module.TokenModel;
 import com.rainbow.common.constant.Constant;
+import com.rainbow.common.exception.BusinessException;
+import com.rainbow.common.exception.errorcode.BaseErrorCode;
 import com.rainbow.common.util.MD5Utils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
@@ -114,6 +118,18 @@ public class JwtManager {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public TokenModel getTokenModel(String authToken) throws BusinessException {
+        if (StringUtils.isBlank(authToken)) {
+            throw new BusinessException(BaseErrorCode.TOKEN_ERROR);
+        }
+
+        JSONObject jsonObject = getSubject(authToken);
+        if (jsonObject == null) {
+            throw new BusinessException(BaseErrorCode.TOKEN_ERROR);
+        }
+        return JSON.toJavaObject(jsonObject, TokenModel.class);
     }
 
 }
