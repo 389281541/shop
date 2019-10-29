@@ -6,6 +6,7 @@ import com.rainbow.admin.entity.Administrator;
 import com.rainbow.admin.entity.Permission;
 import com.rainbow.admin.module.AdminUserDetails;
 import com.rainbow.admin.security.JwtAuthenticationTokenFilter;
+import com.rainbow.admin.security.UrlFilterSecurityInterceptor;
 import com.rainbow.admin.service.IAdministratorService;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.exception.BusinessException;
@@ -25,6 +26,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +49,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+
+    @Autowired
+    private UrlFilterSecurityInterceptor urlFilterSecurityInterceptor;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -75,6 +80,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(accessDeniedHandler())               //当访问接口没有权限时，自定义返回结果
                 .authenticationEntryPoint(authenticationEntryPoint());    //当未登录或者token失效访问接口时，自定义的返回结果
         httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(urlFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     }
 
 

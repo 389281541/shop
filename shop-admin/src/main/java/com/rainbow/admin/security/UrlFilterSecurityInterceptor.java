@@ -1,5 +1,6 @@
 package com.rainbow.admin.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
@@ -8,10 +9,14 @@ import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -21,9 +26,11 @@ import java.util.Collection;
  * @author lujinwei
  * @since 2019-10-25
  */
-@Service
-public class FilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
+@Component
+public class UrlFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
+    @Autowired
+    private FilterInvocationSecurityMetadataSource securityMetadataSource;
 
     @Override
     public void setAccessDecisionManager(AccessDecisionManager accessDecisionManager) {
@@ -32,6 +39,7 @@ public class FilterSecurityInterceptor extends AbstractSecurityInterceptor imple
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+
     }
 
     @Override
@@ -51,7 +59,7 @@ public class FilterSecurityInterceptor extends AbstractSecurityInterceptor imple
 
     @Override
     public SecurityMetadataSource obtainSecurityMetadataSource() {
-        return filterInvocationSecurityMetadataSource();
+        return this.securityMetadataSource;
     }
 
     /**
@@ -74,17 +82,25 @@ public class FilterSecurityInterceptor extends AbstractSecurityInterceptor imple
              */
             @Override
             public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
-
+                HttpServletRequest request = ((FilterInvocation) o).getHttpRequest();
+                String url;
+                for (GrantedAuthority ga : authentication.getAuthorities()) {
+                    url = ga.getAuthority();
+                    if(url.equals(request.getRequestURI())){
+                        return;
+                    }
+                }
+                throw new AccessDeniedException("没有权限访问");
             }
 
             @Override
             public boolean supports(ConfigAttribute configAttribute) {
-                return false;
+                return true;
             }
 
             @Override
             public boolean supports(Class<?> aClass) {
-                return false;
+                return true;
             }
         };
     }
