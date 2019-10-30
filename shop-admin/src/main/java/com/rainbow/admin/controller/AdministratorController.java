@@ -2,6 +2,7 @@ package com.rainbow.admin.controller;
 
 
 import com.rainbow.admin.api.dto.LoginDTO;
+import com.rainbow.admin.api.vo.AdminstratorSimpleVO;
 import com.rainbow.admin.service.IAdministratorService;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.vo.IdNameAvatarVO;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.security.Principal;
 
 /**
  * 后台管理用户表 前端控制器
@@ -21,8 +23,8 @@ import javax.validation.Valid;
  * @since 2019-10-22
  */
 @RestController
-@RequestMapping("/administrator")
-@Api(value = "/administrator", tags = "管理员相关")
+@RequestMapping("/admin")
+@Api(value = "/admin", tags = "管理员相关")
 public class AdministratorController {
 
     @Autowired
@@ -36,10 +38,18 @@ public class AdministratorController {
     }
 
 
+    @ApiOperation(value = "退出", notes = "退出登录", httpMethod = "POST")
+    @PostMapping("/logout")
+    public R<Boolean> logout() {
+        return new R<>();
+    }
+
+
     @ApiOperation(value = "登陆", notes = "通过用户名登陆", httpMethod = "POST")
     @GetMapping("/info")
-    public R<IdNameAvatarVO> info() {
-        return new R<>();
+    public R<AdminstratorSimpleVO> info(Principal principal) {
+        String username = principal.getName();
+        return new R<>(administratorService.getInfoByUserName(username));
     }
 
 

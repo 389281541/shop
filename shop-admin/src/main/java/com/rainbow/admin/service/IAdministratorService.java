@@ -1,6 +1,7 @@
 package com.rainbow.admin.service;
 
 import com.rainbow.admin.api.dto.LoginDTO;
+import com.rainbow.admin.api.vo.AdminstratorSimpleVO;
 import com.rainbow.admin.entity.Administrator;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.admin.entity.Permission;
@@ -32,4 +33,12 @@ public interface IAdministratorService extends IService<Administrator> {
      * @return
      */
     List<Permission> getPermissionByUserId(Long userId);
+
+
+    /**
+     * 通过username获取管理者信息
+     * @param username
+     * @return
+     */
+    AdminstratorSimpleVO getInfoByUserName(String username);
 }
