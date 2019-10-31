@@ -48,6 +48,9 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     private RedisTemplate<String, Object> redisTemplate;
 
     @Resource
+    private AdministratorMapper administratorMapper;
+
+    @Resource
     private AdministratorRoleMapper administratorRoleMapper;
 
     @Resource
@@ -122,34 +125,12 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
 
     @Override
     public List<Permission> getPermissionByUserId(Long userId) {
-        LambdaQueryWrapper<AdministratorRole> roleWrapper = new LambdaQueryWrapper<>();
-        roleWrapper.eq(AdministratorRole::getAdminId, userId);
-        List<AdministratorRole> administratorRolesList = administratorRoleMapper.selectList(roleWrapper);
-        List<Permission> permissionList = Lists.newArrayList();
-        if (!CollectionUtils.isEmpty(administratorRolesList)) {
-            Set<Long> roleIds = administratorRolesList.stream().map(AdministratorRole::getRoleId).collect(Collectors.toSet());
-            LambdaQueryWrapper<RolePermission> permissionWrapper = new LambdaQueryWrapper<>();
-            permissionWrapper.in(RolePermission::getRoleId, roleIds);
-            List<RolePermission> rolePermissions = rolePermissionMapper.selectList(permissionWrapper);
-            if (!CollectionUtils.isEmpty(rolePermissions)) {
-                Set<Long> permissionIds = rolePermissions.stream().map(RolePermission::getPermissionId).collect(Collectors.toSet());
-                permissionList = permissionMapper.selectBatchIds(permissionIds);
-            }
-        }
-        return permissionList;
+        return administratorMapper.getPermissionByUserId(userId);
     }
 
 
     public List<Role> getRoleByUserId(Long userId) {
-        List<Role> roleList = Lists.newArrayList();
-        LambdaQueryWrapper<AdministratorRole> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(AdministratorRole::getAdminId, userId);
-        List<AdministratorRole> administratorRoles = administratorRoleMapper.selectList(wrapper);
-        if (!CollectionUtils.isEmpty(administratorRoles)) {
-            Set<Long> roleIds = administratorRoles.stream().map(AdministratorRole::getRoleId).collect(Collectors.toSet());
-            roleList = roleMapper.selectBatchIds(roleIds);
-        }
-        return roleList;
+        return administratorMapper.getRoleByUserId(userId);
     }
 
 
