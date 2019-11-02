@@ -60,7 +60,7 @@ public class UserMapperTest {
     @Test
     public void testCheck() {
         String formPassword = MD5Utils.encodeByMd5AndSalt("admin","a1b2c3d4");
-        String serverPassword = MD5Utils.encodeByMd5AndSalt(formPassword,"Vcm8GOND");
+        String serverPassword = MD5Utils.encodeByMd5AndSalt(formPassword,"e8iN9Zpb");
         System.out.println(serverPassword);
     }
 

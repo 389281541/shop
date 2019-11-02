@@ -3,7 +3,7 @@ package com.rainbow.admin.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.rainbow.admin.module.TokenModel;
+import com.rainbow.admin.model.TokenModel;
 import com.rainbow.common.constant.Constant;
 import com.rainbow.common.exception.BusinessException;
 import com.rainbow.common.exception.errorcode.BaseErrorCode;

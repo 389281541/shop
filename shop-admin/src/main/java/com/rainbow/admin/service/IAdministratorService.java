@@ -1,12 +1,13 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.api.dto.LoginDTO;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.admin.api.vo.AdminstratorSimpleVO;
 import com.rainbow.admin.entity.Administrator;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.admin.entity.Permission;
+import com.rainbow.admin.entity.Role;
 import com.rainbow.common.vo.IdNameTokenVO;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -21,10 +22,12 @@ public interface IAdministratorService extends IService<Administrator> {
      * 通过用户名和密码登陆
      * @param username
      * @param password
-     * @param httpResponse
      * @return
      */
-    IdNameTokenVO loginByPassword(String username, String password, HttpServletResponse httpResponse);
+    IdNameTokenVO loginByPassword(String username, String password);
+
+
+    Boolean logout(HttpServletRequest request, HttpServletResponse response);
 
 
     /**
@@ -33,6 +36,13 @@ public interface IAdministratorService extends IService<Administrator> {
      * @return
      */
     List<Permission> getPermissionByUserId(Long userId);
+
+    /**
+     * 通过userId获取角色
+     * @param userId
+     * @return
+     */
+    List<Role> getRoleByUserId(Long userId);
 
 
     /**

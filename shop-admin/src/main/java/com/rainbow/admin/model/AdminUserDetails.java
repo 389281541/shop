@@ -1,4 +1,4 @@
-package com.rainbow.admin.module;
+package com.rainbow.admin.model;
 
 import com.rainbow.admin.entity.Administrator;
 import com.rainbow.admin.entity.Permission;

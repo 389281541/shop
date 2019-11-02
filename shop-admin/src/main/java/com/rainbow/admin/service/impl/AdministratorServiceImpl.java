@@ -3,11 +3,10 @@ package com.rainbow.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
-import com.rainbow.admin.api.dto.LoginDTO;
 import com.rainbow.admin.api.vo.AdminstratorSimpleVO;
 import com.rainbow.admin.entity.*;
 import com.rainbow.admin.mapper.*;
-import com.rainbow.admin.module.TokenModel;
+import com.rainbow.admin.model.TokenModel;
 import com.rainbow.admin.service.IAdministratorService;
 import com.rainbow.admin.util.CookieUtil;
 import com.rainbow.admin.util.JwtManager;
@@ -18,6 +17,7 @@ import com.rainbow.common.exception.errorcode.BaseErrorCode;
 import com.rainbow.common.util.MD5Utils;
 import com.rainbow.common.vo.IdNameTokenVO;
 import com.rainbow.common.vo.IdNameVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -40,27 +41,14 @@ import java.util.stream.Collectors;
  * @since 2019-10-22
  */
 @Service
+@Slf4j
 public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, Administrator> implements IAdministratorService {
+
     @Resource
     private JwtManager jwtManager;
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
-
-    @Resource
     private AdministratorMapper administratorMapper;
-
-    @Resource
-    private AdministratorRoleMapper administratorRoleMapper;
-
-    @Resource
-    private RolePermissionMapper rolePermissionMapper;
-
-    @Resource
-    private PermissionMapper permissionMapper;
-
-    @Resource
-    private RoleMapper roleMapper;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -71,17 +59,17 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
      *
      * @param username
      * @param password
-     * @param httpResponse
      * @return
      */
     @Override
-    public IdNameTokenVO loginByPassword(String username, String password, HttpServletResponse httpResponse) {
+    public IdNameTokenVO loginByPassword(String username, String password) {
         Administrator administrator = getAdministratorByUsername(username);
         //用户不存在
         if (administrator == null) {
             throw new BusinessException(BaseErrorCode.NO_USER);
         }
         String encodePassword = MD5Utils.encodeByMd5AndSalt(password, administrator.getSalt());
+        log.info("db password={}, form password={}", administrator.getPassword(), encodePassword);
         //密码错误
         if (!Objects.equals(administrator.getPassword(), encodePassword)) {
             throw new BusinessException(BaseErrorCode.ERROR_PASSWORD);
@@ -94,19 +82,24 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         IdNameTokenVO idNameTokenVO = new IdNameTokenVO();
         idNameTokenVO.setId(administrator.getId());
         idNameTokenVO.setName(administrator.getUserName());
-        idNameTokenVO.setToken(genToken(administrator, httpResponse));
+        idNameTokenVO.setToken(genToken(administrator));
         return idNameTokenVO;
     }
 
+
+    @Override
+    public Boolean logout(HttpServletRequest request, HttpServletResponse response) {
+        CookieUtil.deleteCookie(request, response, Constant.LOGIN_TOKEN_COOKIE_NAME);
+        return Boolean.TRUE;
+    }
 
     /**
      * 生成token
      *
      * @param administrator
-     * @param httpResponse
      * @return
      */
-    private String genToken(Administrator administrator, HttpServletResponse httpResponse) {
+    private String genToken(Administrator administrator) {
         TokenModel tokenModel = new TokenModel();
         tokenModel.setUserId(administrator.getId());
         tokenModel.setUserName(administrator.getUserName());
@@ -116,9 +109,6 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         tokenModel.setSessionTime(Constant.USER_SESSION_CACHE_TIME);
 
         String token = jwtManager.createTokenStr(tokenModel);
-        String cacheKey = Constant.CACHE_USER_ID_PREFIX + administrator.getId();
-        redisTemplate.opsForValue().set(cacheKey, token, tokenModel.getSessionTime(), TimeUnit.MINUTES);
-        CookieUtil.addCookie(httpResponse, Constant.LOGIN_TOKEN_COOKIE_NAME, token);
         return token;
     }
 

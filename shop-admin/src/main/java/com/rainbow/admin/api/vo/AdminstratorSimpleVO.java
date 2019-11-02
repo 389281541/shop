@@ -18,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @ApiModel(value = "AdminstratorSimpleVO", description = "管理者信息VO")
 public class AdminstratorSimpleVO extends IdNameAvatarVO {
+
     @ApiModelProperty(value = "角色")
     private List<IdNameVO> roles;
 }

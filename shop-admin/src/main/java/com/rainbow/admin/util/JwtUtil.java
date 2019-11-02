@@ -1,7 +1,7 @@
 package com.rainbow.admin.util;
 
 
-import com.rainbow.admin.module.TokenModel;
+import com.rainbow.admin.model.TokenModel;
 import com.rainbow.common.constant.Constant;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;

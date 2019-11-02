@@ -1,4 +1,4 @@
-package com.rainbow.admin.module;
+package com.rainbow.admin.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

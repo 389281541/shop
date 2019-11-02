@@ -3,7 +3,10 @@ package com.rainbow.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.admin.api.dto.BrandSaveDTO;
 import com.rainbow.admin.api.vo.BrandSimpleVO;
+import com.rainbow.admin.entity.RolePermission;
+import com.rainbow.admin.mapper.AdministratorRoleMapper;
 import com.rainbow.admin.mapper.BrandItemMapper;
+import com.rainbow.admin.mapper.RolePermissionMapper;
 import com.rainbow.admin.service.IBrandService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdNamePageDTO;
@@ -21,7 +24,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ShopAdminApplication.class)
 @ActiveProfiles("local")
-public class ServiceTest {
+public class BrandTest {
 
     @Resource
     private IBrandService brandService;

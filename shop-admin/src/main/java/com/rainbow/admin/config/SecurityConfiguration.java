@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rainbow.admin.entity.Administrator;
 import com.rainbow.admin.entity.Permission;
-import com.rainbow.admin.module.AdminUserDetails;
-import com.rainbow.admin.security.JwtAuthenticationTokenFilter;
+import com.rainbow.admin.model.AdminUserDetails;
+import com.rainbow.admin.model.JwtAuthenticationTokenFilter;
 import com.rainbow.admin.service.IAdministratorService;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.exception.BusinessException;
@@ -45,10 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private IAdministratorService administratorService;
 
-    @Autowired
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-
-
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -75,7 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()            //异常处理
                 .accessDeniedHandler(accessDeniedHandler())               //当访问接口没有权限时，自定义返回结果
                 .authenticationEntryPoint(authenticationEntryPoint());    //当未登录或者token失效访问接口时，自定义的返回结果
-        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 
@@ -99,6 +95,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             List<Permission> permissionList = administratorService.getPermissionByUserId(administrator.getId());
             return new AdminUserDetails(administrator,permissionList);
         };
+    }
+
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
+        return new JwtAuthenticationTokenFilter();
     }
 
 

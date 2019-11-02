@@ -1,6 +1,5 @@
-package com.rainbow.admin.security;
+package com.rainbow.admin.model;
 
-import com.rainbow.admin.module.TokenModel;
 import com.rainbow.admin.util.JwtManager;
 import com.rainbow.common.constant.Constant;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -25,7 +23,6 @@ import java.io.IOException;
  * @author lujinwei
  * @since 2019-10-24
  */
-@Component
 @Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 

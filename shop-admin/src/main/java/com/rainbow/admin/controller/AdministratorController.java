@@ -5,13 +5,13 @@ import com.rainbow.admin.api.dto.LoginDTO;
 import com.rainbow.admin.api.vo.AdminstratorSimpleVO;
 import com.rainbow.admin.service.IAdministratorService;
 import com.rainbow.common.dto.R;
-import com.rainbow.common.vo.IdNameAvatarVO;
 import com.rainbow.common.vo.IdNameTokenVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
@@ -33,19 +33,19 @@ public class AdministratorController {
 
     @ApiOperation(value = "登陆", notes = "通过用户名登陆", httpMethod = "POST")
     @PostMapping("/login")
-    public R<IdNameTokenVO> login(@Valid @RequestBody LoginDTO loginDTO, HttpServletResponse httpResponse) {
-        return new R<>(administratorService.loginByPassword(loginDTO.getUsername(), loginDTO.getPassword(), httpResponse));
+    public R<IdNameTokenVO> login(@Valid @RequestBody LoginDTO loginDTO) {
+        return new R<>(administratorService.loginByPassword(loginDTO.getUsername(), loginDTO.getPassword()));
     }
 
 
     @ApiOperation(value = "退出", notes = "退出登录", httpMethod = "POST")
     @PostMapping("/logout")
-    public R<Boolean> logout() {
-        return new R<>();
+    public R<Boolean> logout(HttpServletRequest request, HttpServletResponse response) {
+        return new R<>(administratorService.logout(request, response));
     }
 
 
-    @ApiOperation(value = "登陆", notes = "通过用户名登陆", httpMethod = "POST")
+    @ApiOperation(value = "登陆", notes = "通过用户名登陆", httpMethod = "GET")
     @GetMapping("/info")
     public R<AdminstratorSimpleVO> info(Principal principal) {
         String username = principal.getName();

@@ -36,14 +36,14 @@ public class ItemController {
     private IItemService itemService;
 
     @ApiOperation(value = "一级类别列表", notes = "一级类别列表", httpMethod = "POST")
-    @PostMapping("/pageParentItem")
-    public R<IPage<ItemSimpleVO>> pageParentItem(@Valid @RequestBody PageDTO param) {
+    @PostMapping("/pageParent")
+    public R<IPage<ItemSimpleVO>> pageParent(@Valid @RequestBody PageDTO param) {
         return new R<>(itemService.pageParentItem(param));
     }
 
     @ApiOperation(value = "二级类别列表", notes = "二级类别列表", httpMethod = "POST")
-    @PostMapping("/pageSubItem")
-    public R<IPage<ItemSimpleVO>> pageSubItem(@Valid @RequestBody IdPageDTO param) {
+    @PostMapping("/pageSub")
+    public R<IPage<ItemSimpleVO>> pageSub(@Valid @RequestBody IdPageDTO param) {
         return new R<>(itemService.pageSubItem(param));
     }
 

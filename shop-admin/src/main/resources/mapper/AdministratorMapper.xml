@@ -5,8 +5,8 @@
     <select id="getPermissionByUserId" parameterType="java.lang.Long" resultType="com.rainbow.admin.entity.Permission">
         select p.* from administrator_role ar
         left join role r on ar.role_id = r.id
-        left join role_permission on r.id = rp.role_id
-        left join  permission p on rp.permission_id
+        left join role_permission rp on r.id = rp.role_id
+        left join  permission p on rp.permission_id = p.id
         where ar.admin_id = #{userId} and r.status = 1 and p.status = 1
     </select>
 
