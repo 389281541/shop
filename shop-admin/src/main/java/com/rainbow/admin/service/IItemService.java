@@ -19,21 +19,12 @@ import com.rainbow.common.dto.PageDTO;
  */
 public interface IItemService extends IService<Item> {
 
-
     /**
-     * 获取一级菜单列表
+     * 获取类别列表
      * @param param
      * @return
      */
-    IPage<ItemSimpleVO> pageParentItem(PageDTO param);
-
-
-    /**
-     * 根据一级菜单ID查看子菜单ID
-     * @param param
-     * @return
-     */
-    IPage<ItemSimpleVO> pageSubItem(IdPageDTO param);
+    IPage<ItemSimpleVO> pageItem(IdPageDTO param);
 
     /**
      * 添加类别

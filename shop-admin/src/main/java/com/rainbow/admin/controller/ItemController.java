@@ -35,16 +35,11 @@ public class ItemController {
     @Autowired
     private IItemService itemService;
 
-    @ApiOperation(value = "一级类别列表", notes = "一级类别列表", httpMethod = "POST")
-    @PostMapping("/pageParent")
-    public R<IPage<ItemSimpleVO>> pageParent(@Valid @RequestBody PageDTO param) {
-        return new R<>(itemService.pageParentItem(param));
-    }
 
-    @ApiOperation(value = "二级类别列表", notes = "二级类别列表", httpMethod = "POST")
-    @PostMapping("/pageSub")
+    @ApiOperation(value = "类别列表", notes = "类别列表", httpMethod = "POST")
+    @PostMapping("/page")
     public R<IPage<ItemSimpleVO>> pageSub(@Valid @RequestBody IdPageDTO param) {
-        return new R<>(itemService.pageSubItem(param));
+        return new R<>(itemService.pageItem(param));
     }
 
     @ApiOperation(value = "类别添加", notes = "类别添加", httpMethod = "POST")

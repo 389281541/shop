@@ -14,7 +14,6 @@ import com.rainbow.admin.mapper.ItemMapper;
 import com.rainbow.admin.service.IItemService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdPageDTO;
-import com.rainbow.common.dto.PageDTO;
 import com.rainbow.common.enums.DelFlagEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,34 +35,27 @@ import java.util.stream.Collectors;
 public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements IItemService {
 
     @Override
-    public IPage<ItemSimpleVO> pageParentItem(PageDTO param) {
+    public IPage<ItemSimpleVO> pageItem(IdPageDTO param) {
         Page<Item> page = new Page<>(param.getPageNum(), param.getPageSize());
         LambdaQueryWrapper<Item> condition = new LambdaQueryWrapper<>();
-        condition.eq(Item::getParent, ItemLevelEnum.PARENT.getValue());
-        condition.eq(Item::getDelStatus, DelFlagEnum.NO.getValue());
+        Long parentId = param.getId();
+        ItemLevelEnum type;
+        if(parentId == null) {
+            type = ItemLevelEnum.PARENT;
+        } else {
+            condition.eq(Item::getParentId, parentId);
+            type = ItemLevelEnum.NON_PARENT;
+        }
+        condition.eq(Item::getParent, type.getValue());
         condition.orderByAsc(Item::getSortId);
-        return pageItem(page, condition, ItemLevelEnum.PARENT);
-    }
-
-    @Override
-    public IPage<ItemSimpleVO> pageSubItem(IdPageDTO param) {
-        Page<Item> page = new Page<>(param.getPageNum(), param.getPageSize());
-        LambdaQueryWrapper<Item> condition = new LambdaQueryWrapper<>();
-        condition.eq(Item::getParentId, param.getId());
-        condition.eq(Item::getParent, ItemLevelEnum.NON_PARENT.getValue());
         condition.eq(Item::getDelStatus, DelFlagEnum.NO.getValue());
-        condition.orderByAsc(Item::getSortId);
-        return pageItem(page, condition, ItemLevelEnum.NON_PARENT);
-    }
-
-    private IPage<ItemSimpleVO> pageItem(Page<Item> page, LambdaQueryWrapper<Item> condition, ItemLevelEnum itemLevel) {
-        IPage<Item> parentItems = page(page, condition);
-        return parentItems.convert(item -> {
+        IPage<Item> items = page(page, condition);
+        return items.convert(item -> {
             ItemSimpleVO itemVO = new ItemSimpleVO();
             itemVO.setId(item.getId());
             itemVO.setName(item.getName());
             itemVO.setItemNo(item.getItemNo());
-            itemVO.setLevel(itemLevel.getDesc());
+            itemVO.setLevel(type.getDesc());
             return itemVO;
         });
     }
