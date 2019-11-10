@@ -2,10 +2,11 @@ package com.rainbow.admin.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 @Configuration
-public class CorsConfiguration extends WebMvcConfigurationSupport {
+public class CorsConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -13,7 +14,6 @@ public class CorsConfiguration extends WebMvcConfigurationSupport {
                 .allowedOrigins("*")
                 .allowedHeaders("*")
                 .allowCredentials(true);
-        super.addCorsMappings(registry);
     }
 
 }

@@ -50,12 +50,17 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
         condition.orderByAsc(Item::getSortId);
         condition.eq(Item::getDelStatus, DelFlagEnum.NO.getValue());
         IPage<Item> items = page(page, condition);
+        Item parentItem = baseMapper.selectById(parentId);
+        final String parentName = parentItem==null?"无":parentItem.getName();
         return items.convert(item -> {
             ItemSimpleVO itemVO = new ItemSimpleVO();
             itemVO.setId(item.getId());
             itemVO.setName(item.getName());
             itemVO.setItemNo(item.getItemNo());
             itemVO.setLevel(type.getDesc());
+            itemVO.setCreateTime(item.getCreateTime());
+            itemVO.setParent(type.getValue());
+            itemVO.setParentName(parentName);
             return itemVO;
         });
     }
