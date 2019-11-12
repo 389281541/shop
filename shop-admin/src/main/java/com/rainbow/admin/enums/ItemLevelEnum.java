@@ -17,10 +17,14 @@ import static java.lang.Boolean.TRUE;
 @AllArgsConstructor
 public enum ItemLevelEnum implements IEnum<Boolean> {
 
-    PARENT(TRUE, "一级"),
-    NON_PARENT(FALSE, "二级");
+    PARENT(true, "一级"),
+    NON_PARENT(false, "二级");
 
     private Boolean value;
     private String desc;
+
+    public static String getDesc(Boolean value) {
+        return value.equals(TRUE)?PARENT.getDesc():NON_PARENT.getDesc();
+    }
 }
 

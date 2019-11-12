@@ -2,7 +2,6 @@ package com.rainbow.admin.api.dto;
 
 
 import com.rainbow.common.dto.BaseDTO;
-import com.rainbow.common.dto.IdNameDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -28,7 +27,7 @@ public class ItemSaveDTO extends BaseDTO {
     private Long parentId;
 
     @ApiModelProperty(value = "类别编号")
-    @Range(min = 10000, max = 20000, message = "只能是10000-20000内的数")
+    @Range(min = 10000, max = 20000, message = "类别编号只能是10000-20000内的数")
     private Long itemNo;
 
 }
