@@ -29,18 +29,16 @@
             b.update_time
         FROM
             brand b
-            RIGHT JOIN brand_item bi
-            ON b.id = bi.brand_id
         WHERE
         b.del_status = 0
         <if test="itemId != null">
-            AND bi.item_id = #{itemId}
+            AND b.id in (
+                select bi.brand_id from brand_item bi where bi.item_id = #{itemId}
+            )
         </if>
         <if test="brandName!=null">
             AND b.name like CONCAT('%',#{brandName},'%')
         </if>
-        ORDER BY
-            bi.sort_id ASC
     </select>
 
 </mapper>

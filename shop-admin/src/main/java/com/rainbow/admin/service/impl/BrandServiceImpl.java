@@ -56,7 +56,6 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
                     brandSimpleVO.setName(brand.getName());
                     brandSimpleVO.setCreateTime(brand.getCreateTime());
                     brandSimpleVO.setUpdateTime(brand.getUpdateTime());
-                    brandSimpleVO.setDescription(brand.getDescription());
                     brandSimpleVO.setLogo(brand.getLogo());
                     return brandSimpleVO;
                 }

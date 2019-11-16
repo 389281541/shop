@@ -21,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -55,17 +56,35 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
         IPage<Item> items = page(page, condition);
         Item parentItem = baseMapper.selectById(parentId);
         final String parentName = parentItem == null ? DEFAULT_PARENTNAME : parentItem.getName();
-        return items.convert(item -> {
-            ItemSimpleVO itemVO = new ItemSimpleVO();
-            itemVO.setId(item.getId());
-            itemVO.setName(item.getName());
-            itemVO.setItemNo(item.getItemNo());
-            itemVO.setLevel(ItemLevelEnum.getDesc(item.getParent()));
-            itemVO.setCreateTime(item.getCreateTime());
-            itemVO.setParent(item.getParent());
-            itemVO.setParentName(parentName);
-            return itemVO;
-        });
+        return items.convert(item -> convert2VO(item, parentName));
+    }
+
+    @Override
+    public List<ItemSimpleVO> listAllSubItem() {
+        LambdaQueryWrapper<Item> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Item::getParent,Boolean.FALSE);
+        wrapper.eq(Item::getDelStatus, DelFlagEnum.NO.getValue());
+        List<Item> items = baseMapper.selectList(wrapper);
+
+        wrapper.eq(Item::getParent,Boolean.TRUE);
+        List<Item> parentItems = baseMapper.selectList(wrapper);
+        Map<Long, String> parentNameMap = parentItems.stream().collect(Collectors.toMap(Item::getId, Item::getName));
+
+        return items.stream().map(item->
+            convert2VO(item,parentNameMap.get(item.getParentId()))
+        ).collect(Collectors.toList());
+    }
+
+    private ItemSimpleVO convert2VO(Item item, String parentName) {
+        ItemSimpleVO itemVO = new ItemSimpleVO();
+        itemVO.setId(item.getId());
+        itemVO.setName(item.getName());
+        itemVO.setItemNo(item.getItemNo());
+        itemVO.setLevel(ItemLevelEnum.getDesc(item.getParent()));
+        itemVO.setCreateTime(item.getCreateTime());
+        itemVO.setParent(item.getParent());
+        itemVO.setParentName(parentName);
+        return itemVO;
     }
 
 

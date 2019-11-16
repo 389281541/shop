@@ -21,9 +21,6 @@ public class BrandSimpleVO extends IdNameVO {
     @ApiModelProperty(value = "品牌logo")
     private String logo;
 
-    @ApiModelProperty(value = "品牌描述")
-    private String description;
-
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 

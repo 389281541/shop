@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 类别表 前端控制器
@@ -68,6 +69,13 @@ public class ItemController {
     public R<Boolean> remove(@Valid @RequestBody IdDTO param) {
         Integer result = itemService.removeItem(param);
         return new R<>(result > 0 ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+
+    @ApiOperation(value = "子类别列表", notes = "类别移除", httpMethod = "POST")
+    @PostMapping("/subList")
+    public R<List<ItemSimpleVO>> subList() {
+        return new R<>(itemService.listAllSubItem());
     }
 
 

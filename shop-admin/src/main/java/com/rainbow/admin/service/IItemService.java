@@ -11,6 +11,8 @@ import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdPageDTO;
 import com.rainbow.common.dto.PageDTO;
 
+import java.util.List;
+
 /**
  * 类别表 服务类
  *
@@ -55,4 +57,10 @@ public interface IItemService extends IService<Item> {
      * @return
      */
     Integer removeItem(IdDTO param);
+
+    /**
+     * 获取所有子类类别
+     * @return
+     */
+    List<ItemSimpleVO> listAllSubItem();
 }

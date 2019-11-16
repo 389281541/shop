@@ -19,4 +19,7 @@ public class BrandDetailVO extends BrandSimpleVO {
 
     @ApiModelProperty(value = "类别ID")
     private List<Long> itemIds;
+
+    @ApiModelProperty(value = "品牌描述")
+    private String description;
 }
