@@ -19,7 +19,7 @@
     </sql>
 
     <select id="pageBrandByItemId" resultMap="BaseResultMap">
-        SELECT
+        select
             b.id,
             b.name,
             b.logo,
@@ -27,17 +27,17 @@
             b.del_status,
             b.create_time,
             b.update_time
-        FROM
+        from
             brand b
-        WHERE
+        where
         b.del_status = 0
         <if test="itemId != null">
-            AND b.id in (
+            and b.id in (
                 select bi.brand_id from brand_item bi where bi.item_id = #{itemId}
             )
         </if>
         <if test="brandName!=null">
-            AND b.name like CONCAT('%',#{brandName},'%')
+            and b.name like CONCAT('%',#{brandName},'%')
         </if>
     </select>
 

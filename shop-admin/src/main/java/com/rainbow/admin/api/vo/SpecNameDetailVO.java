@@ -1,7 +1,6 @@
 package com.rainbow.admin.api.vo;
 
-import com.rainbow.common.vo.IdNameAvatarVO;
-import com.rainbow.common.vo.IdNameVO;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -9,15 +8,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "AdminstratorSimpleVO", description = "管理者信息VO")
-public class AdminstratorSimpleVO extends IdNameAvatarVO {
+@ApiModel(value = "BrandDetailVO", description = "品牌VO")
+public class SpecNameDetailVO extends SpecNameSimpleVO {
 
-    @ApiModelProperty(value = "角色")
-    private List<IdNameVO> roles;
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createTime;
+
+    @ApiModelProperty(value = "更新时间")
+    private LocalDateTime updateTime;
 }

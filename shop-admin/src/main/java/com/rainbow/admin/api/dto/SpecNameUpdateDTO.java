@@ -9,18 +9,12 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * 品牌更新DTO
- *
- * @author lujinwei
- * @since 2019-09-24
- */
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "BrandUpdateDTO", description = "品牌更新DTO")
-public class BrandUpdateDTO extends BrandSaveDTO {
+@ApiModel(value = "SpecNameUpdateDTO", description = "属性名更新传输对象")
+public class SpecNameUpdateDTO extends SpecNameSaveDTO {
 
     @ApiModelProperty(value = "品牌ID")
     @NotNull(message = "ID不能为空")

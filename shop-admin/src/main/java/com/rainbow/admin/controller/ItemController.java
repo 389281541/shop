@@ -9,7 +9,6 @@ import com.rainbow.admin.api.vo.ItemSimpleVO;
 import com.rainbow.admin.service.IItemService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdPageDTO;
-import com.rainbow.common.dto.PageDTO;
 import com.rainbow.common.dto.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,7 +38,7 @@ public class ItemController {
 
     @ApiOperation(value = "类别列表", notes = "类别列表", httpMethod = "POST")
     @PostMapping("/page")
-    public R<IPage<ItemSimpleVO>> pageSub(@Valid @RequestBody IdPageDTO param) {
+    public R<IPage<ItemSimpleVO>> page(@Valid @RequestBody IdPageDTO param) {
         return new R<>(itemService.pageItem(param));
     }
 

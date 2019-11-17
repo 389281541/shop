@@ -28,14 +28,14 @@ public class MpGenerator {
     public void generateCode() {
         String packageName = "com.rainbow.admin";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "permission");
+        generateByTables(serviceNameStartWithI, packageName, "spec_name");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
 //        String dbUrl = "jdbc:mysql://172.21.139.13:3312/tx_yunying";
-//        String dbUrl = "jdbc:mysql://192.168.113.128:3306/vvshop_user";
-        String dbUrl = "jdbc:mysql://127.0.0.1:3306/vvshop_user";
+        String dbUrl = "jdbc:mysql://192.168.113.128:3306/vvshop_goods";
+//        String dbUrl = "jdbc:mysql://127.0.0.1:3306/vvshop_user";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
@@ -65,8 +65,8 @@ public class MpGenerator {
                 .setOutputDir("src/main/java")
                 .setSwagger2(true)
                 .setEnableCache(false)
-//                .setBaseResultMap(true)
-//                .setBaseColumnList(true)
+                .setBaseResultMap(true)
+                .setBaseColumnList(true)
                 .setFileOverride(true);//生成基本的SQL片段 ;
 
         // 注入自定义配置，可以在 VM 中使用 cfg.abc 【可无】
@@ -109,7 +109,12 @@ public class MpGenerator {
 //                    return false;
 //                }
                 //不存在的文件都需要创建
-                return  true;
+                if (filePath.endsWith("Mapper.xml")) {
+                    return true;
+                } else {
+                    return false;
+                }
+//                return  true;
             }
         });
         if (!serviceNameStartWithI) {
