@@ -45,7 +45,7 @@ public class AdministratorController {
     }
 
 
-    @ApiOperation(value = "登陆", notes = "通过用户名登陆", httpMethod = "GET")
+    @ApiOperation(value = "用户信息", notes = "用户信息", httpMethod = "GET")
     @GetMapping("/info")
     public R<AdminstratorSimpleVO> info(Principal principal) {
         String username = principal.getName();
