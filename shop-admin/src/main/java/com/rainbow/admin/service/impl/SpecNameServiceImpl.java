@@ -22,6 +22,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 规格名称表 服务实现类
@@ -40,25 +41,14 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
 
     @Override
     public IPage<SpecNameSimpleVO> pageSpecName(SpecNameSearchDTO param) {
-//        LambdaQueryWrapper<SpecName> wrapper = new LambdaQueryWrapper<>();
-//        wrapper.eq(SpecName::getItemId, param.getId());
-//        wrapper.like(SpecName::getName, param.getName());
-//        wrapper.eq(SpecName::getColor, param.getColor());
-//        wrapper.eq(SpecName::getEnumeration, param.getEnumeration());
-//        wrapper.eq(SpecName::getInput, param.getInput());
-//        wrapper.eq(SpecName::getKey, param.getKey());
-//        wrapper.eq(SpecName::getSku, param.getSku());
-//        wrapper.eq(SpecName::getSearch, param.getSearch());
-//        wrapper.eq(SpecName::getMultiple, param.getMultiple());
-//        wrapper.eq(SpecName::getDelStatus, DelFlagEnum.NO.getValue());
-//        Page<SpecName> page = new Page<>(param.getPageNum(), param.getPageSize());
-//        IPage<SpecName> specNameList = page(page, wrapper);
-//        return specNameList.convert(x->{
-//            SpecNameSimpleVO specNameSimpleVO = new SpecNameSimpleVO();
-//            BeanUtils.copyProperties(x,specNameSimpleVO);
-//            return specNameSimpleVO;
-//        });
-        return null;
+        IPage<SpecName> specNamePage = new Page<>(param.getPageNum(), param.getPageSize());
+        List<SpecName> specNames = baseMapper.pageSpecName(param, specNamePage);
+        specNamePage.setRecords(specNames);
+        return specNamePage.convert(x->{
+            SpecNameSimpleVO specNameSimpleVO = new SpecNameSimpleVO();
+            BeanUtils.copyProperties(x,specNameSimpleVO);
+            return specNameSimpleVO;
+        });
     }
 
     @Override

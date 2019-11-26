@@ -1,6 +1,6 @@
 package com.rainbow.admin.api.dto;
 
-import com.rainbow.common.dto.IdNameDTO;
+import com.rainbow.common.dto.IdNamePageDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "SpecNameSearchDTO", description = "属性名搜索对象")
-public class SpecNameSearchDTO extends IdNameDTO {
+public class SpecNameSearchDTO extends IdNamePageDTO {
 
     @ApiModelProperty(value = "是否颜色属性：0-不是 1-是")
     private Integer color;

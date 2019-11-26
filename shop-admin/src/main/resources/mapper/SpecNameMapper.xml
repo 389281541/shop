@@ -19,7 +19,7 @@
         <result column="del_status" property="delStatus" />
         <result column="update_time" property="updateTime" />
         <result column="create_time" property="createTime" />
-        <collection property="specValues" column="spec_name_id" ofType="com.rainbow.common.model.IdName">
+        <collection property="specValues" column="spec_name_id" ofType="com.rainbow.common.vo.IdNameVO">
             <id column="spec_name_id" property="id"/>
             <result column="spec_value" property="name"/>
         </collection>

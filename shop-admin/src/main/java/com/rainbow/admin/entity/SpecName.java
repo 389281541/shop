@@ -3,6 +3,7 @@ package com.rainbow.admin.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.rainbow.common.model.IdName;
+import com.rainbow.common.vo.IdNameVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -39,39 +40,39 @@ public class SpecName extends Model<SpecName> {
 
     @ApiModelProperty(value = "是否存在别名 0-不存在 1-存在")
     @TableField("exist_alias")
-    private Boolean existAlias;
+    private Integer existAlias;
 
     @ApiModelProperty(value = "是否颜色属性 0-不是 1-是")
     @TableField("is_color")
-    private Boolean color;
+    private Integer color;
 
     @ApiModelProperty(value = "是否枚举属性 0-不是 1-是")
     @TableField("is_enumeration")
-    private Boolean enumeration;
+    private Integer enumeration;
 
     @ApiModelProperty(value = "是否输入属性 0-不是 1-是")
     @TableField("is_input")
-    private Boolean input;
+    private Integer input;
 
     @ApiModelProperty(value = "是否关键属性 0-不是 1-是")
     @TableField("is_key")
-    private Boolean key;
+    private Integer key;
 
     @ApiModelProperty(value = "是否销售属性 0-不是 1-是")
     @TableField("is_sku")
-    private Boolean sku;
+    private Integer sku;
 
     @ApiModelProperty(value = "是否搜索字段 0-不是 1-是")
     @TableField("is_search")
-    private Boolean search;
+    private Integer search;
 
     @ApiModelProperty(value = "是否必须 0-不是 1-是")
     @TableField("is_must")
-    private Boolean must;
+    private Integer must;
 
     @ApiModelProperty(value = "是否多选 0-不是 1-是")
     @TableField("is_multiple")
-    private Boolean multiple;
+    private Integer multiple;
 
     @ApiModelProperty(value = "删除状态 0-未删除 1-已删除")
     @TableField("del_status")
@@ -87,6 +88,6 @@ public class SpecName extends Model<SpecName> {
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "属性值列表")
-    private List<IdName> specValues;
+    private List<IdNameVO> specValues;
 
 }
