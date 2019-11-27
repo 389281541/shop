@@ -92,7 +92,6 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public Boolean updateBrand(BrandUpdateDTO param) {
 
         //更新品牌内容

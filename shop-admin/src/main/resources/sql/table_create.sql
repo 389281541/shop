@@ -203,8 +203,7 @@ CREATE TABLE vvshop_goods.brand_item
     sort_id bigint(20) NOT NULL COMMENT '排序ID',
     update_time timestamp default NULL NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
-    PRIMARY KEY (id),
-    UNIQUE KEY (item_id, sort_id)
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '品牌种类关联表';
 
 INSERT INTO vvshop_goods.brand_item values (1, 1, 9, 1, NULL, CURRENT_TIMESTAMP());
