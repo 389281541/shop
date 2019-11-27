@@ -18,9 +18,12 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "SpecValueSaveDTO", description = "属性值保存传输对象")
 public class SpecValueSaveDTO extends BaseDTO {
 
+    @ApiModelProperty(value = "属性名ID")
+    private Long specNameId;
+
     @ApiModelProperty(value = "名称")
-    @NotBlank(message = "名称不能为空")
-    private String name;
+    @NotBlank(message = "属性值不能为空")
+    private String specValue;
 
     @ApiModelProperty(value = "排序ID")
     @NotNull(message = "排序ID不能为空")

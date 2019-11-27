@@ -162,7 +162,8 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
     public Integer removeItem(IdDTO param) {
         Long itemId = param.getId();
         Item item = baseMapper.selectById(itemId);
-        if (item.getParent()) {   //父类-删除相关联的全部子类
+        if (item.getParent()) {
+            //父类-删除相关联的全部子类
             LambdaQueryWrapper<Item> wrapper = new LambdaQueryWrapper<>();
             wrapper.eq(Item::getParentId, item.getParentId());
             wrapper.eq(Item::getDelStatus, item.getDelStatus());
