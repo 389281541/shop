@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.rainbow.admin.api.dto.ItemSaveDTO;
 import com.rainbow.admin.api.dto.ItemUpdateDTO;
 import com.rainbow.admin.api.vo.ItemDetailVO;
 import com.rainbow.admin.api.vo.ItemSimpleVO;
+import com.rainbow.admin.api.vo.ItemWithChildrenVO;
 import com.rainbow.admin.entity.Item;
 import com.rainbow.admin.enums.ItemLevelEnum;
 import com.rainbow.admin.mapper.ItemMapper;
@@ -60,19 +62,20 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
     }
 
     @Override
-    public List<ItemSimpleVO> listAllSubItem() {
-        LambdaQueryWrapper<Item> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Item::getParent,Boolean.FALSE);
-        wrapper.eq(Item::getDelStatus, DelFlagEnum.NO.getValue());
-        List<Item> items = baseMapper.selectList(wrapper);
+    public List<ItemWithChildrenVO> listWidthSubItem() {
 
-        wrapper.eq(Item::getParent,Boolean.TRUE);
-        List<Item> parentItems = baseMapper.selectList(wrapper);
-        Map<Long, String> parentNameMap = parentItems.stream().collect(Collectors.toMap(Item::getId, Item::getName));
-
-        return items.stream().map(item->
-            convert2VO(item,parentNameMap.get(item.getParentId()))
-        ).collect(Collectors.toList());
+        List<Item> items = baseMapper.listWithChildren();
+        List<ItemWithChildrenVO> itemWithChildrenVOList = Lists.newArrayList();
+        if (!CollectionUtils.isEmpty(items)) {
+            itemWithChildrenVOList = items.stream().map(x -> {
+                ItemWithChildrenVO itemVO = new ItemWithChildrenVO();
+                itemVO.setChildren(x.getChildren());
+                itemVO.setId(x.getId());
+                itemVO.setName(x.getName());
+                return itemVO;
+            }).collect(Collectors.toList());
+        }
+        return itemWithChildrenVOList;
     }
 
     private ItemSimpleVO convert2VO(Item item, String parentName) {

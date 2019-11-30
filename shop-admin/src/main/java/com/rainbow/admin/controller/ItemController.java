@@ -6,6 +6,7 @@ import com.rainbow.admin.api.dto.ItemSaveDTO;
 import com.rainbow.admin.api.dto.ItemUpdateDTO;
 import com.rainbow.admin.api.vo.ItemDetailVO;
 import com.rainbow.admin.api.vo.ItemSimpleVO;
+import com.rainbow.admin.api.vo.ItemWithChildrenVO;
 import com.rainbow.admin.service.IItemService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdPageDTO;
@@ -72,9 +73,9 @@ public class ItemController {
 
 
     @ApiOperation(value = "子类别列表", notes = "类别移除", httpMethod = "POST")
-    @PostMapping("/subList")
-    public R<List<ItemSimpleVO>> subList() {
-        return new R<>(itemService.listAllSubItem());
+    @PostMapping("/listWithChildren")
+    public R<List<ItemWithChildrenVO>> subList() {
+        return new R<>(itemService.listWidthSubItem());
     }
 
 

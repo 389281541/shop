@@ -6,6 +6,7 @@ import com.rainbow.admin.api.dto.ItemSaveDTO;
 import com.rainbow.admin.api.dto.ItemUpdateDTO;
 import com.rainbow.admin.api.vo.ItemDetailVO;
 import com.rainbow.admin.api.vo.ItemSimpleVO;
+import com.rainbow.admin.api.vo.ItemWithChildrenVO;
 import com.rainbow.admin.entity.Item;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdPageDTO;
@@ -62,5 +63,5 @@ public interface IItemService extends IService<Item> {
      * 获取所有子类类别
      * @return
      */
-    List<ItemSimpleVO> listAllSubItem();
+    List<ItemWithChildrenVO> listWidthSubItem();
 }

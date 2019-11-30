@@ -2,7 +2,9 @@ package com.rainbow.admin;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rainbow.admin.api.dto.SpecNameSearchDTO;
+import com.rainbow.admin.entity.Item;
 import com.rainbow.admin.entity.SpecName;
+import com.rainbow.admin.mapper.ItemMapper;
 import com.rainbow.admin.mapper.SpecNameMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +22,9 @@ public class SpecNameTest {
 
     @Resource
     private SpecNameMapper specNameMapper;
+
+    @Resource
+    private ItemMapper itemMapper;
 //https://cloud.tencent.com/developer/article/1432227
     @Test
     public void test() {
@@ -28,5 +33,11 @@ public class SpecNameTest {
         Page<SpecName> page = new Page<>(1, 5);
         List<SpecName> specNames = specNameMapper.pageSpecName(param, page);
         System.out.println(specNames);
+    }
+
+    @Test
+    public void testItem() {
+        List<Item> items = itemMapper.listWithChildren();
+        System.out.println(items);
     }
 }

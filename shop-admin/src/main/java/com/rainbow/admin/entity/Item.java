@@ -2,6 +2,7 @@ package com.rainbow.admin.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.rainbow.common.vo.IdNameVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 类别表
@@ -59,6 +61,9 @@ public class Item extends Model<Item> {
     @ApiModelProperty(value = "创建时间")
     @TableField("create_time")
     private LocalDateTime createTime;
+
+    @ApiModelProperty(value = "子类名列表")
+    private List<IdNameVO> children;
 
 
 }
