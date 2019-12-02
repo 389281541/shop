@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.admin.api.dto.SpecValueSaveDTO;
 import com.rainbow.admin.api.dto.SpecValueUpdateDTO;
 import com.rainbow.admin.api.vo.SpecValueDetailVO;
+import com.rainbow.admin.api.vo.SpecValuePageVO;
 import com.rainbow.admin.api.vo.SpecValueSimpleVO;
 import com.rainbow.admin.entity.SpecValue;
 import com.rainbow.common.dto.IdDTO;
@@ -18,7 +19,7 @@ import com.rainbow.common.dto.IdPageDTO;
  */
 public interface ISpecValueService extends IService<SpecValue> {
 
-    IPage<SpecValueSimpleVO> pageSpecValue(IdPageDTO param);
+    SpecValuePageVO pageSpecValue(IdPageDTO param);
 
     Integer saveSpecValue(SpecValueSaveDTO param);
 

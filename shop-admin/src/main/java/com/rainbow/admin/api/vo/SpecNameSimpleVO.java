@@ -17,6 +17,9 @@ import java.util.List;
 @ApiModel(value = "SpecNameSimpleVO", description = "属性名VO")
 public class SpecNameSimpleVO extends IdNameVO {
 
+    @ApiModelProperty(value = "类别ID")
+    private Long itemId;
+
     @ApiModelProperty(value = "是否存在别名：0-不存在 1-存在")
     private Integer existAlias;
 
@@ -30,7 +33,7 @@ public class SpecNameSimpleVO extends IdNameVO {
     private Integer input;
 
     @ApiModelProperty(value = "是否关键属性：0-不是 1-是")
-    private Integer key;
+    private Integer critical;
 
     @ApiModelProperty(value = "是否销售属性：0-不是 1-是")
     private Integer sku;

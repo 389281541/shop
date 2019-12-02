@@ -328,7 +328,7 @@ CREATE TABLE vvshop_goods.spec_name
     is_color tinyint(1) default 0 NOT NULL COMMENT '是否颜色属性 0-不是 1-是',
     is_enum tinyint(1) default 0 NOT NULL COMMENT '是否枚举属性 0-不是 1-是',
     is_input tinyint(1) default 0 NOT NULL COMMENT '是否输入属性 0-不是 1-是',
-    is_key tinyint(1) default 0 NOT NULL COMMENT '是否关键属性 0-不是 1-是',
+    is_critical tinyint(1) default 0 NOT NULL COMMENT '是否关键属性 0-不是 1-是',
     is_sku tinyint(1) default 0 NOT NULL COMMENT '是否销售属性 0-不是 1-是',
     is_search tinyint(1) default 0 NOT NULL COMMENT '是否搜索字段 0-不是 1-是',
     is_must  tinyint(1) default 0 NOT NULL COMMENT '是否必须 0-不是 1-是',

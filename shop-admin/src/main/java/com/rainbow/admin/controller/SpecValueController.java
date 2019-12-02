@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.admin.api.dto.SpecValueSaveDTO;
 import com.rainbow.admin.api.dto.SpecValueUpdateDTO;
 import com.rainbow.admin.api.vo.SpecValueDetailVO;
+import com.rainbow.admin.api.vo.SpecValuePageVO;
 import com.rainbow.admin.api.vo.SpecValueSimpleVO;
 import com.rainbow.admin.service.ISpecValueService;
 import com.rainbow.common.dto.IdDTO;
@@ -36,7 +37,7 @@ public class SpecValueController {
 
     @ApiOperation(value = "属性名列表", notes = "属性名列表", httpMethod = "POST")
     @PostMapping("/page")
-    public R<IPage<SpecValueSimpleVO>> page(@Valid @RequestBody IdPageDTO param) {
+    public R<SpecValuePageVO> page(@Valid @RequestBody IdPageDTO param) {
         return new R<>(specValueService.pageSpecValue(param));
     }
 

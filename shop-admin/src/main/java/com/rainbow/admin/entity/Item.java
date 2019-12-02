@@ -62,8 +62,4 @@ public class Item extends Model<Item> {
     @TableField("create_time")
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "子类名列表")
-    private List<IdNameVO> children;
-
-
 }

@@ -3,6 +3,7 @@ package com.rainbow.admin;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rainbow.admin.api.dto.SpecNameSearchDTO;
 import com.rainbow.admin.entity.Item;
+import com.rainbow.admin.entity.ItemWithChildren;
 import com.rainbow.admin.entity.SpecName;
 import com.rainbow.admin.mapper.ItemMapper;
 import com.rainbow.admin.mapper.SpecNameMapper;
@@ -37,7 +38,7 @@ public class SpecNameTest {
 
     @Test
     public void testItem() {
-        List<Item> items = itemMapper.listWithChildren();
+        List<ItemWithChildren> items = itemMapper.listWithChildren();
         System.out.println(items);
     }
 }

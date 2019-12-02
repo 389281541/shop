@@ -9,9 +9,11 @@ import com.rainbow.admin.api.dto.SpecNameSearchDTO;
 import com.rainbow.admin.api.dto.SpecNameUpdateDTO;
 import com.rainbow.admin.api.vo.SpecNameDetailVO;
 import com.rainbow.admin.api.vo.SpecNameSimpleVO;
+import com.rainbow.admin.entity.Item;
 import com.rainbow.admin.entity.SpecName;
 import com.rainbow.admin.entity.SpecValue;
 import com.rainbow.admin.entity.SpuSpec;
+import com.rainbow.admin.mapper.ItemMapper;
 import com.rainbow.admin.mapper.SpecNameMapper;
 import com.rainbow.admin.mapper.SpecValueMapper;
 import com.rainbow.admin.mapper.SpuSpecMapper;
@@ -22,6 +24,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -38,6 +41,9 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
 
     @Resource
     private SpecValueMapper specValueMapper;
+
+    @Resource
+    private ItemMapper itemMapper;
 
     @Override
     public IPage<SpecNameSimpleVO> pageSpecName(SpecNameSearchDTO param) {
@@ -62,6 +68,7 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
     public Integer updateSpecName(SpecNameUpdateDTO param) {
         SpecName specName = new SpecName();
         BeanUtils.copyProperties(param, specName);
+        specName.setUpdateTime(LocalDateTime.now());
         return baseMapper.updateById(specName);
     }
 
@@ -70,6 +77,8 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
         SpecName specName = baseMapper.selectById(param.getId());
         SpecNameDetailVO specNameDetailVO = new SpecNameDetailVO();
         BeanUtils.copyProperties(specName, specNameDetailVO);
+        Item item = itemMapper.selectById(specName.getItemId());
+        specNameDetailVO.setParentItemId(item.getParentId());
         return specNameDetailVO;
     }
 

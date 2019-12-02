@@ -17,6 +17,9 @@ import java.time.LocalDateTime;
 @ApiModel(value = "BrandDetailVO", description = "品牌VO")
 public class SpecNameDetailVO extends SpecNameSimpleVO {
 
+    @ApiModelProperty(value = "父类别ID")
+    private Long parentItemId;
+
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 

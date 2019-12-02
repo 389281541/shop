@@ -10,7 +10,6 @@ import com.rainbow.admin.api.vo.ItemWithChildrenVO;
 import com.rainbow.admin.entity.Item;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdPageDTO;
-import com.rainbow.common.dto.PageDTO;
 
 import java.util.List;
 
@@ -60,8 +59,14 @@ public interface IItemService extends IService<Item> {
     Integer removeItem(IdDTO param);
 
     /**
-     * 获取所有子类类别
+     * 获取父类及其子类别子类类别
      * @return
      */
     List<ItemWithChildrenVO> listWidthSubItem();
+
+    /**
+     * 获取所有子类别
+     * @return
+     */
+    List<ItemSimpleVO> listAllSubItem();
 }

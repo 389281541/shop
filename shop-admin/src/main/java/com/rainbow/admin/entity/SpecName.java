@@ -2,8 +2,6 @@ package com.rainbow.admin.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.rainbow.common.model.IdName;
-import com.rainbow.common.vo.IdNameVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -11,7 +9,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 规格名称表
@@ -55,8 +52,8 @@ public class SpecName extends Model<SpecName> {
     private Integer input;
 
     @ApiModelProperty(value = "是否关键属性 0-不是 1-是")
-    @TableField("is_key")
-    private Integer key;
+    @TableField("is_critical")
+    private Integer critical;
 
     @ApiModelProperty(value = "是否销售属性 0-不是 1-是")
     @TableField("is_sku")
@@ -86,8 +83,5 @@ public class SpecName extends Model<SpecName> {
     @ApiModelProperty(value = "创建时间")
     @TableField("create_time")
     private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "属性值列表")
-    private List<IdNameVO> specValues;
 
 }

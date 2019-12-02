@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.SpecNameMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.entity.SpecName">
+    <resultMap id="BaseResultMap" type="com.rainbow.admin.entity.SpecNameWithValues">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="item_id" property="itemId" />
@@ -11,7 +11,7 @@
         <result column="is_color" property="color" />
         <result column="is_enumeration" property="enumeration" />
         <result column="is_input" property="input" />
-        <result column="is_key" property="key" />
+        <result column="is_critical" property="critical" />
         <result column="is_sku" property="sku" />
         <result column="is_search" property="search" />
         <result column="is_must" property="must" />
@@ -27,7 +27,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, item_id, exist_alias, is_color, is_enumeration, is_input, is_key, is_sku, is_search, is_must, is_multiple, del_status, update_time, create_time
+        id, name, item_id, exist_alias, is_color, is_enumeration, is_input, is_critical, is_sku, is_search, is_must, is_multiple, del_status, update_time, create_time
     </sql>
 
     <select id="pageSpecName" parameterType="com.rainbow.admin.api.dto.SpecNameSearchDTO" resultMap="BaseResultMap">
@@ -55,8 +55,8 @@
         <if test="param.input != null">
             and sn.is_input = #{param.input}
         </if>
-        <if test="param.key != null">
-            and sn.is_key = #{param.key}
+        <if test="param.critical != null">
+            and sn.is_critical = #{param.critical}
         </if>
         <if test="param.sku != null">
             and sn.is_sku = #{param.sku}

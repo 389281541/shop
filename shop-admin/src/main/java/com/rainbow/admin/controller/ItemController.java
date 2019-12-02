@@ -72,12 +72,17 @@ public class ItemController {
     }
 
 
-    @ApiOperation(value = "子类别列表", notes = "类别移除", httpMethod = "POST")
+    @ApiOperation(value = "父类及其子类别列表", notes = "父类及其子类别列表", httpMethod = "POST")
     @PostMapping("/listWithChildren")
-    public R<List<ItemWithChildrenVO>> subList() {
+    public R<List<ItemWithChildrenVO>> listWithChildren() {
         return new R<>(itemService.listWidthSubItem());
     }
 
+    @ApiOperation(value = "子类别列表", notes = "子类别列表", httpMethod = "POST")
+    @PostMapping("/subList")
+    public R<List<ItemSimpleVO>> subList() {
+        return new R<>(itemService.listAllSubItem());
+    }
 
 }
 

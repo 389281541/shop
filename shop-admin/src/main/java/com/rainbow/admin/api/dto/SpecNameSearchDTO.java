@@ -25,7 +25,7 @@ public class SpecNameSearchDTO extends IdNamePageDTO {
     private Integer input;
 
     @ApiModelProperty(value = "是否关键属性：0-不是 1-是")
-    private Integer key;
+    private Integer critical;
 
     @ApiModelProperty(value = "是否销售属性：0-不是 1-是")
     private Integer sku;

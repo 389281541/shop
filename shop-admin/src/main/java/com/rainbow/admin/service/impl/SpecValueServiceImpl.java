@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainbow.admin.api.dto.SpecValueSaveDTO;
 import com.rainbow.admin.api.dto.SpecValueUpdateDTO;
 import com.rainbow.admin.api.vo.SpecValueDetailVO;
+import com.rainbow.admin.api.vo.SpecValuePageVO;
 import com.rainbow.admin.api.vo.SpecValueSimpleVO;
 import com.rainbow.admin.entity.SpecName;
 import com.rainbow.admin.entity.SpecValue;
@@ -34,21 +35,27 @@ public class SpecValueServiceImpl extends ServiceImpl<SpecValueMapper, SpecValue
     private SpecNameMapper specNameMapper;
 
     @Override
-    public IPage<SpecValueSimpleVO> pageSpecValue(IdPageDTO param) {
+    public SpecValuePageVO pageSpecValue(IdPageDTO param) {
+        SpecValuePageVO specValuePageVO = new SpecValuePageVO();
         Page<SpecValue> specValuePage = new Page<>(param.getPageNum(), param.getPageSize());
         LambdaQueryWrapper<SpecValue> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(SpecValue::getSpecNameId, param.getId());
         wrapper.eq(SpecValue::getDelStatus, DelFlagEnum.NO.getValue());
         wrapper.orderByAsc(SpecValue::getSortId);
         IPage<SpecValue> specValueList = page(specValuePage, wrapper);
-
-        return specValueList.convert(x->{
+        //分页数据
+        IPage<SpecValueSimpleVO> simpleVOIPage = specValueList.convert(x -> {
             SpecValueSimpleVO specValueSimpleVO = new SpecValueSimpleVO();
             specValueSimpleVO.setId(x.getId());
             specValueSimpleVO.setName(x.getSpecValue());
             specValueSimpleVO.setSortId(x.getSortId());
+            specValueSimpleVO.setCreateTime(x.getCreateTime());
             return specValueSimpleVO;
         });
+        specValuePageVO.setSpecValuePage(simpleVOIPage);
+        SpecName specName = specNameMapper.selectById(param.getId());
+        specValuePageVO.setSpecName(specName.getName());
+        return specValuePageVO;
     }
 
     @Override

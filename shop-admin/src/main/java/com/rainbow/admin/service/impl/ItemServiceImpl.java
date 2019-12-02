@@ -11,6 +11,7 @@ import com.rainbow.admin.api.vo.ItemDetailVO;
 import com.rainbow.admin.api.vo.ItemSimpleVO;
 import com.rainbow.admin.api.vo.ItemWithChildrenVO;
 import com.rainbow.admin.entity.Item;
+import com.rainbow.admin.entity.ItemWithChildren;
 import com.rainbow.admin.enums.ItemLevelEnum;
 import com.rainbow.admin.mapper.ItemMapper;
 import com.rainbow.admin.service.IItemService;
@@ -64,7 +65,7 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
     @Override
     public List<ItemWithChildrenVO> listWidthSubItem() {
 
-        List<Item> items = baseMapper.listWithChildren();
+        List<ItemWithChildren> items = baseMapper.listWithChildren();
         List<ItemWithChildrenVO> itemWithChildrenVOList = Lists.newArrayList();
         if (!CollectionUtils.isEmpty(items)) {
             itemWithChildrenVOList = items.stream().map(x -> {
@@ -177,6 +178,23 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
             }
         }
         return baseMapper.deleteById(itemId);
+    }
+
+
+    @Override
+    public List<ItemSimpleVO> listAllSubItem() {
+        LambdaQueryWrapper<Item> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Item::getParent,Boolean.FALSE);
+        wrapper.eq(Item::getDelStatus, DelFlagEnum.NO.getValue());
+        List<Item> items = baseMapper.selectList(wrapper);
+
+        wrapper.eq(Item::getParent,Boolean.TRUE);
+        List<Item> parentItems = baseMapper.selectList(wrapper);
+        Map<Long, String> parentNameMap = parentItems.stream().collect(Collectors.toMap(Item::getId, Item::getName));
+
+        return items.stream().map(item->
+                convert2VO(item,parentNameMap.get(item.getParentId()))
+        ).collect(Collectors.toList());
     }
 }
 

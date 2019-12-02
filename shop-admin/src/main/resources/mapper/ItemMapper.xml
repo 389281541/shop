@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.ItemMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.entity.Item">
+    <resultMap id="BaseResultMap" type="com.rainbow.admin.entity.ItemWithChildren">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="item_no" property="itemNo" />
