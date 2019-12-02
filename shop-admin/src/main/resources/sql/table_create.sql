@@ -370,7 +370,7 @@ CREATE TABLE vvshop_goods.shop
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='店铺表';
 
 
-
+DROP TABLE vvshop_goods.spu;
 CREATE TABLE vvshop_goods.spu
 (
     id bigint(20)  AUTO_INCREMENT COMMENT '主键ID',
@@ -379,6 +379,7 @@ CREATE TABLE vvshop_goods.spu
     brand_id bigint(20) NOT NULL COMMENT '品牌ID',
     item_id bigint(20) NOT NULL COMMENT '类别ID',
     shop_id bigint(20) NOT NULL COMMENT '店铺ID',
+    sale    int(11) DEFAULT 0 COMMENT '销量',
     description varchar(1000) DEFAULT NULL COMMENT '商品描述',
     sale_status TINYINT NOT NULL DEFAULT 0 COMMENT '上下架状态 0下架 1上架',
     audit_status TINYINT NOT NULL DEFAULT 0 COMMENT '审核状态：0未审核，1审核通过，2审核驳回',
@@ -412,6 +413,7 @@ CREATE TABLE vvshop_goods.spu_spec
     id            bigint(20) AUTO_INCREMENT COMMENT '主键ID',
     spu_id    bigint(20)                          NOT NULL COMMENT '商品ID',
     spec_name_id  bigint(20)                          NOT NULL COMMENT '属性名ID',
+    sort_id int(11) NOT NULL COMMENT '商品顺序',
     del_status    tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time   timestamp default NULL NULL COMMENT '更新时间',
     create_time   timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
