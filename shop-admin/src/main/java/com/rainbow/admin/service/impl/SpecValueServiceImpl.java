@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.rainbow.admin.api.dto.SpecValueSaveDTO;
 import com.rainbow.admin.api.dto.SpecValueUpdateDTO;
 import com.rainbow.admin.api.dto.UpDownRankingDTO;
@@ -17,6 +18,7 @@ import com.rainbow.admin.mapper.SpecValueMapper;
 import com.rainbow.admin.service.ISpecValueService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdPageDTO;
+import com.rainbow.common.dto.TwoTuple;
 import com.rainbow.common.enums.BooleanEnum;
 import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.exception.BusinessException;
@@ -26,7 +28,6 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -114,34 +115,36 @@ public class SpecValueServiceImpl extends ServiceImpl<SpecValueMapper, SpecValue
         wrapper.eq(SpecValue::getDelStatus, DelFlagEnum.NO.getValue());
         wrapper.orderByAsc(SpecValue::getSortId);
         List<SpecValue> specValueList = baseMapper.selectList(wrapper);
-        if(CollectionUtils.isEmpty(specValueList)) {
+        if (CollectionUtils.isEmpty(specValueList)) {
             throw new BusinessException(BaseErrorCode.PARAM_NOT_REACH);
         }
         int index = specValueList.indexOf(specValue);
-        if(index == -1) {
+        if (index == -1) {
             throw new BusinessException(BaseErrorCode.NOT_FOUND);
         }
-        //上移
-        if(param.getType().equals(BooleanEnum.NO.getValue())) {
-            if(index == 0) {
+        if (param.getType().equals(BooleanEnum.NO.getValue())) {
+            //上移
+            if (index == 0) {
                 throw new BusinessException(BaseErrorCode.PARAM_NOT_REACH);
             }
-            SpecValue lastSpecValue = specValueList.get(index-1);
-            Integer temp = specValue.getSortId();
-            specValue.setSortId(lastSpecValue.getSortId());
-            lastSpecValue.setSortId(temp);
-            baseMapper.updateSortIdBatch();
-
+            SpecValue lastSpecValue = specValueList.get(index - 1);
+            return exchange(specValue, lastSpecValue);
         } else {
-            if(index == specValueList.size() - 1) {
+            //下移
+            if (index == specValueList.size() - 1) {
                 throw new BusinessException(BaseErrorCode.PARAM_NOT_REACH);
             }
-
+            SpecValue nextSpecValue = specValueList.get(index + 1);
+            return exchange(specValue, nextSpecValue);
         }
 
-        return null;
     }
 
 
-    private void exchange
+    private Integer exchange(SpecValue specValue, SpecValue exchangeSpecValue) {
+        List<TwoTuple<Long, Long>> list = Lists.newArrayList();
+        list.add(new TwoTuple<>(specValue.getId(), exchangeSpecValue.getSortId()));
+        list.add(new TwoTuple<>(exchangeSpecValue.getId(), specValue.getSortId()));
+        return baseMapper.updateSortIdBatch(list);
+    }
 }

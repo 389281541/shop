@@ -2,7 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.admin.mapper.SpecValueMapper">
 
-    <update id="updateSortIdBatch" parameterType="">
-
+    <update id="updateSortIdBatch" parameterType="java.util.List">
+        update  spec_value
+        set sort_id =
+        (case
+        <foreach collection="list" item="item" index="index" open="" close="" separator=" ">
+            when id = #{item.first} then #{item.second}
+        </foreach>
+        else sort_id
+        end)
     </update>
 </mapper>

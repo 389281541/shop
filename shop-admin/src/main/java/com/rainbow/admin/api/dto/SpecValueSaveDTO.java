@@ -27,7 +27,7 @@ public class SpecValueSaveDTO extends BaseDTO {
 
     @ApiModelProperty(value = "排序ID")
     @NotNull(message = "排序ID不能为空")
-    private Integer sortId;
+    private Long sortId;
 
 
 }

@@ -40,7 +40,7 @@ public class SpecValue extends Model<SpecValue> {
 
     @ApiModelProperty(value = "排序ID")
     @TableField("sort_id")
-    private Integer sortId;
+    private Long sortId;
 
     @ApiModelProperty(value = "删除状态 0-未删除 1-已删除")
     @TableField("del_status")

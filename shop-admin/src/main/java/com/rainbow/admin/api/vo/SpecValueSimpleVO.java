@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class SpecValueSimpleVO  extends IdNameVO {
 
     @ApiModelProperty(value = "排序ID")
-    private Integer sortId;
+    private Long sortId;
 
     @ApiModelProperty(value = "排序ID")
     private LocalDateTime createTime;
