@@ -4,6 +4,7 @@ package com.rainbow.admin.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.admin.api.dto.SpecValueSaveDTO;
 import com.rainbow.admin.api.dto.SpecValueUpdateDTO;
+import com.rainbow.admin.api.dto.UpDownRankingDTO;
 import com.rainbow.admin.api.vo.SpecValueDetailVO;
 import com.rainbow.admin.api.vo.SpecValuePageVO;
 import com.rainbow.admin.api.vo.SpecValueSimpleVO;
@@ -66,6 +67,14 @@ public class SpecValueController {
     @PostMapping("/remove")
     public R<Boolean> remove(@Valid @RequestBody IdDTO param) {
         Integer result = specValueService.removeSpecValue(param);
+        return new R<>(result > 0 ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+
+    @ApiOperation(value = "属性名排序上移下移", notes = "属性名排序上移下移", httpMethod = "POST")
+    @PostMapping("/upDownRanking")
+    public R<Boolean> upDownRanking(@Valid @RequestBody UpDownRankingDTO param) {
+        Integer result = specValueService.upDownRanking(param);
         return new R<>(result > 0 ? Boolean.TRUE : Boolean.FALSE);
     }
 

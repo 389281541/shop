@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.admin.api.dto.SpecValueSaveDTO;
 import com.rainbow.admin.api.dto.SpecValueUpdateDTO;
+import com.rainbow.admin.api.dto.UpDownRankingDTO;
 import com.rainbow.admin.api.vo.SpecValueDetailVO;
 import com.rainbow.admin.api.vo.SpecValuePageVO;
 import com.rainbow.admin.api.vo.SpecValueSimpleVO;
@@ -28,5 +29,7 @@ public interface ISpecValueService extends IService<SpecValue> {
     SpecValueDetailVO getSpecValueDetailById(IdDTO param);
 
     Integer removeSpecValue(IdDTO param);
+
+    Integer upDownRanking(UpDownRankingDTO param);
 
 }
