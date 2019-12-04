@@ -352,16 +352,17 @@ CREATE TABLE vvshop_goods.spec_value
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '规格值表';
 
-
+DROP TABLE vvshop_goods.shop;
 CREATE TABLE vvshop_goods.shop
 (
     id bigint(20)  AUTO_INCREMENT COMMENT '主键ID',
     name varchar(256) COLLATE utf8mb4_bin NOT NULL COMMENT '店铺名称',
     type TINYINT NOT NULL COMMENT '店铺类型：1.自营，2.平台',
+    keeper_name VARCHAR(50) NOT NULL COMMENT '店主姓名',
     phone_number VARCHAR(50) NOT NULL COMMENT '联系电话',
     bank_name VARCHAR(50) NOT NULL COMMENT '供应商开户银行名称',
     bank_account VARCHAR(50) NOT NULL COMMENT '银行账号',
-    address VARCHAR(200) NOT NULL COMMENT '供应商地址',
+    address VARCHAR(200) NOT NULL COMMENT '店铺地址(默认发货地址)',
     audit_status TINYINT NOT NULL DEFAULT 0 COMMENT '状态 0禁止，1启用',
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default NULL NULL COMMENT '更新时间',
@@ -380,12 +381,13 @@ CREATE TABLE vvshop_goods.spu
     item_id bigint(20) NOT NULL COMMENT '类别ID',
     shop_id bigint(20) NOT NULL COMMENT '店铺ID',
     sale    int(11) DEFAULT 0 COMMENT '销量',
+    unit varchar(16) DEFAULT NULL COMMENT '单位',
     description varchar(1000) DEFAULT NULL COMMENT '商品描述',
     sale_status TINYINT NOT NULL DEFAULT 0 COMMENT '上下架状态 0下架 1上架',
     audit_status TINYINT NOT NULL DEFAULT 0 COMMENT '审核状态：0未审核，1审核通过，2审核驳回',
     sort_id int(11) NOT NULL COMMENT 'spu排序',
     recommend TINYINT NOT NULL DEFAULT 0 COMMENT '是否推荐 0不推荐 1推荐',
-    del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    del_status tinyint default 0 NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default NULL NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)
@@ -427,10 +429,11 @@ CREATE TABLE vvshop_goods.sku
     sku_name      varchar(256) NOT NULL COMMENT 'SKU名称',
     sku_no       bigint(20) NOT NULL COMMENT '商品编码',
     spu_id        bigint(20) NOT NULL COMMENT '商品ID',
-    shop_id       bigint(20) NOT NULL COMMENT '店铺ID',
     stock         int(11) NOT NULL COMMENT '库存',
     low_stock     int(11) NOT NULL COMMENT '预警库存',
     sale          int(11) DEFAULT 0 COMMENT '销量',
+    weight        decimal(10,2) DEFAULT NULL COMMENT '商品重量，默认为克',
+    dimension     tinyint DEFAULT NULL COMMENT '尺寸：0-小件，1-中件，2-大件',
     price         bigint(20) NOT NULL COMMENT '价格',
     del_status    tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time   timestamp default NULL NULL COMMENT '更新时间',
