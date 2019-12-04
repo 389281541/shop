@@ -5,19 +5,21 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.rainbow.admin.api.dto.ItemSaveDTO;
 import com.rainbow.admin.api.dto.ItemUpdateDTO;
 import com.rainbow.admin.api.vo.ItemDetailVO;
 import com.rainbow.admin.api.vo.ItemSimpleVO;
 import com.rainbow.admin.api.vo.ItemWithChildrenVO;
 import com.rainbow.admin.entity.Item;
-import com.rainbow.admin.entity.ItemWithChildren;
 import com.rainbow.admin.enums.ItemLevelEnum;
 import com.rainbow.admin.mapper.ItemMapper;
 import com.rainbow.admin.service.IItemService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdPageDTO;
+import com.rainbow.common.enums.BooleanEnum;
 import com.rainbow.common.enums.DelFlagEnum;
+import com.rainbow.common.vo.IdNameVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -64,15 +66,38 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
 
     @Override
     public List<ItemWithChildrenVO> listWidthSubItem() {
+        LambdaQueryWrapper<Item> condition = new LambdaQueryWrapper<>();
+        condition.eq(Item::getParent, BooleanEnum.YES.getValue());
+        condition.eq(Item::getDelStatus, DelFlagEnum.NO.getValue());
+        List<Item> parentItemList = baseMapper.selectList(condition);
+        Map<Long, List<IdNameVO>> groupMap = Maps.newHashMap();
+        if(!CollectionUtils.isEmpty(parentItemList)) {
+            List<Long> parentIds = parentItemList.stream().map(Item::getId).collect(Collectors.toList());
+            LambdaQueryWrapper<Item> itemWrapper = new LambdaQueryWrapper<>();
+            itemWrapper.in(Item::getParentId, parentIds);
+            itemWrapper.eq(Item::getDelStatus, DelFlagEnum.NO.getValue());
+            List<Item> itemList = baseMapper.selectList(itemWrapper);
+            groupMap = itemList.stream().collect(Collectors.toMap(Item::getParentId, x->{
+                IdNameVO idNameVO = new IdNameVO();
+                idNameVO.setId(x.getId());
+                idNameVO.setName(x.getName());
+                List<IdNameVO> idNameVOList = Lists.newArrayList();
+                idNameVOList.add(idNameVO);
+                return idNameVOList;
+            }, (List<IdNameVO> newList, List<IdNameVO> oldList) -> {
+                newList.addAll(oldList);
+                return newList;
+            }));
 
-        List<ItemWithChildren> items = baseMapper.listWithChildren();
+        }
+        final  Map<Long, List<IdNameVO>> childrenMap = groupMap;
         List<ItemWithChildrenVO> itemWithChildrenVOList = Lists.newArrayList();
-        if (!CollectionUtils.isEmpty(items)) {
-            itemWithChildrenVOList = items.stream().map(x -> {
+        if (!CollectionUtils.isEmpty(parentItemList)) {
+            itemWithChildrenVOList = parentItemList.stream().map(x -> {
                 ItemWithChildrenVO itemVO = new ItemWithChildrenVO();
-                itemVO.setChildren(x.getChildren());
                 itemVO.setId(x.getId());
                 itemVO.setName(x.getName());
+                itemVO.setChildren(childrenMap.get(x.getId()));
                 return itemVO;
             }).collect(Collectors.toList());
         }

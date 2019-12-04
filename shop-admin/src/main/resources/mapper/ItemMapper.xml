@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.ItemMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.entity.ItemWithChildren">
+    <resultMap id="BaseResultMap" type="com.rainbow.admin.entity.Item">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="item_no" property="itemNo" />
@@ -13,30 +13,12 @@
         <result column="del_status" property="delStatus" />
         <result column="update_time" property="updateTime" />
         <result column="create_time" property="createTime" />
-        <collection property="children" column="child_id" ofType="com.rainbow.common.vo.IdNameVO">
-            <id column="child_id" property="id"/>
-            <result column="child_value" property="name"/>
-        </collection>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, item_no, parent_id, sort_id, is_parent, del_status, update_time, create_time
     </sql>
-
-    <select id="listWithChildren" resultMap="BaseResultMap">
-        select
-            p.*,
-            c.id as child_id,
-            c.name as child_value
-        from item p
-        left join item c
-            on p.id = c.parent_id
-        where
-            p.is_parent = 1
-        and p.del_status = 0
-        and c.del_status = 0
-    </select>
 
 
 </mapper>
