@@ -67,6 +67,14 @@ public class Shop extends Model<Shop> {
     @TableLogic
     private Integer delStatus;
 
+    @ApiModelProperty(value = "注册时间")
+    @TableField("register_time")
+    private LocalDateTime registerTime;
+
+    @ApiModelProperty(value = "商铺logo")
+    @TableField("logo")
+    private String logo;
+
     @ApiModelProperty(value = "更新时间")
     @TableField("update_time")
     private LocalDateTime updateTime;

@@ -23,4 +23,36 @@
         id, name, type, keeper_name, phone_number, bank_name, bank_account, address, audit_status, del_status, update_time, create_time
     </sql>
 
+    <update id="updateShop" parameterType="com.rainbow.admin.api.dto.ShopUpdateDTO">
+        update shop
+         set
+            name = #{param.name},
+            type = #{param.type},
+            keeper_name = #{param.keeperName},
+            phone_number = #{param.phoneNumber},
+            bank_name = #{param.bankName},
+            bank_account = #{param.bankAccount},
+            address = #{param.address},
+            update_time = CURRENT_TIMESTAMP,
+            audit_status = 1
+        where id = #{param.id}
+    </update>
+
+    <update id="updateAuditStatus" parameterType="com.rainbow.admin.api.dto.StatusChangeDTO">
+        update shop
+         set
+         <choose>
+             <when test="param.status == 1">
+                 audit_status = 2,
+                 register_time = current_timestamp
+             </when>
+             <when test="param.status == 0">
+                 audit_status = 1
+             </when>
+         </choose>
+        where id = #{param.id}
+    </update>
+
+
+
 </mapper>

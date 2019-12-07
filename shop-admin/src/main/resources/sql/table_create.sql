@@ -235,7 +235,7 @@ CREATE TABLE vvshop_goods.item
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default NULL NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
-    UNIQUE KEY (item_no)
+    UNIQUE KEY (item_no),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '类别表';
 
@@ -357,14 +357,16 @@ CREATE TABLE vvshop_goods.shop
 (
     id bigint(20)  AUTO_INCREMENT COMMENT '主键ID',
     name varchar(256) COLLATE utf8mb4_bin NOT NULL COMMENT '店铺名称',
+    logo  varchar(256) NULL DEFAULT NULL COMMENT '店铺logo',
     type TINYINT NOT NULL COMMENT '店铺类型：1.自营，2.平台',
     keeper_name VARCHAR(50) NOT NULL COMMENT '店主姓名',
     phone_number VARCHAR(50) NOT NULL COMMENT '联系电话',
     bank_name VARCHAR(50) NOT NULL COMMENT '供应商开户银行名称',
     bank_account VARCHAR(50) NOT NULL COMMENT '银行账号',
-    address VARCHAR(200) NOT NULL COMMENT '店铺地址(默认发货地址)',
-    audit_status TINYINT NOT NULL DEFAULT 0 COMMENT '状态 0禁止，1启用',
+    address VARCHAR(200) NULL COMMENT '店铺地址(默认发货地址)',
+    audit_status TINYINT NOT NULL DEFAULT 1 COMMENT '状态 0未通过，1审核中 2审核通过',
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    register_time timestamp default NULL NULL COMMENT '注册时间',
     update_time timestamp default NULL NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY  (id)
