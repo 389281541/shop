@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum AuditStatusEnum implements IEnum<Integer> {
+
     REJECTED(0, "审核拒绝"),
     AUDITING(1, "正在审核"),
     PASS(2, "审核通过");

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.admin.mapper.SpuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.admin.entity.Spu">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="spu_no" property="spuNo" />
+        <result column="brand_id" property="brandId" />
+        <result column="item_id" property="itemId" />
+        <result column="shop_id" property="shopId" />
+        <result column="sale" property="sale" />
+        <result column="unit" property="unit" />
+        <result column="description" property="description" />
+        <result column="sale_status" property="saleStatus" />
+        <result column="audit_status" property="auditStatus" />
+        <result column="sort_id" property="sortId" />
+        <result column="recommend" property="recommend" />
+        <result column="del_status" property="delStatus" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, spu_no, brand_id, item_id, shop_id, sale, unit, description, sale_status, audit_status, sort_id, recommend, del_status, update_time, create_time
+    </sql>
+
+</mapper>
