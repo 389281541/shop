@@ -1,14 +1,14 @@
 package com.rainbow.admin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.admin.api.dto.SpuSaveDTO;
+import com.rainbow.admin.api.dto.SpuSearchDTO;
 import com.rainbow.admin.api.dto.SpuUpdateDTO;
 import com.rainbow.admin.api.vo.SpuDetailVO;
 import com.rainbow.admin.api.vo.SpuSimpleVO;
 import com.rainbow.admin.entity.Spu;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.common.dto.IdDTO;
-import com.rainbow.common.dto.IdNamePageDTO;
 
 /**
  * 商品表 服务类
@@ -22,7 +22,7 @@ public interface ISpuService extends IService<Spu> {
      * @param param
      * @return
      */
-    IPage<SpuSimpleVO> pageSpuByItem(IdNamePageDTO param);
+    IPage<SpuSimpleVO> pageSpu(SpuSearchDTO param);
 
     /**
      * 添加SPU

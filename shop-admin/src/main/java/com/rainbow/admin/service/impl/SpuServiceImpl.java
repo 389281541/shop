@@ -1,16 +1,18 @@
 package com.rainbow.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainbow.admin.api.dto.SpuSaveDTO;
+import com.rainbow.admin.api.dto.SpuSearchDTO;
 import com.rainbow.admin.api.dto.SpuUpdateDTO;
 import com.rainbow.admin.api.vo.SpuDetailVO;
 import com.rainbow.admin.api.vo.SpuSimpleVO;
 import com.rainbow.admin.entity.Spu;
 import com.rainbow.admin.mapper.SpuMapper;
 import com.rainbow.admin.service.ISpuService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainbow.common.dto.IdDTO;
-import com.rainbow.common.dto.IdNamePageDTO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,8 +25,9 @@ import org.springframework.stereotype.Service;
 public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuService {
 
     @Override
-    public IPage<SpuSimpleVO> pageSpuByItem(IdNamePageDTO param) {
-        return null;
+    public IPage<SpuSimpleVO> pageSpu(SpuSearchDTO param) {
+        Page<Spu> spuPage = new Page<>(param.getPageNum(), param.getPageSize());
+        return baseMapper.pageSpu(param, spuPage);
     }
 
     @Override

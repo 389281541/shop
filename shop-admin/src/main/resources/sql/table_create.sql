@@ -395,14 +395,16 @@ CREATE TABLE vvshop_goods.spu
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品表';
 
-
+DROP TABLE vvshop_goods.spu_img;
 CREATE TABLE vvshop_goods.spu_img
 (
     id bigint(20)  AUTO_INCREMENT COMMENT '主键ID',
-    sku_id bigint(20) NOT NULL COMMENT '商品ID',
+    spu_id bigint(20) NOT NULL COMMENT 'SPU ID',
+    sku_id bigint(20) NULL DEFAULT NULL COMMENT '商品ID',
     img_url varchar(256) NOT NULL COMMENT '图片地址',
     is_cover tinyint NOT NULL DEFAULT 0 COMMENT '是否封面图 0-非封面图 1-封面图',
     is_master tinyint NOT NULL DEFAULT 0 COMMENT '是否主图 0-非主图 1-主图',
+    is_color tinyint NOT NULL DEFAULT 0 COMMENT '是否颜色图 0-非颜色图 1-颜色图',
     sort_id int(11) NOT NULL COMMENT '图片位置',
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default NULL NULL COMMENT '更新时间',
@@ -424,7 +426,7 @@ CREATE TABLE vvshop_goods.spu_spec
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品基本属性表';
 
-
+DROP TABLE vvshop_goods.sku;
 CREATE TABLE vvshop_goods.sku
 (
     id            bigint(20) AUTO_INCREMENT COMMENT '主键ID',

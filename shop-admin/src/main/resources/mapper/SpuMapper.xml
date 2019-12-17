@@ -4,27 +4,78 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.rainbow.admin.entity.Spu">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="spu_no" property="spuNo" />
-        <result column="brand_id" property="brandId" />
-        <result column="item_id" property="itemId" />
-        <result column="shop_id" property="shopId" />
-        <result column="sale" property="sale" />
-        <result column="unit" property="unit" />
-        <result column="description" property="description" />
-        <result column="sale_status" property="saleStatus" />
-        <result column="audit_status" property="auditStatus" />
-        <result column="sort_id" property="sortId" />
-        <result column="recommend" property="recommend" />
-        <result column="del_status" property="delStatus" />
-        <result column="update_time" property="updateTime" />
-        <result column="create_time" property="createTime" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="spu_no" property="spuNo"/>
+        <result column="brand_id" property="brandId"/>
+        <result column="item_id" property="itemId"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="sale" property="sale"/>
+        <result column="unit" property="unit"/>
+        <result column="description" property="description"/>
+        <result column="sale_status" property="saleStatus"/>
+        <result column="audit_status" property="auditStatus"/>
+        <result column="sort_id" property="sortId"/>
+        <result column="recommend" property="recommend"/>
+        <result column="del_status" property="delStatus"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, spu_no, brand_id, item_id, shop_id, sale, unit, description, sale_status, audit_status, sort_id, recommend, del_status, update_time, create_time
     </sql>
+
+    <select id="pageSpu" resultMap="BaseResultMap" resultType="com.rainbow.admin.api.vo.SpuSimpleVO">
+        select
+            sp.id as id,
+            sp.name as name,
+            sp.spu_no as spuNo,
+            b.id as brandId,
+            b.name as brandName,
+            i.id as itemId,
+            i.name as itemName,
+            sh.id as shopId,
+            sh.name as shopName,
+            sp.sale as sale,
+            sp.unit as unit,
+            sp.description as description,
+            sp.sale_status as saleStatus,
+            sp.audit_status as auditStatus,
+            sp.sort_id as sortId,
+            sp.recommend as recommend
+        from
+            spu sp
+        left join brand b on sp.brand_id = b.id
+        left join item i on sp.item_id = i.id
+        left join shop sh on sp.shop_id = sh.id
+        where
+            sp.del_status = 0
+        <if test="param.name != null">
+            and name like CONCAT('%',#{param.name},'%')
+        </if>
+        <if test="param.spuNo != null">
+            and spuNo like CONCAT('%',#{param.spuNo},'%')
+        </if>
+        <if test="param.itemId != null">
+            and itemId = #{param.itemId}
+        </if>
+        <if test="param.brandId != null">
+            and brandId = #{param.brandId}
+        </if>
+        <if test="param.shopId != null">
+            and shopId = #{param.shopId}
+        </if>
+        <if test="param.saleStatus != null">
+            and saleStatus = #{param.saleStatus}
+        </if>
+        <if test="param.auditStatus != null">
+            and auditStatus = #{param.auditStatus}
+        </if>
+        <if test="param.recommend != null">
+            and recommend = #{param.recommend}
+        </if>
+    </select>
 
 </mapper>

@@ -1,5 +1,7 @@
 package com.rainbow.admin.api.dto;
 
+import com.rainbow.admin.entity.Sku;
+import com.rainbow.admin.entity.SpuImg;
 import com.rainbow.common.annotation.EnumValidAnnotation;
 import com.rainbow.common.dto.BaseDTO;
 import com.rainbow.common.enums.BooleanEnum;
@@ -9,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 @Data
 @Accessors(chain = true)
@@ -41,6 +45,12 @@ public class SpuSaveDTO extends BaseDTO {
     @ApiModelProperty(value = "是否推荐 0不推荐 1推荐")
     @EnumValidAnnotation(message = "推荐状态错误" , allowNull = false, target = BooleanEnum.class)
     private Integer recommend;
+
+    @ApiModelProperty(value = "sku列表")
+    private List<Sku> skuList;
+
+    @ApiModelProperty(value = "spu图片列表")
+    private List<SpuImg> spuImgList;
 
 
 }

@@ -20,14 +20,23 @@ public class SpuSimpleVO extends IdNameVO {
     @ApiModelProperty(value = "商品编号")
     private Long spuNo;
 
-    @ApiModelProperty(value = "品牌")
-    private IdNameVO brand;
+    @ApiModelProperty(value = "品牌Id")
+    private Long brandId;
 
-    @ApiModelProperty(value = "类别")
-    private IdNameVO item;
+    @ApiModelProperty(value = "品牌Id")
+    private Long brandName;
 
-    @ApiModelProperty(value = "店铺")
-    private IdNameVO shop;
+    @ApiModelProperty(value = "类别Id")
+    private Long itemId;
+
+    @ApiModelProperty(value = "类别名称")
+    private Long itemName;
+
+    @ApiModelProperty(value = "店铺Id")
+    private Long shopId;
+
+    @ApiModelProperty(value = "店铺名称")
+    private String shopName;
 
     @ApiModelProperty(value = "销量")
     private Integer sale;

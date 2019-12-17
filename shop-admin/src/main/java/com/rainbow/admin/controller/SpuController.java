@@ -3,12 +3,12 @@ package com.rainbow.admin.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.admin.api.dto.SpuSaveDTO;
+import com.rainbow.admin.api.dto.SpuSearchDTO;
 import com.rainbow.admin.api.dto.SpuUpdateDTO;
 import com.rainbow.admin.api.vo.SpuDetailVO;
 import com.rainbow.admin.api.vo.SpuSimpleVO;
 import com.rainbow.admin.service.ISpuService;
 import com.rainbow.common.dto.IdDTO;
-import com.rainbow.common.dto.IdNamePageDTO;
 import com.rainbow.common.dto.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -37,8 +36,8 @@ public class SpuController {
 
     @ApiOperation(value = "SPU列表", notes = "品牌列表", httpMethod = "POST")
     @PostMapping("/page")
-    public R<IPage<SpuSimpleVO>> pageSpuByItem(@Valid @RequestBody IdNamePageDTO param) {
-        return new R<>(spuService.pageSpuByItem(param));
+    public R<IPage<SpuSimpleVO>> pageSpuByItem(@Valid @RequestBody SpuSearchDTO param) {
+        return new R<>(spuService.pageSpu(param));
     }
 
     @ApiOperation(value = "SPU品牌", notes = "添加SPU", httpMethod = "POST")
