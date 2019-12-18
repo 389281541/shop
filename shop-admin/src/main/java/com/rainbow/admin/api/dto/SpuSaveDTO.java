@@ -1,7 +1,5 @@
 package com.rainbow.admin.api.dto;
 
-import com.rainbow.admin.entity.Sku;
-import com.rainbow.admin.entity.SpuImg;
 import com.rainbow.common.annotation.EnumValidAnnotation;
 import com.rainbow.common.dto.BaseDTO;
 import com.rainbow.common.enums.BooleanEnum;
@@ -47,10 +45,10 @@ public class SpuSaveDTO extends BaseDTO {
     private Integer recommend;
 
     @ApiModelProperty(value = "sku列表")
-    private List<Sku> skuList;
+    private List<SkuSimpleDTO> skuList;
 
     @ApiModelProperty(value = "spu图片列表")
-    private List<SpuImg> spuImgList;
+    private List<SpuImgSimpleDTO> spuImgList;
 
 
 }

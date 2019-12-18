@@ -12,6 +12,7 @@ import com.rainbow.admin.entity.Spu;
 import com.rainbow.admin.mapper.SpuMapper;
 import com.rainbow.admin.service.ISpuService;
 import com.rainbow.common.dto.IdDTO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,7 +32,19 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
 
     @Override
     public Integer addSpu(SpuSaveDTO param) {
+        Spu spu = new Spu();
+        BeanUtils.copyProperties(param, spu);
+        baseMapper.insert(spu);
+        buildSkuRelation(spu, param);
         return null;
+    }
+
+    private void buildSkuRelation(Spu spu, SpuSaveDTO param) {
+
+    }
+
+    private void buildImgRelation(Spu spu, SpuSaveDTO param) {
+
     }
 
     @Override
