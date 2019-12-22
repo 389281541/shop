@@ -1,6 +1,6 @@
-package com.rainbow.admin.api.dto;
+package com.rainbow.admin.api.vo;
 
-import com.rainbow.common.dto.BaseDTO;
+import com.rainbow.common.vo.IdNameVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -11,24 +11,28 @@ import lombok.experimental.Accessors;
 import java.math.BigDecimal;
 import java.util.List;
 
+
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "SkuSimpleDTO", description = "spu初始化sku传输对象")
-public class SkuSimpleDTO extends BaseDTO {
+@ApiModel(value = "SkuSimpleVO", description = "SKU列表VO")
+public class SkuSimpleVO extends IdNameVO {
+
+    @ApiModelProperty(value = "商品编码")
+    private Long skuNo;
 
     @ApiModelProperty(value = "商品ID")
     private Long spuId;
-
-    @ApiModelProperty(value = "SKU名称")
-    private String skuName;
 
     @ApiModelProperty(value = "库存")
     private Integer stock;
 
     @ApiModelProperty(value = "预警库存")
     private Integer lowStock;
+
+    @ApiModelProperty(value = "销量")
+    private Integer sale;
 
     @ApiModelProperty(value = "商品重量，默认为克")
     private BigDecimal weight;
@@ -37,12 +41,11 @@ public class SkuSimpleDTO extends BaseDTO {
     private Integer dimension;
 
     @ApiModelProperty(value = "价格")
+    private Long originalPrice;
+
+    @ApiModelProperty(value = "价格")
     private Long price;
 
-    @ApiModelProperty(value = "图片url")
-    private String imgUrl;
 
-    @ApiModelProperty(value = "属性列表")
-    private List<Long> specValueIdList;
 
 }

@@ -25,4 +25,9 @@
         id, sku_name, sku_no, spu_id, stock, low_stock, sale, weight, dimension, original_price, price, del_status, update_time, create_time
     </sql>
 
+
+    <update id="removeBySpuId" parameterType="java.lang.Long">
+        update sku set del_status = 1 where spu_id = #{spuId}
+    </update>
+
 </mapper>

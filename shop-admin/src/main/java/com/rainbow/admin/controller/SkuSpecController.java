@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 商品基本属性表 前端控制器
+ * sku属性关联表 前端控制器
  *
  * @author lujinwei
- * @since 2019-11-17
+ * @since 2019-12-21
  */
 @RestController
-@RequestMapping("/spuSpec")
-@Api(value = "/spuSpec", tags = "spu属性服务")
-public class SpuSpecController {
+@RequestMapping("/skuSpec")
+@Api(value = "/skuSpec", tags = "skuSpec服务")
+public class SkuSpecController {
 
 }
 

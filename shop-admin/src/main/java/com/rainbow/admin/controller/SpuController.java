@@ -51,8 +51,7 @@ public class SpuController {
     @ApiOperation(value = "删除SPU", notes = "删除SPU", httpMethod = "POST")
     @PostMapping("/remove")
     public R<Boolean> remove(@Valid @RequestBody IdDTO param) {
-        Integer result = spuService.removeSpu(param);
-        return new R<>(result > 0 ? Boolean.TRUE : Boolean.FALSE);
+        return new R<>(spuService.removeSpu(param));
     }
 
     @ApiOperation(value = "更改SPU", notes = "更改SPU", httpMethod = "POST")

@@ -36,7 +36,7 @@ public interface ISpuService extends IService<Spu> {
      * @param param
      * @return
      */
-    Integer removeSpu(IdDTO param);
+    Boolean removeSpu(IdDTO param);
 
     /**
      * 更新SPU

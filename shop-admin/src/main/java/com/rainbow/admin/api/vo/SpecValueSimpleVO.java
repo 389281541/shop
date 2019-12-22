@@ -21,7 +21,7 @@ public class SpecValueSimpleVO  extends IdNameVO {
     @ApiModelProperty(value = "排序ID")
     private Long sortId;
 
-    @ApiModelProperty(value = "排序ID")
+    @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
 }
