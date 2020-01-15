@@ -406,7 +406,6 @@ CREATE TABLE vvshop_goods.spu_img
     is_master tinyint NOT NULL DEFAULT 0 COMMENT '是否主图 0-非主图 1-主图',
     is_color tinyint NOT NULL DEFAULT 0 COMMENT '是否颜色图 0-非颜色图 1-颜色图',
     sort_id int(11) NOT NULL COMMENT '图片位置',
-    del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default NULL NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)
@@ -420,7 +419,6 @@ CREATE TABLE vvshop_goods.spu_spec
     spu_id    bigint(20)                          NOT NULL COMMENT '商品ID',
     spec_name_id  bigint(20)                          NOT NULL COMMENT '属性名ID',
     sort_id int(11) NOT NULL COMMENT '商品顺序',
-    del_status    tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time   timestamp default NULL NULL COMMENT '更新时间',
     create_time   timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)
@@ -455,7 +453,6 @@ CREATE TABLE vvshop_goods.sku_spec
     sku_id              bigint(20) NOT NULL COMMENT 'SKUID',
     spec_value_id       bigint(20) NOT NULL COMMENT '属性值ID',
     sort_id             int(11) NOT NULL COMMENT '排序ID',
-    del_status          tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time         timestamp default NULL NULL COMMENT '更新时间',
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)

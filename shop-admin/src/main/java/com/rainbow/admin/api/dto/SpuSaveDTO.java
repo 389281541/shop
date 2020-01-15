@@ -45,10 +45,10 @@ public class SpuSaveDTO extends BaseDTO {
     private Integer recommend;
 
     @ApiModelProperty(value = "sku列表")
-    private List<SkuSimpleDTO> skuList;
+    private List<SkuSimpleDTO> skuSimpleDTOList;
 
     @ApiModelProperty(value = "spu图片列表")
-    private List<SpuImgSimpleDTO> spuImgList;
+    private List<String> imgList;
 
 
 }

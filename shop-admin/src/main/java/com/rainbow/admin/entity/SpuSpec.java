@@ -38,11 +38,6 @@ public class SpuSpec extends Model<SpuSpec> {
     @TableField("spec_name_id")
     private Long specNameId;
 
-    @ApiModelProperty(value = "删除状态 0-未删除 1-已删除")
-    @TableField("del_status")
-    @TableLogic
-    private Integer delStatus;
-
     @ApiModelProperty(value = "更新时间")
     @TableField("update_time")
     private LocalDateTime updateTime;

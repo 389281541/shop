@@ -11,5 +11,10 @@ import com.baomidou.dynamic.datasource.annotation.DS;
  */
 @DS("goods")
 public interface SkuSpecMapper extends BaseMapper<SkuSpec> {
-
+    /**
+     * 通过spuId删除
+     * @param spuId
+     * @return
+     */
+    Integer removeBySpuId(Long spuId);
 }

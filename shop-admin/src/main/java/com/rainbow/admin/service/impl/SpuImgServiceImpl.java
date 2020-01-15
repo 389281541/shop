@@ -28,7 +28,6 @@ public class SpuImgServiceImpl extends ServiceImpl<SpuImgMapper, SpuImg> impleme
     public List<SpuImg> listBySpuId(Long spuId) {
         LambdaQueryWrapper<SpuImg> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(SpuImg::getSpuId, spuId);
-        wrapper.eq(SpuImg::getDelStatus, DelFlagEnum.NO.getValue());
         return list(wrapper);
     }
 

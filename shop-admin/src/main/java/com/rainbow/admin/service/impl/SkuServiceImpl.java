@@ -30,6 +30,6 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
 
     @Override
     public Integer removeBySpuId(Long spuId) {
-        return null;
+        return baseMapper.removeBySpuId(spuId);
     }
 }

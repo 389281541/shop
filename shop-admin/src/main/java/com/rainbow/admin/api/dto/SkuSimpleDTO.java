@@ -18,11 +18,14 @@ import java.util.List;
 @ApiModel(value = "SkuSimpleDTO", description = "spu初始化sku传输对象")
 public class SkuSimpleDTO extends BaseDTO {
 
+    @ApiModelProperty(value = "skuID")
+    private Long skuId;
+
     @ApiModelProperty(value = "商品ID")
     private Long spuId;
 
-    @ApiModelProperty(value = "SKU名称")
-    private String skuName;
+    @ApiModelProperty(value = "SKU编码")
+    private String skuNo;
 
     @ApiModelProperty(value = "库存")
     private Integer stock;

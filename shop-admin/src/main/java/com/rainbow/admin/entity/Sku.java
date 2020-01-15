@@ -31,10 +31,6 @@ public class Sku extends Model<Sku> {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "SKU名称")
-    @TableField("sku_name")
-    private String skuName;
-
     @ApiModelProperty(value = "商品编码")
     @TableField("sku_no")
     private Long skuNo;

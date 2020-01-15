@@ -8,7 +8,6 @@
         <result column="sku_id" property="skuId" />
         <result column="spec_value_id" property="specValueId" />
         <result column="sort_id" property="sortId" />
-        <result column="del_status" property="delStatus" />
         <result column="update_time" property="updateTime" />
         <result column="create_time" property="createTime" />
     </resultMap>
@@ -18,7 +17,11 @@
         id, sku_id, spec_value_id, sort_id, del_status, update_time, create_time
     </sql>
 
+    <delete id="removeBySpuId" parameterType="java.lang.Long">
+        delete from sku_spec where sku_id in
+        (select  * from sku where spu_id = )
+    </delete>
 
-    <update id="removeBy"
+
 
 </mapper>

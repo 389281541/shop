@@ -42,11 +42,6 @@ public class SkuSpec extends Model<SkuSpec> {
     @TableField("sort_id")
     private Integer sortId;
 
-    @ApiModelProperty(value = "删除状态 0-未删除 1-已删除")
-    @TableField("del_status")
-    @TableLogic
-    private Integer delStatus;
-
     @ApiModelProperty(value = "更新时间")
     @TableField("update_time")
     private LocalDateTime updateTime;

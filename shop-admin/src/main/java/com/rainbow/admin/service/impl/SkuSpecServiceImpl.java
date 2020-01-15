@@ -14,5 +14,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SkuSpecServiceImpl extends ServiceImpl<SkuSpecMapper, SkuSpec> implements ISkuSpecService {
-
+    @Override
+    public Integer removeBySpuId(Long spuId) {
+        return null;
+    }
 }
