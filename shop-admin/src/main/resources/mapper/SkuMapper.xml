@@ -27,7 +27,7 @@
 
 
     <update id="removeBySpuId" parameterType="java.lang.Long">
-        update sku set del_status = 1 where spu_id = #{spuId}
+        update sku set del_status = 1 where spu_id = #{spuId} and del_status = 0
     </update>
 
 </mapper>

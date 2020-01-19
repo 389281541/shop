@@ -16,7 +16,6 @@ import com.rainbow.admin.mapper.SpuMapper;
 import com.rainbow.admin.service.*;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.enums.BooleanEnum;
-import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.exception.BusinessException;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
@@ -186,18 +185,13 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         if (spu.getSaleStatus().equals(BooleanEnum.YES.getValue())) {
             throw new BusinessException(AdminErrorCode.SPU_PULL_OFF);
         }
-        //删除spu表
-        Boolean res = removeById(spuId);
         //删除图片关联表
         spuImgService.removeBySpuId(spuId);
-        //查询spu名下sku信息
-        List<Sku> skuList = skuService.listBySpuId(spuId);
-        if(!CollectionUtils.isEmpty(skuList)) {
-            Set<Long> skuIds = skuList.stream().map(Sku::getId).collect(Collectors.toSet());
-            skuService.removeByIds(spuId);
-        }
-        //删除关联skuSpecvalue
+
+        //删除关联sku
         skuService.removeBySpuId(spuId);
+        //删除spu表
+        Boolean res = removeById(spuId);
         return res;
     }
 

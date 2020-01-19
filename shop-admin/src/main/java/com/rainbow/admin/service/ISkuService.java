@@ -21,7 +21,7 @@ public interface ISkuService extends IService<Sku> {
     List<Sku> listBySpuId(Long spuId);
 
     /**
-     * 删除某个spu
+     * 删除某个spu下所有sku
      * @param spuId
      * @return
      */
