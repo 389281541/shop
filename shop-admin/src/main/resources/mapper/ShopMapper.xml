@@ -33,6 +33,7 @@
             bank_name = #{param.bankName},
             bank_account = #{param.bankAccount},
             address = #{param.address},
+            logo = #{param.logo},
             update_time = CURRENT_TIMESTAMP,
             audit_status = 1
         where id = #{param.id}

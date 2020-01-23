@@ -1,7 +1,6 @@
 package com.rainbow.admin.service;
 
 import com.rainbow.admin.api.vo.FileUploadVO;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件上传服务类
@@ -11,9 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface IUploadService {
     /**
-     * 上传图片
-     * @param file
+     * 获取七牛云token
      * @return
      */
-    FileUploadVO uploadImage(MultipartFile file);
+    FileUploadVO getToken();
 }

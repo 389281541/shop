@@ -12,25 +12,16 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "FileUploadVO", description = "后端直传上传文件结果返回")
+@ApiModel(value = "FileUploadVO", description = "获取上传文件token")
 public class FileUploadVO extends BaseDTO {
 
-    @ApiModelProperty(value = "文件地址")
+    @ApiModelProperty(value = "传入key")
+    private String key;
+
+    @ApiModelProperty(value = "上传Token")
+    private String token;
+
+    @ApiModelProperty(value = "")
     private String url;
-
-    @ApiModelProperty(value = "文件名")
-    private String fileName;
-
-    @ApiModelProperty(value = "文件objectKey")
-    private String objectKey;
-
-    @ApiModelProperty(value = "文件大小(B)")
-    private Long size;
-
-    @ApiModelProperty(value = "宽")
-    private Integer width;
-
-    @ApiModelProperty(value = "高")
-    private Integer height;
 
 }

@@ -6,22 +6,23 @@ import com.rainbow.common.dto.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/upload")
-@Api(value = "/upload", tags = "验证码服务")
+@Api(value = "/upload", tags = "上传服务")
 public class UploadController {
 
     @Autowired
     private IUploadService uploadService;
 
-    @ApiOperation(value = "上传图片", notes = "上传图片", httpMethod = "GET")
-    @PostMapping("/image")
-    R<FileUploadVO> uploadImage(MultipartFile file) {
-        return new R<>(uploadService.uploadImage(file));
+
+    @ApiOperation(value = "", notes = "获取七牛云上传Token", httpMethod = "GET")
+    @GetMapping("/getToken")
+    R<FileUploadVO> getToken() {
+        return new R<>(uploadService.getToken());
     }
+
 }

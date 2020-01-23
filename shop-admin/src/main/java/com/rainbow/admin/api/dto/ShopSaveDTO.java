@@ -44,4 +44,7 @@ public class ShopSaveDTO extends BaseDTO {
     @ApiModelProperty(value = "店铺地址(默认发货地址)")
     private String address;
 
+    @ApiModelProperty(value = "店铺商标")
+    private String logo;
+
 }

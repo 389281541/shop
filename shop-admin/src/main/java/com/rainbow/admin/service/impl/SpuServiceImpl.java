@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
-import com.rainbow.admin.api.dto.*;
+import com.rainbow.admin.api.dto.SkuSimpleDTO;
+import com.rainbow.admin.api.dto.SpuSaveDTO;
+import com.rainbow.admin.api.dto.SpuSearchDTO;
+import com.rainbow.admin.api.dto.SpuUpdateDTO;
 import com.rainbow.admin.api.vo.SpuDetailVO;
 import com.rainbow.admin.api.vo.SpuSimpleVO;
 import com.rainbow.admin.entity.Sku;
@@ -28,8 +31,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 商品表 服务实现类
@@ -66,21 +67,26 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         Long spuId = spu.getId();
         //sku参数
         List<SkuSimpleDTO> skuSimpleDTOList = param.getSkuSimpleDTOList();
+        //关联sku
+        relateAndInsertSku(skuSimpleDTOList, spuId);
+        //关联sku属性
+        relateAndInsertSkuSpecValue(skuSimpleDTOList);
+        //关联图片
         List<String> imgList = param.getImgList();
+        relateAndInsertSpuImg(imgList, skuSimpleDTOList, spuId);
+        return res;
+    }
+
+    private void relateAndInsertSku(List<SkuSimpleDTO> skuSimpleDTOList, Long spuId) {
         //关联sku spuId
         relateSkuList(skuSimpleDTOList, spuId);
         //填充skuNo
         fillSkuNo(skuSimpleDTOList, spuId);
         //保存sku
         insertList(skuSimpleDTOList);
-        //关联sku属性
-        relateSkuSpecValue(skuSimpleDTOList);
-        //关联图片
-        relateSpuImg(imgList, skuSimpleDTOList, spuId);
-        return res;
     }
 
-    private void relateSpuImg(List<String> imgList, List<SkuSimpleDTO> skuSimpleDTOList, Long spuId) {
+    private void relateAndInsertSpuImg(List<String> imgList, List<SkuSimpleDTO> skuSimpleDTOList, Long spuId) {
         List<SpuImg> spuImgList = Lists.newArrayList();
         int count = 0;
         if (!CollectionUtils.isEmpty(imgList)) {
@@ -158,7 +164,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         }
     }
 
-    private void relateSkuSpecValue(List<SkuSimpleDTO> skuSimpleDTOList) {
+    private void relateAndInsertSkuSpecValue(List<SkuSimpleDTO> skuSimpleDTOList) {
         List<SkuSpec> skuSpecList = Lists.newArrayList();
         int count = 0;
         for (int i = 0; i < skuSimpleDTOList.size(); i++) {
@@ -187,7 +193,6 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         }
         //删除图片关联表
         spuImgService.removeBySpuId(spuId);
-
         //删除关联sku
         skuService.removeBySpuId(spuId);
         //删除spu表
@@ -206,7 +211,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         Spu spu = new Spu();
         BeanUtils.copyProperties(param, spu);
         Boolean res = updateById(spu);
-        buildRelation(spu, param);
+//        buildRelation(spu, param);
         return res;
     }
 

@@ -6,6 +6,7 @@ import com.rainbow.admin.api.dto.VerifyCodeDTO;
 import com.rainbow.admin.enums.KaptchaStatusEnum;
 import com.rainbow.admin.service.IKaptchaService;
 import com.rainbow.admin.util.CookieUtil;
+import com.rainbow.common.util.UUIDUtils;
 import com.rainbow.common.vo.IdNameVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -52,9 +53,7 @@ public class KaptchaServiceImpl implements IKaptchaService {
             String createText = captchaProducer.createText();
             String captchaKey = CookieUtil.getCookie(request, BOM_CAPTCHA_KEY);
             if (StringUtils.isBlank(captchaKey)) {
-                captchaKey = UUID.randomUUID().toString()
-                        .replaceAll("-", "")
-                        .toUpperCase();
+                captchaKey = UUIDUtils.getUpperCaseUUID();
                 log.info("New user coming,captcha_key = {}", captchaKey);
                 CookieUtil.addCookie(response, BOM_CAPTCHA_KEY, captchaKey);
             }

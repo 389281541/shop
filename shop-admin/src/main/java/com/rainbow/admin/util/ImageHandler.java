@@ -57,4 +57,12 @@ public class ImageHandler {
         }
         return null;
     }
+
+    public static String getDomain() {
+        return domain;
+    }
+
+    public static String getToken(String key) {
+        return auth.uploadToken(bucket, key, 3600, null);
+    }
 }

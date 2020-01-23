@@ -146,7 +146,6 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
         //删除属性名对应属性值
         LambdaQueryWrapper<SpuSpec> spuSpecWrapper = new LambdaQueryWrapper<>();
         spuSpecWrapper.eq(SpuSpec::getSpecNameId, param.getId());
-        spuSpecWrapper.eq(SpuSpec::getDelStatus, DelFlagEnum.NO.getValue());
         spuSpecMapper.delete(spuSpecWrapper);
         //删除属性名表对应的行
         return baseMapper.deleteById(param.getId());
