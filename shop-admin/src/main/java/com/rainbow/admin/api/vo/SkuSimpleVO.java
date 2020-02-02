@@ -1,5 +1,6 @@
 package com.rainbow.admin.api.vo;
 
+import com.rainbow.common.dto.BaseDTO;
 import com.rainbow.common.vo.IdNameVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,7 +18,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "SkuSimpleVO", description = "SKU列表VO")
-public class SkuSimpleVO extends IdNameVO {
+public class SkuSimpleVO extends BaseDTO {
+
+    @ApiModelProperty(value = "ID")
+    private Long id;
 
     @ApiModelProperty(value = "商品编码")
     private Long skuNo;
@@ -46,6 +50,8 @@ public class SkuSimpleVO extends IdNameVO {
     @ApiModelProperty(value = "价格")
     private Long price;
 
+    @ApiModelProperty(value = "sku spec关联表")
+    private List<SkuSpecSimpleVO> skuSpecList;
 
 
 }

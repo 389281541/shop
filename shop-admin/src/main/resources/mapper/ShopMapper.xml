@@ -39,7 +39,7 @@
         where id = #{param.id}
     </update>
 
-    <update id="updateAuditStatus" parameterType="com.rainbow.admin.api.dto.StatusChangeDTO">
+    <update id="updateAuditStatus" parameterType="com.rainbow.common.dto.StatusChangeDTO">
         update shop
          set
          <choose>

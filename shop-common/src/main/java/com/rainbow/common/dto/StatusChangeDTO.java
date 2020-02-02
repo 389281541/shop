@@ -1,7 +1,6 @@
-package com.rainbow.admin.api.dto;
+package com.rainbow.common.dto;
 
 import com.rainbow.common.annotation.EnumValidAnnotation;
-import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.enums.BooleanEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

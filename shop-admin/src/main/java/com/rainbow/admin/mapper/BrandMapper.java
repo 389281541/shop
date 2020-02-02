@@ -17,5 +17,12 @@ import java.util.List;
 @DS("goods")
 public interface BrandMapper extends BaseMapper<Brand> {
 
+    /**
+     * 根据类别对品牌分页
+     * @param ItemId
+     * @param brandName
+     * @param page
+     * @return
+     */
     List<Brand> pageBrandByItemId(@Param("itemId") Long ItemId, @Param("brandName") String brandName, IPage<Brand> page);
 }

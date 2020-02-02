@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.admin.api.dto.ShopSaveDTO;
 import com.rainbow.admin.api.dto.ShopSearchDTO;
 import com.rainbow.admin.api.dto.ShopUpdateDTO;
-import com.rainbow.admin.api.dto.StatusChangeDTO;
 import com.rainbow.admin.api.vo.ShopDetailVO;
 import com.rainbow.admin.api.vo.ShopSimpleVO;
 import com.rainbow.admin.entity.Shop;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.common.dto.IdDTO;
+import com.rainbow.common.dto.StatusChangeDTO;
 
 /**
  * 店铺表 服务类

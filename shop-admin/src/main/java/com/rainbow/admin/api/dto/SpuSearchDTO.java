@@ -19,7 +19,7 @@ public class SpuSearchDTO extends PageDTO {
     private String name;
 
     @ApiModelProperty(value = "商品编号")
-    private Long spuNo;
+    private String spuNo;
 
     @ApiModelProperty(value = "品牌ID")
     private Long brandId;
@@ -37,5 +37,6 @@ public class SpuSearchDTO extends PageDTO {
     private Integer auditStatus;
 
     @ApiModelProperty(value = "是否推荐 0不推荐 1推荐")
-    private Integer recommend;
+    private Integer recommendStatus;
+
 }

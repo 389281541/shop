@@ -1,7 +1,12 @@
 package com.rainbow.admin;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.rainbow.admin.api.dto.SpuSearchDTO;
 import com.rainbow.admin.entity.Administrator;
+import com.rainbow.admin.entity.Spu;
 import com.rainbow.admin.mapper.AdministratorMapper;
+import com.rainbow.admin.mapper.SpuMapper;
 import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.util.MD5Utils;
 import com.rainbow.common.util.PasswordUtils;
@@ -28,6 +33,9 @@ public class UserMapperTest {
 
     @Resource
     private AdministratorMapper administratorMapper;
+
+    @Resource
+    private SpuMapper spuMapper;
 
     @Test
     @Transactional
@@ -62,6 +70,13 @@ public class UserMapperTest {
         String formPassword = MD5Utils.encodeByMd5AndSalt("admin","a1b2c3d4");
         String serverPassword = MD5Utils.encodeByMd5AndSalt(formPassword,"e8iN9Zpb");
         System.out.println(serverPassword);
+    }
+
+
+    @Test
+    public void testSpu() {
+        Page<Spu> spuIPage = new Page<>(1,5);
+        spuMapper.pageSpu(spuIPage, new SpuSearchDTO());
     }
 
 

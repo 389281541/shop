@@ -1,4 +1,4 @@
-package com.rainbow.admin.api.dto;
+package com.rainbow.admin.api.vo;
 
 import com.rainbow.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
@@ -12,8 +12,11 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "SpuImgSimpleDTO", description = "spu img传输对象")
-public class SpuImgSimpleDTO extends BaseDTO {
+@ApiModel(value = "SpuImgSimpleVO", description = "spu img视图对象")
+public class SpuImgSimpleVO extends BaseDTO {
+
+    @ApiModelProperty(value = "id")
+    private Long id;
 
     @ApiModelProperty(value = "商品ID")
     private Long spuId;
@@ -32,6 +35,4 @@ public class SpuImgSimpleDTO extends BaseDTO {
 
     @ApiModelProperty(value = "是否颜色图 0-非颜色图 1-颜色图")
     private Integer isColor;
-
-
 }

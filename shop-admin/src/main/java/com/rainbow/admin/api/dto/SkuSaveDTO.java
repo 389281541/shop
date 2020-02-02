@@ -16,13 +16,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "SkuSimpleDTO", description = "spu初始化sku传输对象")
-public class SkuSimpleDTO extends BaseDTO {
-
-    @ApiModelProperty(value = "skuID")
-    private Long skuId;
+public class SkuSaveDTO extends BaseDTO {
 
     @ApiModelProperty(value = "商品ID")
     private Long spuId;
+
+    @ApiModelProperty(value = "sku ID")
+    private Long skuId;
 
     @ApiModelProperty(value = "SKU编码")
     private String skuNo;
@@ -33,19 +33,22 @@ public class SkuSimpleDTO extends BaseDTO {
     @ApiModelProperty(value = "预警库存")
     private Integer lowStock;
 
+    @ApiModelProperty(value = "销售量")
+    private Integer sale;
+
     @ApiModelProperty(value = "商品重量，默认为克")
     private BigDecimal weight;
 
     @ApiModelProperty(value = "尺寸：0-小件，1-中件，2-大件")
     private Integer dimension;
 
+    @ApiModelProperty(value = "原价")
+    private Long originalPrice;
+
     @ApiModelProperty(value = "价格")
     private Long price;
 
-    @ApiModelProperty(value = "图片url")
-    private String imgUrl;
-
-    @ApiModelProperty(value = "属性列表")
-    private List<Long> specValueIdList;
+    @ApiModelProperty(value = "sku spec关联表")
+    private List<SkuSpecSaveDTO> skuSpecList;
 
 }

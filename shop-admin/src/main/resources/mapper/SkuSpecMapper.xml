@@ -17,10 +17,26 @@
         id, sku_id, spec_value_id, sort_id, del_status, update_time, create_time
     </sql>
 
-    <delete id="removeBySpuId" parameterType="java.lang.Long">
+    <delete id="removeBySkuIds" parameterType="java.util.List">
         delete from sku_spec where sku_id in
-        (select  * from sku where spu_id = )
+        <foreach collection="skuIds" item="skuId" open="(" close=")" separator=",">
+            #{skuId}
+        </foreach>
     </delete>
+
+
+    <select id="listBySkuId" parameterType="java.lang.Long" resultType="com.rainbow.admin.api.vo.SkuSpecSimpleVO">
+        select ss.sku_id as skuId,
+               ss.spec_value_id as specValueId,
+               sv.spec_name_id as specNameId,
+               sv.spec_value as specValue,
+               sn.name as specName
+        from sku_spec ss
+            left join  spec_value sv on ss.spec_value_id = sv.id
+            left join  spec_name sn on sn.id = sv.spec_name_id
+        where
+            ss.sku_id = #{skuId}
+    </select>
 
 
 

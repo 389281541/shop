@@ -24,5 +24,10 @@ public interface AdministratorMapper extends BaseMapper<Administrator> {
      */
     List<Permission> getPermissionByUserId(@Param("userId") Long userId);
 
+    /**
+     * 获取角色
+     * @param userId
+     * @return
+     */
     List<Role> getRoleByUserId(@Param("userId")Long userId);
 }

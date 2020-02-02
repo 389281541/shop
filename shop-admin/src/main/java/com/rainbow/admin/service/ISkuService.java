@@ -1,7 +1,10 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.entity.Sku;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rainbow.admin.api.dto.SkuBatchUpdateDTO;
+import com.rainbow.admin.api.vo.SkuSimpleVO;
+import com.rainbow.admin.entity.Sku;
+import com.rainbow.common.dto.IdSearchDTO;
 
 import java.util.List;
 
@@ -15,10 +18,10 @@ public interface ISkuService extends IService<Sku> {
 
     /**
      * 查询某个spu下sku列表
-     * @param spuId
+     * @param param
      * @return
      */
-    List<Sku> listBySpuId(Long spuId);
+    List<SkuSimpleVO> listBySpuId(IdSearchDTO param);
 
     /**
      * 删除某个spu下所有sku
@@ -26,5 +29,13 @@ public interface ISkuService extends IService<Sku> {
      * @return
      */
     Integer removeBySpuId(Long spuId);
+
+
+    /**
+     * 批量更新sku
+     * @param param
+     * @return
+     */
+    Boolean updateBatch(SkuBatchUpdateDTO param);
 
 }

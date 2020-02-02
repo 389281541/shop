@@ -36,7 +36,7 @@
                 select bi.brand_id from brand_item bi where bi.item_id = #{itemId}
             )
         </if>
-        <if test="brandName!=null">
+        <if test="brandName != null">
             and b.name like CONCAT('%',#{brandName},'%')
         </if>
     </select>

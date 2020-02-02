@@ -73,8 +73,11 @@ public class SpecName extends Model<SpecName> {
 
     @ApiModelProperty(value = "删除状态 0-未删除 1-已删除")
     @TableField("del_status")
-    @TableLogic
     private Integer delStatus;
+
+    @ApiModelProperty(value = "类型 0-规格 1-参数")
+    @TableField("type")
+    private Integer type;
 
     @ApiModelProperty(value = "更新时间")
     @TableField("update_time")

@@ -2,4 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.admin.mapper.SpuSpecMapper">
 
+    <delete id="removeBySpuId" parameterType="java.lang.Long">
+        delete from spu_spec  where spu_id = #{spuId}
+    </delete>
+
 </mapper>

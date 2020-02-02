@@ -9,6 +9,7 @@ import com.rainbow.admin.api.vo.SpuDetailVO;
 import com.rainbow.admin.api.vo.SpuSimpleVO;
 import com.rainbow.admin.entity.Spu;
 import com.rainbow.common.dto.IdDTO;
+import com.rainbow.common.dto.StatusBatchChangeDTO;
 
 /**
  * 商品表 服务类
@@ -49,4 +50,18 @@ public interface ISpuService extends IService<Spu> {
      * 获取SPU详情
      */
     SpuDetailVO getSpuDetailById(IdDTO param);
+
+    /**
+     * 设置上架状态
+     * @param param
+     * @return
+     */
+    Boolean setSaleStatus(StatusBatchChangeDTO param);
+
+    /**
+     * 设置推荐状态
+     * @param param
+     * @return
+     */
+    Boolean setRecommendStatus(StatusBatchChangeDTO param);
 }

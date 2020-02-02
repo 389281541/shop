@@ -36,19 +36,31 @@ public class Spu extends Model<Spu> {
 
     @ApiModelProperty(value = "商品编号")
     @TableField("spu_no")
-    private Long spuNo;
+    private String spuNo;
 
     @ApiModelProperty(value = "品牌ID")
     @TableField("brand_id")
     private Long brandId;
 
+    @ApiModelProperty(value = "品牌名称")
+    @TableField("brand_name")
+    private Long brandName;
+
     @ApiModelProperty(value = "类别ID")
     @TableField("item_id")
     private Long itemId;
 
+    @ApiModelProperty(value = "类别名称")
+    @TableField("item_name")
+    private Long itemName;
+
     @ApiModelProperty(value = "店铺ID")
     @TableField("shop_id")
     private Long shopId;
+
+    @ApiModelProperty(value = "类别名称")
+    @TableField("shop_name")
+    private Long shopName;
 
     @ApiModelProperty(value = "销量")
     @TableField("sale")
@@ -76,11 +88,10 @@ public class Spu extends Model<Spu> {
 
     @ApiModelProperty(value = "是否推荐 0不推荐 1推荐")
     @TableField("recommend")
-    private Integer recommend;
+    private Integer recommendStatus;
 
     @ApiModelProperty(value = "删除状态 0-未删除 1-已删除")
     @TableField("del_status")
-    @TableLogic
     private Integer delStatus;
 
     @ApiModelProperty(value = "更新时间")

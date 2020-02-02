@@ -26,6 +26,7 @@ import com.rainbow.common.vo.IdNameVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import sun.security.krb5.internal.PAData;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -82,6 +83,9 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
         }
         if(param.getMultiple() != null) {
             condition.eq(SpecName::getMultiple, param.getMultiple());
+        }
+        if(param.getType() != null) {
+            condition.eq(SpecName::getType, param.getType());
         }
         condition.eq(SpecName::getDelStatus, DelFlagEnum.NO.getValue());
         IPage<SpecName> specNameIPage = page(specNamePage, condition);

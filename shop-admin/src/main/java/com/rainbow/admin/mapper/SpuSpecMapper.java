@@ -11,5 +11,10 @@ import com.baomidou.dynamic.datasource.annotation.DS;
  */
 @DS("goods")
 public interface SpuSpecMapper extends BaseMapper<SpuSpec> {
-
+    /**
+     * 通过spuId删除spu_spec关联表
+     * @param spuId
+     * @return
+     */
+    Integer removeBySpuId(Long spuId);
 }

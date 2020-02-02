@@ -1,7 +1,5 @@
 package com.rainbow.admin.api.vo;
 
-import com.rainbow.admin.entity.Sku;
-import com.rainbow.admin.entity.SpuImg;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -21,10 +19,12 @@ public class SpuDetailVO extends SpuSimpleVO {
     @ApiModelProperty(value = "商品描述")
     private String description;
 
-    @ApiModelProperty(value = "spu图片")
-    private List<SpuImg> spuImgList;
+    @ApiModelProperty(value = "sku列表")
+    private List<SkuSimpleVO> skuList;
 
-    @ApiModelProperty(value = "sku图片")
-    private List<Sku> skuList;
+    @ApiModelProperty(value = "spu图片列表")
+    private List<SpuImgSimpleVO> spuImgList;
 
+    @ApiModelProperty(value = "spu属性列表")
+    private List<SpuSpecSimpleVO> spuSpecList;
 }

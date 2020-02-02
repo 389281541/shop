@@ -9,7 +9,7 @@ import com.baomidou.dynamic.datasource.annotation.DS;
  * @author lujinwei
  * @since 2019-10-28
  */
-@DS("")
+@DS("admin")
 public interface PermissionMapper extends BaseMapper<Permission> {
 
 }

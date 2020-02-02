@@ -36,4 +36,7 @@ public class SpecNameSearchDTO extends IdNamePageDTO {
     @ApiModelProperty(value = "是否多选属性：0-不是 1-是")
     private Integer multiple;
 
+    @ApiModelProperty(value = "规格还是参数：0-规格 1-参数")
+    private Integer type;
+
 }

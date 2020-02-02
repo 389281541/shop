@@ -17,7 +17,17 @@ import java.util.List;
 @DS("goods")
 public interface BrandItemMapper extends BaseMapper<BrandItem> {
 
+    /**
+     * 获取分类品牌数
+     * @return
+     */
     List<KV<Long,Long>> getBrandCountByItemId();
 
+
+    /**
+     * 批量插入品牌类别关联关系
+     * @param list
+     * @return
+     */
     Integer insertBatch(@Param("list") List<BrandItem> list);
 }

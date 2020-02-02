@@ -21,7 +21,7 @@ public class FileUploadVO extends BaseDTO {
     @ApiModelProperty(value = "上传Token")
     private String token;
 
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "文件上传域名")
     private String url;
 
 }

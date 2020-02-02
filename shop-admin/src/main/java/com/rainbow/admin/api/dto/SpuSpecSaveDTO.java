@@ -1,5 +1,6 @@
-package com.rainbow.admin.api.vo;
+package com.rainbow.admin.api.dto;
 
+import com.rainbow.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -11,12 +12,12 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "SpecValueDetailVO", description = "属性值VO")
-public class SpecValueDetailVO extends SpecValueSimpleVO {
+@ApiModel(value = "SpuSpecSaveDTO", description = "spu属性传输对象")
+public class SpuSpecSaveDTO extends BaseDTO {
+
+    @ApiModelProperty(value = "商品ID")
+    private Long spuId;
 
     @ApiModelProperty(value = "属性名ID")
     private Long specNameId;
-
-    @ApiModelProperty(value = "属性名ID")
-    private String specName;
 }

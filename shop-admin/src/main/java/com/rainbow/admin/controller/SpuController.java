@@ -10,6 +10,7 @@ import com.rainbow.admin.api.vo.SpuSimpleVO;
 import com.rainbow.admin.service.ISpuService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.R;
+import com.rainbow.common.dto.StatusBatchChangeDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,19 @@ public class SpuController {
     @PostMapping("/detail")
     public R<SpuDetailVO> update(@Valid @RequestBody IdDTO param) {
         return new R<>(spuService.getSpuDetailById(param));
+    }
+
+    @ApiOperation(value = "更新上架状态", notes = "SPU详情", httpMethod = "POST")
+    @PostMapping("/setSaleStatus")
+    public R<Boolean> setSaleStatus(@Valid @RequestBody StatusBatchChangeDTO param) {
+        return new R<>(spuService.setSaleStatus(param));
+    }
+
+
+    @ApiOperation(value = "更新推荐状态", notes = "SPU详情", httpMethod = "POST")
+    @PostMapping("/setRecommendStatus")
+    public R<Boolean> setRecommendStatus(@Valid @RequestBody StatusBatchChangeDTO param) {
+        return new R<>(spuService.setRecommendStatus(param));
     }
 
 

@@ -5,7 +5,6 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.rainbow.admin.entity.Sku">
         <id column="id" property="id" />
-        <result column="sku_name" property="skuName" />
         <result column="sku_no" property="skuNo" />
         <result column="spu_id" property="spuId" />
         <result column="stock" property="stock" />
@@ -28,6 +27,67 @@
 
     <update id="removeBySpuId" parameterType="java.lang.Long">
         update sku set del_status = 1 where spu_id = #{spuId} and del_status = 0
+    </update>
+
+
+    <update id="updateBatch" parameterType="java.util.List">
+        update  sku
+        set sku_no =
+        (case
+        <foreach collection="list" item="item" index="index" open="" close="" separator=" ">
+            when id = #{item.id} then #{item.skuNo}
+        </foreach>
+        else sku_no
+        end),
+        stock =
+        (case
+        <foreach collection="list" item="item" index="index" open="" close="" separator=" ">
+            when id = #{item.id} then #{item.stock}
+        </foreach>
+        else stock
+        end),
+        low_stock =
+        (case
+        <foreach collection="list" item="item" index="index" open="" close="" separator=" ">
+            when id = #{item.id} then #{item.lowStock}
+        </foreach>
+        else low_stock
+        end),
+        sale =
+        (case
+        <foreach collection="list" item="item" index="index" open="" close="" separator=" ">
+            when id = #{item.id} then #{item.sale}
+        </foreach>
+        else sale
+        end),
+        weight =
+        (case
+        <foreach collection="list" item="item" index="index" open="" close="" separator=" ">
+            when id = #{item.id} then #{item.weight}
+        </foreach>
+        else weight
+        end),
+        dimension =
+        (case
+        <foreach collection="list" item="item" index="index" open="" close="" separator=" ">
+            when id = #{item.id} then #{item.dimension}
+        </foreach>
+        else dimension
+        end),
+        original_price =
+        (case
+        <foreach collection="list" item="item" index="index" open="" close="" separator=" ">
+            when id = #{item.id} then #{item.originalPrice}
+        </foreach>
+        else original_price
+        end),
+        price =
+        (case
+        <foreach collection="list" item="item" index="index" open="" close="" separator=" ">
+            when id = #{item.id} then #{item.price}
+        </foreach>
+        else price
+        end)
     </update>
 
 </mapper>
