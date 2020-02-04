@@ -1,17 +1,17 @@
 package com.rainbow.admin.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.time.LocalDateTime;
 
 /**
  * 商品基本属性表
@@ -37,6 +37,18 @@ public class SpuSpec extends Model<SpuSpec> {
     @ApiModelProperty(value = "属性名ID")
     @TableField("spec_name_id")
     private Long specNameId;
+
+    @ApiModelProperty(value = "属性名")
+    @TableField("spec_name")
+    private String specName;
+
+    @ApiModelProperty(value = "属性值ID")
+    @TableField("spec_value_id")
+    private Long specValueId;
+
+    @ApiModelProperty(value = "属性值")
+    @TableField("spec_value")
+    private String specValue;
 
     @ApiModelProperty(value = "更新时间")
     @TableField("update_time")

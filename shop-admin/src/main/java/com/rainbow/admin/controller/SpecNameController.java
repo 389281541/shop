@@ -6,6 +6,7 @@ import com.rainbow.admin.api.dto.SpecNameSaveDTO;
 import com.rainbow.admin.api.dto.SpecNameSearchDTO;
 import com.rainbow.admin.api.dto.SpecNameUpdateDTO;
 import com.rainbow.admin.api.vo.SpecNameDetailVO;
+import com.rainbow.admin.api.vo.SpecNameListVO;
 import com.rainbow.admin.api.vo.SpecNameSimpleVO;
 import com.rainbow.admin.service.ISpecNameService;
 import com.rainbow.common.dto.IdDTO;
@@ -67,6 +68,13 @@ public class SpecNameController {
         Integer result = specNameService.removeSpecName(param);
         return new R<>(result > 0 ? Boolean.TRUE : Boolean.FALSE);
     }
+
+    @ApiOperation(value = "属性列表", notes = "属性列表", httpMethod = "POST")
+    @PostMapping("/listByItemId")
+    public R<SpecNameListVO> listByItemId(@Valid @RequestBody IdDTO param) {
+        return new R<>(specNameService.listByItemId(param));
+    }
+
 
 
 }

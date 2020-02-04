@@ -5,6 +5,7 @@ import com.rainbow.admin.api.dto.SpecNameSaveDTO;
 import com.rainbow.admin.api.dto.SpecNameSearchDTO;
 import com.rainbow.admin.api.dto.SpecNameUpdateDTO;
 import com.rainbow.admin.api.vo.SpecNameDetailVO;
+import com.rainbow.admin.api.vo.SpecNameListVO;
 import com.rainbow.admin.api.vo.SpecNameSimpleVO;
 import com.rainbow.admin.entity.SpecName;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -53,4 +54,12 @@ public interface ISpecNameService extends IService<SpecName> {
      * @return
      */
     Integer removeSpecName(IdDTO param);
+
+
+    /**
+     * 根据类别获取属性名
+     * @param param
+     * @return
+     */
+    SpecNameListVO listByItemId(IdDTO param);
 }
