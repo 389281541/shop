@@ -25,13 +25,13 @@ public class SpuImgSaveDTO extends BaseDTO {
     private String imgUrl;
 
     @ApiModelProperty(value = "是否封面图 0-非封面图 1-封面图")
-    private Integer isCover;
+    private Integer coverFlag;
 
     @ApiModelProperty(value = "是否主图 0-非主图 1-主图")
-    private Integer isMaster;
+    private Integer masterFlag;
 
     @ApiModelProperty(value = "是否颜色图 0-非颜色图 1-颜色图")
-    private Integer isColor;
+    private Integer colorFlag;
 
 
 }

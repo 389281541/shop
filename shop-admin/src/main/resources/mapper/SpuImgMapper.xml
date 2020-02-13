@@ -8,9 +8,9 @@
         <result column="spu_id" property="spuId" />
         <result column="sku_id" property="skuId" />
         <result column="img_url" property="imgUrl" />
-        <result column="is_cover" property="isCover" />
-        <result column="is_master" property="isMaster" />
-        <result column="is_color" property="isColor" />
+        <result column="is_cover" property="coverFlag" />
+        <result column="is_master" property="masterFlag" />
+        <result column="is_color" property="colorFlag" />
         <result column="sort_id" property="sortId" />
         <result column="update_time" property="updateTime" />
         <result column="create_time" property="createTime" />

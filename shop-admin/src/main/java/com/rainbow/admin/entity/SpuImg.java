@@ -44,15 +44,15 @@ public class SpuImg extends Model<SpuImg> {
 
     @ApiModelProperty(value = "是否封面图 0-非封面图 1-封面图")
     @TableField("is_cover")
-    private Integer isCover;
+    private Integer coverFlag;
 
     @ApiModelProperty(value = "是否主图 0-非主图 1-主图")
     @TableField("is_master")
-    private Integer isMaster;
+    private Integer masterFlag;
 
     @ApiModelProperty(value = "是否颜色图 0-非颜色图 1-颜色图")
     @TableField("is_color")
-    private Integer isColor;
+    private Integer colorFlag;
 
     @ApiModelProperty(value = "图片位置")
     @TableField("sort_id")

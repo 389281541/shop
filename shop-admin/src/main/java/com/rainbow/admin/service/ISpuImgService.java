@@ -1,5 +1,6 @@
 package com.rainbow.admin.service;
 
+import com.rainbow.admin.api.vo.SpuImgSimpleVO;
 import com.rainbow.admin.entity.SpuImg;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.swagger.models.auth.In;
@@ -25,5 +26,5 @@ public interface ISpuImgService extends IService<SpuImg> {
      * @param spuId
      * @return
      */
-    List<SpuImg> listBySpuId(Long spuId);
+    List<SpuImgSimpleVO> listBySpuId(Long spuId);
 }

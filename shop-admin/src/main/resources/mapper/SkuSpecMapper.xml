@@ -6,7 +6,10 @@
     <resultMap id="BaseResultMap" type="com.rainbow.admin.entity.SkuSpec">
         <id column="id" property="id" />
         <result column="sku_id" property="skuId" />
+        <result column="spec_name_id" property="specNameId" />
+        <result column="spec_name" property="specName" />
         <result column="spec_value_id" property="specValueId" />
+        <result column="spec_value" property="specValue" />
         <result column="sort_id" property="sortId" />
         <result column="update_time" property="updateTime" />
         <result column="create_time" property="createTime" />
@@ -14,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, sku_id, spec_value_id, sort_id, del_status, update_time, create_time
+        id, sku_id, spec_name_id, spec_name, spec_value_id, spec_value, sort_id, del_status, update_time, create_time
     </sql>
 
     <delete id="removeBySkuIds" parameterType="java.util.List">
@@ -25,17 +28,22 @@
     </delete>
 
 
-    <select id="listBySkuId" parameterType="java.lang.Long" resultType="com.rainbow.admin.api.vo.SkuSpecSimpleVO">
-        select ss.sku_id as skuId,
-               ss.spec_value_id as specValueId,
-               sv.spec_name_id as specNameId,
-               sv.spec_value as specValue,
-               sn.name as specName
+    <select id="listBySkuId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
         from sku_spec ss
-            left join  spec_value sv on ss.spec_value_id = sv.id
-            left join  spec_name sn on sn.id = sv.spec_name_id
         where
             ss.sku_id = #{skuId}
+    </select>
+
+
+    <select id="listBySpuId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+            ss.*
+        from sku_spec ss
+         left join sku s on s.id = ss.sku_id
+        where
+            s.spu_id = #{spuId}
     </select>
 
 

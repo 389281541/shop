@@ -35,8 +35,20 @@ public class SkuSpec extends Model<SkuSpec> {
     private Long skuId;
 
     @ApiModelProperty(value = "属性值ID")
+    @TableField("spec_name_id")
+    private Long specNameId;
+
+    @ApiModelProperty(value = "属性值ID")
+    @TableField("spec_name_id")
+    private String specName;
+
+    @ApiModelProperty(value = "属性值ID")
     @TableField("spec_value_id")
     private Long specValueId;
+
+    @ApiModelProperty(value = "属性值")
+    @TableField("spec_value")
+    private String specValue;
 
     @ApiModelProperty(value = "排序ID")
     @TableField("sort_id")

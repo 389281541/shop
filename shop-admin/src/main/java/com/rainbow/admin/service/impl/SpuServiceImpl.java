@@ -186,7 +186,6 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
                 SkuSpecSaveDTO skuSpecSaveDTO = skuSaveSpecList.get(j);
                 SkuSpec skuSpec = new SkuSpec();
                 BeanUtils.copyProperties(skuSpecSaveDTO, skuSpec);
-                skuSpec.setSkuId(skuSaveDTO.getSkuId());
                 skuSpec.setSortId(++count);
                 skuSpec.setCreateTime(LocalDateTime.now());
                 skuSpecList.add(skuSpec);
@@ -256,26 +255,8 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         spuDetailVO.setShopName(shop.getName());
 
         List<SkuSimpleVO> skuSimpleVOList = skuService.listBySpuId(new IdSearchDTO(spuId));
-        List<SpuImgSimpleVO> spuImgSimpleVOList = Lists.newArrayList();
-        List<SpuSpecSimpleVO> spuSpecSimpleVOList = Lists.newArrayList();
-
-        List<SpuImg> spuImgList = spuImgService.listBySpuId(spuId);
-        if (!CollectionUtils.isEmpty(spuImgList)) {
-            spuImgSimpleVOList = spuImgList.stream().map(x -> {
-                SpuImgSimpleVO spuImgSimpleVO = new SpuImgSimpleVO();
-                BeanUtils.copyProperties(x, spuImgSimpleVO);
-                return spuImgSimpleVO;
-            }).collect(Collectors.toList());
-        }
-
-        List<SpuSpec> spuSpecList = spuSpecService.listBySpuId(spuId);
-        if (!CollectionUtils.isEmpty(spuSpecList)) {
-            spuSpecSimpleVOList = spuSpecList.stream().map(x -> {
-                SpuSpecSimpleVO spuSpecSimpleVO = new SpuSpecSimpleVO();
-                BeanUtils.copyProperties(x, spuSpecSimpleVO);
-                return spuSpecSimpleVO;
-            }).collect(Collectors.toList());
-        }
+        List<SpuImgSimpleVO> spuImgSimpleVOList = spuImgService.listBySpuId(spuId);
+        List<SpuSpecSimpleVO> spuSpecSimpleVOList = spuSpecService.listBySpuId(spuId);
 
         spuDetailVO.setSkuList(skuSimpleVOList);
         spuDetailVO.setSpuImgList(spuImgSimpleVOList);

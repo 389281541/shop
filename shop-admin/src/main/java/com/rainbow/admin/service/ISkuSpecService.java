@@ -3,6 +3,7 @@ package com.rainbow.admin.service;
 import com.rainbow.admin.api.vo.SkuSpecSimpleVO;
 import com.rainbow.admin.entity.SkuSpec;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rainbow.common.vo.MemberShipVO;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,12 +24,26 @@ public interface ISkuSpecService extends IService<SkuSpec> {
     Integer removeBySkuIds(Collection<Long> skuIdList);
 
     /**
-     * skuId列表
+     * 通过skuId获取属性值列表
      * @param skuId
      * @return
      */
     List<SkuSpecSimpleVO> listBySkuId(Long skuId);
 
 
+    /**
+     *
+     * @param spuId
+     * @return
+     */
+    List<SkuSpecSimpleVO> listBySpuId(Long spuId);
+
+
+    /**
+     * 通过spuId获取属性值 并通过specNameId分组了
+     * @param spuId
+     * @return
+     */
+    List<MemberShipVO> listMemberShipBySpuId(Long spuId);
 
 }

@@ -25,11 +25,17 @@ public interface SkuSpecMapper extends BaseMapper<SkuSpec> {
     Integer removeBySkuIds(@Param("skuIds") Collection<Long> skuIds);
 
     /**
-     * sku列表
+     * sku规格值列表
      * @param skuId
      * @return
      */
-    List<SkuSpecSimpleVO> listBySkuId(@Param("skuId") Long skuId);
+    List<SkuSpec> listBySkuId(@Param("skuId") Long skuId);
 
 
+    /**
+     * sku规格值列表
+     * @param spuId
+     * @return
+     */
+    List<SkuSpec> listBySpuId(@Param("spuId") Long spuId);
 }

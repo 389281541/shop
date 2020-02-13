@@ -59,34 +59,34 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
     public IPage<SpecNameSimpleVO> pageSpecName(SpecNameSearchDTO param) {
         IPage<SpecName> specNamePage = new Page<>(param.getPageNum(), param.getPageSize());
         LambdaQueryWrapper<SpecName> condition = new LambdaQueryWrapper<>();
-        if(param.getId() != null) {
+        if (param.getId() != null) {
             condition.eq(SpecName::getItemId, param.getId());
         }
-        if(param.getName() != null) {
+        if (param.getName() != null) {
             condition.like(SpecName::getName, param.getName());
         }
-        if(param.getColor() != null) {
+        if (param.getColor() != null) {
             condition.eq(SpecName::getColor, param.getColor());
         }
-        if(param.getEnumeration() != null) {
+        if (param.getEnumeration() != null) {
             condition.eq(SpecName::getEnumeration, param.getEnumeration());
         }
-        if(param.getInput() != null) {
+        if (param.getInput() != null) {
             condition.eq(SpecName::getInput, param.getInput());
         }
-        if(param.getCritical() != null) {
+        if (param.getCritical() != null) {
             condition.eq(SpecName::getCritical, param.getCritical());
         }
-        if(param.getSku() != null) {
+        if (param.getSku() != null) {
             condition.eq(SpecName::getSku, param.getSku());
         }
-        if(param.getSearch() != null) {
+        if (param.getSearch() != null) {
             condition.eq(SpecName::getSearch, param.getSearch());
         }
-        if(param.getMultiple() != null) {
+        if (param.getMultiple() != null) {
             condition.eq(SpecName::getMultiple, param.getMultiple());
         }
-        if(param.getType() != null) {
+        if (param.getType() != null) {
             condition.eq(SpecName::getType, param.getType());
         }
         condition.eq(SpecName::getDelStatus, DelFlagEnum.NO.getValue());
@@ -98,7 +98,7 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
         return specNameIPage.convert(x -> {
             SpecNameSimpleVO specNameSimpleVO = new SpecNameSimpleVO();
             BeanUtils.copyProperties(x, specNameSimpleVO);
-            specNameSimpleVO.setSpecValues(id2vMap.get(x.getId())==null? Lists.newArrayList():id2vMap.get(x.getId()));
+            specNameSimpleVO.setSpecValues(id2vMap.get(x.getId()) == null ? Lists.newArrayList() : id2vMap.get(x.getId()));
             return specNameSimpleVO;
         });
     }
@@ -151,17 +151,17 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
         wrapper.eq(SpecName::getItemId, param.getId());
         wrapper.eq(SpecName::getDelStatus, DelFlagEnum.NO.getValue());
         List<SpecName> specNameList = baseMapper.selectList(wrapper);
-        if(!CollectionUtils.isEmpty(specNameList)) {
+        if (!CollectionUtils.isEmpty(specNameList)) {
             final Map<Long, List<IdNameVO>> id2vMap = getSpecValueMap(specNameList);
-            List<SpecNameSimpleVO> skuSpecList = specNameList.stream().filter(x -> x.getType().equals(BooleanEnum.NO.getValue()) && x.getInput().equals(BooleanEnum.YES.getValue()) && x.getSku().equals(BooleanEnum.YES.getValue())).map(x->{
+            List<SpecNameSimpleVO> skuSpecList = specNameList.stream().filter(x -> x.getType().equals(BooleanEnum.NO.getValue()) && x.getInput().equals(BooleanEnum.YES.getValue()) && x.getSku().equals(BooleanEnum.YES.getValue())).map(x -> {
                 SpecNameSimpleVO specNameSimpleVO = new SpecNameSimpleVO();
                 BeanUtils.copyProperties(x, specNameSimpleVO);
-                specNameSimpleVO.setSpecValues(id2vMap.get(x.getId())==null? Lists.newArrayList():id2vMap.get(x.getId()));
+                specNameSimpleVO.setSpecValues(id2vMap.get(x.getId()) == null ? Lists.newArrayList() : id2vMap.get(x.getId()));
                 return specNameSimpleVO;
             }).collect(Collectors.toList());
-            List<SpecNameSimpleVO> spuSpecList = specNameList.stream().filter(x -> x.getType().equals(BooleanEnum.YES.getValue())).map(x->{
+            List<SpecNameSimpleVO> spuSpecList = specNameList.stream().filter(x -> x.getType().equals(BooleanEnum.YES.getValue())).map(x -> {
                 SpecNameSimpleVO specNameSimpleVO = new SpecNameSimpleVO();
-                specNameSimpleVO.setSpecValues(id2vMap.get(x.getId())==null? Lists.newArrayList():id2vMap.get(x.getId()));
+                specNameSimpleVO.setSpecValues(id2vMap.get(x.getId()) == null ? Lists.newArrayList() : id2vMap.get(x.getId()));
                 return specNameSimpleVO;
             }).collect(Collectors.toList());
             specNameListVO.setSkuSpecList(skuSpecList);
@@ -173,7 +173,7 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
 
     private Map<Long, List<IdNameVO>> getSpecValueMap(List<SpecName> specNameList) {
         Map<Long, List<IdNameVO>> map = Maps.newHashMap();
-        if(!CollectionUtils.isEmpty(specNameList)) {
+        if (!CollectionUtils.isEmpty(specNameList)) {
             Set<Long> ids = specNameList.stream().map(SpecName::getId).collect(Collectors.toSet());
             LambdaQueryWrapper<SpecValue> specValueWrapper = new LambdaQueryWrapper<>();
             specValueWrapper.in(SpecValue::getSpecNameId, ids);

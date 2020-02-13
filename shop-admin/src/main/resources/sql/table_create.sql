@@ -458,7 +458,10 @@ CREATE TABLE vvshop_goods.sku_spec
 (
     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
     sku_id              bigint(20) NOT NULL COMMENT 'SKUID',
+    spec_name_id        bigint(20) NOT NULL COMMENT '属性名ID',
+    spec_name           varchar(1024) NOT NULL COMMENT '属性名',
     spec_value_id       bigint(20) NOT NULL COMMENT '属性值ID',
+    spec_value          bigint(20) NOT NULL COMMENT '属性值',
     sort_id             int(11) NOT NULL COMMENT '排序ID',
     update_time         timestamp default NULL NULL COMMENT '更新时间',
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',

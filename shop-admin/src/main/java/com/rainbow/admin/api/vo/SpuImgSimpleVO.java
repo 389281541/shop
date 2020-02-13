@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
@@ -28,11 +30,15 @@ public class SpuImgSimpleVO extends BaseDTO {
     private String imgUrl;
 
     @ApiModelProperty(value = "是否封面图 0-非封面图 1-封面图")
-    private Integer isCover;
+    private Integer coverFlag;
 
     @ApiModelProperty(value = "是否主图 0-非主图 1-主图")
-    private Integer isMaster;
+    private Integer masterFlag;
 
     @ApiModelProperty(value = "是否颜色图 0-非颜色图 1-颜色图")
-    private Integer isColor;
+    private Integer colorFlag;
+
+    @ApiModelProperty(value = "sku spec关联表")
+    private List<SkuSpecSimpleVO> skuSpecList;
+
 }

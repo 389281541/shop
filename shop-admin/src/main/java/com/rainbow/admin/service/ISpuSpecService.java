@@ -1,5 +1,6 @@
 package com.rainbow.admin.service;
 
+import com.rainbow.admin.api.vo.SpuSpecSimpleVO;
 import com.rainbow.admin.entity.SpuSpec;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -25,5 +26,5 @@ public interface ISpuSpecService extends IService<SpuSpec> {
      * @param spuId
      * @return
      */
-    List<SpuSpec> listBySpuId(Long spuId);
+    List<SpuSpecSimpleVO> listBySpuId(Long spuId);
 }
