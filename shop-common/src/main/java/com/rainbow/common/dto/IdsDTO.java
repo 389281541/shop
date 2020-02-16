@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -23,6 +24,7 @@ import java.util.List;
 public class IdsDTO extends BaseDTO {
 
     @ApiModelProperty(value = "主键ID列表")
+    @NotEmpty(message = "ids不能为空")
     private List<Long> ids;
 
 }

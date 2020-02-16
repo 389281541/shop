@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.admin.mapper.OrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.admin.entity.Order">
+        <id column="id" property="id" />
+        <result column="order_no" property="orderNo" />
+        <result column="customer_id" property="customerId" />
+        <result column="customer_name" property="customerName" />
+        <result column="pay_type" property="payType" />
+        <result column="status" property="status" />
+        <result column="order_type" property="orderType" />
+        <result column="auto_confirm_day" property="autoConfirmDay" />
+        <result column="trade_no" property="tradeNo" />
+        <result column="promotion_amount" property="promotionAmount" />
+        <result column="integration_amount" property="integrationAmount" />
+        <result column="promotion_info" property="promotionInfo" />
+        <result column="integration_award" property="integrationAward" />
+        <result column="coupon_amount" property="couponAmount" />
+        <result column="total_amount" property="totalAmount" />
+        <result column="flow_id" property="flowId" />
+        <result column="delivery_company" property="deliveryCompany" />
+        <result column="delivery_bill_no" property="deliveryBillNo" />
+        <result column="deliver_mode" property="deliverMode" />
+        <result column="deliver_fee" property="deliverFee" />
+        <result column="receiver_name" property="receiverName" />
+        <result column="receiver_phone" property="receiverPhone" />
+        <result column="receiver_post_code" property="receiverPostCode" />
+        <result column="receiver_province" property="receiverProvince" />
+        <result column="receiver_city" property="receiverCity" />
+        <result column="receiver_region" property="receiverRegion" />
+        <result column="receiver_detail_address" property="receiverDetailAddress" />
+        <result column="note" property="note" />
+        <result column="confirm_status" property="confirmStatus" />
+        <result column="use_integration" property="useIntegration" />
+        <result column="payment_time" property="paymentTime" />
+        <result column="delivery_time" property="deliveryTime" />
+        <result column="receive_time" property="receiveTime" />
+        <result column="del_status" property="delStatus" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <resultMap id="orderDetailResultMap" type="com.rainbow.admin.api.vo.OrderDetailVO" extends="BaseResultMap">
+        <collection property="orderSkuList" resultMap="com.rainbow.admin.mapper.OrderSkuMapper.BaseResultMap" columnPrefix="item_"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_no, customer_id, customer_name, pay_type, status, order_type, auto_confirm_day, trade_no, promotion_amount, integration_amount, promotion_info, integration_award, coupon_amount, total_amount, flow_id, delivery_company, delivery_bill_no, deliver_mode, deliver_fee, receiver_name, receiver_phone, receiver_post_code, receiver_province, receiver_city, receiver_region, receiver_detail_address, note, confirm_status, use_integration, payment_time, delivery_time, receive_time, del_status, update_time, create_time
+    </sql>
+
+
+    <select id="pageOrder" parameterType="com.rainbow.admin.api.dto.OrderSearchDTO" resultMap="BaseResultMap">
+        SELECT *
+        FROM
+            'order'
+        WHERE
+        del_status = 0
+        <if test="param.orderSn != null and param.orderSn != ''">
+            AND order_sn = #{param.orderSn}
+        </if>
+        <if test="param.status != null">
+            AND status = #{param.status}
+        </if>
+        <if test="param.createTime != null and param.createTime != ''">
+            AND create_time LIKE concat(#{param.createTime},"%")
+        </if>
+        <if test="param.receiverKeyword != null and param.receiverKeyword!=''">
+            AND (
+            receiver_name LIKE concat("%",#{param.receiverKeyword},"%")
+            OR receiver_phone LIKE concat("%",#{param.receiverKeyword},"%")
+            )
+        </if>
+    </select>
+
+
+    <update id="deliverOrder" parameterType="java.util.List">
+        UPDATE 'order'
+        SET
+        flow_id = CASE id
+        <foreach collection="list" item="item">
+            WHEN #{item.orderId} THEN #{item.flowId}
+        </foreach>
+        END,
+        delivery_company = CASE id
+        <foreach collection="list" item="item">
+            WHEN #{item.orderId} THEN #{item.deliveryCompany}
+        </foreach>
+        END,
+        delivery_time = CASE id
+        <foreach collection="list" item="item">
+            WHEN #{item.orderId} THEN CURRENT_TIMESTAMP
+        </foreach>
+        END,
+        `status` = CASE id
+        <foreach collection="list" item="item">
+            WHEN #{item.orderId} THEN 2
+        </foreach>
+        END
+        WHERE
+        id IN
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item.orderId}
+        </foreach>
+        AND `status` = 1
+    </update>
+
+
+    <select id="getDetailById" resultMap="orderDetailResultMap">
+        SELECT o.*,
+            os.id item_id,
+            os.spu_id item_spu_id,
+            os.sku_pic item_sku_pic,
+            os.sku_name item_sku_name,
+            os.brand_id item_brand_id,
+            os.brand_name item_brand_name,
+            os.price item_price,
+            os.quantity item_quantity
+        FROM
+            'order' o
+            left join order_sku os ON o.id = os.order_id
+        WHERE
+            o.id = #{id}
+        ORDER BY os.id ASC
+    </select>
+
+
+    <update id="updateReceiverInfo" parameterType="com.rainbow.admin.api.dto.ReceiverInfoChangeDTO">
+        update order set
+            receiver_name = #{param.receiverName},
+            receiver_phone=#{param.receiverPhone},
+            receiver_post_code=#{param.receiverPostCode},
+            receiver_province=#{param.receiverProvince},
+            receiver_city=#{param.receiverCity},
+            receiver_region=#{param.receiverRegion},
+            receiver_detail_address=#{param.receiverDetailAddress}
+            update_time = CURRENT_TIMESTAMP
+        where id = #{param.id}
+    </update>
+
+    <update id="updateMoneyInfo" parameterType="com.rainbow.admin.api.dto.MoneyInfoChangeDTO">
+        update order set
+            promotion_amount = #{param.promotionAmount},
+            deliver_fee=#{param.deliverFee},
+            update_time = CURRENT_TIMESTAMP
+        where id = #{param.id}
+    </update>
+
+    <update id="updateNote" parameterType="com.rainbow.admin.api.dto.NoteChangeDTO">
+         update order set
+            note=#{param.note},
+            update_time = CURRENT_TIMESTAMP
+        where id = #{param.id}
+    </update>
+
+</mapper>

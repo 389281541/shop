@@ -28,7 +28,7 @@ public class MpGenerator {
     public void generateCode() {
         String packageName = "com.rainbow.admin";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "sku_spec");
+        generateByTables(serviceNameStartWithI, packageName, "order_sku_spec");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
@@ -54,7 +54,7 @@ public class MpGenerator {
                 .setEntityLombokModel(true)
                 .setRestControllerStyle(true)
                 .setEntityBooleanColumnRemoveIsPrefix(true)
-                .setLogicDeleteFieldName("del_status")
+//                .setLogicDeleteFieldName("del_status")
                 .entityTableFieldAnnotationEnable(true)   //生成字段注解
                 .setNaming(NamingStrategy.underline_to_camel)
                 .setEntityBuilderModel(false)

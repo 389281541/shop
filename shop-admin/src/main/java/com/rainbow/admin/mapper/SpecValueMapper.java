@@ -16,5 +16,10 @@ import java.util.List;
  */
 @DS("goods")
 public interface SpecValueMapper extends BaseMapper<SpecValue> {
+    /**
+     * 批量更新sortId
+     * @param list
+     * @return
+     */
     Integer updateSortIdBatch(@Param("list") List<TwoTuple<Long,Long>> list);
 }

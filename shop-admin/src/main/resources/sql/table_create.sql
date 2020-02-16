@@ -490,37 +490,64 @@ CREATE TABLE vvshop_goods.order
 (
     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
     order_no            bigint(20) NOT NULL COMMENT '订单编号',
-    item_count          int(11) NOT NULL COMMENT '商品项数',
     customer_id         bigint(20) NOT NULL COMMENT '用户ID',
-    shop_id             bigint(20) NOT NULL COMMENT '店铺ID',
-    flow_id             bigint(20) NOT NULL COMMENT '物流ID',
-    payment_mode        tinyint   default NULL NULL COMMENT '支付方式 0：支付宝，1：微信，2：银行卡',
-    payment_time        timestamp default NULL NULL COMMENT '支付时间',
-    status              tinyint   default 0 NOT NULL COMMENT '订单状态',
+    customer_name       bigint(20) NOT NULL COMMENT '用户名称',
+    pay_type            tinyint   default NULL NULL COMMENT '支付方式 0：支付宝，1：微信，2：银行卡',
+    status              tinyint   default 0 NOT NULL COMMENT '订单状态 0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单',
+    order_type          tinyint default NULL COMMENT '订单类型：0->正常订单；1->秒杀订单',
+    auto_confirm_day   int(11) DEFAULT NULL COMMENT '自动确认时间（单位为天）',
     trade_no            bigint(20) default NULL NULL COMMENT '支付交易号',
-    original_amount     bigint(20) NOT NULL COMMENT '原价总额',
-    discount_amount     bigint(20) NOT NULL COMMENT '折扣金额',
-    points_amount       bigint(20) NOT NULL COMMENT '积分金额',
+    promotion_amount    bigint(20) NOT NULL COMMENT '促销金额',
+    integration_amount  bigint(20) NOT NULL COMMENT '积分金额',
+    promotion_info      varchar(100) DEFAULT NULL COMMENT '活动信息',
+    integration_award   int(11) DEFAULT NULL COMMENT '该订单可以获得的积分',
     coupon_amount       bigint(20) NOT NULL COMMENT '优惠券金额',
     total_amount        bigint(20) NOT NULL COMMENT '支付金额',
+    flow_id             bigint(20) NOT NULL COMMENT '物流ID',
+    delivery_company    varchar(128) DEFAULT NULL COMMENT '物流公司(配送方式)',
+    delivery_bill_no    varchar(64) DEFAULT NULL COMMENT '物流单号',
     deliver_mode        tinyint default 0 NULL COMMENT '配送方式：0-快递 1-自取',
     deliver_fee         bigint(20) NOT NULL COMMENT '运费',
+    receiver_name       varchar(100) NOT NULL COMMENT '收货人姓名',
+    receiver_phone      varchar(32) NOT NULL COMMENT '收货人电话',
+    receiver_post_code  varchar(32) DEFAULT NULL COMMENT '收货人邮编',
+    receiver_province   varchar(32) DEFAULT NULL COMMENT '省份/直辖市',
+    receiver_city       varchar(32) DEFAULT NULL COMMENT '城市',
+    receiver_region     varchar(32) DEFAULT NULL COMMENT '区',
+    receiver_detail_address varchar(200) DEFAULT NULL COMMENT '详细地址',
+    note                varchar(500) DEFAULT NULL COMMENT '订单备注',
+    confirm_status      int(1) DEFAULT NULL COMMENT '确认收货状态：0->未确认；1->已确认',
+    use_integration     int(11) DEFAULT NULL COMMENT '下单时使用的积分',
+    payment_time      timestamp DEFAULT NULL NULL COMMENT '支付时间',
+    delivery_time timestamp DEFAULT NULL NULL COMMENT '发货时间',
+    receive_time timestamp DEFAULT NULL NULL COMMENT '确认收货时间',
     del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time         timestamp default NULL NULL COMMENT '更新时间',
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '订单表';
 
-
 CREATE TABLE vvshop_goods.order_sku
 (
     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    order_id             bigint(20) DEFAULT NULL COMMENT '订单id',
     order_no            bigint(20) NOT NULL COMMENT '订单编号',
     sku_id              bigint(20) NOT NULL COMMENT 'SKUID',
     spu_id              bigint(20) NOT NULL COMMENT 'SPUID',
+    sku_pic             varchar(500) DEFAULT NULL COMMENT 'SPU图片',
+    sku_name            varchar(500) DEFAULT NULL COMMENT 'SKU名称',
+    brand_id            bigint(20) NOT NULL COMMENT '品牌ID',
+    brand_name          varchar(20) NOT NULL COMMENT '品牌名称',
     shop_id             bigint(20) NOT NULL COMMENT '店铺ID',
-    amount              int(11) NOT NULL COMMENT '商品数量',
+    quantity            int(11) NOT NULL COMMENT '购买数量',
     price               bigint(20) NOT NULL COMMENT '价格',
+    item_id             bigint(20) NOT NULL COMMENT '类别ID',
+    promotion_name      varchar(200) DEFAULT NULL COMMENT '商品促销名称',
+    promotion_amount    decimal(10,2) DEFAULT NULL COMMENT '商品促销分解金额',
+    coupon_amount       decimal(10,2) DEFAULT NULL COMMENT '优惠券优惠分解金额',
+    integration_amount  decimal(10,2) DEFAULT NULL COMMENT '积分优惠分解金额',
+    real_amount         decimal(10,2) DEFAULT NULL COMMENT '该商品经过优惠后的分解金额',
+    integration_award   int(11) DEFAULT 0,
     del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time         timestamp default NULL NULL COMMENT '更新时间',
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
@@ -528,6 +555,18 @@ CREATE TABLE vvshop_goods.order_sku
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '订单-sku关联表';
 
 
+CREATE TABLE vvshop_goods.order_sku_spec
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    order_sku_id        bigint(20) DEFAULT NULL COMMENT '订单项目id',
+    spec_name_id        bigint(20) NOT NULL COMMENT '属性名ID',
+    spec_name           varchar(1024) NOT NULL COMMENT '属性名',
+    spec_value_id       bigint(20) NOT NULL COMMENT '属性值ID',
+    spec_value          bigint(20) NOT NULL COMMENT '属性值',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '订单条目-属性关联表';
 
 
 CREATE TABLE vvshop_goods.flow
