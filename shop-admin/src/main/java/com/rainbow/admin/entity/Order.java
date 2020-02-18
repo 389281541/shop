@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("order")
+@TableName("order_")
 @ApiModel(value="Order对象", description="订单表")
 public class Order extends Model<Order> {
 
@@ -64,11 +65,11 @@ public class Order extends Model<Order> {
 
     @ApiModelProperty(value = "促销金额")
     @TableField("promotion_amount")
-    private Long promotionAmount;
+    private BigDecimal promotionAmount;
 
     @ApiModelProperty(value = "积分金额")
     @TableField("integration_amount")
-    private Long integrationAmount;
+    private BigDecimal integrationAmount;
 
     @ApiModelProperty(value = "活动信息")
     @TableField("promotion_info")
@@ -80,11 +81,11 @@ public class Order extends Model<Order> {
 
     @ApiModelProperty(value = "优惠券金额")
     @TableField("coupon_amount")
-    private Long couponAmount;
+    private BigDecimal couponAmount;
 
     @ApiModelProperty(value = "支付金额")
     @TableField("total_amount")
-    private Long totalAmount;
+    private BigDecimal totalAmount;
 
     @ApiModelProperty(value = "物流ID")
     @TableField("flow_id")
@@ -104,7 +105,7 @@ public class Order extends Model<Order> {
 
     @ApiModelProperty(value = "运费")
     @TableField("deliver_fee")
-    private Long deliverFee;
+    private BigDecimal deliverFee;
 
     @ApiModelProperty(value = "收货人姓名")
     @TableField("receiver_name")

@@ -23,5 +23,5 @@ public class OrderDeliverDTO extends BaseDTO {
     private String deliveryCompany;
 
     @ApiModelProperty("物流单号")
-    private Long flowId;
+    private String deliveryBillNo;
 }

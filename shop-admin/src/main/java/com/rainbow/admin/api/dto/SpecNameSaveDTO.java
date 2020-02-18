@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @ApiModel(value = "SpecNameSaveDTO", description = "属性名保存传输对象")
 public class SpecNameSaveDTO extends BaseDTO {
+
     @ApiModelProperty(value = "名称")
     @NotBlank(message = "名称不能为空")
     private String name;

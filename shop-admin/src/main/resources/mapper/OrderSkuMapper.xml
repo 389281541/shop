@@ -11,6 +11,7 @@
         <result column="spu_id" property="spuId" />
         <result column="sku_pic" property="skuPic" />
         <result column="sku_name" property="skuName" />
+        <result column="sku_spec" property="skuSpec" />
         <result column="brand_id" property="brandId" />
         <result column="brand_name" property="brandName" />
         <result column="shop_id" property="shopId" />

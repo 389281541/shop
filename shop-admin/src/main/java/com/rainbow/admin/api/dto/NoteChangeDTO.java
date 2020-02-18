@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @ApiModel(value = "NoteChangeDTO", description = "备注信息修改")
 public class NoteChangeDTO extends BaseDTO {
+
     @ApiModelProperty(value = "订单id")
     private Long id;
 

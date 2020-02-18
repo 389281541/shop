@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,10 +27,13 @@ public class OrderDetailVO extends OrderSimpleVO {
     private Long tradeNo;
 
     @ApiModelProperty(value = "促销金额")
-    private Long promotionAmount;
+    private BigDecimal promotionAmount;
 
     @ApiModelProperty(value = "积分金额")
-    private Long integrationAmount;
+    private BigDecimal integrationAmount;
+
+    @ApiModelProperty(value = "用户ID")
+    private Long customerId;
 
     @ApiModelProperty(value = "活动信息")
     private String promotionInfo;
@@ -38,7 +42,7 @@ public class OrderDetailVO extends OrderSimpleVO {
     private Integer integrationAward;
 
     @ApiModelProperty(value = "优惠券金额")
-    private Long couponAmount;
+    private BigDecimal couponAmount;
 
     @ApiModelProperty(value = "物流ID")
     private Long flowId;
@@ -53,28 +57,7 @@ public class OrderDetailVO extends OrderSimpleVO {
     private Integer deliverMode;
 
     @ApiModelProperty(value = "运费")
-    private Long deliverFee;
-
-    @ApiModelProperty(value = "收货人姓名")
-    private String receiverName;
-
-    @ApiModelProperty(value = "收货人电话")
-    private String receiverPhone;
-
-    @ApiModelProperty(value = "收货人邮编")
-    private String receiverPostCode;
-
-    @ApiModelProperty(value = "省份/直辖市")
-    private String receiverProvince;
-
-    @ApiModelProperty(value = "城市")
-    private String receiverCity;
-
-    @ApiModelProperty(value = "区")
-    private String receiverRegion;
-
-    @ApiModelProperty(value = "详细地址")
-    private String receiverDetailAddress;
+    private BigDecimal deliverFee;
 
     @ApiModelProperty(value = "订单备注")
     private String note;

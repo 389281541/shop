@@ -1,18 +1,18 @@
 package com.rainbow.admin.entity;
 
-import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * 订单-sku关联表
@@ -42,6 +42,10 @@ public class OrderSku extends Model<OrderSku> {
     @ApiModelProperty(value = "SKUID")
     @TableField("sku_id")
     private Long skuId;
+
+    @ApiModelProperty(value = "skuSpec")
+    @TableField("sku_spec")
+    private String skuSpec;
 
     @ApiModelProperty(value = "SPUID")
     @TableField("spu_id")
@@ -73,7 +77,7 @@ public class OrderSku extends Model<OrderSku> {
 
     @ApiModelProperty(value = "价格")
     @TableField("price")
-    private Long price;
+    private BigDecimal price;
 
     @ApiModelProperty(value = "类别ID")
     @TableField("item_id")
@@ -104,7 +108,6 @@ public class OrderSku extends Model<OrderSku> {
 
     @ApiModelProperty(value = "删除状态 0-未删除 1-已删除")
     @TableField("del_status")
-    @TableLogic
     private Integer delStatus;
 
     @ApiModelProperty(value = "更新时间")

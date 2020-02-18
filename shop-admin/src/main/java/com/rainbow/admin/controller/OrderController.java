@@ -31,7 +31,7 @@ public class OrderController {
     private IOrderService orderService;
 
     @ApiOperation("查询订单")
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @PostMapping(value = "/page")
     public R<IPage<OrderSimpleVO>> page(@Valid @RequestBody OrderSearchDTO param) {
         return new R<>(orderService.pageOrder(param));
     }
@@ -55,7 +55,7 @@ public class OrderController {
     }
 
     @ApiOperation("获取订单详情")
-    @RequestMapping(value = "/detail", method = RequestMethod.POST)
+    @PostMapping(value = "/detail")
     public R<OrderDetailVO> detail(@Valid @RequestBody IdDTO param) {
         return new R<>(orderService.getDetailById(param));
     }

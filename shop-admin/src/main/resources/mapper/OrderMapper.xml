@@ -42,9 +42,6 @@
         <result column="create_time" property="createTime" />
     </resultMap>
 
-    <resultMap id="orderDetailResultMap" type="com.rainbow.admin.api.vo.OrderDetailVO" extends="BaseResultMap">
-        <collection property="orderSkuList" resultMap="com.rainbow.admin.mapper.OrderSkuMapper.BaseResultMap" columnPrefix="item_"/>
-    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -55,11 +52,11 @@
     <select id="pageOrder" parameterType="com.rainbow.admin.api.dto.OrderSearchDTO" resultMap="BaseResultMap">
         SELECT *
         FROM
-            'order'
+            order_
         WHERE
         del_status = 0
-        <if test="param.orderSn != null and param.orderSn != ''">
-            AND order_sn = #{param.orderSn}
+        <if test="param.orderNo != null and param.orderNo != ''">
+            AND order_no = #{param.orderNo}
         </if>
         <if test="param.status != null">
             AND status = #{param.status}
@@ -77,11 +74,11 @@
 
 
     <update id="deliverOrder" parameterType="java.util.List">
-        UPDATE 'order'
+        UPDATE order_
         SET
-        flow_id = CASE id
+        delivery_bill_no = CASE id
         <foreach collection="list" item="item">
-            WHEN #{item.orderId} THEN #{item.flowId}
+            WHEN #{item.orderId} THEN #{item.deliveryBillNo}
         </foreach>
         END,
         delivery_company = CASE id
@@ -108,40 +105,23 @@
     </update>
 
 
-    <select id="getDetailById" resultMap="orderDetailResultMap">
-        SELECT o.*,
-            os.id item_id,
-            os.spu_id item_spu_id,
-            os.sku_pic item_sku_pic,
-            os.sku_name item_sku_name,
-            os.brand_id item_brand_id,
-            os.brand_name item_brand_name,
-            os.price item_price,
-            os.quantity item_quantity
-        FROM
-            'order' o
-            left join order_sku os ON o.id = os.order_id
-        WHERE
-            o.id = #{id}
-        ORDER BY os.id ASC
-    </select>
 
 
     <update id="updateReceiverInfo" parameterType="com.rainbow.admin.api.dto.ReceiverInfoChangeDTO">
-        update order set
+        update order_ set
             receiver_name = #{param.receiverName},
             receiver_phone=#{param.receiverPhone},
             receiver_post_code=#{param.receiverPostCode},
             receiver_province=#{param.receiverProvince},
             receiver_city=#{param.receiverCity},
             receiver_region=#{param.receiverRegion},
-            receiver_detail_address=#{param.receiverDetailAddress}
+            receiver_detail_address=#{param.receiverDetailAddress},
             update_time = CURRENT_TIMESTAMP
         where id = #{param.id}
     </update>
 
     <update id="updateMoneyInfo" parameterType="com.rainbow.admin.api.dto.MoneyInfoChangeDTO">
-        update order set
+        update order_ set
             promotion_amount = #{param.promotionAmount},
             deliver_fee=#{param.deliverFee},
             update_time = CURRENT_TIMESTAMP
@@ -149,7 +129,7 @@
     </update>
 
     <update id="updateNote" parameterType="com.rainbow.admin.api.dto.NoteChangeDTO">
-         update order set
+         update order_ set
             note=#{param.note},
             update_time = CURRENT_TIMESTAMP
         where id = #{param.id}

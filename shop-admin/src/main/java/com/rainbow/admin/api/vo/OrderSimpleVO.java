@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -36,10 +37,29 @@ public class OrderSimpleVO extends BaseDTO {
     private Integer orderType;
 
     @ApiModelProperty(value = "订单金额")
-    private Long totalAmount;
+    private BigDecimal totalAmount;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
+    @ApiModelProperty(value = "收货人姓名")
+    private String receiverName;
 
+    @ApiModelProperty(value = "收货人电话")
+    private String receiverPhone;
+
+    @ApiModelProperty(value = "收货人邮编")
+    private String receiverPostCode;
+
+    @ApiModelProperty(value = "省份/直辖市")
+    private String receiverProvince;
+
+    @ApiModelProperty(value = "城市")
+    private String receiverCity;
+
+    @ApiModelProperty(value = "区")
+    private String receiverRegion;
+
+    @ApiModelProperty(value = "详细地址")
+    private String receiverDetailAddress;
 }

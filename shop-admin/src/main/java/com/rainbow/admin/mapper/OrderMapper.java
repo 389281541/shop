@@ -1,6 +1,7 @@
 package com.rainbow.admin.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rainbow.admin.api.dto.*;
 import com.rainbow.admin.api.vo.OrderDetailVO;
 import com.rainbow.admin.entity.Order;
@@ -25,7 +26,7 @@ public interface OrderMapper extends BaseMapper<Order> {
      * @param page
      * @return
      */
-    IPage<Order> pageOrder(@Param("param")OrderSearchDTO param, IPage<Order> page);
+    IPage<Order> pageOrder( Page<Order> page, @Param("param")OrderSearchDTO param);
 
     /**
      * 批量送货
@@ -34,13 +35,6 @@ public interface OrderMapper extends BaseMapper<Order> {
      */
     Integer deliverOrder(@Param("list") List<OrderDeliverDTO> list);
 
-
-    /**
-     * 获取订单详情
-     * @param id
-     * @return
-     */
-    OrderDetailVO getDetailById(@Param("id") Long id);
 
     /**
      * 更新收件人信息
