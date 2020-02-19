@@ -536,7 +536,7 @@ CREATE TABLE order_setting (
   finish_overtime int(11) DEFAULT NULL COMMENT '自动完成交易时间，不能申请售后（天）',
   comment_overtime int(11) DEFAULT NULL COMMENT '订单完成后自动好评时间（天）',
   PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='订单设置表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='订单设置表';
 
 CREATE TABLE vvshop_goods.order_sku
 (
@@ -566,18 +566,66 @@ CREATE TABLE vvshop_goods.order_sku
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '订单-sku关联表';
 
 
-CREATE TABLE vvshop_goods.order_sku_spec
-(
+DROP TABLE IF EXISTS coupon;
+CREATE TABLE vvshop_goods.coupon (
     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
-    order_sku_id        bigint(20) DEFAULT NULL COMMENT '订单项目id',
-    spec_name_id        bigint(20) NOT NULL COMMENT '属性名ID',
-    spec_name           varchar(1024) NOT NULL COMMENT '属性名',
-    spec_value_id       bigint(20) NOT NULL COMMENT '属性值ID',
-    spec_value          bigint(20) NOT NULL COMMENT '属性值',
-    update_time         timestamp default NULL NULL COMMENT '更新时间',
-    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    type                tinyint DEFAULT NULL COMMENT '优惠卷类型；0->全场赠券；1->会员赠券；2->购物赠券；3->注册赠券',
+    name                varchar(256) DEFAULT NULL COMMENT '优惠券名称',
+    totalNum            int(11) DEFAULT NULL COMMENT '总数量',
+    amount              decimal(10,2) DEFAULT NULL COMMENT '金额',
+    receive_num_limit   int(11) DEFAULT NULL COMMENT '每人限领张数',
+    use_condition_type  decimal(10,2) DEFAULT NULL COMMENT '使用门槛；0表示无门槛 1-满多少金额使用',
+    use_condition_limit int(11) DEFAULT NULL COMMENT '使用条件的数量金额限制,金额时精确到分',
+    start_effect_time   timestamp NOT NULL COMMENT '优惠券有效期开始时间',
+    end_effect_time     timestamp NOT NULL COMMENT '优惠券有效期截止时间',
+    scope_type          tinyint DEFAULT NULL COMMENT '使用类型：0->全场通用；1->指定分类；2->指定商品',
+    note                varchar(200) DEFAULT NULL COMMENT '备注',
+    publish_num         int(11) DEFAULT NULL COMMENT '发行数量',
+    use_num             int(11) DEFAULT NULL COMMENT '已使用数量',
+    receive_num         int(11) DEFAULT NULL COMMENT '领取数量',
+    enable_time         datetime DEFAULT NULL COMMENT '可以领取的日期',
+    coupon_code                varchar(64) DEFAULT NULL COMMENT '优惠码',
     PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '订单条目-属性关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券表';
+
+
+DROP TABLE IF EXISTS coupon_customer;
+CREATE TABLE vvshop_goods.coupon_customer (
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    coupon_id           bigint(20) DEFAULT NULL COMMENT '优惠券ID',
+    customer_id         bigint(20) DEFAULT NULL COMMENT '用户ID',
+    coupon_code         varchar(64) DEFAULT NULL COMMENT '优惠券码',
+    customer_name       varchar(64) DEFAULT NULL COMMENT '领取人昵称',
+    receive_type        tinyint DEFAULT NULL COMMENT '获取类型：0->后台赠送；1->主动获取',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    use_status          tinyint DEFAULT NULL COMMENT '使用状态：0->未使用；1->已使用；2->已过期',
+    use_time            timestamp DEFAULT 0 COMMENT '使用时间',
+    order_id            bigint(20) DEFAULT NULL COMMENT '订单编号',
+    order_no            varchar(100) DEFAULT NULL COMMENT '订单编号',
+  PRIMARY KEY (id),
+  KEY idx_customer_id (customer_id) USING BTREE,
+  KEY idx_coupon_id (coupon_id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券使用、领取历史表';
+
+DROP TABLE IF EXISTS coupon_item;
+CREATE TABLE coupon_item (
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    coupon_id           bigint(20) DEFAULT NULL COMMENT '优惠券ID',
+    item_id bigint(20) DEFAULT NULL COMMENT '类别ID',
+    item_name varchar(200) DEFAULT NULL COMMENT '产品分类名称',
+    parent_item_name varchar(200) DEFAULT NULL COMMENT '父分类名称',
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券和商品分类关系表';
+
+DROP TABLE IF EXISTS coupon_spu;
+CREATE TABLE coupon_spu (
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    coupon_id           bigint(20) DEFAULT NULL COMMENT '优惠券ID',
+    spu_id              bigint(20) DEFAULT NULL COMMENT 'SPUID',
+    spu_name            varchar(500) DEFAULT NULL COMMENT '商品名称',
+    receive_type        tinyint DEFAULT NULL COMMENT '获取类型：0->后台赠送；1->主动获取 2-分享链接',
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券和商品的关系表';
 
 
 CREATE TABLE vvshop_goods.flow

@@ -1,7 +1,6 @@
 package com.rainbow.admin.controller;
 
 
-import com.rainbow.admin.api.vo.SkuSpecSimpleVO;
 import com.rainbow.admin.service.ISkuSpecService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.R;
