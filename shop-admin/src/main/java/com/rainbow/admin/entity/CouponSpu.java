@@ -36,6 +36,10 @@ public class CouponSpu extends Model<CouponSpu> {
     @TableField("spu_id")
     private Long spuId;
 
+    @ApiModelProperty(value = "SPUID")
+    @TableField("spu_no")
+    private Long spuNo;
+
     @ApiModelProperty(value = "商品名称")
     @TableField("spu_name")
     private String spuName;

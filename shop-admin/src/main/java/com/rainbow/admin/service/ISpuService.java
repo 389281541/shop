@@ -11,6 +11,8 @@ import com.rainbow.admin.entity.Spu;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.StatusBatchChangeDTO;
 
+import java.util.List;
+
 /**
  * 商品表 服务类
  *
@@ -64,4 +66,12 @@ public interface ISpuService extends IService<Spu> {
      * @return
      */
     Boolean setRecommendStatus(StatusBatchChangeDTO param);
+
+
+    /**
+     * spu简单列表
+     * @param keyword
+     * @return
+     */
+    List<SpuSimpleVO> listSimple(String keyword);
 }

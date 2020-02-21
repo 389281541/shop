@@ -28,12 +28,13 @@ public class CouponCustomerServiceImpl extends ServiceImpl<CouponCustomerMapper,
     public IPage<CouponCustomerSimpleVO> pageCouponCustomer(CouponCustomerSearchDTO param) {
         IPage<CouponCustomer> couponCustomerPageInfo = new Page<>(param.getPageNum(), param.getPageSize());
         LambdaQueryWrapper<CouponCustomer> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(CouponCustomer::getCouponId, param.getCouponId());
         if (param.getUseStatus() != null) {
             wrapper.eq(CouponCustomer::getUseStatus, param.getUseStatus());
         }
 
         if (Strings.isNotBlank(param.getOrderNo())) {
-            wrapper.eq(CouponCustomer::getOrderNo, param.getOrderNo());
+            wrapper.like(CouponCustomer::getOrderNo, param.getOrderNo());
         }
 
         IPage<CouponCustomer> couponCustomerPage = baseMapper.selectPage(couponCustomerPageInfo, wrapper);

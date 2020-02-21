@@ -16,6 +16,7 @@ import com.rainbow.common.dto.StatusBatchChangeDTO;
 import com.rainbow.common.enums.BooleanEnum;
 import com.rainbow.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -275,5 +276,13 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
     public Boolean setRecommendStatus(StatusBatchChangeDTO param) {
         Integer affectRow = baseMapper.updateRecommendStatus(param);
         return affectRow > 0;
+    }
+
+    @Override
+    public List<SpuSimpleVO> listSimple(String keyword) {
+        if(Strings.isBlank(keyword)) {
+            return Lists.newArrayList();
+        }
+        return baseMapper.listSimple(keyword);
     }
 }

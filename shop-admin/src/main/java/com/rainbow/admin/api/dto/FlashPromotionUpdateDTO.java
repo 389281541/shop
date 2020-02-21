@@ -1,6 +1,5 @@
 package com.rainbow.admin.api.dto;
 
-import com.rainbow.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -8,16 +7,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "SpuSpecSaveDTO", description = "spu参数传输对象")
-public class SpuSpecSaveDTO extends BaseDTO {
+@ApiModel(value = "FlashPromotionUpdateDTO", description = "秒杀活动更新传输对象")
+public class FlashPromotionUpdateDTO extends FlashPromotionSaveDTO {
 
-    @ApiModelProperty(value = "商品ID")
-    private Long spuId;
-
-    @ApiModelProperty(value = "属性名ID")
-    private Long specNameId;
+    @ApiModelProperty(value = "品牌ID")
+    @NotNull(message = "ID不能为空")
+    private Long id;
 }

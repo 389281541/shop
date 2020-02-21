@@ -14,12 +14,10 @@ import com.rainbow.common.dto.StatusBatchChangeDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 商品表 前端控制器
@@ -47,7 +45,6 @@ public class SpuController {
         Integer result = spuService.addSpu(param);
         return new R<>(result > 0 ? Boolean.TRUE : Boolean.FALSE);
     }
-
 
     @ApiOperation(value = "删除SPU", notes = "删除SPU", httpMethod = "POST")
     @PostMapping("/remove")
@@ -78,6 +75,13 @@ public class SpuController {
     @PostMapping("/setRecommendStatus")
     public R<Boolean> setRecommendStatus(@Valid @RequestBody StatusBatchChangeDTO param) {
         return new R<>(spuService.setRecommendStatus(param));
+    }
+
+
+    @ApiOperation("根据商品名称或货号模糊查询")
+    @GetMapping(value = "/simpleList")
+    public R<List<SpuSimpleVO>> getList(@RequestParam(value="keyword", required = false) String keyword) {
+        return new R<>(spuService.listSimple(keyword));
     }
 
 

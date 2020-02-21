@@ -15,7 +15,7 @@ import java.util.List;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "SkuSimpleDTO", description = "spu初始化sku传输对象")
+@ApiModel(value = "SkuSaveDTO", description = "sku保存传输对象")
 public class SkuSaveDTO extends BaseDTO {
 
     @ApiModelProperty(value = "商品ID")

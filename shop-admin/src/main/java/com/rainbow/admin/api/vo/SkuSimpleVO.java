@@ -1,7 +1,6 @@
 package com.rainbow.admin.api.vo;
 
 import com.rainbow.common.dto.BaseDTO;
-import com.rainbow.common.vo.IdNameVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

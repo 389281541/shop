@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "ShopSimpleVO", description = "商铺VO")
+@ApiModel(value = "ShopDetailVO", description = "商铺详情VO")
 public class ShopDetailVO extends ShopSimpleVO {
 
     @ApiModelProperty(value = "供应商开户银行名称")

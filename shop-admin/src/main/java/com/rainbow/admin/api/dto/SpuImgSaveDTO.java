@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "SpuImgSimpleDTO", description = "spu img传输对象")
+@ApiModel(value = "SpuImgSaveDTO", description = "spu img保存传输对象")
 public class SpuImgSaveDTO extends BaseDTO {
 
     @ApiModelProperty(value = "商品ID")

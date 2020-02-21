@@ -44,7 +44,7 @@ public class Spu extends Model<Spu> {
 
     @ApiModelProperty(value = "品牌名称")
     @TableField("brand_name")
-    private Long brandName;
+    private String brandName;
 
     @ApiModelProperty(value = "类别ID")
     @TableField("item_id")
@@ -52,7 +52,7 @@ public class Spu extends Model<Spu> {
 
     @ApiModelProperty(value = "类别名称")
     @TableField("item_name")
-    private Long itemName;
+    private String itemName;
 
     @ApiModelProperty(value = "店铺ID")
     @TableField("shop_id")
@@ -60,7 +60,7 @@ public class Spu extends Model<Spu> {
 
     @ApiModelProperty(value = "类别名称")
     @TableField("shop_name")
-    private Long shopName;
+    private String shopName;
 
     @ApiModelProperty(value = "销量")
     @TableField("sale")

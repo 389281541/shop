@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
@@ -16,6 +18,7 @@ import lombok.experimental.Accessors;
 public class CouponCustomerSearchDTO extends PageDTO {
 
     @ApiModelProperty(value = "优惠券ID")
+    @NotNull(message = "优惠券ID不能为空")
     private Long couponId;
 
     @ApiModelProperty(value = "优惠券ID 0->未使用；1->已使用；2->已过期")

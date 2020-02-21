@@ -5,9 +5,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rainbow.admin.api.dto.SpuSearchDTO;
+import com.rainbow.admin.api.vo.SpuSimpleVO;
 import com.rainbow.admin.entity.Spu;
 import com.rainbow.common.dto.StatusBatchChangeDTO;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 商品表 Mapper 接口
@@ -38,7 +41,13 @@ public interface SpuMapper extends BaseMapper<Spu> {
      * @param param
      * @return
      */
-    Integer updateRecommendStatus(@Param("param")StatusBatchChangeDTO param);
+    Integer updateRecommendStatus(@Param("param") StatusBatchChangeDTO param);
 
 
+    /**
+     * spu列表
+     * @param keyword
+     * @return
+     */
+    List<SpuSimpleVO> listSimple(@Param("keyword") String keyword);
 }

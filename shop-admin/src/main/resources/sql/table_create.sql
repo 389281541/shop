@@ -622,11 +622,55 @@ CREATE TABLE coupon_spu (
     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
     coupon_id           bigint(20) DEFAULT NULL COMMENT '优惠券ID',
     spu_id              bigint(20) DEFAULT NULL COMMENT 'SPUID',
+    spu_no              varchar(500) DEFAULT NULL COMMENT 'SPU编号',
     spu_name            varchar(500) DEFAULT NULL COMMENT '商品名称',
     receive_type        tinyint DEFAULT NULL COMMENT '获取类型：0->后台赠送；1->主动获取 2-分享链接',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券和商品的关系表';
 
+
+DROP TABLE IF EXISTS flash_promotion;
+CREATE TABLE flash_promotion (
+  id            bigint(20) NOT NULL AUTO_INCREMENT,
+  title         varchar(200) DEFAULT NULL,
+  start_date    date DEFAULT NULL COMMENT '开始日期',
+  end_date      date DEFAULT NULL COMMENT '结束日期',
+  status        int(1) DEFAULT NULL COMMENT '上下线状态',
+  create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+  update_time         timestamp default NULL NULL COMMENT '更新时间',
+  del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='秒杀促销';
+
+DROP TABLE IF EXISTS flash_promotion_spu;
+CREATE TABLE vvshop_goods.flash_promotion_spu (
+  id                        bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  flash_promotion_id        bigint(20) DEFAULT NULL COMMENT '秒杀活动ID',
+  flash_promotion_session_id bigint(20) DEFAULT NULL COMMENT '编号',
+  spu_id                    bigint(20) DEFAULT NULL COMMENT '商品ID',
+  sku_id                    bigint(20) DEFAULT NULL COMMENT 'SKUID',
+  sku_no                    varchar(256) DEFAULT NULL COMMENT 'sku编号',
+  sku_stock                 bigint(20) DEFAULT NULL COMMENT 'sku库存',
+  flash_price               decimal(10,2) DEFAULT NULL COMMENT '限时购价格',
+  original_price            decimal(10,2) DEFAULT NULL COMMENT '商品原价格',
+  flash_promotion_num       int(11) DEFAULT NULL COMMENT '限时购数量',
+  flash_promotion_limit     int(11) DEFAULT NULL COMMENT '每人限购数量',
+  sort_id                   int(11) DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='商品限时购与商品关系表';
+
+DROP TABLE IF EXISTS flash_promotion_session;
+CREATE TABLE flash_promotion_session (
+  id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  name varchar(200) DEFAULT NULL COMMENT '场次名称',
+  start_time time DEFAULT NULL COMMENT '每日开始时间',
+  end_time time DEFAULT NULL COMMENT '每日结束时间',
+  status int(1) DEFAULT NULL COMMENT '启用状态：0->不启用；1->启用',
+  create_time    timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+  update_time         timestamp default NULL NULL COMMENT '更新时间',
+  del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='限时购场次表';
 
 CREATE TABLE vvshop_goods.flow
 (
