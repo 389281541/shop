@@ -7,6 +7,7 @@ import com.rainbow.admin.api.vo.FlashPromotionSessionVO;
 import com.rainbow.admin.service.IFlashPromotionSessionService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.R;
+import com.rainbow.common.dto.StatusChangeDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,12 @@ public class FlashPromotionSessionController {
     @PostMapping("/update")
     public R<Integer> update(@Valid @RequestBody FlashPromotionSessionUpdateDTO param) {
         return new R<>(flashPromotionSessionService.updateFlashPromotionSession(param));
+    }
+
+    @ApiOperation(value = "更改秒杀时间段转台", notes = "更改秒杀时间段", httpMethod = "POST")
+    @PostMapping("/updateStatus")
+    public R<Integer> updateStatus(@Valid @RequestBody StatusChangeDTO param) {
+        return new R<>(flashPromotionSessionService.updateStatus(param));
     }
 
 

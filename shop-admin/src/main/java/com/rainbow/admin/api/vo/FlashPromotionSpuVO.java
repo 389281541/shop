@@ -30,14 +30,14 @@ public class FlashPromotionSpuVO extends BaseDTO {
     @ApiModelProperty(value = "商品ID")
     private Long spuId;
 
-    @ApiModelProperty(value = "skuID")
-    private Long skuId;
+    @ApiModelProperty(value = "spu编号")
+    private String spuNo;
 
-    @ApiModelProperty(value = "限时购价格")
-    private BigDecimal flashPrice;
+    @ApiModelProperty(value = "spuName")
+    private String spuName;
 
-    @ApiModelProperty(value = "限时购价格")
-    private BigDecimal originalPrice;
+    @ApiModelProperty(value = "限时折扣价格")
+    private BigDecimal flashDiscountPrice;
 
     @ApiModelProperty(value = "限时购数量")
     private Integer flashPromotionNum;
@@ -48,10 +48,5 @@ public class FlashPromotionSpuVO extends BaseDTO {
     @ApiModelProperty(value = "排序")
     private Integer sortId;
 
-    @ApiModelProperty(value = "sku编号")
-    private String skuNo;
-
-    @ApiModelProperty(value = "sku编号")
-    private String skuStock;
 
 }

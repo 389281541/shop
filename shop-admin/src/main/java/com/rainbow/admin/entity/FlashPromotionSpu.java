@@ -41,17 +41,9 @@ public class FlashPromotionSpu extends Model<FlashPromotionSpu> {
     @TableField("spu_id")
     private Long spuId;
 
-    @ApiModelProperty(value = "skuID")
-    @TableField("sku_id")
-    private Long skuId;
-
     @ApiModelProperty(value = "限时购价格")
-    @TableField("flash_price")
-    private BigDecimal flashPrice;
-
-    @ApiModelProperty(value = "限时购价格")
-    @TableField("original_price")
-    private BigDecimal originalPrice;
+    @TableField("flash_discount_price")
+    private BigDecimal flashDiscountPrice;
 
     @ApiModelProperty(value = "限时购数量")
     @TableField("flash_promotion_num")

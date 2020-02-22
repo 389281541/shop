@@ -25,7 +25,7 @@ public interface FlashPromotionSpuMapper extends BaseMapper<FlashPromotionSpu> {
      * @param flashPromotionId
      * @return
      */
-    List<KV<Integer, Integer>> getCountMap(@Param("flashPromotionId") Long flashPromotionId);
+    List<KV<Long, Long>> getCountMap(@Param("flashPromotionId") Long flashPromotionId);
 
 
     /**

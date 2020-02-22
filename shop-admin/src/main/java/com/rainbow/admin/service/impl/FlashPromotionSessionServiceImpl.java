@@ -11,6 +11,7 @@ import com.rainbow.admin.mapper.FlashPromotionSessionMapper;
 import com.rainbow.admin.service.IFlashPromotionSessionService;
 import com.rainbow.admin.service.IFlashPromotionSpuService;
 import com.rainbow.common.dto.IdDTO;
+import com.rainbow.common.dto.StatusChangeDTO;
 import com.rainbow.common.enums.BooleanEnum;
 import com.rainbow.common.enums.DelFlagEnum;
 import org.springframework.beans.BeanUtils;
@@ -59,15 +60,15 @@ public class FlashPromotionSessionServiceImpl extends ServiceImpl<FlashPromotion
         wrapper.eq(FlashPromotionSession::getDelStatus, DelFlagEnum.NO.getValue());
         wrapper.eq(FlashPromotionSession::getStatus, BooleanEnum.YES.getValue());
         List<FlashPromotionSession> flashPromotionSessionList = baseMapper.selectList(wrapper);
-        if(flashPromotionSessionList == null) {
+        if (flashPromotionSessionList == null) {
             return flashPromotionSessionVOList;
         }
-        Map<Integer, Integer> countMap = flashPromotionSpuService.getCountMap(param.getId());
+        Map<Long, Long> countMap = flashPromotionSpuService.getCountMap(param.getId());
 
-        flashPromotionSessionVOList = flashPromotionSessionList.stream().map(x->{
+        flashPromotionSessionVOList = flashPromotionSessionList.stream().map(x -> {
             FlashPromotionSessionVO flashPromotionSessionVO = new FlashPromotionSessionVO();
             BeanUtils.copyProperties(x, flashPromotionSessionVO);
-            flashPromotionSessionVO.setCount(countMap.get(x.getId()));
+            flashPromotionSessionVO.setCount(countMap.get(x.getId()) == null ? 0L : countMap.get(x.getId()));
             return flashPromotionSessionVO;
         }).collect(Collectors.toList());
         return flashPromotionSessionVOList;
@@ -100,5 +101,14 @@ public class FlashPromotionSessionServiceImpl extends ServiceImpl<FlashPromotion
         FlashPromotionSession flashPromotionSession = baseMapper.selectById(param.getId());
         BeanUtils.copyProperties(flashPromotionSession, flashPromotionSessionVO);
         return flashPromotionSessionVO;
+    }
+
+
+    @Override
+    public Integer updateStatus(StatusChangeDTO param) {
+        FlashPromotionSession flashPromotionSession = new FlashPromotionSession();
+        flashPromotionSession.setId(param.getId());
+        flashPromotionSession.setStatus(param.getStatus());
+        return baseMapper.updateById(flashPromotionSession);
     }
 }

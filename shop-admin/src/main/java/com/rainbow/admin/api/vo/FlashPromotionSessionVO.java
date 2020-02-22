@@ -27,5 +27,5 @@ public class FlashPromotionSessionVO extends IdNameVO {
     private Integer status;
 
     @ApiModelProperty(value = "秒杀活动商品数")
-    private Integer count;
+    private Long count;
 }

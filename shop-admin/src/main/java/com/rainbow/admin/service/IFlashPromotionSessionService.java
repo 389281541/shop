@@ -8,6 +8,7 @@ import com.rainbow.admin.entity.FlashPromotionSession;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.PageDTO;
+import com.rainbow.common.dto.StatusChangeDTO;
 
 import java.util.List;
 
@@ -64,4 +65,11 @@ public interface IFlashPromotionSessionService extends IService<FlashPromotionSe
      * @return
      */
     FlashPromotionSessionVO getFlashPromotionSessionDetailById(IdDTO param);
+
+    /**
+     * 更改状态
+     * @param param
+     * @return
+     */
+    Integer updateStatus(StatusChangeDTO param);
 }

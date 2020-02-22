@@ -25,7 +25,7 @@ public interface IFlashPromotionSpuService extends IService<FlashPromotionSpu> {
      * @param flashPromotionId
      * @return
      */
-    Map<Integer,Integer> getCountMap(Long flashPromotionId);
+    Map<Long, Long> getCountMap(Long flashPromotionId);
 
 
     /**

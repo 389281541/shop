@@ -14,6 +14,7 @@ import com.rainbow.admin.service.IFlashPromotionService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.SearchPageDTO;
 import com.rainbow.common.dto.StatusChangeDTO;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -34,7 +35,9 @@ public class FlashPromotionServiceImpl extends ServiceImpl<FlashPromotionMapper,
     public IPage<FlashPromotionVO> pageFlashPromotion(SearchPageDTO param) {
         IPage<FlashPromotion> flashPromotionPage = new Page<>(param.getPageNum(), param.getPageSize());
         LambdaQueryWrapper<FlashPromotion> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(FlashPromotion::getTheme, param.getKeyword());
+        if(Strings.isNotBlank(param.getKeyword())) {
+            wrapper.like(FlashPromotion::getTheme, param.getKeyword());
+        }
         IPage<FlashPromotion> flashPromotionIPage = baseMapper.selectPage(flashPromotionPage, wrapper);
         if(flashPromotionIPage == null || CollectionUtils.isEmpty(flashPromotionIPage.getRecords())) {
             IPage<FlashPromotionVO> flashSimpleVOIPage = new Page<>();
@@ -68,6 +71,7 @@ public class FlashPromotionServiceImpl extends ServiceImpl<FlashPromotionMapper,
     @Override
     public Integer updateFlashPromotion(FlashPromotionUpdateDTO param) {
         FlashPromotion flashPromotion = new FlashPromotion();
+        BeanUtils.copyProperties(param, flashPromotion);
         flashPromotion.setUpdateTime(LocalDateTime.now());
         return baseMapper.updateById(flashPromotion);
     }

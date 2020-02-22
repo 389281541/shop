@@ -34,9 +34,9 @@ import java.util.stream.Collectors;
 public class FlashPromotionSpuServiceImpl extends ServiceImpl<FlashPromotionSpuMapper, FlashPromotionSpu> implements IFlashPromotionSpuService {
 
     @Override
-    public Map<Integer, Integer> getCountMap(Long flashPromotionId) {
-        List<KV<Integer, Integer>> kvList = baseMapper.getCountMap(flashPromotionId);
-        Map<Integer, Integer> countMap = Maps.newHashMap();
+    public Map<Long, Long> getCountMap(Long flashPromotionId) {
+        List<KV<Long, Long>> kvList = baseMapper.getCountMap(flashPromotionId);
+        Map<Long, Long> countMap = Maps.newHashMap();
         if(!CollectionUtils.isEmpty(kvList)) {
             countMap = kvList.stream().collect(Collectors.toMap(KV::getK, KV::getV));
         }
