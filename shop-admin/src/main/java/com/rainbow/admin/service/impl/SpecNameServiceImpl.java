@@ -9,17 +9,12 @@ import com.google.common.collect.Maps;
 import com.rainbow.admin.api.dto.SpecNameSaveDTO;
 import com.rainbow.admin.api.dto.SpecNameSearchDTO;
 import com.rainbow.admin.api.dto.SpecNameUpdateDTO;
+import com.rainbow.admin.api.dto.SpecSelectDTO;
 import com.rainbow.admin.api.vo.SpecNameDetailVO;
 import com.rainbow.admin.api.vo.SpecNameListVO;
 import com.rainbow.admin.api.vo.SpecNameSimpleVO;
-import com.rainbow.admin.entity.Item;
-import com.rainbow.admin.entity.SpecName;
-import com.rainbow.admin.entity.SpecValue;
-import com.rainbow.admin.entity.SpuSpec;
-import com.rainbow.admin.mapper.ItemMapper;
-import com.rainbow.admin.mapper.SpecNameMapper;
-import com.rainbow.admin.mapper.SpecValueMapper;
-import com.rainbow.admin.mapper.SpuSpecMapper;
+import com.rainbow.admin.entity.*;
+import com.rainbow.admin.mapper.*;
 import com.rainbow.admin.service.ISpecNameService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.enums.BooleanEnum;
@@ -28,10 +23,10 @@ import com.rainbow.common.vo.IdNameVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import sun.security.krb5.internal.PAData;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -48,6 +43,9 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
 
     @Resource
     private SpuSpecMapper spuSpecMapper;
+
+    @Resource
+    private SkuSpecMapper skuSpecMapper;
 
     @Resource
     private SpecValueMapper specValueMapper;
@@ -145,22 +143,25 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
 
 
     @Override
-    public SpecNameListVO listByItemId(IdDTO param) {
+    public SpecNameListVO listByItemId(SpecSelectDTO param) {
         SpecNameListVO specNameListVO = new SpecNameListVO();
         LambdaQueryWrapper<SpecName> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(SpecName::getItemId, param.getId());
+        wrapper.eq(SpecName::getItemId, param.getItemId());
         wrapper.eq(SpecName::getDelStatus, DelFlagEnum.NO.getValue());
         List<SpecName> specNameList = baseMapper.selectList(wrapper);
         if (!CollectionUtils.isEmpty(specNameList)) {
             final Map<Long, List<IdNameVO>> id2vMap = getSpecValueMap(specNameList);
+            final Map<Long, List<Long>> selectMap = getSelectSpecValueMap(param.getSpuId());
             List<SpecNameSimpleVO> skuSpecList = specNameList.stream().filter(x -> x.getType().equals(BooleanEnum.NO.getValue()) && x.getInput().equals(BooleanEnum.YES.getValue()) && x.getSku().equals(BooleanEnum.YES.getValue())).map(x -> {
                 SpecNameSimpleVO specNameSimpleVO = new SpecNameSimpleVO();
                 BeanUtils.copyProperties(x, specNameSimpleVO);
                 specNameSimpleVO.setSpecValues(id2vMap.get(x.getId()) == null ? Lists.newArrayList() : id2vMap.get(x.getId()));
+                specNameSimpleVO.setSelectSpecValues(selectMap.get(x.getId()) == null ? Lists.newArrayList() : selectMap.get(x.getId()));
                 return specNameSimpleVO;
             }).collect(Collectors.toList());
             List<SpecNameSimpleVO> spuSpecList = specNameList.stream().filter(x -> x.getType().equals(BooleanEnum.YES.getValue())).map(x -> {
                 SpecNameSimpleVO specNameSimpleVO = new SpecNameSimpleVO();
+                BeanUtils.copyProperties(x, specNameSimpleVO);
                 specNameSimpleVO.setSpecValues(id2vMap.get(x.getId()) == null ? Lists.newArrayList() : id2vMap.get(x.getId()));
                 return specNameSimpleVO;
             }).collect(Collectors.toList());
@@ -179,12 +180,37 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
             specValueWrapper.in(SpecValue::getSpecNameId, ids);
             specValueWrapper.eq(SpecValue::getDelStatus, DelFlagEnum.NO.getValue());
             List<SpecValue> specValues = specValueMapper.selectList(specValueWrapper);
-            map = specValues.stream().map(x -> {
-                IdNameVO idNameVO = new IdNameVO();
-                idNameVO.setId(x.getSpecNameId());
-                idNameVO.setName(x.getSpecValue());
-                return idNameVO;
-            }).collect(Collectors.groupingBy(IdNameVO::getId));
+            Map<Long, List<SpecValue>> tempMap = specValues.stream().collect(Collectors.groupingBy(SpecValue::getSpecNameId));
+            for(Map.Entry<Long, List<SpecValue>> entry: tempMap.entrySet()) {
+                Long specNameId = entry.getKey();
+                List<SpecValue> value = entry.getValue();
+                List<IdNameVO> specValueList = value.stream().map(x -> {
+                    IdNameVO idNameVO = new IdNameVO();
+                    idNameVO.setId(x.getId());
+                    idNameVO.setName(x.getSpecValue());
+                    return idNameVO;
+                }).collect(Collectors.toList());
+                map.put(specNameId, specValueList);
+            }
+        }
+        return map;
+    }
+
+    private Map<Long, List<Long>> getSelectSpecValueMap(Long spuId) {
+        Map<Long, List<Long>> map = Maps.newHashMap();
+        if(spuId == null) {
+            return map;
+        }
+        List<SkuSpec> skuSpecList = skuSpecMapper.listBySpuId(spuId);
+        if(!CollectionUtils.isEmpty(skuSpecList)) {
+            Map<Long, List<SkuSpec>> membersMap = skuSpecList.stream().collect(Collectors.groupingBy(SkuSpec::getSpecNameId));
+            Iterator<Map.Entry<Long,List<SkuSpec>>> it = membersMap.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<Long, List<SkuSpec>> entry = it.next();
+                List<SkuSpec> list = entry.getValue();
+                List<Long> selectSpecValueIds = list.stream().map(SkuSpec::getSpecValueId).collect(Collectors.toList());
+                map.put(entry.getKey(), selectSpecValueIds);
+            }
         }
         return map;
     }

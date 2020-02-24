@@ -43,10 +43,10 @@ public class SkuSaveDTO extends BaseDTO {
     private Integer dimension;
 
     @ApiModelProperty(value = "原价")
-    private Long originalPrice;
+    private BigDecimal originalPrice;
 
     @ApiModelProperty(value = "价格")
-    private Long price;
+    private BigDecimal price;
 
     @ApiModelProperty(value = "sku spec关联表")
     private List<SkuSpecSaveDTO> skuSpecList;

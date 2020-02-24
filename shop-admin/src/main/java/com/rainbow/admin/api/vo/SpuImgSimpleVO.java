@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Accessors(chain = true)
@@ -40,5 +41,8 @@ public class SpuImgSimpleVO extends BaseDTO {
 
     @ApiModelProperty(value = "sku spec关联表")
     private List<SkuSpecSimpleVO> skuSpecList;
+
+    @ApiModelProperty(value = "属性键值对")
+    private Map<String, String> skuSpecMap;
 
 }

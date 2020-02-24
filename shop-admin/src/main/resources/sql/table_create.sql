@@ -393,6 +393,11 @@ CREATE TABLE vvshop_goods.spu
     audit_status TINYINT NOT NULL DEFAULT 0 COMMENT '审核状态：0审核拒绝，1正在审核，2审核通过',
     sort_id int(11) NOT NULL COMMENT 'spu排序',
     recommend TINYINT NOT NULL DEFAULT 0 COMMENT '是否推荐 0不推荐 1推荐',
+    use_integration_limit int(11) DEFAULT NULL COMMENT '限制使用的积分数',
+    promotion_start_time timestamp default NULL NULL COMMENT '促销开始时间',
+    promotion_end_time timestamp default NULL NULL COMMENT '促销结束时间',
+    promotion_per_limit int(11) DEFAULT NULL COMMENT '活动限购数量',
+    promotion_type int(1) DEFAULT NULL COMMENT '促销类型：0->没有促销使用原价;1->使用促销价；2->使用满减价格；',
     del_status tinyint default 0 NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default NULL NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
@@ -443,8 +448,8 @@ CREATE TABLE vvshop_goods.sku
     sale          int(11) DEFAULT 0 COMMENT '销量',
     weight        decimal(10,2) DEFAULT NULL COMMENT '商品重量，默认为克',
     dimension     tinyint DEFAULT NULL COMMENT '尺寸：0-小件，1-中件，2-大件',
-    original_price         bigint(20) NOT NULL COMMENT '价格',
-    price         bigint(20) NOT NULL COMMENT '价格',
+    original_price decimal(20, 2) NOT NULL COMMENT '价格',
+    price         decimal(20, 2) NOT NULL COMMENT '价格',
     del_status    tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time   timestamp default NULL NULL COMMENT '更新时间',
     create_time   timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
@@ -756,6 +761,17 @@ CREATE TABLE vvshop_goods.order_return
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '支付记录表';
 
+CREATE TABLE vvshop_goods.spu_full_reduction
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    spu_id              bigint(20) NOT NULL COMMENT 'SPUID',
+    full_price          decimal(10,2) DEFAULT NULL,
+    reduce_price        decimal(10,2) DEFAULT NULL,
+    del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment 'spu满减表';
 
 
 

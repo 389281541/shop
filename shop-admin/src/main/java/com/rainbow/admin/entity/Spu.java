@@ -90,6 +90,26 @@ public class Spu extends Model<Spu> {
     @TableField("recommend")
     private Integer recommendStatus;
 
+    @ApiModelProperty(value = "使用积分限制")
+    @TableField("use_integration_limit")
+    private Integer useIntegrationLimit;
+
+    @ApiModelProperty(value = "促销开始时间")
+    @TableField("promotion_start_time")
+    private LocalDateTime promotionStartTime;
+
+    @ApiModelProperty(value = "促销结束时间")
+    @TableField("promotion_end_time")
+    private LocalDateTime promotionEndTime;
+
+    @ApiModelProperty(value = "活动限购数量")
+    @TableField("promotion_per_limit")
+    private Integer promotionPerLimit;
+
+    @ApiModelProperty(value = "促销类型：0->没有促销使用原价;1->使用促销价；2->使用满减价格；")
+    @TableField("promotion_type")
+    private Integer promotionType;
+
     @ApiModelProperty(value = "删除状态 0-未删除 1-已删除")
     @TableField("del_status")
     private Integer delStatus;

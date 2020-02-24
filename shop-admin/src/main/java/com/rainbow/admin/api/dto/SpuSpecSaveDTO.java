@@ -20,4 +20,13 @@ public class SpuSpecSaveDTO extends BaseDTO {
 
     @ApiModelProperty(value = "属性名ID")
     private Long specNameId;
+
+    @ApiModelProperty(value = "属性名")
+    private String specName;
+
+    @ApiModelProperty(value = "属性值ID")
+    private Long specValueId;
+
+    @ApiModelProperty(value = "属性值")
+    private String specValue;
 }

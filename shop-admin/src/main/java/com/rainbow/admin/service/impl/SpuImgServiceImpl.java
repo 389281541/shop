@@ -54,6 +54,8 @@ public class SpuImgServiceImpl extends ServiceImpl<SpuImgMapper, SpuImg> impleme
                 SpuImgSimpleVO spuImgSimpleVO = new SpuImgSimpleVO();
                 BeanUtils.copyProperties(x, spuImgSimpleVO);
                 spuImgSimpleVO.setSkuSpecList(skuIdDic.get(x.getSkuId()));
+                Map<String, String> skuSpecMap = skuSpecSimpleVOList.stream().collect(Collectors.toMap(SkuSpecSimpleVO::getSpecName, SkuSpecSimpleVO::getSpecValue));
+                spuImgSimpleVO.setSkuSpecMap(skuSpecMap);
                 return spuImgSimpleVO;
             }).collect(Collectors.toList());
         }

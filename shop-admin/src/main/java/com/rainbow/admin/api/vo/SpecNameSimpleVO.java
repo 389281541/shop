@@ -47,7 +47,10 @@ public class SpecNameSimpleVO extends IdNameVO {
     @ApiModelProperty(value = "类型 0-规格 1-参数")
     private Integer type;
 
-    @ApiModelProperty(value = "属性值列表")
+    @ApiModelProperty(value = "属性值列表-全部")
     private List<IdNameVO> specValues;
+
+    @ApiModelProperty(value = "属性值列表-已选中")
+    private List<Long> selectSpecValues;
 
 }

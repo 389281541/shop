@@ -60,6 +60,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
     @Autowired
     private IShopService shopService;
 
+    @Autowired
+    private ISpuFullReductionService spuFullReductionService;
+
 
     @Override
     public IPage<SpuSimpleVO> pageSpu(SpuSearchDTO param) {
@@ -98,7 +101,26 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         //关联图片
         List<SpuImgSaveDTO> spuImgSaveDTOList = param.getSpuImgList();
         relateAndInsertSpuImg(spuImgSaveDTOList, skuSaveDTOList, spuId);
+        //关联满减
+        List<SpuFullReductionSaveDTO> spuFullReductionSaveDTOList = param.getSpuFullReductionSaveDTOList();
+        relateAndInsertSpuFulReduction(spuFullReductionSaveDTOList, spuId);
     }
+
+    private void relateAndInsertSpuFulReduction(List<SpuFullReductionSaveDTO> spuImgSaveDTOList, Long spuId) {
+        List<SpuFullReduction> spuFullReductionList = Lists.newArrayList();
+        if(!CollectionUtils.isEmpty(spuImgSaveDTOList)) {
+            for(int i=0; i<spuImgSaveDTOList.size(); i++) {
+                SpuFullReductionSaveDTO spuFullReductionSaveDTO = spuImgSaveDTOList.get(i);
+                SpuFullReduction spuFullReduction = new SpuFullReduction();
+                spuFullReduction.setSpuId(spuId);
+                spuFullReduction.setFullPrice(spuFullReductionSaveDTO.getFullPrice());
+                spuFullReduction.setReducePrice(spuFullReductionSaveDTO.getReducePrice());
+                spuFullReductionList.add(spuFullReduction);
+            }
+        }
+        spuFullReductionService.saveBatch(spuFullReductionList);
+    }
+
 
     private void relateAndInsertSpuSpec(List<SpuSpecSaveDTO> spuSpecSaveDTOList, Long spuId) {
         List<SpuSpec> spuSpecList = Lists.newArrayList();
@@ -108,6 +130,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
                 SpuSpec spuSpec = new SpuSpec();
                 spuSpec.setSpuId(spuId);
                 spuSpec.setSpecNameId(spuSpecSaveDTO.getSpecNameId());
+                spuSpec.setSpecName(spuSpecSaveDTO.getSpecName());
+                spuSpec.setSpecValueId(spuSpecSaveDTO.getSpecValueId());
+                spuSpec.setSpecValue(spuSpecSaveDTO.getSpecValue());
                 spuSpecList.add(spuSpec);
             }
         }
@@ -258,10 +283,12 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         List<SkuSimpleVO> skuSimpleVOList = skuService.listBySpuId(new IdSearchDTO(spuId));
         List<SpuImgSimpleVO> spuImgSimpleVOList = spuImgService.listBySpuId(spuId);
         List<SpuSpecSimpleVO> spuSpecSimpleVOList = spuSpecService.listBySpuId(spuId);
+        List<SpuFullReductionSimpleVO> spuFullReductionSimpleVOList = spuFullReductionService.listBySpuId(spuId);
 
         spuDetailVO.setSkuList(skuSimpleVOList);
         spuDetailVO.setSpuImgList(spuImgSimpleVOList);
         spuDetailVO.setSpuSpecList(spuSpecSimpleVOList);
+        spuDetailVO.setSpuFullReductionSimpleVOList(spuFullReductionSimpleVOList);
         return spuDetailVO;
     }
 

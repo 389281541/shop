@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 
 @Data
@@ -24,6 +25,9 @@ public class SkuSimpleVO extends BaseDTO {
 
     @ApiModelProperty(value = "商品编码")
     private Long skuNo;
+
+    @ApiModelProperty(value = "sku名称")
+    private String skuName;
 
     @ApiModelProperty(value = "商品ID")
     private Long spuId;
@@ -44,13 +48,16 @@ public class SkuSimpleVO extends BaseDTO {
     private Integer dimension;
 
     @ApiModelProperty(value = "价格")
-    private Long originalPrice;
+    private BigDecimal originalPrice;
 
     @ApiModelProperty(value = "价格")
-    private Long price;
+    private BigDecimal price;
 
     @ApiModelProperty(value = "sku spec关联表")
     private List<SkuSpecSimpleVO> skuSpecList;
+
+    @ApiModelProperty(value = "属性键值对")
+    private Map<String, String> skuSpecMap;
 
 
 }

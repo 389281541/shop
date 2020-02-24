@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -29,19 +30,19 @@ public class SpuSaveDTO extends BaseDTO {
     private Long brandId;
 
     @ApiModelProperty(value = "品牌名称")
-    private Long brandName;
+    private String brandName;
 
     @ApiModelProperty(value = "类别ID")
     private Long itemId;
 
     @ApiModelProperty(value = "类别名称")
-    private Long itemName;
+    private String itemName;
 
     @ApiModelProperty(value = "店铺ID")
     private Long shopId;
 
     @ApiModelProperty(value = "类别名称")
-    private Long shopName;
+    private String shopName;
 
     @ApiModelProperty(value = "销量")
     private Integer sale;
@@ -65,6 +66,21 @@ public class SpuSaveDTO extends BaseDTO {
     @EnumValidAnnotation(message = "推荐状态错误" , allowNull = false, target = BooleanEnum.class)
     private Integer recommendStatus;
 
+    @ApiModelProperty(value = "使用积分限制")
+    private Integer useIntegrationLimit;
+
+    @ApiModelProperty(value = "促销开始时间")
+    private LocalDateTime promotionStartTime;
+
+    @ApiModelProperty(value = "促销结束时间")
+    private LocalDateTime promotionEndTime;
+
+    @ApiModelProperty(value = "活动限购数量")
+    private Integer promotionPerLimit;
+
+    @ApiModelProperty(value = "促销类型：0->没有促销使用原价;1->使用促销价；2->使用满减价格；")
+    private Integer promotionType;
+
     @ApiModelProperty(value = "sku列表")
     private List<SkuSaveDTO> skuList;
 
@@ -73,6 +89,9 @@ public class SpuSaveDTO extends BaseDTO {
 
     @ApiModelProperty(value = "spu属性列表")
     private List<SpuSpecSaveDTO> spuSpecList;
+
+    @ApiModelProperty(value = "spu满减列表")
+    private List<SpuFullReductionSaveDTO> spuFullReductionSaveDTOList;
 
 
 }

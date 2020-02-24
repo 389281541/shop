@@ -17,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, sku_id, spec_name_id, spec_name, spec_value_id, spec_value, sort_id, del_status, update_time, create_time
+        id, sku_id, spec_name_id, spec_name, spec_value_id, spec_value, sort_id, update_time, create_time
     </sql>
 
     <delete id="removeBySkuIds" parameterType="java.util.List">

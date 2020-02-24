@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.admin.api.dto.SpecNameSaveDTO;
 import com.rainbow.admin.api.dto.SpecNameSearchDTO;
 import com.rainbow.admin.api.dto.SpecNameUpdateDTO;
+import com.rainbow.admin.api.dto.SpecSelectDTO;
 import com.rainbow.admin.api.vo.SpecNameDetailVO;
 import com.rainbow.admin.api.vo.SpecNameListVO;
 import com.rainbow.admin.api.vo.SpecNameSimpleVO;
@@ -71,7 +72,7 @@ public class SpecNameController {
 
     @ApiOperation(value = "属性列表", notes = "属性列表", httpMethod = "POST")
     @PostMapping("/listByItemId")
-    public R<SpecNameListVO> listByItemId(@Valid @RequestBody IdDTO param) {
+    public R<SpecNameListVO> listByItemId(@Valid @RequestBody SpecSelectDTO param) {
         return new R<>(specNameService.listByItemId(param));
     }
 

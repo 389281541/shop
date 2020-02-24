@@ -28,7 +28,7 @@ public class MpGenerator {
     public void generateCode() {
         String packageName = "com.rainbow.admin";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "flash_promotion_session");
+        generateByTables(serviceNameStartWithI, packageName, "spu_full_reduction");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {

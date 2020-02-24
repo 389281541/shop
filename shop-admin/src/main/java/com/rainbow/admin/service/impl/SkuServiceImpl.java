@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -47,6 +48,8 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
                 BeanUtils.copyProperties(x, skuSimpleVO);
                 List<SkuSpecSimpleVO> skuSpecSimpleVOList = skuSpecService.listBySkuId(x.getId());
                 skuSimpleVO.setSkuSpecList(skuSpecSimpleVOList);
+                Map<String, String> skuSpecMap = skuSpecSimpleVOList.stream().collect(Collectors.toMap(SkuSpecSimpleVO::getSpecName, SkuSpecSimpleVO::getSpecValue));
+                skuSimpleVO.setSkuSpecMap(skuSpecMap);
                 return skuSimpleVO;
             }).collect(Collectors.toList());
         }

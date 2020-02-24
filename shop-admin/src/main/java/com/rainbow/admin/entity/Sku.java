@@ -37,7 +37,7 @@ public class Sku extends Model<Sku> {
 
     @ApiModelProperty(value = "商品名称")
     @TableField("sku_name")
-    private Long skuName;
+    private String skuName;
 
     @ApiModelProperty(value = "商品ID")
     @TableField("spu_id")
@@ -65,11 +65,11 @@ public class Sku extends Model<Sku> {
 
     @ApiModelProperty(value = "价格")
     @TableField("original_price")
-    private Long originalPrice;
+    private BigDecimal originalPrice;
 
     @ApiModelProperty(value = "价格")
     @TableField("price")
-    private Long price;
+    private BigDecimal price;
 
     @ApiModelProperty(value = "删除状态 0-未删除 1-已删除")
     @TableField("del_status")
