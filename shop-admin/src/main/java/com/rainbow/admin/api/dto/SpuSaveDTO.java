@@ -91,7 +91,7 @@ public class SpuSaveDTO extends BaseDTO {
     private List<SpuSpecSaveDTO> spuSpecList;
 
     @ApiModelProperty(value = "spu满减列表")
-    private List<SpuFullReductionSaveDTO> spuFullReductionSaveDTOList;
+    private List<SpuFullReductionSaveDTO> spuFullReductionList;
 
 
 }

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -51,6 +52,6 @@ public class SpecNameSimpleVO extends IdNameVO {
     private List<IdNameVO> specValues;
 
     @ApiModelProperty(value = "属性值列表-已选中")
-    private List<Long> selectSpecValues;
+    private Collection<String> selectSpecValues;
 
 }

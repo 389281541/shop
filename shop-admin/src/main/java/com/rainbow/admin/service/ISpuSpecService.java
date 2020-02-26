@@ -1,6 +1,7 @@
 package com.rainbow.admin.service;
 
 import com.rainbow.admin.api.vo.SpuSpecSimpleVO;
+import com.rainbow.admin.entity.SpuImg;
 import com.rainbow.admin.entity.SpuSpec;
 import com.baomidou.mybatisplus.extension.service.IService;
 

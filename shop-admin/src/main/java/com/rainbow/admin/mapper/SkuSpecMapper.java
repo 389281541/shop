@@ -38,4 +38,12 @@ public interface SkuSpecMapper extends BaseMapper<SkuSpec> {
      * @return
      */
     List<SkuSpec> listBySpuId(@Param("spuId") Long spuId);
+
+
+    /**
+     * 批量插入
+     * @param skuSpecList
+     * @return
+     */
+    Integer insertBatch(@Param("list") List<SkuSpec> skuSpecList);
 }

@@ -31,6 +31,9 @@ public class SpuSimpleVO extends IdNameVO {
     @ApiModelProperty(value = "类别名称")
     private String itemName;
 
+    @ApiModelProperty(value = "父类别ID")
+    private Long parentItemId;
+
     @ApiModelProperty(value = "店铺ID")
     private Long shopId;
 

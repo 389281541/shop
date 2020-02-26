@@ -3,6 +3,8 @@ package com.rainbow.admin.mapper;
 import com.rainbow.admin.entity.SpuFullReduction;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
+import org.apache.ibatis.annotations.Param;
+
 /**
  * spu满减表 Mapper 接口
  *
@@ -12,4 +14,5 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 @DS("goods")
 public interface SpuFullReductionMapper extends BaseMapper<SpuFullReduction> {
 
+    Integer removeBySpuId(@Param("spuId") Long spuId);
 }

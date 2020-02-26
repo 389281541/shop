@@ -6,4 +6,8 @@
         delete from spu_spec  where spu_id = #{spuId}
     </delete>
 
+    <select id="listBySpuId" parameterType="java.lang.Long" resultType="com.rainbow.admin.entity.SpuSpec">
+        select * from spu_spec where spu_id = #{spuId}
+    </select>
+
 </mapper>

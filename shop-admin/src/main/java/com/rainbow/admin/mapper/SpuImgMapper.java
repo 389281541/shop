@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 商品图片表 Mapper 接口
  *
@@ -20,5 +22,13 @@ public interface SpuImgMapper extends BaseMapper<SpuImg> {
      * @return
      */
     Integer removeBySpuId(@Param("spuId")Long spuId);
+
+
+    /**
+     * 批量插入spuImg
+     * @param list
+     * @return
+     */
+    Integer insertBatch(@Param("list")List<SpuImg> list);
 
 }

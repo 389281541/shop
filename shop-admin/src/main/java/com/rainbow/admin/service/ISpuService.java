@@ -10,6 +10,9 @@ import com.rainbow.admin.api.vo.SpuSimpleVO;
 import com.rainbow.admin.entity.Spu;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.StatusBatchChangeDTO;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,6 +35,7 @@ public interface ISpuService extends IService<Spu> {
      * @param param
      * @return
      */
+    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
     Integer addSpu(SpuSaveDTO param);
 
     /**

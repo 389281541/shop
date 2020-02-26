@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.rainbow.admin.api.dto.SpecNameSaveDTO;
 import com.rainbow.admin.api.dto.SpecNameSearchDTO;
 import com.rainbow.admin.api.dto.SpecNameUpdateDTO;
@@ -26,10 +27,8 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -151,18 +150,20 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
         List<SpecName> specNameList = baseMapper.selectList(wrapper);
         if (!CollectionUtils.isEmpty(specNameList)) {
             final Map<Long, List<IdNameVO>> id2vMap = getSpecValueMap(specNameList);
-            final Map<Long, List<Long>> selectMap = getSelectSpecValueMap(param.getSpuId());
+            final Map<Long, Set<String>> selectMap = getSelectSpecValueMap(param.getSpuId());
             List<SpecNameSimpleVO> skuSpecList = specNameList.stream().filter(x -> x.getType().equals(BooleanEnum.NO.getValue()) && x.getInput().equals(BooleanEnum.YES.getValue()) && x.getSku().equals(BooleanEnum.YES.getValue())).map(x -> {
                 SpecNameSimpleVO specNameSimpleVO = new SpecNameSimpleVO();
                 BeanUtils.copyProperties(x, specNameSimpleVO);
                 specNameSimpleVO.setSpecValues(id2vMap.get(x.getId()) == null ? Lists.newArrayList() : id2vMap.get(x.getId()));
-                specNameSimpleVO.setSelectSpecValues(selectMap.get(x.getId()) == null ? Lists.newArrayList() : selectMap.get(x.getId()));
+                specNameSimpleVO.setSelectSpecValues(selectMap.get(x.getId()) == null ? Sets.newHashSet() : selectMap.get(x.getId()));
                 return specNameSimpleVO;
             }).collect(Collectors.toList());
+            final Map<Long, List<String>> paramMap = getSelectParamMap(param.getSpuId());
             List<SpecNameSimpleVO> spuSpecList = specNameList.stream().filter(x -> x.getType().equals(BooleanEnum.YES.getValue())).map(x -> {
                 SpecNameSimpleVO specNameSimpleVO = new SpecNameSimpleVO();
                 BeanUtils.copyProperties(x, specNameSimpleVO);
                 specNameSimpleVO.setSpecValues(id2vMap.get(x.getId()) == null ? Lists.newArrayList() : id2vMap.get(x.getId()));
+                specNameSimpleVO.setSelectSpecValues(paramMap.get(x.getId()) == null ? Lists.newArrayList() : paramMap.get(x.getId()));
                 return specNameSimpleVO;
             }).collect(Collectors.toList());
             specNameListVO.setSkuSpecList(skuSpecList);
@@ -181,7 +182,7 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
             specValueWrapper.eq(SpecValue::getDelStatus, DelFlagEnum.NO.getValue());
             List<SpecValue> specValues = specValueMapper.selectList(specValueWrapper);
             Map<Long, List<SpecValue>> tempMap = specValues.stream().collect(Collectors.groupingBy(SpecValue::getSpecNameId));
-            for(Map.Entry<Long, List<SpecValue>> entry: tempMap.entrySet()) {
+            for (Map.Entry<Long, List<SpecValue>> entry : tempMap.entrySet()) {
                 Long specNameId = entry.getKey();
                 List<SpecValue> value = entry.getValue();
                 List<IdNameVO> specValueList = value.stream().map(x -> {
@@ -196,20 +197,41 @@ public class SpecNameServiceImpl extends ServiceImpl<SpecNameMapper, SpecName> i
         return map;
     }
 
-    private Map<Long, List<Long>> getSelectSpecValueMap(Long spuId) {
-        Map<Long, List<Long>> map = Maps.newHashMap();
-        if(spuId == null) {
+    private Map<Long, Set<String>> getSelectSpecValueMap(Long spuId) {
+        Map<Long, Set<String>> map = Maps.newHashMap();
+        if (spuId == null) {
             return map;
         }
         List<SkuSpec> skuSpecList = skuSpecMapper.listBySpuId(spuId);
-        if(!CollectionUtils.isEmpty(skuSpecList)) {
+        if (!CollectionUtils.isEmpty(skuSpecList)) {
             Map<Long, List<SkuSpec>> membersMap = skuSpecList.stream().collect(Collectors.groupingBy(SkuSpec::getSpecNameId));
-            Iterator<Map.Entry<Long,List<SkuSpec>>> it = membersMap.entrySet().iterator();
+            Iterator<Map.Entry<Long, List<SkuSpec>>> it = membersMap.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry<Long, List<SkuSpec>> entry = it.next();
                 List<SkuSpec> list = entry.getValue();
-                List<Long> selectSpecValueIds = list.stream().map(SkuSpec::getSpecValueId).collect(Collectors.toList());
-                map.put(entry.getKey(), selectSpecValueIds);
+                Set<String> selectSpecValues = list.stream().map(SkuSpec::getSpecValue).collect(Collectors.toSet());
+                map.put(entry.getKey(), selectSpecValues);
+            }
+        }
+        return map;
+    }
+
+    private Map<Long, List<String>> getSelectParamMap(Long spuId) {
+        Map<Long, List<String>> map = Maps.newHashMap();
+        if (spuId == null) {
+            return map;
+        }
+
+        List<SpuSpec> spuSpecList = spuSpecMapper.listBySpuId(spuId);
+        if (!CollectionUtils.isEmpty(spuSpecList)) {
+            Map<Long, String> selectValueMap = spuSpecList.stream().collect(Collectors.toMap(SpuSpec::getSpecNameId, SpuSpec::getSpecValue));
+            Iterator<Map.Entry<Long, String>> it = selectValueMap.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<Long, String> entry = it.next();
+                String selectSpecValue = entry.getValue();
+                List<String> list = new ArrayList<>();
+                list.add(selectSpecValue);
+                map.put(entry.getKey(), list);
             }
         }
         return map;

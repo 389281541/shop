@@ -18,4 +18,9 @@
         id, spu_id, full_price, reduce_price, del_status, update_time, create_time
     </sql>
 
+
+    <delete id="removeBySpuId" parameterType="java.lang.Long">
+        delete from spu_full_reduction where spu_id = #{spuId}
+    </delete>
+
 </mapper>

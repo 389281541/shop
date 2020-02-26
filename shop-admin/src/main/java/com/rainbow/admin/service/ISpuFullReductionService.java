@@ -21,4 +21,12 @@ public interface ISpuFullReductionService extends IService<SpuFullReduction> {
      */
     List<SpuFullReductionSimpleVO> listBySpuId(Long spuId);
 
+
+    /**
+     * 通过spuId删除满减记录
+     * @param spuId
+     * @return
+     */
+    Integer removeBySpuId(Long spuId);
+
 }

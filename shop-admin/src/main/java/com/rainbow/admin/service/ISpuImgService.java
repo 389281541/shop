@@ -27,4 +27,12 @@ public interface ISpuImgService extends IService<SpuImg> {
      * @return
      */
     List<SpuImgSimpleVO> listBySpuId(Long spuId);
+
+
+
+
+    /**
+     * 批量插入
+     */
+    Integer insertBatch(List<SpuImg> list);
 }

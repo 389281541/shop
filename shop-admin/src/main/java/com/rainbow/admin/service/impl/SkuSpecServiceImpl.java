@@ -80,5 +80,8 @@ public class SkuSpecServiceImpl extends ServiceImpl<SkuSpecMapper, SkuSpec> impl
     }
 
 
-
+    @Override
+    public Integer insertBatch(List<SkuSpec> list) {
+        return baseMapper.insertBatch(list);
+    }
 }

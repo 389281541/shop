@@ -3,6 +3,7 @@ package com.rainbow.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Lists;
 import com.rainbow.admin.api.vo.SpuSpecSimpleVO;
+import com.rainbow.admin.entity.SpuImg;
 import com.rainbow.admin.entity.SpuSpec;
 import com.rainbow.admin.mapper.SpuSpecMapper;
 import com.rainbow.admin.service.ISpuSpecService;

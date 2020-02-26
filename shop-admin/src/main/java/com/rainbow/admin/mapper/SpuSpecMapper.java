@@ -3,6 +3,10 @@ package com.rainbow.admin.mapper;
 import com.rainbow.admin.entity.SpuSpec;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
 /**
  * 商品基本属性表 Mapper 接口
  *
@@ -16,5 +20,13 @@ public interface SpuSpecMapper extends BaseMapper<SpuSpec> {
      * @param spuId
      * @return
      */
-    Integer removeBySpuId(Long spuId);
+    Integer removeBySpuId(@Param("spuId") Long spuId);
+
+
+    /**
+     * 通过spu
+     * @param spuId
+     * @return
+     */
+    List<SpuSpec> listBySpuId(Long spuId);
 }

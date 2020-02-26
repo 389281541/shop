@@ -46,4 +46,12 @@ public interface ISkuSpecService extends IService<SkuSpec> {
      */
     List<MemberShipVO> listMemberShipBySpuId(Long spuId);
 
+
+    /**
+     * 批量插入
+     * @param list
+     * @return
+     */
+    Integer insertBatch(List<SkuSpec> list);
+
 }

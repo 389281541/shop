@@ -33,7 +33,7 @@ public class Sku extends Model<Sku> {
 
     @ApiModelProperty(value = "商品编码")
     @TableField("sku_no")
-    private Long skuNo;
+    private String skuNo;
 
     @ApiModelProperty(value = "商品名称")
     @TableField("sku_name")

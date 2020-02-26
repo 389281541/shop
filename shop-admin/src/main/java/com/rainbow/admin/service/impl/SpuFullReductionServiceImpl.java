@@ -40,4 +40,9 @@ public class SpuFullReductionServiceImpl extends ServiceImpl<SpuFullReductionMap
         }
         return spuFullReductionSimpleVOList;
     }
+
+    @Override
+    public Integer removeBySpuId(Long spuId) {
+        return baseMapper.removeBySpuId(spuId);
+    }
 }

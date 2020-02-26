@@ -25,4 +25,15 @@
         delete from spu_img  where spu_id = #{spuId}
     </delete>
 
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into spu_img (spu_id, sku_id, img_url, is_cover, is_master, is_color, sort_id,  update_time, create_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.spuId}, #{item.skuId}, #{item.imgUrl},
+            #{item.coverFlag}, #{item.masterFlag}, #{item.colorFlag}, #{item.sortId},
+            null, CURRENT_TIMESTAMP
+            )
+        </foreach>
+    </insert>
+
 </mapper>

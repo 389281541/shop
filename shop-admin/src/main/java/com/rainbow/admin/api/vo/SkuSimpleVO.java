@@ -24,7 +24,7 @@ public class SkuSimpleVO extends BaseDTO {
     private Long id;
 
     @ApiModelProperty(value = "商品编码")
-    private Long skuNo;
+    private String skuNo;
 
     @ApiModelProperty(value = "sku名称")
     private String skuName;

@@ -102,7 +102,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         List<SpuImgSaveDTO> spuImgSaveDTOList = param.getSpuImgList();
         relateAndInsertSpuImg(spuImgSaveDTOList, skuSaveDTOList, spuId);
         //关联满减
-        List<SpuFullReductionSaveDTO> spuFullReductionSaveDTOList = param.getSpuFullReductionSaveDTOList();
+        List<SpuFullReductionSaveDTO> spuFullReductionSaveDTOList = param.getSpuFullReductionList();
         relateAndInsertSpuFulReduction(spuFullReductionSaveDTOList, spuId);
     }
 
@@ -133,6 +133,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
                 spuSpec.setSpecName(spuSpecSaveDTO.getSpecName());
                 spuSpec.setSpecValueId(spuSpecSaveDTO.getSpecValueId());
                 spuSpec.setSpecValue(spuSpecSaveDTO.getSpecValue());
+                spuSpec.setCreateTime(LocalDateTime.now());
                 spuSpecList.add(spuSpec);
             }
         }
@@ -167,7 +168,14 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
             BeanUtils.copyProperties(skuSaveDTO, sku);
             skuService.save(sku);
             skuSaveDTO.setSkuId(sku.getId());
+            List<SkuSpecSaveDTO> skuSpecList = skuSaveDTO.getSkuSpecList();
+            if(!CollectionUtils.isEmpty(skuSpecList)) {
+                for(SkuSpecSaveDTO skuSpecSaveDTO: skuSpecList) {
+                    skuSpecSaveDTO.setSkuId(sku.getId());
+                }
+            }
         }
+
     }
 
     private void relateAndInsertSpuImg(List<SpuImgSaveDTO> spuImgSaveDTOList, List<SkuSaveDTO> skuSaveDTOList, Long spuId) {
@@ -182,6 +190,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
                 SpuImg spuImg = new SpuImg();
                 BeanUtils.copyProperties(spuImgSaveDTO, spuImg);
                 spuImg.setSkuId(skuSaveDTO.getSkuId());
+                spuImg.setSpuId(spuId);
                 spuImg.setSortId(++count);
                 spuImg.setCreateTime(LocalDateTime.now());
                 spuImgList.add(spuImg);
@@ -198,7 +207,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
                 spuImgList.add(spuImg);
             }
         }
-        spuImgService.saveBatch(spuImgList);
+        spuImgService.insertBatch(spuImgList);
     }
 
 
@@ -217,7 +226,8 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
                 skuSpecList.add(skuSpec);
             }
         }
-        skuSpecService.saveBatch(skuSpecList);
+        Integer res = skuSpecService.insertBatch(skuSpecList);
+        System.out.println(res);
     }
 
 
@@ -248,6 +258,8 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         skuService.removeBySpuId(spuId);
         //删除关联spu参数
         spuSpecService.removeBySpuId(spuId);
+        //删除关联优惠
+        spuFullReductionService.removeBySpuId(spuId);
     }
 
     @Override
@@ -275,6 +287,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         spuDetailVO.setBrandName(brand.getName());
         Item item = itemService.getById(spu.getItemId());
         spuDetailVO.setItemId(item.getId());
+        spuDetailVO.setParentItemId(item.getParentId());
         spuDetailVO.setItemName(item.getName());
         Shop shop = shopService.getById(spu.getShopId());
         spuDetailVO.setShopId(shop.getId());
@@ -288,7 +301,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         spuDetailVO.setSkuList(skuSimpleVOList);
         spuDetailVO.setSpuImgList(spuImgSimpleVOList);
         spuDetailVO.setSpuSpecList(spuSpecSimpleVOList);
-        spuDetailVO.setSpuFullReductionSimpleVOList(spuFullReductionSimpleVOList);
+        spuDetailVO.setSpuFullReductionList(spuFullReductionSimpleVOList);
         return spuDetailVO;
     }
 

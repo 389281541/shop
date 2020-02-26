@@ -45,5 +45,5 @@ public class SpuDetailVO extends SpuSimpleVO {
     private List<SpuSpecSimpleVO> spuSpecList;
 
     @ApiModelProperty(value = "spu满减优惠列表")
-    private List<SpuFullReductionSimpleVO> spuFullReductionSimpleVOList;
+    private List<SpuFullReductionSimpleVO> spuFullReductionList;
 }
