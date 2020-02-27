@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.admin.mapper.SpuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.Spu">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="spu_no" property="spuNo"/>
+        <result column="brand_id" property="brandId"/>
+        <result column="brand_name" property="brandName"/>
+        <result column="item_id" property="itemId"/>
+        <result column="item_name" property="itemName"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="shop_name" property="shopName"/>
+        <result column="sale" property="sale"/>
+        <result column="unit" property="unit"/>
+        <result column="description" property="description"/>
+        <result column="sale_status" property="saleStatus"/>
+        <result column="audit_status" property="auditStatus"/>
+        <result column="sort_id" property="sortId"/>
+        <result column="recommend" property="recommendStatus"/>
+        <result column="del_status" property="delStatus"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, spu_no, brand_id, item_id, shop_id, sale, unit, description, sale_status, audit_status, sort_id, recommend, del_status, update_time, create_time
+    </sql>
+
+    <select id="pageSpu" parameterType="com.rainbow.admin.api.dto.SpuSearchDTO" resultMap="BaseResultMap">
+        select
+            sp.*
+        from
+            spu sp
+        left join brand b on sp.brand_id = b.id
+        left join item i on sp.item_id = i.id
+        left join shop sh on sp.shop_id = sh.id
+        where
+            sp.del_status = 0
+        <if test="param.name != null">
+            and sp.name like CONCAT('%',#{param.name},'%')
+        </if>
+        <if test="param.spuNo != null">
+            and sp.spu_no like CONCAT('%',#{param.spuNo},'%')
+        </if>
+        <if test="param.itemId != null">
+            and sp.item_id = #{param.itemId}
+        </if>
+        <if test="param.brandId != null">
+            and sp.brand_id = #{param.brandId}
+        </if>
+        <if test="param.shopId != null">
+            and sp.shop_id = #{param.shopId}
+        </if>
+        <if test="param.saleStatus != null">
+            and sp.sale_status = #{param.saleStatus}
+        </if>
+        <if test="param.auditStatus != null">
+            and sp.audit_status = #{param.auditStatus}
+        </if>
+        <if test="param.recommendStatus != null">
+            and sp.recommend = #{param.recommendStatus}
+        </if>
+    </select>
+
+    <update id="updateSaleStatus" parameterType="com.rainbow.common.dto.StatusBatchChangeDTO">
+        update spu set sale_status = #{param.status} where id in
+        <foreach collection="param.ids" item="idItem" open="(" close=")" separator=",">
+            #{idItem}
+        </foreach>
+    </update>
+
+    <update id="updateRecommendStatus" parameterType="com.rainbow.common.dto.StatusBatchChangeDTO">
+        update spu set recommend = #{param.status} where id in
+        <foreach collection="param.ids" item="idItem" open="(" close=")" separator=",">
+            #{idItem}
+        </foreach>
+    </update>
+
+
+    <select id="listSimple" parameterType="string" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from spu s
+            where s.name like concat("%",#{keyword},"%")
+        limit 0,100
+    </select>
+
+</mapper>

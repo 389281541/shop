@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.admin.mapper.CouponMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.Coupon">
+        <id column="id" property="id" />
+        <result column="type" property="type" />
+        <result column="name" property="name" />
+        <result column="totalNum" property="totalNum" />
+        <result column="amount" property="amount" />
+        <result column="receive_num_limit" property="receiveNumLimit" />
+        <result column="use_condition_type" property="useConditionType" />
+        <result column="use_condition_limit" property="useConditionLimit" />
+        <result column="start_effect_time" property="startEffectTime" />
+        <result column="end_effect_time" property="endEffectTime" />
+        <result column="scope_type" property="scopeType" />
+        <result column="note" property="note" />
+        <result column="publish_num" property="publishNum" />
+        <result column="use_num" property="useNum" />
+        <result column="receive_num" property="receiveNum" />
+        <result column="enable_time" property="enableTime" />
+        <result column="coupon_code" property="couponCode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, type, name, totalNum, amount, receive_num_limit, use_condition_type, use_condition_limit, start_effect_time, end_effect_time, scope_type, note, publish_num, use_num, receive_num, enable_time, coupon_code
+    </sql>
+
+</mapper>

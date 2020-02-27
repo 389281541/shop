@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.admin.mapper.FlashPromotionSpuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.FlashPromotionSpu">
+        <id column="id" property="id" />
+        <result column="flash_promotion_id" property="flashPromotionId" />
+        <result column="flash_promotion_session_id" property="flashPromotionSessionId" />
+        <result column="spu_id" property="spuId" />
+        <result column="flash_discount_price" property="flashDiscountPrice" />
+        <result column="flash_promotion_num" property="flashPromotionNum" />
+        <result column="flash_promotion_limit" property="flashPromotionLimit" />
+        <result column="sort_id" property="sortId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, flash_promotion_id, flash_promotion_session_id, spu_id, flash_discount_price, flash_promotion_num, flash_promotion_limit, sort_id
+    </sql>
+
+    <select id="getCountMap" resultType="com.rainbow.common.model.KV">
+        select flash_promotion_session_id as k, count(1) as v from flash_promotion_spu
+            where flash_promotion_id = #{flashPromotionId}
+        group by flash_promotion_session_id
+    </select>
+
+
+    <select id="pageFlashSku" resultType="com.rainbow.admin.api.vo.FlashPromotionSpuVO">
+        SELECT
+            r.id as id,
+            r.flash_discount_price as flashDiscountPrice,
+            r.flash_promotion_num as flashPromotionNum,
+            r.flash_promotion_limit as flashPromotionLimit,
+            r.flash_promotion_id as flashPromotionId,
+            r.flash_promotion_session_id as flashPromotionSessionId,
+            r.sort_id as sortId,
+            p.id as spuId,
+            p.spu_no as spuNo,
+            p.name as spuName
+        FROM
+            flash_promotion_spu r
+            LEFT JOIN spu p ON r.spu_id = p.id
+        WHERE
+            r.flash_promotion_id = #{flashPromotionId}
+            AND r.flash_promotion_session_id = #{flashPromotionSessionId}
+        ORDER BY r.sort_id DESC
+    </select>
+
+</mapper>

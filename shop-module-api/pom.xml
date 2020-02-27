@@ -12,7 +12,10 @@
     <artifactId>shop-module-api</artifactId>
 
     <name>shop-module-api</name>
-    <packaging>jar</packaging>
+    <modules>
+        <module>shop-module-admin-api</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

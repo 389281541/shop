@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.admin.mapper.SpuFullReductionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.SpuFullReduction">
+        <id column="id" property="id" />
+        <result column="spu_id" property="spuId" />
+        <result column="full_price" property="fullPrice" />
+        <result column="reduce_price" property="reducePrice" />
+        <result column="del_status" property="delStatus" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, spu_id, full_price, reduce_price, del_status, update_time, create_time
+    </sql>
+
+
+    <delete id="removeBySpuId" parameterType="java.lang.Long">
+        delete from spu_full_reduction where spu_id = #{spuId}
+    </delete>
+
+</mapper>
