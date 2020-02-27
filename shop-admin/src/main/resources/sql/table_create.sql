@@ -390,7 +390,7 @@ CREATE TABLE vvshop_goods.spu
     unit varchar(16) DEFAULT NULL COMMENT '单位',
     description varchar(1000) DEFAULT NULL COMMENT '商品描述',
     sale_status TINYINT NOT NULL DEFAULT 0 COMMENT '上下架状态 0下架 1上架',
-    audit_status TINYINT NOT NULL DEFAULT 0 COMMENT '审核状态：0审核拒绝，1正在审核，2审核通过',
+    audit_status TINYINT NOT NULL DEFAULT 1 COMMENT '审核状态：0审核拒绝，1正在审核，2审核通过',
     sort_id int(11) NOT NULL COMMENT 'spu排序',
     recommend TINYINT NOT NULL DEFAULT 0 COMMENT '是否推荐 0不推荐 1推荐',
     use_integration_limit int(11) DEFAULT NULL COMMENT '限制使用的积分数',
