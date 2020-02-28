@@ -108,10 +108,13 @@ INSERT INTO  vvshop_user.role_permission values (11, 1, 11, CURRENT_TIMESTAMP);
 INSERT INTO  vvshop_user.role_permission values (12, 1, 12, CURRENT_TIMESTAMP);
 INSERT INTO  vvshop_user.role_permission values (13, 1, 13, CURRENT_TIMESTAMP);
 
+DROP TABLE IF EXISTS vvshop_user.customer;
 CREATE TABLE vvshop_user.customer
 (
     id                  bigint(20)   AUTO_INCREMENT         NOT NULL COMMENT '主键ID',
     user_name           varchar(100) COLLATE utf8mb4_bin    NOT NULL COMMENT '用户名',
+    password            varchar(256) COLLATE utf8mb4_bin    NOT NULL COMMENT '密码',
+    salt                varchar(100) COLLATE utf8mb4_bin    NOT NULL COMMENT '盐',
     mobile              varchar(100) COLLATE utf8mb4_bin    NOT NULL COMMENT '用户电话',
     avatar              varchar(512) COLLATE utf8mb4_bin    NULL COMMENT '用户头像',
     identity_name       varchar(512) COLLATE utf8mb4_bin    NULL COMMENT '真实姓名',
@@ -119,7 +122,8 @@ CREATE TABLE vvshop_user.customer
     identity_no         varchar(20)  NULL COMMENT '证件号码',
     email               varchar(50)  NULL COMMENT '邮箱',
     gender              tinyint(1)   NOT NULL COMMENT '性别: 0-男 1-女',
-    birthday            timestamp    NULL COMMENT '会员生日',
+    birthday            timestamp    NULL COMMENT '用户生日',
+    integration         int(11)     NOT NULL DEFAULT 0 COMMENT '积分',
     user_status     tinyint   default 0                 NOT NULL COMMENT '用户状态 0-正常 1-禁用',
     update_time     timestamp default NULL NULL COMMENT '更新时间',
     create_time     timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
@@ -133,31 +137,17 @@ CREATE TABLE vvshop_user.customer_address
     id                  bigint(20)   AUTO_INCREMENT         NOT NULL COMMENT '主键ID',
     customer_id         bigint(20)  NOT NULL COMMENT '用户ID',
     receiver_name       varchar(64) NOT NULL COMMENT '收货人姓名',
-    zip                 varchar(64) NOT NULL COMMENT '邮编',
+    zip                 varchar(64)  NULL COMMENT '邮编',
     province_code       smallint    NOT NULL COMMENT '地区表中省份的code',
     city_code           smallint    NOT NULL COMMENT '地区表中城市的code',
     district_code       smallint    NOT NULL COMMENT '地区表中的区code',
     address             varchar(200) NOT NULL COMMENT '具体的地址门牌号',
     is_default          tinyint default 0 NOT NULL COMMENT '是否默认 0-否 1-是',
-    del_status      tinyint   default 0                 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    del_status      tinyint   default 0                 NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time     timestamp default NULL NULL COMMENT '更新时间',
     create_time     timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '顾客地址表';
-
-CREATE TABLE vvshop_user.customer_account
-(
-  id                  bigint(20)   AUTO_INCREMENT         NOT NULL COMMENT '主键ID',
-  customer_id         bigint(20)  NOT NULL COMMENT '用户ID',
-  points               int(11)     NOT NULL DEFAULT 0 COMMENT '积分',
-  customer_level      tinyint NOT NULL DEFAULT 0 COMMENT '会员等级：0-非会员 1-普通会员，2-青铜，3-白银，4-黄金，5-钻石',
-  is_vip              tinyint default 0 NOT NULL COMMENT '是否会员级别会员',
-  del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
-  update_time     timestamp default NULL NULL COMMENT '更新时间',
-  create_time     timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
-  last_login_time timestamp default CURRENT_TIMESTAMP NULL COMMENT '上次登陆时间',
-  PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '顾客账号信息';
 
 CREATE TABLE vvshop_user.customer_level
 (

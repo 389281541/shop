@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.CustomerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.portal.entity.Customer">
+        <id column="id" property="id" />
+        <result column="user_name" property="userName" />
+        <result column="password" property="password" />
+        <result column="salt" property="salt" />
+        <result column="mobile" property="mobile" />
+        <result column="avatar" property="avatar" />
+        <result column="identity_name" property="identityName" />
+        <result column="identity_type" property="identityType" />
+        <result column="identity_no" property="identityNo" />
+        <result column="email" property="email" />
+        <result column="gender" property="gender" />
+        <result column="birthday" property="birthday" />
+        <result column="integration" property="integration" />
+        <result column="user_status" property="userStatus" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+        <result column="last_login_time" property="lastLoginTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_name, password, salt, mobile, avatar, identity_name, identity_type, identity_no, email, gender, birthday, integration, user_status, update_time, create_time, last_login_time
+    </sql>
+
+</mapper>
