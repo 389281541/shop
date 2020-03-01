@@ -1,9 +1,9 @@
 package com.rainbow.admin.controller;
 
 
-import com.rainbow.admin.api.dto.LoginDTO;
 import com.rainbow.admin.api.vo.AdminstratorSimpleVO;
 import com.rainbow.admin.service.IAdministratorService;
+import com.rainbow.common.dto.LoginDTO;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.vo.IdNameTokenVO;
 import io.swagger.annotations.Api;

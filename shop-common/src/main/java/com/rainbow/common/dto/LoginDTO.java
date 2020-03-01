@@ -1,6 +1,5 @@
-package com.rainbow.admin.api.dto;
+package com.rainbow.common.dto;
 
-import com.rainbow.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

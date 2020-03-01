@@ -27,6 +27,12 @@ public interface IAdministratorService extends IService<Administrator> {
     IdNameTokenVO loginByPassword(String username, String password);
 
 
+    /**
+     * 退出登录
+     * @param request
+     * @param response
+     * @return
+     */
     Boolean logout(HttpServletRequest request, HttpServletResponse response);
 
 

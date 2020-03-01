@@ -14,8 +14,6 @@ public class MD5Utils {
     private static Logger logger = LoggerFactory.getLogger(MD5Utils.class);
 
     // 加的盐
-    private static final String SALT = "3XWcjvQ!@WVG1wI4oper24&3dSation&()FQBLZpQ3pW*3d";
-    private static final String MERCHANT_SALT = "AJDJ1799@#dhsf2347shdf~89hOKAs";
     public static final byte WRITE_CASE_MODE_UPPER = 1;
     public static final byte WRITE_CASE_MODE_LOWER = 2;
 
