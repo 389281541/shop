@@ -1,10 +1,10 @@
 package com.rainbow.admin.mapper;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
-import com.rainbow.admin.api.entity.Administrator;
+import com.rainbow.api.entity.Administrator;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.rainbow.admin.api.entity.Permission;
-import com.rainbow.admin.api.entity.Role;
+import com.rainbow.api.entity.Permission;
+import com.rainbow.api.entity.Role;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

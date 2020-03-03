@@ -1,8 +1,8 @@
 package com.rainbow.admin;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.rainbow.admin.api.dto.SpecNameSearchDTO;
-import com.rainbow.admin.api.entity.SpecName;
+import com.rainbow.api.dto.SpecNameSearchDTO;
+import com.rainbow.api.entity.SpecName;
 import com.rainbow.admin.mapper.ItemMapper;
 import com.rainbow.admin.mapper.SpecNameMapper;
 import org.junit.Test;

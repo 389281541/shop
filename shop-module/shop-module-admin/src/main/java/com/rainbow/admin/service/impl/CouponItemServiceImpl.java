@@ -1,7 +1,7 @@
 package com.rainbow.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.rainbow.admin.api.entity.CouponItem;
+import com.rainbow.api.entity.CouponItem;
 import com.rainbow.admin.mapper.CouponItemMapper;
 import com.rainbow.admin.service.ICouponItemService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

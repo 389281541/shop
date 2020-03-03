@@ -2,10 +2,10 @@ package com.rainbow.admin.service.impl;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.common.base.Objects;
-import com.rainbow.admin.api.dto.VerifyCodeDTO;
-import com.rainbow.admin.api.enums.KaptchaStatusEnum;
+import com.rainbow.api.dto.VerifyCodeDTO;
+import com.rainbow.api.enums.KaptchaStatusEnum;
 import com.rainbow.admin.service.IKaptchaService;
-import com.rainbow.admin.util.CookieUtil;
+import com.rainbow.common.util.CookieUtil;
 import com.rainbow.common.util.UUIDUtils;
 import com.rainbow.common.vo.IdNameVO;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**

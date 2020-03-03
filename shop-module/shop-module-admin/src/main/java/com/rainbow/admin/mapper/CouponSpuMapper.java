@@ -1,6 +1,6 @@
 package com.rainbow.admin.mapper;
 
-import com.rainbow.admin.api.entity.CouponSpu;
+import com.rainbow.api.entity.CouponSpu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import io.lettuce.core.dynamic.annotation.Param;

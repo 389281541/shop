@@ -1,9 +1,12 @@
 package com.rainbow.portal.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rainbow.api.dto.CustomerRegisterDTO;
+import com.rainbow.api.entity.Customer;
 import com.rainbow.common.vo.IdNameAvatarTokenVO;
-import com.rainbow.portal.api.dto.CustomerRegisterDTO;
-import com.rainbow.portal.entity.Customer;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 顾客登录表 服务类
@@ -21,6 +24,14 @@ public interface ICustomerService extends IService<Customer> {
      */
     IdNameAvatarTokenVO loginByPassword(String username, String password);
 
+
+    /**
+     * 退出登录删除相关cookie
+     * @param request
+     * @param response
+     * @return
+     */
+    Boolean logout(HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 用户注册

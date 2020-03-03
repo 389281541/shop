@@ -1,7 +1,7 @@
 package com.rainbow.admin;
 
-import com.rainbow.admin.api.entity.Permission;
-import com.rainbow.admin.api.entity.Role;
+import com.rainbow.api.entity.Permission;
+import com.rainbow.api.entity.Role;
 import com.rainbow.admin.service.IAdministratorService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

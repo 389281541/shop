@@ -1,7 +1,7 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.api.vo.SpuFullReductionSimpleVO;
-import com.rainbow.admin.api.entity.SpuFullReduction;
+import com.rainbow.api.vo.SpuFullReductionSimpleVO;
+import com.rainbow.api.entity.SpuFullReduction;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

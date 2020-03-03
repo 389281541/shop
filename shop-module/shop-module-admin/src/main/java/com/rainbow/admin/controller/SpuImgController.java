@@ -1,7 +1,7 @@
 package com.rainbow.admin.controller;
 
 
-import com.rainbow.admin.api.vo.SpuImgSimpleVO;
+import com.rainbow.api.vo.SpuImgSimpleVO;
 import com.rainbow.admin.service.ISpuImgService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.R;

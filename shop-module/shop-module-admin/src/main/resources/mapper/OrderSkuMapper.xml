@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.OrderSkuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.OrderSku">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.OrderSku">
         <id column="id" property="id" />
         <result column="order_id" property="orderId" />
         <result column="order_no" property="orderNo" />

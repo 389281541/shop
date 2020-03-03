@@ -1,9 +1,8 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.api.vo.SpuImgSimpleVO;
-import com.rainbow.admin.api.entity.SpuImg;
+import com.rainbow.api.vo.SpuImgSimpleVO;
+import com.rainbow.api.entity.SpuImg;
 import com.baomidou.mybatisplus.extension.service.IService;
-import io.swagger.models.auth.In;
 
 import java.util.List;
 

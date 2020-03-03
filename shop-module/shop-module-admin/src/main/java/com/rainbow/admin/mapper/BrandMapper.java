@@ -3,7 +3,7 @@ package com.rainbow.admin.mapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rainbow.admin.api.entity.Brand;
+import com.rainbow.api.entity.Brand;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

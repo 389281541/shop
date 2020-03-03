@@ -2,8 +2,8 @@ package com.rainbow.admin.config;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.rainbow.admin.api.entity.Administrator;
-import com.rainbow.admin.api.entity.Permission;
+import com.rainbow.api.entity.Administrator;
+import com.rainbow.api.entity.Permission;
 import com.rainbow.admin.model.AdminUserDetails;
 import com.rainbow.admin.model.JwtAuthenticationTokenFilter;
 import com.rainbow.admin.service.IAdministratorService;

@@ -2,8 +2,8 @@ package com.rainbow.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Lists;
-import com.rainbow.admin.api.vo.SpuFullReductionSimpleVO;
-import com.rainbow.admin.api.entity.SpuFullReduction;
+import com.rainbow.api.vo.SpuFullReductionSimpleVO;
+import com.rainbow.api.entity.SpuFullReduction;
 import com.rainbow.admin.mapper.SpuFullReductionMapper;
 import com.rainbow.admin.service.ISpuFullReductionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

@@ -1,6 +1,6 @@
 package com.rainbow.admin.service.impl;
 
-import com.rainbow.admin.api.entity.AdministratorRole;
+import com.rainbow.api.entity.AdministratorRole;
 import com.rainbow.admin.mapper.AdministratorRoleMapper;
 import com.rainbow.admin.service.IAdministratorRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

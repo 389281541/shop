@@ -2,7 +2,7 @@ package com.rainbow.admin.mapper;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.rainbow.admin.api.entity.Item;
+import com.rainbow.api.entity.Item;
 
 /**
  * 类别表 Mapper 接口

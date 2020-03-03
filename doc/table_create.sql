@@ -225,7 +225,6 @@ CREATE TABLE vvshop_goods.item
     del_status tinyint default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time timestamp default NULL NULL COMMENT '更新时间',
     create_time timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
-    UNIQUE KEY (item_no),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '类别表';
 
@@ -762,7 +761,21 @@ CREATE TABLE vvshop_goods.spu_full_reduction
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment 'spu满减表';
 
-
+DROP TABLE vvshop_goods.home_advertise;
+CREATE TABLE vvshop_goods.home_advertise
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    theme              varchar(256)  NULL COMMENT '主题',
+    type                int(1) DEFAULT NULL COMMENT '位置：0->轮播图，1->首页活动位',
+    img_url            varchar(256) NOT NULL COMMENT '图片链接',
+    forward_url        varchar(256) NOT NULL COMMENT '跳转链接',
+    status             tinyint   default 0  NULL COMMENT '上线状态 0-未上线 1-已上线',
+    sort_id            bigint(20) NOT NULL COMMENT '排序ID',
+    note               varchar(500) DEFAULT NULL COMMENT '备注',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '轮播图表';
 
 
 

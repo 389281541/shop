@@ -1,10 +1,10 @@
 package com.rainbow.portal.controller;
 
 
+import com.rainbow.api.dto.CustomerRegisterDTO;
 import com.rainbow.common.dto.LoginDTO;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.vo.IdNameAvatarTokenVO;
-import com.rainbow.portal.api.dto.CustomerRegisterDTO;
 import com.rainbow.portal.service.ICustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -36,6 +38,11 @@ public class CustomerController {
         return new R<>(customerService.loginByPassword(loginDTO.getUsername(), loginDTO.getPassword()));
     }
 
+    @ApiOperation(value = "退出登陆", notes = "退出登陆", httpMethod = "POST")
+    @PostMapping("/logout")
+    public R<Boolean> logout(HttpServletRequest request, HttpServletResponse response) {
+        return new R<>(customerService.logout(request, response));
+    }
 
     @ApiOperation(value = "注册", notes = "注册", httpMethod = "POST")
     @PostMapping("/register")

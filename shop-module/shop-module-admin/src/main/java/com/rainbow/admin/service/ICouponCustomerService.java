@@ -1,9 +1,9 @@
 package com.rainbow.admin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rainbow.admin.api.dto.CouponCustomerSearchDTO;
-import com.rainbow.admin.api.entity.CouponCustomer;
-import com.rainbow.admin.api.vo.CouponCustomerSimpleVO;
+import com.rainbow.api.dto.CouponCustomerSearchDTO;
+import com.rainbow.api.entity.CouponCustomer;
+import com.rainbow.api.vo.CouponCustomerSimpleVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

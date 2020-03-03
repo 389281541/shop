@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.SpuImgMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.SpuImg">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.SpuImg">
         <id column="id" property="id" />
         <result column="spu_id" property="spuId" />
         <result column="sku_id" property="skuId" />

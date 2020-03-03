@@ -2,7 +2,7 @@ package com.rainbow.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
-import com.rainbow.admin.api.entity.SpuSpec;
+import com.rainbow.api.entity.SpuSpec;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

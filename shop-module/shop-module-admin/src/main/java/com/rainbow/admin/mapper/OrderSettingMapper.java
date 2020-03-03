@@ -1,6 +1,6 @@
 package com.rainbow.admin.mapper;
 
-import com.rainbow.admin.api.entity.OrderSetting;
+import com.rainbow.api.entity.OrderSetting;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 /**

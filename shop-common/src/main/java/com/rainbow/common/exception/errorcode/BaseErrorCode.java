@@ -29,6 +29,7 @@ public enum BaseErrorCode implements UniverseErrorCode {
     NO_LOGIN(500, "用户未登录或token过期"),
     NO_USER(501, "用户不存在"),
     ERROR_PASSWORD(502, "密码错误"),
+    USER_HAS_EXIST(503, "用户已存在"),
     REQUEST_EXCEED(300, "超出请求次数限制"),
     IO_ERROR(600, "后台处理IO异常"),
     PERMISSION_DENY(700, "无获取该资源的权限"),

@@ -4,9 +4,9 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.rainbow.admin.api.dto.SpuSearchDTO;
-import com.rainbow.admin.api.vo.SpuSimpleVO;
-import com.rainbow.admin.api.entity.Spu;
+import com.rainbow.api.dto.SpuSearchDTO;
+import com.rainbow.api.vo.SpuSimpleVO;
+import com.rainbow.api.entity.Spu;
 import com.rainbow.common.dto.StatusBatchChangeDTO;
 import org.apache.ibatis.annotations.Param;
 

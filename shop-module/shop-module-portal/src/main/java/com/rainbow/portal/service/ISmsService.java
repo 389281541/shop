@@ -3,7 +3,7 @@ package com.rainbow.portal.service;
 import com.rainbow.common.dto.SmsVerifyDTO;
 
 /**
- *
+ *  短信验证
  */
 public interface ISmsService {
 

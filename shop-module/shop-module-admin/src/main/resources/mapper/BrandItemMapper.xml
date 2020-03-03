@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.BrandItemMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.BrandItem">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.BrandItem">
         <id column="id" property="id" />
         <result column="brand_id" property="brandId" />
         <result column="item_id" property="itemId" />

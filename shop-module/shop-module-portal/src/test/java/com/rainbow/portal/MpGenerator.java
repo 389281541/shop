@@ -28,13 +28,13 @@ public class MpGenerator {
     public void generateCode() {
         String packageName = "com.rainbow.portal";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "customer");
+        generateByTables(serviceNameStartWithI, packageName, "home_advertise");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
 //        String dbUrl = "jdbc:mysql://172.21.139.13:3312/tx_yunying";
-        String dbUrl = "jdbc:mysql://192.168.113.128:3306/vvshop_user";
+        String dbUrl = "jdbc:mysql://192.168.113.128:3306/vvshop_goods";
 //        String dbUrl = "jdbc:mysql://127.0.0.1:3306/vvshop_goods";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
@@ -103,18 +103,17 @@ public class MpGenerator {
 //                    }
 //                }
 
-//                if (FileType.ENTITY==fileType||filePath.contains("Mapper")){
-//                    return true;
-//                }else {
-//                    return false;
-//                }
+                if (FileType.ENTITY==fileType||filePath.contains("Mapper")){
+                    return true;
+                }
                 //不存在的文件都需要创建
-//                if (filePath.endsWith("Mapper.xml")) {
-//                    return true;
-//                } else {
+                if (filePath.endsWith("Mapper.xml")) {
+                    return true;
+                }
 //                    return false;
 //                }
-                return  true;
+//                return  true;
+                return false;
             }
         });
         if (!serviceNameStartWithI) {

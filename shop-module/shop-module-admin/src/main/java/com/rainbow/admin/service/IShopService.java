@@ -1,12 +1,12 @@
 package com.rainbow.admin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rainbow.admin.api.dto.ShopSaveDTO;
-import com.rainbow.admin.api.dto.ShopSearchDTO;
-import com.rainbow.admin.api.dto.ShopUpdateDTO;
-import com.rainbow.admin.api.entity.Shop;
-import com.rainbow.admin.api.vo.ShopDetailVO;
-import com.rainbow.admin.api.vo.ShopSimpleVO;
+import com.rainbow.api.dto.ShopSaveDTO;
+import com.rainbow.api.dto.ShopSearchDTO;
+import com.rainbow.api.dto.ShopUpdateDTO;
+import com.rainbow.api.entity.Shop;
+import com.rainbow.api.vo.ShopDetailVO;
+import com.rainbow.api.vo.ShopSimpleVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.StatusChangeDTO;

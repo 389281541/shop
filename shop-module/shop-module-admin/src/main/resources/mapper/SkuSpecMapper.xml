@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.SkuSpecMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.SkuSpec">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.SkuSpec">
         <id column="id" property="id" />
         <result column="sku_id" property="skuId" />
         <result column="spec_name_id" property="specNameId" />

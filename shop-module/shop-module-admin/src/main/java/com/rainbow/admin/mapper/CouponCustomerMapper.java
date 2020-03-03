@@ -2,7 +2,7 @@ package com.rainbow.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
-import com.rainbow.admin.api.entity.CouponCustomer;
+import com.rainbow.api.entity.CouponCustomer;
 
 /**
  * 优惠券使用、领取历史表 Mapper 接口

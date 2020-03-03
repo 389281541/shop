@@ -1,10 +1,9 @@
 package com.rainbow.admin;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.rainbow.admin.api.dto.SpuSearchDTO;
-import com.rainbow.admin.api.entity.Administrator;
-import com.rainbow.admin.api.entity.Spu;
+import com.rainbow.api.dto.SpuSearchDTO;
+import com.rainbow.api.entity.Administrator;
+import com.rainbow.api.entity.Spu;
 import com.rainbow.admin.mapper.AdministratorMapper;
 import com.rainbow.admin.mapper.SpuMapper;
 import com.rainbow.common.enums.DelFlagEnum;

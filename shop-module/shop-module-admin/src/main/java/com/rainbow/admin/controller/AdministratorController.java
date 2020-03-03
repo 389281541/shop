@@ -1,7 +1,7 @@
 package com.rainbow.admin.controller;
 
 
-import com.rainbow.admin.api.vo.AdminstratorSimpleVO;
+import com.rainbow.api.vo.AdminstratorSimpleVO;
 import com.rainbow.admin.service.IAdministratorService;
 import com.rainbow.common.dto.LoginDTO;
 import com.rainbow.common.dto.R;

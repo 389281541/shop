@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.OrderMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.Order">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.Order">
         <id column="id" property="id" />
         <result column="order_no" property="orderNo" />
         <result column="customer_id" property="customerId" />
@@ -49,7 +49,7 @@
     </sql>
 
 
-    <select id="pageOrder" parameterType="com.rainbow.admin.api.dto.OrderSearchDTO" resultMap="BaseResultMap">
+    <select id="pageOrder" parameterType="com.rainbow.api.dto.OrderSearchDTO" resultMap="BaseResultMap">
         SELECT *
         FROM
             order_
@@ -107,7 +107,7 @@
 
 
 
-    <update id="updateReceiverInfo" parameterType="com.rainbow.admin.api.dto.ReceiverInfoChangeDTO">
+    <update id="updateReceiverInfo" parameterType="com.rainbow.api.dto.ReceiverInfoChangeDTO">
         update order_ set
             receiver_name = #{param.receiverName},
             receiver_phone=#{param.receiverPhone},
@@ -120,7 +120,7 @@
         where id = #{param.id}
     </update>
 
-    <update id="updateMoneyInfo" parameterType="com.rainbow.admin.api.dto.MoneyInfoChangeDTO">
+    <update id="updateMoneyInfo" parameterType="com.rainbow.api.dto.MoneyInfoChangeDTO">
         update order_ set
             promotion_amount = #{param.promotionAmount},
             deliver_fee=#{param.deliverFee},
@@ -128,7 +128,7 @@
         where id = #{param.id}
     </update>
 
-    <update id="updateNote" parameterType="com.rainbow.admin.api.dto.NoteChangeDTO">
+    <update id="updateNote" parameterType="com.rainbow.api.dto.NoteChangeDTO">
          update order_ set
             note=#{param.note},
             update_time = CURRENT_TIMESTAMP

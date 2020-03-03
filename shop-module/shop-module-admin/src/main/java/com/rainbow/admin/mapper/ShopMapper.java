@@ -1,7 +1,7 @@
 package com.rainbow.admin.mapper;
 
-import com.rainbow.admin.api.dto.ShopUpdateDTO;
-import com.rainbow.admin.api.entity.Shop;
+import com.rainbow.api.dto.ShopUpdateDTO;
+import com.rainbow.api.entity.Shop;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.rainbow.common.dto.StatusChangeDTO;

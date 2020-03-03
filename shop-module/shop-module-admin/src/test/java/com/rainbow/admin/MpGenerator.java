@@ -24,11 +24,11 @@ public class MpGenerator {
     private static String serviceImplVM = "/templates/serviceImpl.java.vm";
     private static String mapperVM = "/templates/mapper.java.vm";
     private static String xmlVM = "/templates/mapper.xml.vm";
-//    @Test
+    @Test
     public void generateCode() {
         String packageName = "com.rainbow.admin";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "spu_full_reduction");
+        generateByTables(serviceNameStartWithI, packageName, "home_advertise");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {

@@ -1,8 +1,8 @@
 package com.rainbow.admin.controller;
 
 
-import com.rainbow.admin.api.dto.OrderSettingDTO;
-import com.rainbow.admin.api.vo.OrderSettingVO;
+import com.rainbow.api.dto.OrderSettingDTO;
+import com.rainbow.api.vo.OrderSettingVO;
 import com.rainbow.admin.service.IOrderSettingService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.R;

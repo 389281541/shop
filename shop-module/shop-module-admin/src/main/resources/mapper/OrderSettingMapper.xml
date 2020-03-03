@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.OrderSettingMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.OrderSetting">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.OrderSetting">
         <id column="id" property="id" />
         <result column="flash_order_overtime" property="flashOrderOvertime" />
         <result column="normal_order_overtime" property="normalOrderOvertime" />

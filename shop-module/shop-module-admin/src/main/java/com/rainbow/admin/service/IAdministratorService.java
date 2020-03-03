@@ -1,10 +1,10 @@
 package com.rainbow.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rainbow.admin.api.entity.Administrator;
-import com.rainbow.admin.api.entity.Permission;
-import com.rainbow.admin.api.entity.Role;
-import com.rainbow.admin.api.vo.AdminstratorSimpleVO;
+import com.rainbow.api.entity.Administrator;
+import com.rainbow.api.entity.Permission;
+import com.rainbow.api.entity.Role;
+import com.rainbow.api.vo.AdminstratorSimpleVO;
 import com.rainbow.common.vo.IdNameTokenVO;
 
 import javax.servlet.http.HttpServletRequest;

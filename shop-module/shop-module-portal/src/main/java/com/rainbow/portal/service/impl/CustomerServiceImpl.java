@@ -1,24 +1,27 @@
 package com.rainbow.portal.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.rainbow.common.dto.SmsVerifyDTO;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rainbow.api.dto.CustomerRegisterDTO;
+import com.rainbow.common.constant.Constant;
 import com.rainbow.common.enums.BooleanEnum;
 import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.exception.BusinessException;
 import com.rainbow.common.exception.errorcode.BaseErrorCode;
+import com.rainbow.common.util.CookieUtil;
 import com.rainbow.common.util.MD5Utils;
 import com.rainbow.common.util.PasswordUtils;
 import com.rainbow.common.vo.IdNameAvatarTokenVO;
-import com.rainbow.portal.api.dto.CustomerRegisterDTO;
-import com.rainbow.portal.entity.Customer;
+import com.rainbow.api.entity.Customer;
 import com.rainbow.portal.mapper.CustomerMapper;
 import com.rainbow.portal.service.ICustomerService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainbow.portal.util.UserTokenManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -70,6 +73,10 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
 
     @Override
     public Boolean register(CustomerRegisterDTO param) {
+        Customer cst = getCustomerByUsername(param.getUserName());
+        if (cst != null) {
+            throw new BusinessException(BaseErrorCode.USER_HAS_EXIST);
+        }
         Customer customer = new Customer();
         BeanUtils.copyProperties(param, customer);
         //使用状态
@@ -86,5 +93,9 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         return res > 0;
     }
 
-
+    @Override
+    public Boolean logout(HttpServletRequest request, HttpServletResponse response) {
+        CookieUtil.deleteCookie(request, response, Constant.LOGIN_TOKEN_COOKIE_NAME);
+        return Boolean.TRUE;
+    }
 }

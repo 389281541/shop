@@ -2,9 +2,9 @@ package com.rainbow.admin.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.rainbow.admin.api.dto.*;
-import com.rainbow.admin.api.vo.OrderDetailVO;
-import com.rainbow.admin.api.entity.Order;
+import com.rainbow.api.dto.*;
+import com.rainbow.api.vo.OrderDetailVO;
+import com.rainbow.api.entity.Order;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import org.apache.ibatis.annotations.Param;

@@ -1,7 +1,7 @@
 package com.rainbow.admin.mapper;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
-import com.rainbow.admin.api.entity.AdministratorRole;
+import com.rainbow.api.entity.AdministratorRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

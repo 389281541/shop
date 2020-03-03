@@ -21,7 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>com.rainbow</groupId>
-            <artifactId>shop-module-admin-api</artifactId>
+            <artifactId>shop-module-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

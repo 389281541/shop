@@ -1,7 +1,7 @@
 package com.rainbow.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rainbow.admin.api.entity.Role;
+import com.rainbow.api.entity.Role;
 
 /**
  * 角色表 服务类

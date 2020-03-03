@@ -1,6 +1,6 @@
 package com.rainbow.admin.service.impl;
 
-import com.rainbow.admin.api.vo.FileUploadVO;
+import com.rainbow.api.vo.FileUploadVO;
 import com.rainbow.admin.service.IUploadService;
 import com.rainbow.admin.util.ImageHandler;
 import com.rainbow.common.util.UUIDUtils;

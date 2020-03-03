@@ -1,6 +1,6 @@
 package com.rainbow.admin.controller;
 
-import com.rainbow.admin.api.vo.FileUploadVO;
+import com.rainbow.api.vo.FileUploadVO;
 import com.rainbow.admin.service.IUploadService;
 import com.rainbow.common.dto.R;
 import io.swagger.annotations.Api;

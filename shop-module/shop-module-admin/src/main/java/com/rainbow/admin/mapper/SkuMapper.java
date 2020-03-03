@@ -1,8 +1,8 @@
 package com.rainbow.admin.mapper;
 
-import com.rainbow.admin.api.dto.SkuBatchUpdateDTO;
-import com.rainbow.admin.api.dto.SkuUpdateDTO;
-import com.rainbow.admin.api.entity.Sku;
+import com.rainbow.api.dto.SkuBatchUpdateDTO;
+import com.rainbow.api.dto.SkuUpdateDTO;
+import com.rainbow.api.entity.Sku;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import org.apache.ibatis.annotations.Param;

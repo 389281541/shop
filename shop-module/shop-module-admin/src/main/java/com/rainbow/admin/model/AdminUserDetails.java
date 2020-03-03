@@ -1,7 +1,7 @@
 package com.rainbow.admin.model;
 
-import com.rainbow.admin.api.entity.Administrator;
-import com.rainbow.admin.api.entity.Permission;
+import com.rainbow.api.entity.Administrator;
+import com.rainbow.api.entity.Permission;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

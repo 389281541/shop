@@ -1,8 +1,9 @@
 package com.rainbow.portal.mapper;
 
-import com.rainbow.portal.entity.Customer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.rainbow.api.entity.Customer;
+
 /**
  * 顾客登录表 Mapper 接口
  *

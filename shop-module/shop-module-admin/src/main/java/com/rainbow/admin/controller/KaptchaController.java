@@ -1,6 +1,6 @@
 package com.rainbow.admin.controller;
 
-import com.rainbow.admin.api.dto.VerifyCodeDTO;
+import com.rainbow.api.dto.VerifyCodeDTO;
 import com.rainbow.admin.service.IKaptchaService;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.vo.IdNameVO;

@@ -1,9 +1,9 @@
 package com.rainbow.admin.controller;
 
 
-import com.rainbow.admin.api.dto.FlashPromotionSessionSaveDTO;
-import com.rainbow.admin.api.dto.FlashPromotionSessionUpdateDTO;
-import com.rainbow.admin.api.vo.FlashPromotionSessionVO;
+import com.rainbow.api.dto.FlashPromotionSessionSaveDTO;
+import com.rainbow.api.dto.FlashPromotionSessionUpdateDTO;
+import com.rainbow.api.vo.FlashPromotionSessionVO;
 import com.rainbow.admin.service.IFlashPromotionSessionService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.R;

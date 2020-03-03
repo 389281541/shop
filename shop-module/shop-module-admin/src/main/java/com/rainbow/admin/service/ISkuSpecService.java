@@ -1,7 +1,7 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.api.vo.SkuSpecSimpleVO;
-import com.rainbow.admin.api.entity.SkuSpec;
+import com.rainbow.api.vo.SkuSpecSimpleVO;
+import com.rainbow.api.entity.SkuSpec;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.common.vo.MemberShipVO;
 

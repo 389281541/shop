@@ -1,11 +1,11 @@
 package com.rainbow.admin.controller;
 
 
-import com.rainbow.admin.api.dto.SpecValueSaveDTO;
-import com.rainbow.admin.api.dto.SpecValueUpdateDTO;
-import com.rainbow.admin.api.dto.UpDownRankingDTO;
-import com.rainbow.admin.api.vo.SpecValueDetailVO;
-import com.rainbow.admin.api.vo.SpecValuePageVO;
+import com.rainbow.api.dto.SpecValueSaveDTO;
+import com.rainbow.api.dto.SpecValueUpdateDTO;
+import com.rainbow.api.dto.UpDownRankingDTO;
+import com.rainbow.api.vo.SpecValueDetailVO;
+import com.rainbow.api.vo.SpecValuePageVO;
 import com.rainbow.admin.service.ISpecValueService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdPageDTO;

@@ -1,6 +1,6 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.api.entity.RolePermission;
+import com.rainbow.api.entity.RolePermission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

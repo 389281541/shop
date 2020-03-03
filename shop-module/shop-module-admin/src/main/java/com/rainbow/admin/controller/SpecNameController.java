@@ -2,13 +2,13 @@ package com.rainbow.admin.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rainbow.admin.api.dto.SpecNameSaveDTO;
-import com.rainbow.admin.api.dto.SpecNameSearchDTO;
-import com.rainbow.admin.api.dto.SpecNameUpdateDTO;
-import com.rainbow.admin.api.dto.SpecSelectDTO;
-import com.rainbow.admin.api.vo.SpecNameDetailVO;
-import com.rainbow.admin.api.vo.SpecNameListVO;
-import com.rainbow.admin.api.vo.SpecNameSimpleVO;
+import com.rainbow.api.dto.SpecNameSaveDTO;
+import com.rainbow.api.dto.SpecNameSearchDTO;
+import com.rainbow.api.dto.SpecNameUpdateDTO;
+import com.rainbow.api.dto.SpecSelectDTO;
+import com.rainbow.api.vo.SpecNameDetailVO;
+import com.rainbow.api.vo.SpecNameListVO;
+import com.rainbow.api.vo.SpecNameSimpleVO;
 import com.rainbow.admin.service.ISpecNameService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.R;

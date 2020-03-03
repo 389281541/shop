@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.SpecNameMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.SpecName">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.SpecName">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="item_id" property="itemId" />

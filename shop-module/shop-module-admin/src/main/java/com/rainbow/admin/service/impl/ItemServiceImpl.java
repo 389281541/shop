@@ -6,13 +6,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.rainbow.admin.api.dto.ItemSaveDTO;
-import com.rainbow.admin.api.dto.ItemUpdateDTO;
-import com.rainbow.admin.api.vo.ItemDetailVO;
-import com.rainbow.admin.api.vo.ItemSimpleVO;
-import com.rainbow.admin.api.vo.ItemWithChildrenVO;
-import com.rainbow.admin.api.entity.Item;
-import com.rainbow.admin.api.enums.ItemLevelEnum;
+import com.rainbow.api.dto.ItemSaveDTO;
+import com.rainbow.api.dto.ItemUpdateDTO;
+import com.rainbow.api.vo.ItemDetailVO;
+import com.rainbow.api.vo.ItemSimpleVO;
+import com.rainbow.api.vo.ItemWithChildrenVO;
+import com.rainbow.api.entity.Item;
+import com.rainbow.api.enums.ItemLevelEnum;
 import com.rainbow.admin.mapper.ItemMapper;
 import com.rainbow.admin.service.IItemService;
 import com.rainbow.common.dto.IdDTO;
@@ -194,8 +194,8 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
         if (item.getParent()) {
             //父类-删除相关联的全部子类
             LambdaQueryWrapper<Item> wrapper = new LambdaQueryWrapper<>();
-            wrapper.eq(Item::getParentId, item.getParentId());
-            wrapper.eq(Item::getDelStatus, item.getDelStatus());
+            wrapper.eq(Item::getParentId, item.getId());
+            wrapper.eq(Item::getDelStatus, DelFlagEnum.NO.getValue());
             List<Item> items = baseMapper.selectList(wrapper);
             if (!CollectionUtils.isEmpty(items)) {
                 Set<Long> itemIds = items.stream().map(Item::getId).collect(Collectors.toSet());

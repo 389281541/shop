@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.SpuFullReductionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.SpuFullReduction">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.SpuFullReduction">
         <id column="id" property="id" />
         <result column="spu_id" property="spuId" />
         <result column="full_price" property="fullPrice" />

@@ -2,10 +2,10 @@ package com.rainbow.admin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rainbow.admin.api.dto.*;
-import com.rainbow.admin.api.vo.OrderDetailVO;
-import com.rainbow.admin.api.vo.OrderSimpleVO;
-import com.rainbow.admin.api.entity.Order;
+import com.rainbow.api.dto.*;
+import com.rainbow.api.vo.OrderDetailVO;
+import com.rainbow.api.vo.OrderSimpleVO;
+import com.rainbow.api.entity.Order;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdsDTO;
 

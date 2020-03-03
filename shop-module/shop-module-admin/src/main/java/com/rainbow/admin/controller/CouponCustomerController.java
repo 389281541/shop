@@ -2,8 +2,8 @@ package com.rainbow.admin.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rainbow.admin.api.dto.CouponCustomerSearchDTO;
-import com.rainbow.admin.api.vo.CouponCustomerSimpleVO;
+import com.rainbow.api.dto.CouponCustomerSearchDTO;
+import com.rainbow.api.vo.CouponCustomerSimpleVO;
 import com.rainbow.admin.service.ICouponCustomerService;
 import com.rainbow.common.dto.R;
 import io.swagger.annotations.Api;

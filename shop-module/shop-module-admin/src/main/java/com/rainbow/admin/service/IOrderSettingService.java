@@ -1,8 +1,8 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.api.dto.OrderSettingDTO;
-import com.rainbow.admin.api.entity.OrderSetting;
-import com.rainbow.admin.api.vo.OrderSettingVO;
+import com.rainbow.api.dto.OrderSettingDTO;
+import com.rainbow.api.entity.OrderSetting;
+import com.rainbow.api.vo.OrderSettingVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.common.dto.IdDTO;
 

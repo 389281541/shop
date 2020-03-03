@@ -2,12 +2,12 @@ package com.rainbow.admin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rainbow.admin.api.dto.SpuSaveDTO;
-import com.rainbow.admin.api.dto.SpuSearchDTO;
-import com.rainbow.admin.api.dto.SpuUpdateDTO;
-import com.rainbow.admin.api.vo.SpuDetailVO;
-import com.rainbow.admin.api.vo.SpuSimpleVO;
-import com.rainbow.admin.api.entity.Spu;
+import com.rainbow.api.dto.SpuSaveDTO;
+import com.rainbow.api.dto.SpuSearchDTO;
+import com.rainbow.api.dto.SpuUpdateDTO;
+import com.rainbow.api.vo.SpuDetailVO;
+import com.rainbow.api.vo.SpuSimpleVO;
+import com.rainbow.api.entity.Spu;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.StatusBatchChangeDTO;
 import org.springframework.transaction.annotation.Isolation;

@@ -12,13 +12,18 @@
     <artifactId>shop-module-api</artifactId>
 
     <name>shop-module-api</name>
-    <modules>
-        <module>shop-module-admin-api</module>
-    </modules>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.rainbow</groupId>
+            <artifactId>shop-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

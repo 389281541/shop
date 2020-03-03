@@ -1,7 +1,7 @@
 package com.rainbow.admin.controller;
 
 
-import com.rainbow.admin.api.vo.SpuSpecSimpleVO;
+import com.rainbow.api.vo.SpuSpecSimpleVO;
 import com.rainbow.admin.service.ISpuSpecService;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.R;

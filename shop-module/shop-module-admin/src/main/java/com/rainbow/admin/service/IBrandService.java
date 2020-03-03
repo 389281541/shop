@@ -2,11 +2,11 @@ package com.rainbow.admin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rainbow.admin.api.dto.BrandSaveDTO;
-import com.rainbow.admin.api.dto.BrandUpdateDTO;
-import com.rainbow.admin.api.vo.BrandDetailVO;
-import com.rainbow.admin.api.vo.BrandSimpleVO;
-import com.rainbow.admin.api.entity.Brand;
+import com.rainbow.api.dto.BrandSaveDTO;
+import com.rainbow.api.dto.BrandUpdateDTO;
+import com.rainbow.api.vo.BrandDetailVO;
+import com.rainbow.api.vo.BrandSimpleVO;
+import com.rainbow.api.entity.Brand;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.IdNamePageDTO;
 

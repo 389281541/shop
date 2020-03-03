@@ -1,6 +1,6 @@
 package com.rainbow.admin.service.impl;
 
-import com.rainbow.admin.api.entity.OrderSku;
+import com.rainbow.api.entity.OrderSku;
 import com.rainbow.admin.mapper.OrderSkuMapper;
 import com.rainbow.admin.service.IOrderSkuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

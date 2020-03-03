@@ -1,6 +1,6 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.api.vo.FileUploadVO;
+import com.rainbow.api.vo.FileUploadVO;
 
 /**
  * 文件上传服务类

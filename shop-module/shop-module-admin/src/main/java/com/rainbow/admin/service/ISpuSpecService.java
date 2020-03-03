@@ -1,7 +1,7 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.api.entity.SpuSpec;
-import com.rainbow.admin.api.vo.SpuSpecSimpleVO;
+import com.rainbow.api.entity.SpuSpec;
+import com.rainbow.api.vo.SpuSpecSimpleVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

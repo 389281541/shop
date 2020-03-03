@@ -1,6 +1,6 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.api.dto.VerifyCodeDTO;
+import com.rainbow.api.dto.VerifyCodeDTO;
 import com.rainbow.common.vo.IdNameVO;
 
 import javax.servlet.http.HttpServletRequest;

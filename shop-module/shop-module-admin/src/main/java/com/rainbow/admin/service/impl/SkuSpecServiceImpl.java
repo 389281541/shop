@@ -2,8 +2,8 @@ package com.rainbow.admin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
-import com.rainbow.admin.api.vo.SkuSpecSimpleVO;
-import com.rainbow.admin.api.entity.SkuSpec;
+import com.rainbow.api.vo.SkuSpecSimpleVO;
+import com.rainbow.api.entity.SkuSpec;
 import com.rainbow.admin.mapper.SkuSpecMapper;
 import com.rainbow.admin.service.ISkuSpecService;
 import com.rainbow.common.vo.MemberShipVO;

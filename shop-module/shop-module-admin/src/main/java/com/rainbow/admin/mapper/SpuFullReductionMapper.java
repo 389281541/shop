@@ -1,6 +1,6 @@
 package com.rainbow.admin.mapper;
 
-import com.rainbow.admin.api.entity.SpuFullReduction;
+import com.rainbow.api.entity.SpuFullReduction;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import org.apache.ibatis.annotations.Param;

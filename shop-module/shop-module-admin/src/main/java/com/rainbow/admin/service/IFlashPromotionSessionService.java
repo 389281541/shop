@@ -1,13 +1,11 @@
 package com.rainbow.admin.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rainbow.admin.api.dto.FlashPromotionSessionSaveDTO;
-import com.rainbow.admin.api.dto.FlashPromotionSessionUpdateDTO;
-import com.rainbow.admin.api.vo.FlashPromotionSessionVO;
-import com.rainbow.admin.api.entity.FlashPromotionSession;
+import com.rainbow.api.dto.FlashPromotionSessionSaveDTO;
+import com.rainbow.api.dto.FlashPromotionSessionUpdateDTO;
+import com.rainbow.api.vo.FlashPromotionSessionVO;
+import com.rainbow.api.entity.FlashPromotionSession;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.common.dto.IdDTO;
-import com.rainbow.common.dto.PageDTO;
 import com.rainbow.common.dto.StatusChangeDTO;
 
 import java.util.List;

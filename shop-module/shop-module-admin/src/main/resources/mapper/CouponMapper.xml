@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.CouponMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.Coupon">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.Coupon">
         <id column="id" property="id" />
         <result column="type" property="type" />
         <result column="name" property="name" />

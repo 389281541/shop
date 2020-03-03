@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.portal.mapper.CustomerMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.portal.entity.Customer">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.Customer">
         <id column="id" property="id" />
         <result column="user_name" property="userName" />
         <result column="password" property="password" />

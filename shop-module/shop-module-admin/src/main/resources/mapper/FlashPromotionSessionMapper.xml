@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.FlashPromotionSessionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.FlashPromotionSession">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.FlashPromotionSession">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="start_time" property="startTime" />

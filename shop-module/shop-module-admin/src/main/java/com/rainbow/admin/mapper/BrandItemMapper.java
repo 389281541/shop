@@ -2,7 +2,7 @@ package com.rainbow.admin.mapper;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.rainbow.admin.api.entity.BrandItem;
+import com.rainbow.api.entity.BrandItem;
 import com.rainbow.common.model.KV;
 import org.apache.ibatis.annotations.Param;
 

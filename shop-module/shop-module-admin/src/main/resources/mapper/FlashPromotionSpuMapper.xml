@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.FlashPromotionSpuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.FlashPromotionSpu">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.FlashPromotionSpu">
         <id column="id" property="id" />
         <result column="flash_promotion_id" property="flashPromotionId" />
         <result column="flash_promotion_session_id" property="flashPromotionSessionId" />
@@ -26,7 +26,7 @@
     </select>
 
 
-    <select id="pageFlashSku" resultType="com.rainbow.admin.api.vo.FlashPromotionSpuVO">
+    <select id="pageFlashSku" resultType="com.rainbow.api.vo.FlashPromotionSpuVO">
         SELECT
             r.id as id,
             r.flash_discount_price as flashDiscountPrice,

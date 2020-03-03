@@ -1,9 +1,9 @@
 package com.rainbow.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rainbow.admin.api.dto.SkuBatchUpdateDTO;
-import com.rainbow.admin.api.vo.SkuSimpleVO;
-import com.rainbow.admin.api.entity.Sku;
+import com.rainbow.api.dto.SkuBatchUpdateDTO;
+import com.rainbow.api.vo.SkuSimpleVO;
+import com.rainbow.api.entity.Sku;
 import com.rainbow.common.dto.IdSearchDTO;
 
 import java.util.List;

@@ -1,15 +1,14 @@
 package com.rainbow.admin.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rainbow.admin.api.vo.FlashPromotionSpuVO;
-import com.rainbow.admin.api.entity.FlashPromotionSpu;
+import com.rainbow.api.vo.FlashPromotionSpuVO;
+import com.rainbow.api.entity.FlashPromotionSpu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.rainbow.common.model.KV;
 import io.lettuce.core.dynamic.annotation.Param;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 商品限时购与商品关系表 Mapper 接口

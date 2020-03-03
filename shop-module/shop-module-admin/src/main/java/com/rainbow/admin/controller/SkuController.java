@@ -1,8 +1,8 @@
 package com.rainbow.admin.controller;
 
 
-import com.rainbow.admin.api.dto.SkuBatchUpdateDTO;
-import com.rainbow.admin.api.vo.SkuSimpleVO;
+import com.rainbow.api.dto.SkuBatchUpdateDTO;
+import com.rainbow.api.vo.SkuSimpleVO;
 import com.rainbow.admin.service.ISkuService;
 import com.rainbow.common.dto.IdSearchDTO;
 import com.rainbow.common.dto.R;

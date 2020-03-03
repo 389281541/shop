@@ -1,6 +1,6 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.api.entity.CouponItem;
+import com.rainbow.api.entity.CouponItem;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

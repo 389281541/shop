@@ -22,8 +22,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class SmsServiceImpl implements ISmsService {
 
-
-
     @Autowired
     private RestTemplate restTemplate;
 
@@ -36,7 +34,7 @@ public class SmsServiceImpl implements ISmsService {
             MultiValueMap<String, String> param = new LinkedMultiValueMap();
             param.add("sname", SmsContant.SMS_USERNAME);
             param.add("spwd", SmsContant.SMS_PASSWORD);
-//            String verifyCode = generateNumericCaptcha();
+            //String verifyCode = generateNumericCaptcha();
             //测试环境 为123456
             String verifyCode = "123456";
             redisTemplate.opsForValue().set(SmsContant.PREFIX_SMS + mobile, verifyCode, 1, TimeUnit.MINUTES);

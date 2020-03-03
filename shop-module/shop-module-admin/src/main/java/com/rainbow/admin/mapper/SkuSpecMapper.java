@@ -1,7 +1,7 @@
 package com.rainbow.admin.mapper;
 
-import com.rainbow.admin.api.vo.SkuSpecSimpleVO;
-import com.rainbow.admin.api.entity.SkuSpec;
+import com.rainbow.api.vo.SkuSpecSimpleVO;
+import com.rainbow.api.entity.SkuSpec;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import org.apache.ibatis.annotations.Param;

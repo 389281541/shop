@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.SpuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.Spu">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.Spu">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="spu_no" property="spuNo"/>
@@ -30,7 +30,7 @@
         id, name, spu_no, brand_id, item_id, shop_id, sale, unit, description, sale_status, audit_status, sort_id, recommend, del_status, update_time, create_time
     </sql>
 
-    <select id="pageSpu" parameterType="com.rainbow.admin.api.dto.SpuSearchDTO" resultMap="BaseResultMap">
+    <select id="pageSpu" parameterType="com.rainbow.api.dto.SpuSearchDTO" resultMap="BaseResultMap">
         select
             sp.*
         from

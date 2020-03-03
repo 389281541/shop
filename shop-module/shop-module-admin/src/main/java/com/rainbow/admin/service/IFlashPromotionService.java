@@ -2,10 +2,10 @@ package com.rainbow.admin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rainbow.admin.api.dto.FlashPromotionSaveDTO;
-import com.rainbow.admin.api.dto.FlashPromotionUpdateDTO;
-import com.rainbow.admin.api.entity.FlashPromotion;
-import com.rainbow.admin.api.vo.FlashPromotionVO;
+import com.rainbow.api.dto.FlashPromotionSaveDTO;
+import com.rainbow.api.dto.FlashPromotionUpdateDTO;
+import com.rainbow.api.entity.FlashPromotion;
+import com.rainbow.api.vo.FlashPromotionVO;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.SearchPageDTO;
 import com.rainbow.common.dto.StatusChangeDTO;

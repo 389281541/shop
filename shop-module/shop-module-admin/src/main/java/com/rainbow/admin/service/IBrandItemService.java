@@ -1,6 +1,6 @@
 package com.rainbow.admin.service;
 
-import com.rainbow.admin.api.entity.BrandItem;
+import com.rainbow.api.entity.BrandItem;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

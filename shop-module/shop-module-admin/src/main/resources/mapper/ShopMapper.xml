@@ -3,7 +3,7 @@
 <mapper namespace="com.rainbow.admin.mapper.ShopMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.rainbow.admin.api.entity.Shop">
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.Shop">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="type" property="type" />
@@ -23,7 +23,7 @@
         id, name, type, keeper_name, phone_number, bank_name, bank_account, address, audit_status, del_status, update_time, create_time
     </sql>
 
-    <update id="updateShop" parameterType="com.rainbow.admin.api.dto.ShopUpdateDTO">
+    <update id="updateShop" parameterType="com.rainbow.api.dto.ShopUpdateDTO">
         update shop
          set
             name = #{param.name},

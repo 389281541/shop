@@ -2,9 +2,9 @@ package com.rainbow.admin.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rainbow.admin.api.dto.FlashPromotionSaveDTO;
-import com.rainbow.admin.api.dto.FlashPromotionUpdateDTO;
-import com.rainbow.admin.api.vo.FlashPromotionVO;
+import com.rainbow.api.dto.FlashPromotionSaveDTO;
+import com.rainbow.api.dto.FlashPromotionUpdateDTO;
+import com.rainbow.api.vo.FlashPromotionVO;
 import com.rainbow.admin.service.IFlashPromotionService;
 import com.rainbow.common.dto.*;
 import io.swagger.annotations.Api;
