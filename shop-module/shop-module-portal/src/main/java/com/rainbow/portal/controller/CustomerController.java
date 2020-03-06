@@ -2,6 +2,7 @@ package com.rainbow.portal.controller;
 
 
 import com.rainbow.api.dto.CustomerRegisterDTO;
+import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.LoginDTO;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.vo.IdNameAvatarTokenVO;
@@ -49,6 +50,12 @@ public class CustomerController {
     public R<Boolean> register(@Valid @RequestBody CustomerRegisterDTO param) {
         return new R<>(customerService.register(param));
     }
+
+//    @ApiOperation(value = "用户信息详情", notes = "通过用户名登陆", httpMethod = "POST")
+//    @PostMapping("/info")
+//    public R<IdNameAvatarTokenVO> info(@Valid @RequestBody IdDTO param) {
+//        return new R<>(customerService.loginByPassword(loginDTO.getUsername(), loginDTO.getPassword()));
+//    }
 
 
 }

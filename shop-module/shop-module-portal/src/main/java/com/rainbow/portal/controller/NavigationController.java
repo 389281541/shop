@@ -1,11 +1,10 @@
 package com.rainbow.portal.controller;
 
+import com.rainbow.api.vo.AdvertiseVO;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.vo.FatherChildrenVO;
-import com.rainbow.api.vo.AdvertiseVO;
 import com.rainbow.portal.service.INavgationService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

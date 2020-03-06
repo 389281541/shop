@@ -8,16 +8,17 @@ import com.rainbow.common.enums.BooleanEnum;
 import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.exception.BusinessException;
 import com.rainbow.common.exception.errorcode.BaseErrorCode;
-import com.rainbow.common.util.CookieUtil;
+import com.rainbow.common.util.CookieUtils;
+import com.rainbow.common.util.EncryptUtils;
 import com.rainbow.common.util.MD5Utils;
 import com.rainbow.common.util.PasswordUtils;
 import com.rainbow.common.vo.IdNameAvatarTokenVO;
 import com.rainbow.api.entity.Customer;
 import com.rainbow.portal.mapper.CustomerMapper;
 import com.rainbow.portal.service.ICustomerService;
-import com.rainbow.portal.util.UserTokenManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,11 +56,13 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         customerUpdate.setLastLoginTime(LocalDateTime.now());
         baseMapper.updateById(customerUpdate);
 
+        String token = EncryptUtils.strEncode(customer.getId(), customer.getUserName(), customer.getMobile(), null);
+
         IdNameAvatarTokenVO idNameAvatarVO = new IdNameAvatarTokenVO();
         idNameAvatarVO.setId(customer.getId());
         idNameAvatarVO.setName(customer.getUserName());
         idNameAvatarVO.setAvatar(customer.getAvatar());
-        idNameAvatarVO.setToken(UserTokenManager.generateToken(customer.getId()));
+        idNameAvatarVO.setToken(token);
         return idNameAvatarVO;
     }
 
@@ -95,7 +98,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
 
     @Override
     public Boolean logout(HttpServletRequest request, HttpServletResponse response) {
-        CookieUtil.deleteCookie(request, response, Constant.LOGIN_TOKEN_COOKIE_NAME);
+        CookieUtils.deleteCookie(request, response, Constant.LOGIN_TOKEN_COOKIE_NAME, null);
         return Boolean.TRUE;
     }
 }

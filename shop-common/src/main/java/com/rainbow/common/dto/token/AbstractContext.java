@@ -10,7 +10,7 @@ import java.util.Map;
  * @author lujinwei
  * @since 2019-01-07
  */
-public abstract class AbstractTXContext {
+public abstract class AbstractContext {
 
     /**
      * 存储在ThreadLocal的KEY前缀
