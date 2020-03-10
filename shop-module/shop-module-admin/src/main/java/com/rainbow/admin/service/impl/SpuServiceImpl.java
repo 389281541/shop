@@ -23,10 +23,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 /**
@@ -80,12 +82,27 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
     public Integer addSpu(SpuSaveDTO param) {
         log.info("addSpu parameter is param = {}", param);
         Spu spu = new Spu();
+        loadMinPrice(spu, param);
         BeanUtils.copyProperties(param, spu);
         int res = baseMapper.insert(spu);
         Long spuId = spu.getId();
         log.info("addSpu spuId = {}", spuId);
         buildRelation(spuId, param);
         return res;
+    }
+
+    private void loadMinPrice(Spu spu, SpuSaveDTO param) {
+        List<SkuSaveDTO> skuList = param.getSkuList();
+        if(CollectionUtils.isEmpty(skuList)) {
+            return;
+        }
+        OptionalDouble minPrice = skuList.stream().mapToDouble(x -> {
+            if(x.getPrice() == null) {
+                return 0.0;
+            }
+            return x.getPrice().doubleValue();
+        }).min();
+        spu.setMinPrice(new BigDecimal(minPrice.getAsDouble()));
     }
 
     private void buildRelation(Long spuId, SpuSaveDTO param) {
@@ -204,6 +221,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
                 BeanUtils.copyProperties(spuImgSaveDTO, spuImg);
                 spuImg.setSortId(++count);
                 spuImg.setCreateTime(LocalDateTime.now());
+                spuImg.setSpuId(spuId);
                 spuImgList.add(spuImg);
             }
         }

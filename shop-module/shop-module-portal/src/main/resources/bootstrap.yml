@@ -68,7 +68,6 @@ spring:
   profiles: local
   eureka-url: localhost:1025
 
-rainbow:
 
 
 

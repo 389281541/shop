@@ -31,7 +31,4 @@ public class AuthToken extends BaseDTO {
     @ApiModelProperty(value = "盐")
     private String salt;
 
-    @ApiModelProperty(value = "当前环境，online、beta、dev、test、pre")
-    private String env;
-
 }

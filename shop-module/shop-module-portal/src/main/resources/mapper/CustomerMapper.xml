@@ -28,4 +28,10 @@
         id, user_name, password, salt, mobile, avatar, identity_name, identity_type, identity_no, email, gender, birthday, integration, user_status, update_time, create_time, last_login_time
     </sql>
 
+    <update id="updateInfo" parameterType="com.rainbow.api.dto.CustomerUpdateDTO">
+        update customer set
+         mobile = #{param.mobile}, avatar = #{param.avatar}, identity_name = #{param.identityName}, identity_type=#{param.identityType}, identity_no=#{param.identityNo}, email=#{param.email}, gender=#{param.gender}, birthday=#{param.birthday}
+        where id = #{param.id}
+    </update>
+
 </mapper>

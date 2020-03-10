@@ -35,7 +35,6 @@ public interface ISpuService extends IService<Spu> {
      * @param param
      * @return
      */
-    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
     Integer addSpu(SpuSaveDTO param);
 
     /**

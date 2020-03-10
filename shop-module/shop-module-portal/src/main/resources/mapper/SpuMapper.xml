@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.SpuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.Spu">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="spu_no" property="spuNo" />
+        <result column="brand_id" property="brandId" />
+        <result column="brand_name" property="brandName" />
+        <result column="item_id" property="itemId" />
+        <result column="item_name" property="itemName" />
+        <result column="shop_id" property="shopId" />
+        <result column="shop_name" property="shopName" />
+        <result column="sale" property="sale" />
+        <result column="unit" property="unit" />
+        <result column="description" property="description" />
+        <result column="sale_status" property="saleStatus" />
+        <result column="audit_status" property="auditStatus" />
+        <result column="sort_id" property="sortId" />
+        <result column="recommend" property="recommendStatus" />
+        <result column="min_price" property="minPrice"/>
+        <result column="del_status" property="delStatus" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+        <result column="use_integration_limit" property="useIntegrationLimit" />
+        <result column="promotion_start_time" property="promotionStartTime" />
+        <result column="promotion_end_time" property="promotionEndTime" />
+        <result column="promotion_per_limit" property="promotionPerLimit" />
+        <result column="promotion_type" property="promotionType" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, spu_no, brand_id, brand_name, item_id, item_name, shop_id, shop_name, sale, unit, description, sale_status, audit_status, sort_id, recommend, min_price, del_status, update_time, create_time, use_integration_limit, promotion_start_time, promotion_end_time, promotion_per_limit, promotion_type
+    </sql>
+
+
+    <select id="pageSpu" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from spu sp
+        where del_status = 0 and sale_status = 1
+        <if test="param.itemId != null">
+            and sp.item_id = #{param.itemId}
+        </if>
+        <if test="param.keyword != null">
+            and sp.name like CONCAT('%',#{param.keyword},'%')
+        </if>
+        <choose>
+            <when test='param.sortBy == "sortId"'>
+                order by sp.sort_id ${param.sortType}
+            </when>
+            <when test='param.sortBy == "sale"'>
+                order by sp.sale ${param.sortType}
+            </when>
+            <when test='param.sortBy == "minPrice"'>
+                order by sp.min_price ${param.sortType}
+            </when>
+        </choose>
+    </select>
+
+
+    <select id="listRecommendSpu" parameterType="com.rainbow.api.dto.RecommendGoodsDTO" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from spu
+        where  del_status = 0 and sale_status = 1
+        and recommend = 1
+        <if test="param.itemId != null">
+            and item_id = #{param.itemId}
+        </if>
+        limit 0, 6
+    </select>
+
+</mapper>

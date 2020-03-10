@@ -3,6 +3,9 @@ package com.rainbow.portal.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainbow.api.dto.CustomerRegisterDTO;
+import com.rainbow.api.dto.CustomerUpdateDTO;
+import com.rainbow.api.entity.Customer;
+import com.rainbow.api.vo.CustomerVO;
 import com.rainbow.common.constant.Constant;
 import com.rainbow.common.enums.BooleanEnum;
 import com.rainbow.common.enums.DelFlagEnum;
@@ -13,12 +16,10 @@ import com.rainbow.common.util.EncryptUtils;
 import com.rainbow.common.util.MD5Utils;
 import com.rainbow.common.util.PasswordUtils;
 import com.rainbow.common.vo.IdNameAvatarTokenVO;
-import com.rainbow.api.entity.Customer;
 import com.rainbow.portal.mapper.CustomerMapper;
 import com.rainbow.portal.service.ICustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -98,7 +99,23 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
 
     @Override
     public Boolean logout(HttpServletRequest request, HttpServletResponse response) {
-        CookieUtils.deleteCookie(request, response, Constant.LOGIN_TOKEN_COOKIE_NAME, null);
+        CookieUtils.deleteCookie(request, response, Constant.LOGIN_TOKEN_COOKIE_NAME);
         return Boolean.TRUE;
     }
+
+
+    @Override
+    public CustomerVO getInfo(Long userId) {
+        CustomerVO customerVO = new CustomerVO();
+        Customer customer = baseMapper.selectById(userId);
+        BeanUtils.copyProperties(customer, customerVO);
+        return customerVO;
+    }
+
+
+    @Override
+    public Integer updateInfo(CustomerUpdateDTO param) {
+        return baseMapper.updateInfo(param);
+    }
+
 }

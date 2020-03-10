@@ -56,7 +56,13 @@ public class CookieUtils {
                 expires);
     }
 
-    public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name, String domain) {
+    public static void addCookie(HttpServletResponse response, String name, String value) {
+        Cookie cookie = new Cookie(name, value);
+        response.addCookie(cookie);
+        log.debug("addCookie - name:{}, value:{}", name, value);
+    }
+
+    public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null || cookies.length == 0) {
             return;
@@ -64,7 +70,6 @@ public class CookieUtils {
         for (int i = 0; i < cookies.length; i++) {
             Cookie cookie = cookies[i];
             if (cookie.getName().equals(name)) {
-                cookie.setDomain(domain);
                 cookie.setMaxAge(0);
                 cookie.setPath("/");
                 response.addCookie(cookie);

@@ -69,7 +69,7 @@ public class Customer extends Model<Customer> {
 
     @ApiModelProperty(value = "性别: 0-男 1-女")
     @TableField("gender")
-    private Boolean gender;
+    private Integer gender;
 
     @ApiModelProperty(value = "用户生日")
     @TableField("birthday")

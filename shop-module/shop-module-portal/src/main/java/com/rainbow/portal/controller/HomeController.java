@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/nav")
 @Api(value = "/nav", tags = "导航页服务")
-public class NavigationController {
+public class HomeController {
 
     @Autowired
     private INavgationService navgationService;
@@ -27,7 +27,7 @@ public class NavigationController {
         return new R<>(navgationService.listItem());
     }
 
-    @ApiOperation(value = "类别列表", notes = "类别列表", httpMethod = "POST")
+    @ApiOperation(value = "广告列表信息", notes = "广告列表信息", httpMethod = "POST")
     @PostMapping("/listAdvertise")
     public R<AdvertiseVO> listAdvertise() {
         return new R<>(navgationService.listAdvertise());

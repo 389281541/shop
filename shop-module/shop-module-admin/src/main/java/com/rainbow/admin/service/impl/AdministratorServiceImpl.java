@@ -15,7 +15,7 @@ import com.rainbow.common.constant.Constant;
 import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.exception.BusinessException;
 import com.rainbow.common.exception.errorcode.BaseErrorCode;
-import com.rainbow.common.util.CookieUtil;
+import com.rainbow.common.util.CookieUtils;
 import com.rainbow.common.util.MD5Utils;
 import com.rainbow.common.vo.IdNameTokenVO;
 import com.rainbow.common.vo.IdNameVO;
@@ -91,7 +91,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
 
     @Override
     public Boolean logout(HttpServletRequest request, HttpServletResponse response) {
-        CookieUtil.deleteCookie(request, response, Constant.LOGIN_TOKEN_COOKIE_NAME);
+        CookieUtils.deleteCookie(request, response, Constant.LOGIN_TOKEN_COOKIE_NAME);
         return Boolean.TRUE;
     }
 

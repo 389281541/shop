@@ -27,6 +27,9 @@ public class SkuSaveDTO extends BaseDTO {
     @ApiModelProperty(value = "SKU编码")
     private String skuNo;
 
+    @ApiModelProperty(value = "SKU名称")
+    private String skuName;
+
     @ApiModelProperty(value = "库存")
     private Integer stock;
 

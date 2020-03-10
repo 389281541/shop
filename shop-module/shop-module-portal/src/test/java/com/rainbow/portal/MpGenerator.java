@@ -28,7 +28,7 @@ public class MpGenerator {
     public void generateCode() {
         String packageName = "com.rainbow.portal";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "home_advertise");
+        generateByTables(serviceNameStartWithI, packageName, "shop");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
@@ -103,7 +103,7 @@ public class MpGenerator {
 //                    }
 //                }
 
-                if (FileType.ENTITY==fileType||filePath.contains("Mapper")){
+                if (filePath.contains("Mapper")){
                     return true;
                 }
                 //不存在的文件都需要创建

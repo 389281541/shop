@@ -1,8 +1,12 @@
 package com.rainbow.portal.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rainbow.api.dto.CustomerAddressSaveDTO;
+import com.rainbow.api.dto.CustomerAddressUpdateDTO;
 import com.rainbow.api.dto.CustomerRegisterDTO;
+import com.rainbow.api.dto.CustomerUpdateDTO;
 import com.rainbow.api.entity.Customer;
+import com.rainbow.api.vo.CustomerVO;
 import com.rainbow.common.vo.IdNameAvatarTokenVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +44,21 @@ public interface ICustomerService extends IService<Customer> {
      */
     Boolean register(CustomerRegisterDTO param);
 
+
+    /**
+     * 获取用户详情
+     * @param userId
+     * @return
+     */
+    CustomerVO getInfo(Long userId);
+
+
+    /**
+     * 更新个人信息
+     * @param param
+     * @return
+     */
+    Integer updateInfo(CustomerUpdateDTO param);
 
 
 }

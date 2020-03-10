@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.CustomerAddressMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.CustomerAddress">
+        <id column="id" property="id" />
+        <result column="customer_id" property="customerId" />
+        <result column="receiver_name" property="receiverName" />
+        <result column="zip" property="zip" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="district" property="district" />
+        <result column="address" property="address" />
+        <result column="is_default" property="isDefault" />
+        <result column="del_status" property="delStatus" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, customer_id, receiver_name, zip, province_code, city_code, district_code, address, is_default, del_status, update_time, create_time
+    </sql>
+
+
+    <update id="updateDefault">
+        update  customer_address
+        set is_default =
+        (case
+        <foreach collection="list" item="item" index="index" open="" close="" separator=" ">
+            when id = #{item.k} then #{item.v}
+        </foreach>
+        else is_default
+        end)
+    </update>
+
+</mapper>

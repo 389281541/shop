@@ -5,7 +5,7 @@ import com.google.common.base.Objects;
 import com.rainbow.api.dto.VerifyCodeDTO;
 import com.rainbow.api.enums.KaptchaStatusEnum;
 import com.rainbow.admin.service.IKaptchaService;
-import com.rainbow.common.util.CookieUtil;
+import com.rainbow.common.util.CookieUtils;
 import com.rainbow.common.util.UUIDUtils;
 import com.rainbow.common.vo.IdNameVO;
 import lombok.extern.slf4j.Slf4j;
@@ -50,11 +50,11 @@ public class KaptchaServiceImpl implements IKaptchaService {
         try {
             //产生验证码字符串并保存到redis中
             String createText = captchaProducer.createText();
-            String captchaKey = CookieUtil.getCookie(request, BOM_CAPTCHA_KEY);
+            String captchaKey = CookieUtils.getCookieValue(request, BOM_CAPTCHA_KEY);
             if (StringUtils.isBlank(captchaKey)) {
                 captchaKey = UUIDUtils.getUpperCaseUUID();
                 log.info("New user coming,captcha_key = {}", captchaKey);
-                CookieUtil.addCookie(response, BOM_CAPTCHA_KEY, captchaKey);
+                CookieUtils.addCookie(response, BOM_CAPTCHA_KEY, captchaKey);
             }
             redisTemplate.opsForValue().set(PREFIX_KAPTCHA + captchaKey, createText, 1, TimeUnit.MINUTES);
             //使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
@@ -86,7 +86,7 @@ public class KaptchaServiceImpl implements IKaptchaService {
     public IdNameVO verifyKaptcha(HttpServletRequest request, VerifyCodeDTO req) {
         IdNameVO idNameVO = new IdNameVO();
         //获取验证码Cookie值
-        String captchaKey = CookieUtil.getCookie(request, BOM_CAPTCHA_KEY);
+        String captchaKey = CookieUtils.getCookieValue(request, BOM_CAPTCHA_KEY);
         //从缓存中获取验证码
         String cacheVerifyCode = redisTemplate.opsForValue().get(PREFIX_KAPTCHA + captchaKey);
         //删除缓存

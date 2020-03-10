@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.SpuImgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.SpuImg">
+        <id column="id" property="id" />
+        <result column="spu_id" property="spuId" />
+        <result column="sku_id" property="skuId" />
+        <result column="img_url" property="imgUrl" />
+        <result column="is_cover" property="coverFlag" />
+        <result column="is_master" property="masterFlag" />
+        <result column="is_color" property="colorFlag" />
+        <result column="sort_id" property="sortId" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, spu_id, sku_id, img_url, is_cover, is_master, is_color, sort_id, update_time, create_time
+    </sql>
+
+    <select id="listBySpuIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from spu_img
+        where
+        is_cover = 1 and spu_id in
+        <foreach collection="list" item="itemId" index="index" open="(" close=")" separator=",">
+            #{itemId}
+        </foreach>
+    </select>
+</mapper>

@@ -18,6 +18,9 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 短信service实现类
+ */
 @Service
 @Slf4j
 public class SmsServiceImpl implements ISmsService {

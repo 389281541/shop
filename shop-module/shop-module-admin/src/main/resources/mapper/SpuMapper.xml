@@ -20,6 +20,7 @@
         <result column="audit_status" property="auditStatus"/>
         <result column="sort_id" property="sortId"/>
         <result column="recommend" property="recommendStatus"/>
+        <result column="min_price" property="minPrice"/>
         <result column="del_status" property="delStatus"/>
         <result column="update_time" property="updateTime"/>
         <result column="create_time" property="createTime"/>
@@ -27,7 +28,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, spu_no, brand_id, item_id, shop_id, sale, unit, description, sale_status, audit_status, sort_id, recommend, del_status, update_time, create_time
+        id, name, spu_no, brand_id, item_id, shop_id, sale, unit, description, sale_status, audit_status, sort_id, recommend,min_price, del_status, update_time, create_time
     </sql>
 
     <select id="pageSpu" parameterType="com.rainbow.api.dto.SpuSearchDTO" resultMap="BaseResultMap">

@@ -2,9 +2,12 @@ package com.rainbow.portal.controller;
 
 
 import com.rainbow.api.dto.CustomerRegisterDTO;
-import com.rainbow.common.dto.IdDTO;
+import com.rainbow.api.dto.CustomerUpdateDTO;
+import com.rainbow.api.vo.CustomerVO;
+import com.rainbow.common.annotation.NeedLogin;
 import com.rainbow.common.dto.LoginDTO;
 import com.rainbow.common.dto.R;
+import com.rainbow.common.dto.token.RB;
 import com.rainbow.common.vo.IdNameAvatarTokenVO;
 import com.rainbow.portal.service.ICustomerService;
 import io.swagger.annotations.Api;
@@ -51,11 +54,24 @@ public class CustomerController {
         return new R<>(customerService.register(param));
     }
 
-//    @ApiOperation(value = "用户信息详情", notes = "通过用户名登陆", httpMethod = "POST")
-//    @PostMapping("/info")
-//    public R<IdNameAvatarTokenVO> info(@Valid @RequestBody IdDTO param) {
-//        return new R<>(customerService.loginByPassword(loginDTO.getUsername(), loginDTO.getPassword()));
-//    }
+    @ApiOperation(value = "用户信息详情", notes = "用户信息详情", httpMethod = "POST")
+    @PostMapping("/info")
+    @NeedLogin
+    public R<CustomerVO> info() {
+        return new R<>(customerService.getInfo(RB.getUserId()));
+    }
+
+
+    @ApiOperation(value = "修改用户信息", notes = "修改用户信息", httpMethod = "POST")
+    @PostMapping("/updateInfo")
+    public R<Boolean> updateInfo(@Valid @RequestBody CustomerUpdateDTO param) {
+        Integer res = customerService.updateInfo(param);
+        return new R<>(res > 0 ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+
+
+
 
 
 }

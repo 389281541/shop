@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.ShopMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.Shop">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="logo" property="logo" />
+        <result column="type" property="type" />
+        <result column="keeper_name" property="keeperName" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="bank_name" property="bankName" />
+        <result column="bank_account" property="bankAccount" />
+        <result column="address" property="address" />
+        <result column="audit_status" property="auditStatus" />
+        <result column="del_status" property="delStatus" />
+        <result column="register_time" property="registerTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, logo, type, keeper_name, phone_number, bank_name, bank_account, address, audit_status, del_status, register_time, update_time, create_time
+    </sql>
+
+</mapper>

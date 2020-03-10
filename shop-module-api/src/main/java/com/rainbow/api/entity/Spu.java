@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -61,6 +62,10 @@ public class Spu extends Model<Spu> {
     @ApiModelProperty(value = "类别名称")
     @TableField("shop_name")
     private String shopName;
+
+    @ApiModelProperty(value = "销量")
+    @TableField("min_price")
+    private BigDecimal minPrice;
 
     @ApiModelProperty(value = "销量")
     @TableField("sale")

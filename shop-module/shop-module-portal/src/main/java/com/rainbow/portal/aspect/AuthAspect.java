@@ -35,7 +35,6 @@ public class AuthAspect {
 
     //放行的地址
     private final String[] excludes = new String[] {
-        "customer/**"
     };
 
     @Pointcut("execution(public * com.rainbow.portal..controller..*(..))")
@@ -53,7 +52,7 @@ public class AuthAspect {
         initHeaderContext(request);
 
         // 获取header中的授权信息,cookie区分环境，header默认都是authtoken
-        String authTokenStr = request.getHeader("AuthToken");
+        String authTokenStr = request.getHeader("Authorization");
         log.debug("AuthAspect==> authtoken = {}", authTokenStr);
 
         AuthToken authToken = null;
@@ -93,11 +92,7 @@ public class AuthAspect {
                 }
             }
         }
-        try {
-            return pjp.proceed();
-        } finally {
-            RB.clear();
-        }
+        return pjp.proceed();
     }
 
     /**
