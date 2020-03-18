@@ -469,11 +469,17 @@ CREATE TABLE vvshop_goods.cart
 (
     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
     sku_id              bigint(20) NOT NULL COMMENT 'SKUID',
+    sku_spec            varchar(1024) DEFAULT NULL COMMENT 'sku属性',
+    sku_stock           int(11)  NULL COMMENT '库存',
     spu_id              bigint(20) NOT NULL COMMENT 'SPUID',
+    spu_name            varchar(256) NULL COMMENT '商品名称',
+    cover_img           varchar(256) NULL COMMENT '封面图片',
     customer_id         bigint(20) NOT NULL COMMENT '用户ID',
     shop_id             bigint(20) NOT NULL COMMENT '店铺ID',
-    amount              int(11) NOT NULL COMMENT '商品数量',
-    price               bigint(20) NOT NULL COMMENT '价格',
+    item_id             bigint(20) NOT NULL COMMENT '类别ID',
+    quantity            int(11) NOT NULL COMMENT '商品数量',
+    price               decimal(10,2) NOT NULL COMMENT '价格',
+    del_status          tinyint   default 0  NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time         timestamp default NULL NULL COMMENT '更新时间',
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     PRIMARY KEY (id)
@@ -541,6 +547,7 @@ CREATE TABLE vvshop_goods.order_sku
     spu_id              bigint(20) NOT NULL COMMENT 'SPUID',
     sku_pic             varchar(500) DEFAULT NULL COMMENT 'SPU图片',
     sku_name            varchar(500) DEFAULT NULL COMMENT 'SKU名称',
+    sku_spec            varchar(1024) DEFAULT NULL COMMENT 'sku属性JSON',
     brand_id            bigint(20) NOT NULL COMMENT '品牌ID',
     brand_name          varchar(20) NOT NULL COMMENT '品牌名称',
     shop_id             bigint(20) NOT NULL COMMENT '店铺ID',
@@ -734,7 +741,7 @@ CREATE TABLE vvshop_goods.order_comment
     score               smallint  NOT NULL COMMENT '评分',
     update_time         timestamp default NULL NULL COMMENT '更新时间',
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '支付记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '商品评价';
 
 
 CREATE TABLE vvshop_goods.order_return

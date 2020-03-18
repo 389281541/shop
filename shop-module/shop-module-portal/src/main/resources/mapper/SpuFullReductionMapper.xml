@@ -18,4 +18,13 @@
         id, spu_id, full_price, reduce_price, del_status, update_time, create_time
     </sql>
 
+    <select id="listBySpuIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from spu_full_reduction
+        where spu_id in
+        <foreach collection="ids" item="spuId" index="index" open="(" close=")" separator=",">
+            #{spuId}
+        </foreach>
+    </select>
 </mapper>

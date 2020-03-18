@@ -1,8 +1,6 @@
 package com.rainbow.portal.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rainbow.api.dto.CustomerAddressSaveDTO;
-import com.rainbow.api.dto.CustomerAddressUpdateDTO;
 import com.rainbow.api.dto.CustomerRegisterDTO;
 import com.rainbow.api.dto.CustomerUpdateDTO;
 import com.rainbow.api.entity.Customer;

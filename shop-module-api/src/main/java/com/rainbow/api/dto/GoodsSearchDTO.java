@@ -26,6 +26,9 @@ public class GoodsSearchDTO extends SearchPageDTO {
     @ApiModelProperty(value = "类别ID")
     private Long itemId;
 
+    @ApiModelProperty(value = "店铺ID")
+    private Long shopId;
+
     @ApiModelProperty(value = "排序字段")
     private String sortBy;
 

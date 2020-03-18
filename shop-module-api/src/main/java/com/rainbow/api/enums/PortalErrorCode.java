@@ -1,38 +1,37 @@
 package com.rainbow.api.enums;
 
-
 import com.rainbow.common.exception.errorcode.ErrorSideEnum;
 import com.rainbow.common.exception.errorcode.SubModuleEnum;
 import com.rainbow.common.exception.errorcode.UniverseErrorCode;
 
 /**
- * 用户模块错误码
+ * 门户入口错误码
  *
  * @author lujinwei
- * @date 2019/12/4 下午6:56
+ * @since 2020/3/16
  */
-public enum AdminErrorCode implements UniverseErrorCode {
+public enum PortalErrorCode implements UniverseErrorCode {
+
     UNKNOW(1, "未知"),
     SPU_PULL_OFF(2, "spu下架了"),
+    PROMOTION_LIMIT_EXCEED(3, "超出限购数了"),
     ;
-
 
     private ErrorSideEnum errorSideEnum;
     private SubModuleEnum subModuleEnum;
     private int code;
     private String message;
 
-    AdminErrorCode(ErrorSideEnum errorSideEnum, SubModuleEnum subModuleEnum, int code, String msg) {
+    PortalErrorCode(ErrorSideEnum errorSideEnum, SubModuleEnum subModuleEnum, int code, String msg) {
         this.errorSideEnum = errorSideEnum;
         this.subModuleEnum = subModuleEnum;
         this.code = code;
         this.message = msg;
     }
 
-    AdminErrorCode(int code, String message) {
-        this(ErrorSideEnum.SERVER, SubModuleEnum.ADMIN, code, message);
+    PortalErrorCode(int code, String message) {
+        this(ErrorSideEnum.SERVER, SubModuleEnum.PORTAL, code, message);
     }
-
 
     @Override
     public ErrorSideEnum getErrorSideEnum() {
@@ -54,24 +53,18 @@ public enum AdminErrorCode implements UniverseErrorCode {
         return code;
     }
 
-
     @Override
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     @Override
     public UniverseErrorCode fromCode(int code) {
-        for (AdminErrorCode errorCode : values()) {
+        for (PortalErrorCode errorCode : values()) {
             if (errorCode.getDetailCode() == code) {
                 return errorCode;
             }
         }
         return UNKNOW;
     }
-
 }

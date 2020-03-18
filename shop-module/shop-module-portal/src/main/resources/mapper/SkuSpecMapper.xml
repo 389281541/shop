@@ -20,4 +20,20 @@
         id, sku_id, spec_name_id, spec_name, spec_value_id, spec_value, sort_id, update_time, create_time
     </sql>
 
+    <select id="listBySpuId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+            ss.*
+        from sku_spec ss
+         left join sku s on s.id = ss.sku_id
+        where
+            s.spu_id = #{spuId}
+    </select>
+
+    <select id="listBySkuId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sku_spec ss
+        where
+        ss.sku_id = #{skuId}
+    </select>
 </mapper>

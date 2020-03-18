@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.CartMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.Cart">
+        <id column="id" property="id" />
+        <result column="sku_id" property="skuId" />
+        <result column="sku_spec" property="skuSpec" />
+        <result column="sku_stock" property="skuStock" />
+        <result column="spu_id" property="spuId" />
+        <result column="spu_name" property="spuName" />
+        <result column="cover_img" property="coverImg" />
+        <result column="customer_id" property="customerId" />
+        <result column="shop_id" property="shopId" />
+        <result column="item_id" property="itemId" />
+        <result column="quantity" property="quantity" />
+        <result column="price" property="price" />
+        <result column="original_price" property="originalPrice" />
+        <result column="del_status" property="delStatus" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, sku_id, sku_spec, sku_stock, spu_id, spu_name, cover_img, customer_id, shop_id, item_id, quantity, original_price, price, del_status, update_time, create_time
+    </sql>
+
+    <update id="updateQuantity">
+        update cart set quantity=#{param.quantity}, update_time = CURRENT_TIMESTAMP where id = #{param.id} and customer_id = #{param.customerId}
+    </update>
+
+
+    <update id="removeCart">
+        update cart set del_status = 1 where customer_id=#{customerId} and id = #{id}
+    </update>
+
+
+    <select id="sumSpu" resultType="java.lang.Integer">
+        select COALESCE(sum(quantity),0) from cart where spu_id = #{spuId} and del_status = 0
+    </select>
+</mapper>

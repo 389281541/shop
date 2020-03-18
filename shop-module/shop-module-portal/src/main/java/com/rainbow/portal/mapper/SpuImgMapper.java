@@ -17,5 +17,12 @@ import java.util.List;
 @DS("goods")
 public interface SpuImgMapper extends BaseMapper<SpuImg> {
 
-    List<SpuImg> listBySpuIds(@Param("list")Collection<Long> list);
+    /**
+     * 获取封面图
+     * @param list
+     * @return
+     */
+    List<SpuImg> listCoversBySpuIds(@Param("list")Collection<Long> list);
+
+
 }

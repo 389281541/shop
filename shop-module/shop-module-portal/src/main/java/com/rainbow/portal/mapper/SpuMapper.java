@@ -35,4 +35,22 @@ public interface SpuMapper extends BaseMapper<Spu> {
      * @return
      */
     List<Spu> listRecommendSpu(@Param("param")RecommendGoodsDTO param);
+
+
+    /**
+     * 商铺新品spu列表
+     * @param shopId
+     * @return
+     */
+    List<Spu> listShopNewSpu(@Param("shopId") Long shopId);
+
+
+    /**
+     * 商铺热销spu列表
+     * @param shopId
+     * @return
+     */
+    List<Spu> listShopHotSpu(@Param("shopId") Long shopId);
+
+
 }

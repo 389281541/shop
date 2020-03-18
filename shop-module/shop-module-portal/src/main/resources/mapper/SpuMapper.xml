@@ -45,6 +45,9 @@
         <if test="param.itemId != null">
             and sp.item_id = #{param.itemId}
         </if>
+        <if test="param.shopId != null">
+            and sp.shop_id = #{param.shopId}
+        </if>
         <if test="param.keyword != null">
             and sp.name like CONCAT('%',#{param.keyword},'%')
         </if>
@@ -72,6 +75,25 @@
             and item_id = #{param.itemId}
         </if>
         limit 0, 6
+    </select>
+
+
+    <select id="listShopNewSpu" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from spu sp
+        where sp.del_status = 0 and sp.sale_status = 1
+        and sp.recommend = 1 and sp.shop_id = #{shopId}
+        limit 0,3
+    </select>
+
+    <select id="listShopHotSpu" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from spu sp
+        where sp.del_status = 0 and sp.sale_status = 1 and sp.shop_id = #{shopId}
+        order by sale desc
+        limit 0,6
     </select>
 
 </mapper>

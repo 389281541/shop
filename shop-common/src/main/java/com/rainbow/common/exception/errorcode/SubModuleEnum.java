@@ -12,12 +12,8 @@ import lombok.Getter;
 @Getter
 public enum SubModuleEnum implements IEnum<Integer> {
     BASE(1, "基础"),
-    USER(2, "用户模块"),
-    OEDER(3, "订单模块"),
-    MESSAGE(4, "消息模块"),
-    COMMON(5, "公用模块"),
-    TASK(6, "定时调度"),
-    PAY(7, "支付模块"),
+    ADMIN(2, "管理模块"),
+    PORTAL(3, "门户模块"),
     ;
 
     private Integer value;

@@ -36,4 +36,20 @@ public interface IGoodsService {
      * @return
      */
     GoodsDetailVO getGoodsDetail(IdDTO param);
+
+
+    /**
+     * 获取店铺新品列表
+     * @param shopId
+     * @return
+     */
+    List<GoodsSimpleVO> listShopRecommendGoods(Long shopId);
+
+
+    /**
+     * 获取店铺热销列表
+     * @param shopId
+     * @return
+     */
+    List<GoodsSimpleVO> listShopHotGoods(Long shopId);
 }

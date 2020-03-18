@@ -21,7 +21,7 @@
         id, spu_id, sku_id, img_url, is_cover, is_master, is_color, sort_id, update_time, create_time
     </sql>
 
-    <select id="listBySpuIds" parameterType="java.util.List" resultMap="BaseResultMap">
+    <select id="listCoversBySpuIds" parameterType="java.util.List" resultMap="BaseResultMap">
         select
             <include refid="Base_Column_List"/>
         from spu_img

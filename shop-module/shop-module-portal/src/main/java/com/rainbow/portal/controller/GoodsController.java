@@ -8,7 +8,6 @@ import com.rainbow.api.vo.GoodsDetailVO;
 import com.rainbow.api.vo.GoodsSimpleVO;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.R;
-import com.rainbow.common.dto.token.RB;
 import com.rainbow.portal.service.IGoodsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
