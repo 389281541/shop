@@ -31,4 +31,14 @@
             #{itemId}
         </foreach>
     </select>
+
+    <select id="listBySkuIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+            from spu_img
+        where sku_id in
+        <foreach collection="list" item="itemId" index="index" open="(" close=")" separator=",">
+            #{itemId}
+        </foreach>
+    </select>
 </mapper>

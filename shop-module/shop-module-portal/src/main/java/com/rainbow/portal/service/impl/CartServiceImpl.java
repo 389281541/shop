@@ -19,6 +19,7 @@ import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.exception.BusinessException;
 import com.rainbow.portal.mapper.*;
 import com.rainbow.portal.service.ICartService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -38,6 +39,7 @@ import java.util.stream.Collectors;
  * @since 2020-03-14
  */
 @Service
+@Slf4j
 public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements ICartService {
 
     @Resource
@@ -301,6 +303,16 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     @Override
     public Integer removeCart(Long customerId, Long id) {
-        return baseMapper.removeCart(customerId, id);
+        List<Long> ids = Lists.newArrayList();
+        ids.add(id);
+        return baseMapper.removeCartList(customerId, ids);
+    }
+
+    @Override
+    public Integer removeCartList(Long customerId, Collection<Long> ids) {
+        if(CollectionUtils.isEmpty(ids)) {
+            throw new BusinessException(PortalErrorCode.CART_CAN_NOT_EMPTY);
+        }
+        return baseMapper.removeCartList(customerId, ids);
     }
 }

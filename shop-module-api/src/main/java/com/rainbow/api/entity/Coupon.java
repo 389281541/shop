@@ -51,7 +51,7 @@ public class Coupon extends Model<Coupon> {
     @TableField("receive_num_limit")
     private Integer receiveNumLimit;
 
-    @ApiModelProperty(value = "使用门槛；0表示无门槛 1-满多少金额使用")
+    @ApiModelProperty(value = "使用门槛；0表示无门槛 1-满多少金额使用 2-购买多少件商品可以使用")
     @TableField("use_condition_type")
     private Integer useConditionType;
 

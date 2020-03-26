@@ -43,6 +43,10 @@ public class CustomerAddress extends Model<CustomerAddress> {
     @TableField("province")
     private String province;
 
+    @ApiModelProperty(value = "收货人手机号")
+    @TableField("phone")
+    private String phone;
+
     @ApiModelProperty(value = "地区表中城市")
     @TableField("city")
     private String city;

@@ -32,8 +32,11 @@
     </update>
 
 
-    <update id="removeCart">
-        update cart set del_status = 1 where customer_id=#{customerId} and id = #{id}
+    <update id="removeCartList">
+        update cart set del_status = 1 where customer_id = #{customerId} and id in
+        <foreach collection="ids" item="idItem" index="index" open="(" close=")" separator=",">
+            #{idItem}
+        </foreach>
     </update>
 
 

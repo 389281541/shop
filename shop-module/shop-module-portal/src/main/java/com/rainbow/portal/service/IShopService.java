@@ -1,10 +1,7 @@
 package com.rainbow.portal.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rainbow.api.vo.GoodsSimpleVO;
 import com.rainbow.api.vo.ShopGoodsVO;
 import com.rainbow.common.dto.IdDTO;
-import com.rainbow.common.dto.IdPageDTO;
 
 /**
  * shop service

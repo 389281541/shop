@@ -22,10 +22,10 @@ public class OrderSimpleVO extends BaseDTO {
     private Long id;
 
     @ApiModelProperty(value = "订单编号")
-    private Long orderNo;
+    private String orderNo;
 
     @ApiModelProperty(value = "用户名称")
-    private Long customerName;
+    private String customerName;
 
     @ApiModelProperty(value = "支付方式 0：支付宝，1：微信，2：银行卡")
     private Integer payType;

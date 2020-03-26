@@ -35,6 +35,12 @@ public class CartSimpleVO extends BaseDTO {
     @ApiModelProperty(value = "库存")
     private Integer skuStock;
 
+    @ApiModelProperty(value = "sku名称")
+    private String skuName;
+
+    @ApiModelProperty(value = "锁定库存")
+    private Integer skuLockStock;
+
     @ApiModelProperty(value = "SPUID")
     private Long spuId;
 

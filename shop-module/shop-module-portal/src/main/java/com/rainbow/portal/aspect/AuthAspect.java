@@ -1,5 +1,7 @@
 package com.rainbow.portal.aspect;
 
+import com.rainbow.api.enums.AdminErrorCode;
+import com.rainbow.api.enums.PortalErrorCode;
 import com.rainbow.common.annotation.NeedLogin;
 import com.rainbow.common.annotation.NeedLoginLevelEnum;
 import com.rainbow.common.dto.token.AuthToken;
@@ -61,7 +63,7 @@ public class AuthAspect {
             try {
                 authToken = EncryptUtils.strDecode(authTokenStr);
             } catch (Exception e) {
-                throw new BusinessException(BaseErrorCode.TOKEN_FORMAT_ERROR);
+                throw new BusinessException(AdminErrorCode.TOKEN_FORMAT_ERROR);
             }
 
             // 将来可利用该方法做权限控制，比如判断 登录用户是否有权限访问该接口。。。

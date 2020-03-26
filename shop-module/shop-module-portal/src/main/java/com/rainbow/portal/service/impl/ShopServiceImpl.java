@@ -1,12 +1,9 @@
 package com.rainbow.portal.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.api.entity.Shop;
-import com.rainbow.api.entity.Spu;
 import com.rainbow.api.vo.GoodsSimpleVO;
 import com.rainbow.api.vo.ShopGoodsVO;
 import com.rainbow.common.dto.IdDTO;
-import com.rainbow.common.dto.IdPageDTO;
 import com.rainbow.portal.mapper.ShopMapper;
 import com.rainbow.portal.service.IGoodsService;
 import com.rainbow.portal.service.IShopService;

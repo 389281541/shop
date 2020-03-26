@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
+
 /**
  * 购物车表 Mapper 接口
  *
@@ -26,10 +28,10 @@ public interface CartMapper extends BaseMapper<Cart> {
     /**
      * 移除购物车
      * @param customerId
-     * @param id
+     * @param ids
      * @return
      */
-    Integer removeCart(@Param("customerId") Long customerId, @Param("id") Long id);
+    Integer removeCartList(@Param("customerId") Long customerId, @Param("ids") Collection<Long> ids);
 
 
     /**

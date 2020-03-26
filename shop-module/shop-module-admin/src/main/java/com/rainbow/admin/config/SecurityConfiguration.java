@@ -7,6 +7,7 @@ import com.rainbow.api.entity.Permission;
 import com.rainbow.admin.model.AdminUserDetails;
 import com.rainbow.admin.model.JwtAuthenticationTokenFilter;
 import com.rainbow.admin.service.IAdministratorService;
+import com.rainbow.api.enums.AdminErrorCode;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.exception.BusinessException;
 import com.rainbow.common.exception.errorcode.BaseErrorCode;
@@ -89,7 +90,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             Administrator administrator = administratorService.getOne(queryWrapper);
             //用户不存在
             if (administrator == null) {
-                throw new BusinessException(BaseErrorCode.NO_USER);
+                throw new BusinessException(AdminErrorCode.USER_NOT_EXIST);
             }
             //获取权限
             List<Permission> permissionList = administratorService.getPermissionByUserId(administrator.getId());

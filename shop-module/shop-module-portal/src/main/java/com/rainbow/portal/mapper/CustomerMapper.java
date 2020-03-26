@@ -16,8 +16,18 @@ import org.apache.ibatis.annotations.Param;
 public interface CustomerMapper extends BaseMapper<Customer> {
     /**
      * 更新用户信息
+     *
      * @param customer
      * @return
      */
     Integer updateInfo(@Param("param") CustomerUpdateDTO customer);
+
+    /**
+     * 更新积分
+     * @param id
+     * @param integration
+     * @return
+     */
+    Integer updateIntegration(@Param("id") Long id, @Param("integration")Integer integration);
+
 }

@@ -3,18 +3,18 @@ package com.rainbow.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
-import com.rainbow.api.entity.Administrator;
-import com.rainbow.api.entity.Permission;
-import com.rainbow.api.entity.Role;
-import com.rainbow.api.vo.AdminstratorSimpleVO;
 import com.rainbow.admin.mapper.AdministratorMapper;
 import com.rainbow.admin.model.TokenModel;
 import com.rainbow.admin.service.IAdministratorService;
 import com.rainbow.admin.util.JwtManager;
+import com.rainbow.api.entity.Administrator;
+import com.rainbow.api.entity.Permission;
+import com.rainbow.api.entity.Role;
+import com.rainbow.api.enums.AdminErrorCode;
+import com.rainbow.api.vo.AdminstratorSimpleVO;
 import com.rainbow.common.constant.Constant;
 import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.exception.BusinessException;
-import com.rainbow.common.exception.errorcode.BaseErrorCode;
 import com.rainbow.common.util.CookieUtils;
 import com.rainbow.common.util.MD5Utils;
 import com.rainbow.common.vo.IdNameTokenVO;
@@ -68,13 +68,13 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         Administrator administrator = getAdministratorByUsername(username);
         //用户不存在
         if (administrator == null) {
-            throw new BusinessException(BaseErrorCode.NO_USER);
+            throw new BusinessException(AdminErrorCode.USER_NOT_EXIST);
         }
         String encodePassword = MD5Utils.encodeByMd5AndSalt(password, administrator.getSalt());
         log.info("db password={}, form password={}", administrator.getPassword(), encodePassword);
         //密码错误
         if (!Objects.equals(administrator.getPassword(), encodePassword)) {
-            throw new BusinessException(BaseErrorCode.ERROR_PASSWORD);
+            throw new BusinessException(AdminErrorCode.PASSWORD_ERROR);
         }
         //添加认证
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -131,7 +131,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         AdminstratorSimpleVO adminstratorSimpleVO = new AdminstratorSimpleVO();
         Administrator administrator = getAdministratorByUsername(username);
         if (administrator == null) {
-            throw new BusinessException(BaseErrorCode.NO_USER);
+            throw new BusinessException(AdminErrorCode.USER_NOT_EXIST);
         }
         List<Role> roles = getRoleByUserId(administrator.getId());
         List<IdNameVO> idNameVOList = Lists.newArrayList();

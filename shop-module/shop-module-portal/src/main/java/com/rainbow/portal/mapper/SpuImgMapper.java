@@ -25,4 +25,12 @@ public interface SpuImgMapper extends BaseMapper<SpuImg> {
     List<SpuImg> listCoversBySpuIds(@Param("list")Collection<Long> list);
 
 
+    /**
+     * 通过skuIds获取spuImg
+     * @param list
+     * @return
+     */
+    List<SpuImg> listBySkuIds(@Param("list")Collection<Long> list);
+
+
 }

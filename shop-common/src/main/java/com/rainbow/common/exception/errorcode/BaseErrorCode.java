@@ -17,6 +17,7 @@ public enum BaseErrorCode implements UniverseErrorCode {
     PERMISSION_DENIED(7, "没有权限进行此操作"),
     UN_SUPPORTED_FILE_TYPE(8, "不支持该文件类型"),
     FILE_UPLOAD_OSS_ERROR(9, "文件上传失败"),
+    NO_LOGIN(10, "未登录"),
 
     SUCCESS(200, "请求成功"),
     PARAM_ERROR(400, "请求参数不合法"),
@@ -26,18 +27,12 @@ public enum BaseErrorCode implements UniverseErrorCode {
     NOT_FOUND(404, "所请求资源不存在"),
     PARAM_NOT_REACH(405, "参数不在指定范围内"),
     ID_NULL(406, "ID不可以为空"),
-    NO_LOGIN(500, "用户未登录或token过期"),
-    NO_USER(501, "用户不存在"),
-    ERROR_PASSWORD(502, "密码错误"),
-    USER_HAS_EXIST(503, "用户已存在"),
     REQUEST_EXCEED(300, "超出请求次数限制"),
     IO_ERROR(600, "后台处理IO异常"),
     PERMISSION_DENY(700, "无获取该资源的权限"),
     BUSINESS_ERROR(800, "业务处理异常"),
     NEED_RE_LOGIN(900, "权限已变更，请重新登录"),
     SYSTEM_ERROR(999, "系统处理异常"),
-    TOKEN_ERROR(901,"TOKEN错误"),
-    TOKEN_FORMAT_ERROR(902,"授权码格式不正确")
     ;
 
     private ErrorSideEnum errorSideEnum;

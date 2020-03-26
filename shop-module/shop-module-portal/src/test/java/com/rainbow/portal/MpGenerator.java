@@ -28,7 +28,7 @@ public class MpGenerator {
     public void generateCode() {
         String packageName = "com.rainbow.portal";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "cart");
+        generateByTables(serviceNameStartWithI, packageName, "integration_rule_setting");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
@@ -102,21 +102,21 @@ public class MpGenerator {
 //                        return false;
 //                    }
 //                }
-//                if(FileType.ENTITY==fileType) {
-//                    return true;
-//                }
-//                if (filePath.contains("Mapper")){
-//                    return true;
-//                }
+                if(FileType.ENTITY==fileType) {
+                    return true;
+                }
+                if (filePath.contains("Mapper")){
+                    return true;
+                }
                 //不存在的文件都需要创建
-//                if (filePath.endsWith("Mapper.xml")) {
-//                    return true;
-//                }
-//                    return false;
-//                }
+                if (filePath.endsWith("Mapper.xml")) {
+                    return true;
+                }
+                    return false;
+                }
 //                return  true;
-                return true;
-            }
+//                return false;
+//            }
         });
         if (!serviceNameStartWithI) {
             config.setServiceName("%sService");

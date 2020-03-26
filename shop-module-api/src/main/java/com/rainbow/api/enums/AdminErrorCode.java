@@ -12,8 +12,13 @@ import com.rainbow.common.exception.errorcode.UniverseErrorCode;
  * @date 2019/12/4 下午6:56
  */
 public enum AdminErrorCode implements UniverseErrorCode {
-    UNKNOW(1, "未知"),
-    SPU_PULL_OFF(2, "spu下架了"),
+    UNKNOW(200001, "未知"),
+    SPU_PULL_OFF(200002, "spu下架了"),
+    USER_NOT_EXIST(200003, "用户不存在"),
+    USER_ALREADY_EXIST(200004, "用户已经存在"),
+    PASSWORD_ERROR(200005, "密码错误"),
+    TOKEN_ERROR(200006,"TOKEN错误"),
+    TOKEN_FORMAT_ERROR(200007,"授权码格式不正确")
     ;
 
 

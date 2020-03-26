@@ -34,4 +34,9 @@
         where id = #{param.id}
     </update>
 
+
+    <update id = "updateIntegration">
+        update customer set integration = #{integration}, update_time = CURRENT_TIMESTAMP where id = #{id}
+    </update>
+
 </mapper>

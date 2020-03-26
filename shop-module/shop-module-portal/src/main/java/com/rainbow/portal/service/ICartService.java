@@ -6,6 +6,7 @@ import com.rainbow.api.dto.CartSaveDTO;
 import com.rainbow.api.entity.Cart;
 import com.rainbow.api.vo.CartPromotionVO;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -47,4 +48,13 @@ public interface ICartService extends IService<Cart> {
      * @return
      */
     Integer removeCart(Long customerId, Long id);
+
+
+    /**
+     * 删除购物车列表
+     * @param customerId
+     * @param ids
+     * @return
+     */
+    Integer removeCartList(Long customerId, Collection<Long> ids);
 }

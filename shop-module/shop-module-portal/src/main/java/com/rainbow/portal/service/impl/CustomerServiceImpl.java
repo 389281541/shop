@@ -5,12 +5,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainbow.api.dto.CustomerRegisterDTO;
 import com.rainbow.api.dto.CustomerUpdateDTO;
 import com.rainbow.api.entity.Customer;
+import com.rainbow.api.enums.AdminErrorCode;
+import com.rainbow.api.enums.PortalErrorCode;
 import com.rainbow.api.vo.CustomerVO;
 import com.rainbow.common.constant.Constant;
 import com.rainbow.common.enums.BooleanEnum;
 import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.exception.BusinessException;
-import com.rainbow.common.exception.errorcode.BaseErrorCode;
 import com.rainbow.common.util.CookieUtils;
 import com.rainbow.common.util.EncryptUtils;
 import com.rainbow.common.util.MD5Utils;
@@ -43,13 +44,13 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
     public IdNameAvatarTokenVO loginByPassword(String username, String password) {
         Customer customer = getCustomerByUsername(username);
         if (customer == null) {
-            throw new BusinessException(BaseErrorCode.NO_USER);
+            throw new BusinessException(AdminErrorCode.USER_NOT_EXIST);
         }
         String encodePassword = MD5Utils.encodeByMd5AndSalt(password, customer.getSalt());
         log.info("db password={}, form password={}", customer.getPassword(), encodePassword);
         //密码错误
         if (!Objects.equals(customer.getPassword(), encodePassword)) {
-            throw new BusinessException(BaseErrorCode.ERROR_PASSWORD);
+            throw new BusinessException(AdminErrorCode.PASSWORD_ERROR);
         }
         //更新上次登录时间
         Customer customerUpdate = new Customer();
@@ -79,7 +80,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
     public Boolean register(CustomerRegisterDTO param) {
         Customer cst = getCustomerByUsername(param.getUserName());
         if (cst != null) {
-            throw new BusinessException(BaseErrorCode.USER_HAS_EXIST);
+            throw new BusinessException(AdminErrorCode.USER_ALREADY_EXIST);
         }
         Customer customer = new Customer();
         BeanUtils.copyProperties(param, customer);

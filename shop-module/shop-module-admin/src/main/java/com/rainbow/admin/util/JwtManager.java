@@ -4,9 +4,9 @@ package com.rainbow.admin.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.rainbow.admin.model.TokenModel;
+import com.rainbow.api.enums.AdminErrorCode;
 import com.rainbow.common.constant.Constant;
 import com.rainbow.common.exception.BusinessException;
-import com.rainbow.common.exception.errorcode.BaseErrorCode;
 import com.rainbow.common.util.MD5Utils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -129,12 +129,12 @@ public class JwtManager {
      */
     public TokenModel getTokenModel(String token) throws BusinessException {
         if (StringUtils.isBlank(token)) {
-            throw new BusinessException(BaseErrorCode.TOKEN_ERROR);
+            throw new BusinessException(AdminErrorCode.TOKEN_ERROR);
         }
 
         JSONObject jsonObject = getSubject(token);
         if (jsonObject == null) {
-            throw new BusinessException(BaseErrorCode.TOKEN_ERROR);
+            throw new BusinessException(AdminErrorCode.TOKEN_ERROR);
         }
         return JSON.toJavaObject(jsonObject, TokenModel.class);
     }

@@ -20,4 +20,13 @@ public enum PromotionTypeEnum implements IEnum<Integer> {
 
     private Integer value;
     private String desc;
+
+    public static String getNameFromType(Integer type) {
+        for (PromotionTypeEnum x : PromotionTypeEnum.values()) {
+            if (x.getValue().equals(type)) {
+                return x.getDesc();
+            }
+        }
+        return null;
+    }
 }

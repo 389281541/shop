@@ -142,6 +142,7 @@ CREATE TABLE vvshop_user.customer_address
     city                varchar(64)    NOT NULL COMMENT '地区表中城市',
     district            varchar(64)    NOT NULL COMMENT '地区表中的区',
     address             varchar(200) NOT NULL COMMENT '具体的地址门牌号',
+    phone             varchar(256) NOT NULL COMMENT '收货人手机号',
     is_default          tinyint default 0 NOT NULL COMMENT '是否默认 0-否 1-是',
     del_status      tinyint   default 0                 NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time     timestamp default NULL NULL COMMENT '更新时间',
@@ -434,6 +435,7 @@ CREATE TABLE vvshop_goods.sku
     spu_id        bigint(20)  NULL COMMENT '商品ID',
     stock         int(11)  NULL COMMENT '库存',
     low_stock     int(11)  NULL COMMENT '预警库存',
+    lock_stock    int(11)  DEFAULT 0 COMMENT '锁定库存',
     sale          int(11) DEFAULT 0 COMMENT '销量',
     weight        decimal(10,2) DEFAULT NULL COMMENT '商品重量，默认为克',
     dimension     tinyint DEFAULT NULL COMMENT '尺寸：0-小件，1-中件，2-大件',
@@ -486,12 +488,12 @@ CREATE TABLE vvshop_goods.cart
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '购物车表';
 
 
-CREATE TABLE vvshop_goods.order
+CREATE TABLE vvshop_goods.order_
 (
     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
     order_no            bigint(20) NOT NULL COMMENT '订单编号',
     customer_id         bigint(20) NOT NULL COMMENT '用户ID',
-    customer_name       bigint(20) NOT NULL COMMENT '用户名称',
+    customer_name       varchar(256) NULL COMMENT '用户名称',
     pay_type            tinyint   default NULL NULL COMMENT '支付方式 0：支付宝，1：微信，2：银行卡',
     status              tinyint   default 0 NOT NULL COMMENT '订单状态 0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单',
     order_type          tinyint default NULL COMMENT '订单类型：0->正常订单；1->秒杀订单',
@@ -518,6 +520,7 @@ CREATE TABLE vvshop_goods.order
     note                varchar(500) DEFAULT NULL COMMENT '订单备注',
     confirm_status      int(1) DEFAULT NULL COMMENT '确认收货状态：0->未确认；1->已确认',
     use_integration     int(11) DEFAULT NULL COMMENT '下单时使用的积分',
+    use_coupon_id       int(11) DEFAULT NULL COMMENT '下单时使用的优惠券',
     payment_time      timestamp DEFAULT NULL NULL COMMENT '支付时间',
     delivery_time timestamp DEFAULT NULL NULL COMMENT '发货时间',
     receive_time timestamp DEFAULT NULL NULL COMMENT '确认收货时间',
@@ -566,6 +569,16 @@ CREATE TABLE vvshop_goods.order_sku
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '订单-sku关联表';
 
+CREATE TABLE vvshop_goods.integration_rule_setting (
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    deduction_per_yuan  int(11) DEFAULT NULL COMMENT '每块元需要抵扣的积分数',
+    max_percent_per_order int(11) DEFAULT NULL COMMENT '每笔订单最高抵用百分比',
+    use_unit int(11) DEFAULT NULL COMMENT '使用积分最小单位100',
+    coupon_status int(1) DEFAULT NULL COMMENT '是否可以和优惠券同用；0->不可以；1->可以',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '积分规则配置表';
+
+INSERT INTO vvshop_goods.integration_rule_setting VALUES (1, 100, 20, 100, 1);
 
 DROP TABLE IF EXISTS coupon;
 CREATE TABLE vvshop_goods.coupon (

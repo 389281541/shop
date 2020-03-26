@@ -14,6 +14,13 @@ spring:
     host: 192.168.113.128
     port: 6379
     password: 123456
+  rabbitmq:
+    host: 192.168.113.128
+    port: 5672
+    virtual-host: /rainbow
+    username: rainbow
+    password: rainbow
+    publisher-confirms: true #如果对异步消息需要回调必须设置为true
   autoconfigure:
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
@@ -68,5 +75,10 @@ store:
     secretKey: LuTVBTq1N9j8tGFRbJVTk0YYqvwZWD6SektFsjIz
     domain: https://image.songshupinpin.com
     bucket: songshu-online
+
+rabbitmq:
+  queue:
+    name:
+      cancelOrder: cancelOrderQueue
 
 

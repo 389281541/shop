@@ -33,7 +33,7 @@ public class Order extends Model<Order> {
 
     @ApiModelProperty(value = "订单编号")
     @TableField("order_no")
-    private Long orderNo;
+    private String orderNo;
 
     @ApiModelProperty(value = "用户ID")
     @TableField("customer_id")
@@ -41,7 +41,7 @@ public class Order extends Model<Order> {
 
     @ApiModelProperty(value = "用户名称")
     @TableField("customer_name")
-    private Long customerName;
+    private String customerName;
 
     @ApiModelProperty(value = "支付方式 0：支付宝，1：微信，2：银行卡")
     @TableField("pay_type")
@@ -146,6 +146,10 @@ public class Order extends Model<Order> {
     @ApiModelProperty(value = "下单时使用的积分")
     @TableField("use_integration")
     private Integer useIntegration;
+
+    @ApiModelProperty(value = "下单时使用的优惠券")
+    @TableField("use_coupon_id")
+    private Long useCouponId;
 
     @ApiModelProperty(value = "支付时间")
     @TableField("payment_time")

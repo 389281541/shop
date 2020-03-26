@@ -12,9 +12,19 @@ import com.rainbow.common.exception.errorcode.UniverseErrorCode;
  */
 public enum PortalErrorCode implements UniverseErrorCode {
 
-    UNKNOW(1, "未知"),
-    SPU_PULL_OFF(2, "spu下架了"),
-    PROMOTION_LIMIT_EXCEED(3, "超出限购数了"),
+    UNKNOW(10000001, "未知"),
+    SPU_PULL_OFF(10000002, "spu下架了"),
+    PROMOTION_LIMIT_EXCEED(10000003, "超出限购数了"),
+    NOT_ENOUGH_STOCK(10000004, "库存不足"),
+    EMPTY_ORDER_SKU(10000005, "订单sku为空"),
+    COUPON_NOT_EXIST(10000006, "优惠券不存在"),
+    USER_NOT_EXIST(10000007, "用户不存在"),
+    INTEGRATION_RULE_NOT_EXIST(10000008, "积分规则未配置"),
+    INTEGRATION_CAN_NOT_USE(10000009, "积分不可使用"),
+    CART_CAN_NOT_EMPTY(10000010, "购物车信息不能为空"),
+    ADDRESS_NOT_EXIST(10000011, "地址不存在"),
+    INTEGRATION_NOT_ENOUGH(10000012, "积分不足"),
+    INTEGRATION_UPDATE_FAILED(10000013, "积分修改失败"),
     ;
 
     private ErrorSideEnum errorSideEnum;

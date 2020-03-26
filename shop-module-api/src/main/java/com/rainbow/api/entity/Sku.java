@@ -44,6 +44,10 @@ public class Sku extends Model<Sku> {
     @TableField("stock")
     private Integer stock;
 
+    @ApiModelProperty(value = "锁定库存")
+    @TableField("lock_stock")
+    private Integer lockStock;
+
     @ApiModelProperty(value = "预警库存")
     @TableField("low_stock")
     private Integer lowStock;
