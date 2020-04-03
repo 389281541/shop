@@ -25,6 +25,9 @@ public enum PortalErrorCode implements UniverseErrorCode {
     ADDRESS_NOT_EXIST(10000011, "地址不存在"),
     INTEGRATION_NOT_ENOUGH(10000012, "积分不足"),
     INTEGRATION_UPDATE_FAILED(10000013, "积分修改失败"),
+    SHOP_NOT_EXIST(10000014, "店铺不存在"),
+    ORDER_NOT_EXIST(10000015, "订单不存在"),
+    COUPON_RECEIVE_EXCEED(10000016, "订单不存在"),
     ;
 
     private ErrorSideEnum errorSideEnum;

@@ -9,6 +9,7 @@ import com.rainbow.api.dto.RecommendGoodsDTO;
 import com.rainbow.api.entity.Spu;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -51,6 +52,14 @@ public interface SpuMapper extends BaseMapper<Spu> {
      * @return
      */
     List<Spu> listShopHotSpu(@Param("shopId") Long shopId);
+
+
+    /**
+     * 通过spuId获取spu列表
+     * @param list
+     * @return
+     */
+    List<Spu> listBySpuIds(@Param("list") Collection<Long> list);
 
 
 }

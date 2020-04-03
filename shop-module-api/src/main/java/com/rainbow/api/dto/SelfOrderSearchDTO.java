@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.Collection;
+
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
@@ -24,7 +26,10 @@ public class SelfOrderSearchDTO extends PageDTO {
     @ApiModelProperty(value = "订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单")
     private Integer status;
 
-    @ApiModelProperty(value = "用户ID")
+    @ApiModelProperty(value = "用户ID", hidden = true)
     private Long customerId;
+
+    @ApiModelProperty(value = "订单ID集合", hidden = true)
+    private Collection<Long> orderIds;
 
 }

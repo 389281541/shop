@@ -96,4 +96,15 @@
         limit 0,6
     </select>
 
+
+    <select id="listBySpuIds" parameterType="java.util.Collection" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from spu sp
+        where id in
+        <foreach collection="list" item="spuId" index="index" open="(" close=")" separator=",">
+            #{spuId}
+        </foreach>
+    </select>
+
 </mapper>

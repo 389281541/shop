@@ -181,7 +181,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
             Integer promotionType = spuPromotionVO.getPromotionType();
             if (promotionType.equals(PromotionTypeEnum.TIME_LIMIT.getValue())) {
                 //限时促销
-                handleTimeLimitReduce(carts, cartPromotionVOList, skuMap, promotionType);
+                handleReduce(carts, cartPromotionVOList, skuMap, promotionType, BooleanEnum.YES.getValue());
             } else if (promotionType.equals(PromotionTypeEnum.FULL_REDUCTION.getValue())) {
                 //满减促销  计算总金额
                 BigDecimal totalAmount = getCartTotalAmount(carts, skuMap);
@@ -200,23 +200,35 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
                     }
                 } else {
                     //默认按限时促销规则  时间只是个营销方式
-                    handleTimeLimitReduce(carts, cartPromotionVOList, skuMap, promotionType);
+                    handleReduce(carts, cartPromotionVOList, skuMap, promotionType, BooleanEnum.NO.getValue());
                 }
             } else {
                 //默认按限时促销规则  时间只是个营销方式
-                handleTimeLimitReduce(carts, cartPromotionVOList, skuMap, promotionType);
+                handleReduce(carts, cartPromotionVOList, skuMap, promotionType, BooleanEnum.NO.getValue());
             }
         }
         return cartPromotionVOList;
     }
 
-    private void handleTimeLimitReduce(List<Cart> carts, List<CartPromotionVO> cartPromotionVOList, Map<Long, Sku> skuMap, Integer promotionType) {
+    /**
+     * 处理优惠扣减
+     * @param carts
+     * @param cartPromotionVOList
+     * @param skuMap
+     * @param promotionType
+     * @param type 0:无优惠  1-限时优惠
+     */
+    private void handleReduce(List<Cart> carts, List<CartPromotionVO> cartPromotionVOList, Map<Long, Sku> skuMap, Integer promotionType, Integer type) {
         for(Cart cart: carts) {
             CartPromotionVO cartPromotionVO = new CartPromotionVO();
             BeanUtils.copyProperties(cart, cartPromotionVO);
             Sku sku = skuMap.get(cart.getSkuId());
             cartPromotionVO.setPerIntegration(new Double(sku.getPrice().doubleValue() * 100).intValue());
-            cartPromotionVO.setPerReduceAmount(sku.getOriginalPrice().subtract(sku.getPrice()));
+            if(type.equals(BooleanEnum.NO.getValue())) {
+                cartPromotionVO.setPerReduceAmount(new BigDecimal(0));
+            } else {
+                cartPromotionVO.setPerReduceAmount(sku.getOriginalPrice().subtract(sku.getPrice()));
+            }
             cartPromotionVO.setPromotionType(promotionType);
             cartPromotionVOList.add(cartPromotionVO);
         }

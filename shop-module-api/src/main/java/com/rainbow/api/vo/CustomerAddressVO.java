@@ -39,6 +39,9 @@ public class CustomerAddressVO extends BaseDTO {
     @ApiModelProperty(value = "具体的地址门牌号")
     private String address;
 
+    @ApiModelProperty(value = "收货人手机号")
+    private String phone;
+
     @ApiModelProperty(value = "是否默认 0-否 1-是")
     private Integer isDefault;
 }

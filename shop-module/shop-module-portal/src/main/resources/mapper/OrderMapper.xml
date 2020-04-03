@@ -47,4 +47,24 @@
         id, order_no, customer_id, customer_name, pay_type, status, order_type, auto_confirm_day, trade_no, promotion_amount, integration_amount, promotion_info, integration_award, coupon_amount, total_amount, flow_id, delivery_company, delivery_bill_no, deliver_mode, deliver_fee, receiver_name, receiver_phone, receiver_post_code, receiver_province, receiver_city, receiver_region, receiver_detail_address, note, confirm_status, use_integration, payment_time, delivery_time, receive_time, del_status, update_time, create_time
     </sql>
 
+    <select id="pageOrder" parameterType="com.rainbow.api.dto.SelfOrderSearchDTO" resultMap="BaseResultMap">
+        SELECT *
+        FROM
+        order_
+        WHERE
+        del_status = 0 and customer_id = #{customerId}
+        <if test="param.orderNo != null and param.orderNo != ''">
+            AND order_no = #{param.orderNo}
+        </if>
+        <if test="param.status != null and param.status != ''">
+            AND status = #{param.status}
+        </if>
+        <if test="param.orderIds != null and param.orderIds.size() > 0">
+            AND id in
+            <foreach collection="param.orderIds" item="orderId" index="index" open="(" close=")" separator=",">
+                #{orderId}
+            </foreach>
+        </if>
+    </select>
+
 </mapper>

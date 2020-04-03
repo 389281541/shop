@@ -36,6 +36,6 @@ public class OrderGenerateDTO extends BaseDTO {
     @ApiModelProperty(value = "使用的积分数")
     private Integer useIntegration;
 
-    @ApiModelProperty(value = "用户ID")
+    @ApiModelProperty(value = "用户ID", hidden = true)
     private Long customerId;
 }

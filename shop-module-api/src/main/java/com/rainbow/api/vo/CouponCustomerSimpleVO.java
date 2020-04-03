@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -49,5 +50,8 @@ public class CouponCustomerSimpleVO extends BaseDTO {
 
     @ApiModelProperty(value = "优惠券ID")
     private Long couponId;
+
+    @ApiModelProperty(value = "优惠券面值")
+    private BigDecimal couponAmount;
 
 }

@@ -53,7 +53,7 @@ public class OrderDetailVO extends OrderSimpleVO {
     @ApiModelProperty(value = "物流单号")
     private String deliveryBillNo;
 
-    @ApiModelProperty(value = "配送方式：0-快递 1-自取")
+    @ApiModelProperty(value = "配送方式：0-快递 1-邮政")
     private Integer deliverMode;
 
     @ApiModelProperty(value = "运费")

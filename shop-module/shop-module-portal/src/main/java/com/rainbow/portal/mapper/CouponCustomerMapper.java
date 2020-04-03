@@ -31,4 +31,13 @@ public interface CouponCustomerMapper extends BaseMapper<CouponCustomer> {
      * @return
      */
     Integer updateCouponStatus(@Param("customerId") Long customerId, @Param("couponId") Long couponId, @Param("useStatus") Integer useStatus);
+
+
+    /**
+     * 获取优惠券领取数量
+     * @param customerId
+     * @param couponId
+     * @return
+     */
+    Integer getReceiveNumByCustomerId(@Param("customerId") Long customerId, @Param("couponId") Long couponId);
 }

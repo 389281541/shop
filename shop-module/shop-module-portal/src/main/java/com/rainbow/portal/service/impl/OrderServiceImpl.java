@@ -1,9 +1,11 @@
 package com.rainbow.portal.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.rainbow.api.dto.OrderGenerateDTO;
 import com.rainbow.api.dto.SelfOrderSearchDTO;
 import com.rainbow.api.entity.*;
@@ -97,25 +99,53 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         //收货地址
         List<CustomerAddressVO> customerAddressVOList = addressService.listAddress(customerId);
         confirmOrderVO.setCustomerAddressList(customerAddressVOList);
-        //积分使用规则
-        IntegrationRuleSetting integrationRuleSetting = integrationRuleSettingMapper.selectById(1);
-        IntegrationRuleSettingVO integrationRuleSettingVO = new IntegrationRuleSettingVO();
-        BeanUtils.copyProperties(integrationRuleSetting, integrationRuleSettingVO);
-        confirmOrderVO.setIntegrationRuleSetting(integrationRuleSettingVO);
+        //计算订单能使用的最大积分
+        confirmOrderVO.setRecommendIntegration(calculateMaxCanUseIntegration(cartPromotionVOList));
         //可以使用的优惠券列表
         List<CouponCustomerDetailVO> couponCustomerDetailVOList = couponService.listOrderAvailable(customerId, cartPromotionVOList, BooleanEnum.YES.getValue());
-        confirmOrderVO.setCouponCustomerList(convertCoupon(couponCustomerDetailVOList));
+        confirmOrderVO.setCouponList(convertCoupon(couponCustomerDetailVOList));
         return confirmOrderVO;
     }
 
-    private List<CouponCustomerSimpleVO> convertCoupon(List<CouponCustomerDetailVO> couponCustomerDetailVOList) {
+    /**
+     * 计算最大可用积分
+     * @param cartPromotionVOList
+     * @return
+     */
+    private Integer calculateMaxCanUseIntegration(List<CartPromotionVO> cartPromotionVOList) {
+        if(CollectionUtils.isEmpty(cartPromotionVOList)) {
+            throw new BusinessException(PortalErrorCode.CART_CAN_NOT_EMPTY);
+        }
+        //1、计算购物车原价总金额
+        //积分使用规则
+        IntegrationRuleSetting integrationRuleSetting = integrationRuleSettingMapper.selectById(1);
+        BigDecimal totalAmount = new BigDecimal(0);
+        for (CartPromotionVO cartPromotionVO: cartPromotionVOList) {
+            totalAmount = totalAmount.add(cartPromotionVO.getOriginalPrice());
+        }
+        //2、计算订单抵扣最大积分限制
+        Integer maxBillIntegeration = totalAmount.multiply(new BigDecimal(integrationRuleSetting.getMaxPercentPerOrder())).intValue();
+        //3、计算sku每一项积分抵扣限制
+        Set<Long> spuIds = cartPromotionVOList.stream().map(CartSimpleVO::getSpuId).collect(Collectors.toSet());
+        List<Spu> spuList = spuMapper.listBySpuIds(spuIds);
+        Map<Long, Spu> spuMap = spuList.stream().collect(Collectors.toMap(Spu::getId, Function.identity()));
+        Integer skuTotalIntegrationLimit = 0;
+        for (CartPromotionVO cartPromotionVO: cartPromotionVOList) {
+            Spu spu = spuMap.get(cartPromotionVO.getSpuId());
+            skuTotalIntegrationLimit = skuTotalIntegrationLimit + spu.getUseIntegrationLimit() * cartPromotionVO.getQuantity();
+        }
+        //4、计算最大抵扣积分
+        return Math.min(maxBillIntegeration, skuTotalIntegrationLimit);
+    }
+
+    private List<CouponSimpleVO> convertCoupon(List<CouponCustomerDetailVO> couponCustomerDetailVOList) {
         if (org.springframework.util.CollectionUtils.isEmpty(couponCustomerDetailVOList)) {
             return Lists.newArrayList();
         }
         return couponCustomerDetailVOList.stream().map(x -> {
-            CouponCustomerSimpleVO couponCustomerSimpleVO = new CouponCustomerSimpleVO();
-            BeanUtils.copyProperties(x, couponCustomerSimpleVO);
-            return couponCustomerSimpleVO;
+            CouponSimpleVO couponrSimpleVO = new CouponSimpleVO();
+            BeanUtils.copyProperties(x.getCoupon(), couponrSimpleVO);
+            return couponrSimpleVO;
         }).collect(Collectors.toList());
     }
 
@@ -146,7 +176,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         reomoveCartList(param.getCustomerId(), cartPromotionVOList);
         //10、发送订单取消延迟消息
         sendCalcelOrderDelayMessage(orderId);
-        return null;
+        return Boolean.TRUE;
     }
 
     /**
@@ -626,35 +656,66 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     public IPage<OrderSimpleVO> pageOrder(SelfOrderSearchDTO param) {
-        return null;
+        log.info("pageOrder, OrderSearchDTO param = {}", param);
+        List<OrderSku> orderSkuList = orderSkuMapper.listBySpuName(param.getSpuName());
+        Set<Long> orderIdSet = Sets.newHashSet();
+        if (CollectionUtils.isNotEmpty(orderSkuList)) {
+            orderIdSet = orderSkuList.stream().map(OrderSku::getOrderId).collect(Collectors.toSet());
+        }
+        param.setOrderIds(orderIdSet);
+        Page<Order> orderPage = new Page<>(param.getPageNum(), param.getPageSize());
+        IPage<Order> orderIPage = orderMapper.pageOrder(orderPage, param);
+        if (orderIPage == null || CollectionUtils.isEmpty(orderIPage.getRecords())) {
+            IPage<OrderSimpleVO> orderSimpleVOIPage = new Page<>();
+            orderSimpleVOIPage.setCurrent(param.getPageNum());
+            orderSimpleVOIPage.setSize(param.getPageSize());
+            orderSimpleVOIPage.setRecords(Lists.newArrayList());
+            orderSimpleVOIPage.setTotal(0L);
+            return orderSimpleVOIPage;
+        }
+        return orderIPage.convert(x -> {
+            OrderSimpleVO orderSimpleVO = new OrderSimpleVO();
+            BeanUtils.copyProperties(x, orderSimpleVO);
+            return orderSimpleVO;
+        });
     }
 
 
     @Override
     public OrderDetailVO getOrderDetailById(IdDTO param) {
-        return null;
+        OrderDetailVO orderDetailVO = new OrderDetailVO();
+        Order order = orderMapper.selectById(param.getId());
+        BeanUtils.copyProperties(order, orderDetailVO);
+        List<OrderSku> orderSkus = orderSkuMapper.listByOrderId(param.getId());
+        orderDetailVO.setOrderSkuList(orderSkus);
+        return orderDetailVO;
     }
 
 
     @Override
     public void cancelOrder(Long orderId) {
-        //1、修改订单状态
+        //1、查看订单状态，如果已经支付了，就不做处理
+        Order order = orderMapper.selectById(orderId);
+        if (!order.getStatus().equals(OrderStatusEnum.NON_PAY)) {
+            return;
+        }
+        //2、修改订单状态
         Order updateOrder = new Order();
         updateOrder.setId(orderId);
         updateOrder.setUpdateTime(LocalDateTime.now());
         updateOrder.setStatus(OrderStatusEnum.CLOSED.getValue());
         orderMapper.updateById(updateOrder);
-        //2、释放库存
+        //3、释放库存
         List<OrderSku> orderSkuList = orderSkuMapper.listByOrderId(orderId);
         if (CollectionUtils.isNotEmpty(orderSkuList)) {
             orderSkuMapper.releaseLockStock(orderSkuList);
         }
-        Order order = orderMapper.selectById(orderId);
-        //3、如果使用了优惠券 返还优惠券
+
+        //4、如果使用了优惠券 返还优惠券
         if (order.getUseCouponId() != null) {
             couponService.updateCouponStatus(order.getCustomerId(), order.getUseCouponId(), BooleanEnum.NO.getValue());
         }
-        //4、返还积分
+        //5、返还积分
         if (order.getUseIntegration() != null) {
             Customer customer = customerMapper.selectById(order.getCustomerId());
             customerMapper.updateIntegration(order.getCustomerId(), customer.getIntegration() + order.getUseIntegration());
@@ -671,7 +732,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         updateOrder.setStatus(OrderStatusEnum.NON_DELIVER.getValue());
         //2、释放锁定库存，扣减真实库存
         List<OrderSku> orderSkuList = orderSkuMapper.listByOrderId(orderId);
-        if(CollectionUtils.isEmpty(orderSkuList)) {
+        if (CollectionUtils.isEmpty(orderSkuList)) {
             throw new BusinessException(PortalErrorCode.EMPTY_ORDER_SKU);
         }
         orderSkuMapper.updateSkuStock(orderSkuList);

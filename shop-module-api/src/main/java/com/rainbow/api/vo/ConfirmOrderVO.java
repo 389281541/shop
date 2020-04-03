@@ -22,14 +22,8 @@ import java.util.List;
 @ApiModel(value = "ConfirmOrderVO", description = "确认订单VO")
 public class ConfirmOrderVO extends  ConfirmOrderFeeVO {
 
-    @ApiModelProperty(value = "送货方式 ")
-    private Integer deliverMode;
-
-    @ApiModelProperty(value = "支付方式")
-    private Integer payType;
-
-    @ApiModelProperty(value = "积分使用规则")
-    private IntegrationRuleSettingVO integrationRuleSetting;
+    @ApiModelProperty(value = "推荐使用积分")
+    private Integer recommendIntegration;
 
     @ApiModelProperty(value = "购物车")
     private List<CartPromotionVO>  cartPromotionList;
@@ -38,6 +32,6 @@ public class ConfirmOrderVO extends  ConfirmOrderFeeVO {
     private List<CustomerAddressVO> customerAddressList;
 
     @ApiModelProperty(value = "用户可用优惠券")
-    private List<CouponCustomerSimpleVO> couponCustomerList;
+    private List<CouponSimpleVO> couponList;
 
 }

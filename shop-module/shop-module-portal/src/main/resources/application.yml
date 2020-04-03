@@ -17,7 +17,7 @@ spring:
   rabbitmq:
     host: 192.168.113.128
     port: 5672
-    virtual-host: /rainbow
+    virtual-host: rainbow
     username: rainbow
     password: rainbow
     publisher-confirms: true #如果对异步消息需要回调必须设置为true

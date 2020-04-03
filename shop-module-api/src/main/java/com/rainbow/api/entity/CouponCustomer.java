@@ -34,7 +34,7 @@ public class CouponCustomer extends Model<CouponCustomer> {
     @TableField("coupon_id")
     private Long couponId;
 
-    @ApiModelProperty(value = "用户ID")
+    @ApiModelProperty(value = "领取人用户ID")
     @TableField("customer_id")
     private Long customerId;
 

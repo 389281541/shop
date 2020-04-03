@@ -23,7 +23,7 @@
     </sql>
     
     <resultMap id="DetailResultMap" type="com.rainbow.api.vo.CouponCustomerDetailVO" extends="BaseResultMap">
-        <association property="coupon" resultMap="com.rainbow.portal.mapper.CouponMapper.BaseResultMap" columnPrefix="c_">
+        <association property="coupon" columnPrefix="c_" resultMap="com.rainbow.portal.mapper.CouponMapper.BaseResultMap">
         </association>
         <collection property="couponSpuList" columnPrefix="cs_" resultMap="com.rainbow.portal.mapper.CouponSpuMapper.BaseResultMap">
         </collection>
@@ -50,13 +50,13 @@
             c.use_num c_use_num,
             c.receive_num c_receive_num,
             c.enable_time c_enable_time,
-            c.coupon_code c_coupon_code
+            c.coupon_code c_coupon_code,
             cs.id cs_id,cs.spu_id cs_spu_id,
             ci.id ci_id,ci.item_id ci_item_id
         FROM
             coupon_customer cc
-            LEFT JOIN coupon c ON ch.coupon_id = c.id
-            LEFT JOIN counpon_spu cs ON cs.coupon_id = c.id
+            LEFT JOIN coupon c ON cc.coupon_id = c.id
+            LEFT JOIN coupon_spu cs ON cs.coupon_id = c.id
             LEFT JOIN coupon_item ci ON ci.coupon_id = c.id
         WHERE cc.customer_id = #{customerId}
         AND cc.use_status = 0
@@ -66,4 +66,8 @@
     <update id="updateCouponStatus">
         update coupon_customer set use_status = #{useStatus}, use_time = CURRENT_TIMESTAMP, update_time = CURRENT_TIMESTAMP where customer_id = #{customerId} and coupon_id = #{couponId}
     </update>
+
+    <select id="getReceiveNumByCustomerId" resultType="java.lang.Integer">
+        select count(1) from coupon_customer where customer_id = #{customerId} and coupon_id = #{couponId}
+    </select>
 </mapper>

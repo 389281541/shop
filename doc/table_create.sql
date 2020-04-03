@@ -759,16 +759,29 @@ CREATE TABLE vvshop_goods.order_comment
 
 CREATE TABLE vvshop_goods.order_return
 (
-    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
-    order_no            bigint(20) NOT NULL COMMENT '订单编号',
-    customer_id         bigint(20) NOT NULL COMMENT '用户ID',
-    user_name           varchar(100) COLLATE utf8mb4_bin    NOT NULL COMMENT '用户名',
-    thumbs_up           bigint(20) NOT NULL COMMENT '点赞数',
-    content             varchar(2048)  NOT NULL COMMENT '备注信息',
-    score               smallint  NOT NULL COMMENT '评分',
-    update_time         timestamp default NULL NULL COMMENT '更新时间',
-    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '支付记录表';
+    id bigint(20)  AUTO_INCREMENT,
+    type tinyint NOT NULL COMMENT '类型：0-退款 1-退货退款',
+    shop_id bigint(20) DEFAULT NULL COMMENT '店铺ID',
+    shop_address varchar(256) DEFAULT NULL COMMENT '收货地址表',
+    receiver_phone varchar(256) DEFAULT NULL COMMENT '收货人',
+    receiver_name varchar(256) DEFAULT NULL COMMENT '收货人名称',
+    order_id bigint(20) DEFAULT NULL COMMENT '订单id',
+    order_no varchar(64) DEFAULT NULL COMMENT '订单编号',
+    create_time datetime DEFAULT NULL COMMENT '申请时间',
+    user_name varchar(64) DEFAULT NULL COMMENT '退货人姓名',
+    user_phone varchar(100) DEFAULT NULL COMMENT '退货人电话',
+    return_amount decimal(10,2) DEFAULT NULL COMMENT '退款金额',
+    status int(1) DEFAULT NULL COMMENT '申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝',
+    handle_time datetime DEFAULT NULL COMMENT '处理时间',
+    pay_price decimal(10,2) DEFAULT NULL COMMENT '订单实际支付价格',
+    reason varchar(200) DEFAULT NULL COMMENT '原因',
+    description varchar(500) DEFAULT NULL COMMENT '描述',
+    proof_pics varchar(1000) DEFAULT NULL COMMENT '凭证图片，以逗号隔开',
+    handle_note varchar(500) DEFAULT NULL COMMENT '处理备注',
+    receive_time datetime DEFAULT NULL COMMENT '收货时间',
+    receive_note varchar(500) DEFAULT NULL COMMENT '收货备注',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '退单';
 
 CREATE TABLE vvshop_goods.spu_full_reduction
 (

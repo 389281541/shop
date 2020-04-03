@@ -27,7 +27,7 @@ public class OrderSimpleVO extends BaseDTO {
     @ApiModelProperty(value = "用户名称")
     private String customerName;
 
-    @ApiModelProperty(value = "支付方式 0：支付宝，1：微信，2：银行卡")
+    @ApiModelProperty(value = "支付方式 0：支付宝，1：微信，2：货到付款")
     private Integer payType;
 
     @ApiModelProperty(value = "订单状态 0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单")

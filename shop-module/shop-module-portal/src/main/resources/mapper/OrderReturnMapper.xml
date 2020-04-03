@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.OrderReturnMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.OrderReturn">
+        <id column="id" property="id" />
+        <result column="type" property="type" />
+        <result column="shop_id" property="shopId" />
+        <result column="shop_address" property="shopAddress" />
+        <result column="receiver_phone" property="receiverPhone" />
+        <result column="receiver_name" property="receiverName" />
+        <result column="order_id" property="orderId" />
+        <result column="order_no" property="orderNo" />
+        <result column="create_time" property="createTime" />
+        <result column="user_name" property="userName" />
+        <result column="user_phone" property="userPhone" />
+        <result column="return_amount" property="returnAmount" />
+        <result column="status" property="status" />
+        <result column="handle_time" property="handleTime" />
+        <result column="pay_price" property="payPrice" />
+        <result column="reason" property="reason" />
+        <result column="description" property="description" />
+        <result column="proof_pics" property="proofPics" />
+        <result column="handle_note" property="handleNote" />
+        <result column="receive_time" property="receiveTime" />
+        <result column="receive_note" property="receiveNote" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, type, shop_id, shop_address, receiver_phone, receiver_name, order_id, order_no, create_time, user_name, user_phone, return_amount, status, handle_time, pay_price, reason, description, proof_pics, handle_note, receive_time, receive_note
+    </sql>
+
+</mapper>

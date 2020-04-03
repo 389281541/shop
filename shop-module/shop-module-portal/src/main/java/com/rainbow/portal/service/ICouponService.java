@@ -33,4 +33,12 @@ public interface ICouponService {
      */
     Integer updateCouponStatus(Long customerId, Long couponId, Integer useStatus);
 
+
+    /**
+     * 领取优惠券
+     * @param coupId
+     * @param customerId
+     * @return
+     */
+    Integer collectCoupon(Long coupId, Long customerId);
 }

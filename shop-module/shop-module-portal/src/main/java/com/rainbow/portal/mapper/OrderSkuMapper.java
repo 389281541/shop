@@ -44,4 +44,12 @@ public interface OrderSkuMapper extends BaseMapper<OrderSku> {
      */
     Integer updateSkuStock(@Param("list")List<OrderSku> list);
 
+
+    /**
+     * 通过spuName查询
+     * @param spuName
+     * @return
+     */
+    List<OrderSku> listBySpuName(@Param("spuName") String spuName);
+
 }

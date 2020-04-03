@@ -92,4 +92,11 @@
             #{item.skuId}
         </foreach>
     </update>
+
+    <select id="listBySpuName" resultMap="BaseResultMap">
+        select order_id order_sku os
+            left join sku s on os.sku_id = s.id
+            left join spu sp on sp.id = s.spu_id
+        where sp.name like CONCAT('%',#{spuName},'%')
+    </select>
 </mapper>
