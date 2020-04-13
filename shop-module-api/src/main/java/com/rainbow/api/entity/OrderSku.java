@@ -37,7 +37,7 @@ public class OrderSku extends Model<OrderSku> {
 
     @ApiModelProperty(value = "订单编号")
     @TableField("order_no")
-    private Long orderNo;
+    private String orderNo;
 
     @ApiModelProperty(value = "SKUID")
     @TableField("sku_id")

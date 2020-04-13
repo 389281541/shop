@@ -3,6 +3,7 @@ package com.rainbow.portal.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.api.dto.OrderGenerateDTO;
+import com.rainbow.api.dto.ParentOrderNoDTO;
 import com.rainbow.api.dto.SelfOrderSearchDTO;
 import com.rainbow.api.vo.ConfirmOrderVO;
 import com.rainbow.api.vo.OrderDetailVO;
@@ -45,7 +46,7 @@ public class OrderController {
 
     @ApiOperation(value = "生成订单", notes = "生成订单", httpMethod = "POST")
     @PostMapping("/generateOrder")
-    public R<Boolean> generateOrder(@Valid @RequestBody OrderGenerateDTO param) {
+    public R<String> generateOrder(@Valid @RequestBody OrderGenerateDTO param) {
         param.setCustomerId(RB.getUserId());
         return new R<>(orderService.generateOrder(param));
     }
@@ -63,6 +64,15 @@ public class OrderController {
     @PostMapping("/get")
     public R<OrderDetailVO> pageOrder(@Valid @RequestBody IdDTO param) {
         return new R<>(orderService.getOrderDetailById(param));
+    }
+
+
+
+    @ApiOperation(value = "订单状态", notes = "订单状态", httpMethod = "POST")
+    @PostMapping("/status")
+    public R<Boolean> status(@Valid @RequestBody ParentOrderNoDTO param) {
+        param.setCustomerId(RB.getUserId());
+        return new R<>(orderService.getOrderStatus(param));
     }
 
 

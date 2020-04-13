@@ -38,6 +38,9 @@ public class SkuSimpleVO extends BaseDTO {
     @ApiModelProperty(value = "预警库存")
     private Integer lowStock;
 
+    @ApiModelProperty(value = "锁定库存")
+    private Integer lockStock;
+
     @ApiModelProperty(value = "销量")
     private Integer sale;
 

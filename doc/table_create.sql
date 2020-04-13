@@ -491,21 +491,21 @@ CREATE TABLE vvshop_goods.cart
 CREATE TABLE vvshop_goods.order_
 (
     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
-    order_no            bigint(20) NOT NULL COMMENT '订单编号',
+    order_no            varchar(256) NOT NULL COMMENT '订单编号',
     customer_id         bigint(20) NOT NULL COMMENT '用户ID',
     customer_name       varchar(256) NULL COMMENT '用户名称',
     pay_type            tinyint   default NULL NULL COMMENT '支付方式 0：支付宝，1：微信，2：银行卡',
     status              tinyint   default 0 NOT NULL COMMENT '订单状态 0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单',
     order_type          tinyint default NULL COMMENT '订单类型：0->正常订单；1->秒杀订单',
     auto_confirm_day   int(11) DEFAULT NULL COMMENT '自动确认时间（单位为天）',
-    trade_no            bigint(20) default NULL NULL COMMENT '支付交易号',
+    trade_no            varchar(256) default NULL NULL COMMENT '支付交易号',
     promotion_amount    bigint(20) NOT NULL COMMENT '促销金额',
     integration_amount  bigint(20) NOT NULL COMMENT '积分金额',
     promotion_info      varchar(100) DEFAULT NULL COMMENT '活动信息',
     integration_award   int(11) DEFAULT NULL COMMENT '该订单可以获得的积分',
     coupon_amount       bigint(20) NOT NULL COMMENT '优惠券金额',
     total_amount        bigint(20) NOT NULL COMMENT '支付金额',
-    flow_id             bigint(20) NOT NULL COMMENT '物流ID',
+    flow_id             bigint(20) NULL COMMENT '物流ID',
     delivery_company    varchar(128) DEFAULT NULL COMMENT '物流公司(配送方式)',
     delivery_bill_no    varchar(64) DEFAULT NULL COMMENT '物流单号',
     deliver_mode        tinyint default 0 NULL COMMENT '配送方式：0-快递 1-自取',
@@ -524,6 +524,7 @@ CREATE TABLE vvshop_goods.order_
     payment_time      timestamp DEFAULT NULL NULL COMMENT '支付时间',
     delivery_time timestamp DEFAULT NULL NULL COMMENT '发货时间',
     receive_time timestamp DEFAULT NULL NULL COMMENT '确认收货时间',
+    p_order_no varchar(256) DEFAULT NULL COMMENT '父订单号',
     del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
     update_time         timestamp default NULL NULL COMMENT '更新时间',
     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
@@ -545,7 +546,7 @@ CREATE TABLE vvshop_goods.order_sku
 (
     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
     order_id             bigint(20) DEFAULT NULL COMMENT '订单id',
-    order_no            bigint(20) NOT NULL COMMENT '订单编号',
+    order_no            varchar(256) NOT NULL COMMENT '订单编号',
     sku_id              bigint(20) NOT NULL COMMENT 'SKUID',
     spu_id              bigint(20) NOT NULL COMMENT 'SPUID',
     sku_pic             varchar(500) DEFAULT NULL COMMENT 'SPU图片',
@@ -732,12 +733,14 @@ CREATE TABLE vvshop_goods.flow_company
 CREATE TABLE vvshop_goods.payment_record
 (
     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
-    order_no            bigint(20) NOT NULL COMMENT '订单编号',
-    payment_mode        tinyint   default NULL NULL COMMENT '支付方式 0：支付宝，1：微信，2：银行卡',
-    param               varchar(256)  COMMENT '支付参数json',
-    remark              varchar(256)  NOT NULL COMMENT '备注信息',
+    customer_id         bigint(20) NULL COMMENT '用户ID',
+    p_order_no          varchar(256) NOT NULL COMMENT '父订单编号',
+    trade_no            varchar(256) NULL COMMENT '交易流水号',
+    trade_status        varchar(256) NULL COMMENT '交易状态',
+    pay_platform        tinyint   default NULL NULL COMMENT '支付平台 0：支付宝，1：微信',
     update_time         timestamp default NULL NULL COMMENT '更新时间',
-    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间'
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '支付记录表';
 
 

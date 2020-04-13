@@ -3,6 +3,7 @@ package com.rainbow.portal.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainbow.api.dto.OrderGenerateDTO;
+import com.rainbow.api.dto.ParentOrderNoDTO;
 import com.rainbow.api.dto.SelfOrderSearchDTO;
 import com.rainbow.api.entity.Order;
 import com.rainbow.api.vo.ConfirmOrderVO;
@@ -30,7 +31,7 @@ public interface IOrderService extends IService<Order> {
      * @param param
      * @return
      */
-    Boolean generateOrder(OrderGenerateDTO param);
+    String generateOrder(OrderGenerateDTO param);
 
 
     /**
@@ -58,9 +59,9 @@ public interface IOrderService extends IService<Order> {
 
 
     /**
-     * 支付成功回调
+     * 获取订单状态
+     * @param param
+     * @return
      */
-    void paySucessCallback(Long orderId);
-
-
+    Boolean getOrderStatus(ParentOrderNoDTO param);
 }

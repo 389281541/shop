@@ -24,7 +24,7 @@ public class OrderDetailVO extends OrderSimpleVO {
     private Integer autoConfirmDay;
 
     @ApiModelProperty(value = "支付交易号")
-    private Long tradeNo;
+    private String tradeNo;
 
     @ApiModelProperty(value = "促销金额")
     private BigDecimal promotionAmount;

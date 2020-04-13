@@ -35,6 +35,10 @@ public class Order extends Model<Order> {
     @TableField("order_no")
     private String orderNo;
 
+    @ApiModelProperty(value = "父订单号")
+    @TableField("p_order_no")
+    private String parentOrderNo;
+
     @ApiModelProperty(value = "用户ID")
     @TableField("customer_id")
     private Long customerId;
@@ -61,7 +65,7 @@ public class Order extends Model<Order> {
 
     @ApiModelProperty(value = "支付交易号")
     @TableField("trade_no")
-    private Long tradeNo;
+    private String tradeNo;
 
     @ApiModelProperty(value = "促销金额")
     @TableField("promotion_amount")

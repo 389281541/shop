@@ -64,7 +64,7 @@
 <!--     use_num, receive_num, enable_time, coupon_code-->
 
     <update id="updateCouponStatus">
-        update coupon_customer set use_status = #{useStatus}, use_time = CURRENT_TIMESTAMP, update_time = CURRENT_TIMESTAMP where customer_id = #{customerId} and coupon_id = #{couponId}
+        update coupon_customer set use_status = #{useStatus}, use_time = CURRENT_TIMESTAMP where customer_id = #{customerId} and coupon_id = #{couponId}
     </update>
 
     <select id="getReceiveNumByCustomerId" resultType="java.lang.Integer">

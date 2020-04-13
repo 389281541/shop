@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 @ApiModel(value = "CustomerAddressVO", description = "收货地址VO")
 public class CustomerAddressVO extends BaseDTO {
 
-    @ApiModelProperty(value = "品牌ID")
+    @ApiModelProperty(value = "地址ID")
     private Long id;
 
     @ApiModelProperty(value = "用户ID")

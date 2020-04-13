@@ -6,6 +6,7 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import com.rainbow.api.vo.OrderSkuPromotionVO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -25,11 +26,18 @@ public interface OrderSkuMapper extends BaseMapper<OrderSku> {
     Integer insertList(@Param("list")List<OrderSku> list);
 
     /**
-     * 订单sku列表
+     * 通过orderIds获取订单sku列表
+     * @param orderIds
+     * @return
+     */
+    List<OrderSku> listByOrderIds(@Param("orderIds") Collection<Long> orderIds);
+
+    /**
+     * 通过orderId获取订单sku列表
      * @param orderId
      * @return
      */
-    List<OrderSku> listByOrderId(@Param("orderId")Long orderId);
+    List<OrderSku> listByOrderId(@Param("orderId") Long orderId);
 
     /**
      * 释放锁定库存
@@ -51,5 +59,14 @@ public interface OrderSkuMapper extends BaseMapper<OrderSku> {
      * @return
      */
     List<OrderSku> listBySpuName(@Param("spuName") String spuName);
+
+
+    /**
+     * 通过orderNo和customerId查询orderSku列表
+     * @param orderNo
+     * @param customerId
+     * @return
+     */
+    List<OrderSku> listByOrderNoAndCustomerId(@Param("orderNo") String orderNo, @Param("customerId")Long customerId);
 
 }

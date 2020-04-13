@@ -20,10 +20,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "ConfirmOrderVO", description = "确认订单VO")
-public class ConfirmOrderVO extends  ConfirmOrderFeeVO {
+public class  ConfirmOrderVO extends  ConfirmOrderFeeVO {
 
     @ApiModelProperty(value = "推荐使用积分")
     private Integer recommendIntegration;
+
+    @ApiModelProperty(value = "生成订单数")
+    private Integer orderNum;
 
     @ApiModelProperty(value = "购物车")
     private List<CartPromotionVO>  cartPromotionList;

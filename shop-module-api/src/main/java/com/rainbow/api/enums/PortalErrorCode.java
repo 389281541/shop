@@ -27,7 +27,13 @@ public enum PortalErrorCode implements UniverseErrorCode {
     INTEGRATION_UPDATE_FAILED(10000013, "积分修改失败"),
     SHOP_NOT_EXIST(10000014, "店铺不存在"),
     ORDER_NOT_EXIST(10000015, "订单不存在"),
-    COUPON_RECEIVE_EXCEED(10000016, "订单不存在"),
+    COUPON_RECEIVE_EXCEED(10000016, "优惠券领取超出限制"),
+    WAIT_TO_PAY_ORDER_ERROR(10000017, "优惠券领取超出限制"),
+    ALIPAY_ORDER_FAILED(10000018, "支付宝预下单失败"),
+    ALIPAY_EXCEPTION_UNKNOWN(10000019, "支付宝下单位置错误"),
+    ALIPAY_UNSUPPORT_EXCEPTION(10000020, "不支持的交易状态"),
+    ALIPAY_VERIFY_ERROR(10000021, "非法请求,验证不通过"),
+
     ;
 
     private ErrorSideEnum errorSideEnum;

@@ -41,6 +41,9 @@ public class OrderSkuPromotionVO extends BaseDTO {
     @ApiModelProperty(value = "SPUID")
     private Long spuId;
 
+    @ApiModelProperty(value = "商品名称")
+    private String spuName;
+
     @ApiModelProperty(value = "SPU图片")
     private String skuPic;
 

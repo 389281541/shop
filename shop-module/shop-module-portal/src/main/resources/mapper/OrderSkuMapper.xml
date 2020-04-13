@@ -51,6 +51,17 @@
     </insert>
 
 
+    <select id="listByOrderIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_sku
+        where order_id in
+        <foreach collection="orderIds" item="orderId" index="index" open="(" close=")" separator=",">
+            #{orderId}
+        </foreach>
+        and del_status = 0
+    </select>
+
     <select id="listByOrderId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -98,5 +109,12 @@
             left join sku s on os.sku_id = s.id
             left join spu sp on sp.id = s.spu_id
         where sp.name like CONCAT('%',#{spuName},'%')
+    </select>
+
+    <select id="listByOrderNoAndCustomerId">
+        select
+        <include refid="Base_Column_List"/>
+        from order_sku
+        where order_no = #{orderNo} and customerId and del_status = 0
     </select>
 </mapper>

@@ -8,6 +8,8 @@ import com.rainbow.api.dto.SelfOrderSearchDTO;
 import com.rainbow.api.entity.Order;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 订单表 Mapper 接口
  *
@@ -25,4 +27,11 @@ public interface OrderMapper extends BaseMapper<Order> {
      */
     IPage<Order> pageOrder(Page<Order> page, @Param("param") SelfOrderSearchDTO param);
 
+
+    /**
+     *
+     * @param customerId
+     * @return
+     */
+    List<Order> getByParentOrderNo(@Param("customerId")Long customerId, @Param("parentOrderNo") String parentOrderNo);
 }

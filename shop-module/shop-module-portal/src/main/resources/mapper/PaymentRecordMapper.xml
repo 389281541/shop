@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.PaymentRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.PaymentRecord">
+        <id column="id" property="id" />
+        <result column="customer_id" property="customerId" />
+        <result column="p_order_no" property="parentOrderNo" />
+        <result column="trade_no" property="tradeNo" />
+        <result column="trade_status" property="tradeStatus" />
+        <result column="pay_platform" property="payPlatform" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, customer_id, p_order_no, trade_no, trade_status, pay_platform, update_time, create_time
+    </sql>
+
+</mapper>

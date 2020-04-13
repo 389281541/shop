@@ -57,6 +57,9 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     @Resource
     private SpuFullReductionMapper spuFullReductionMapper;
 
+    @Resource
+    private ShopMapper shopMapper;
+
 
     @Override
     public Integer addCart(CartSaveDTO param) {
@@ -78,23 +81,24 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     /**
      * 判断限购
+     *
      * @param skuId
      * @param quantity model为0时新加入购物车的数量 为1时购物车更新后的数量
-     * @param model 0-加入购物车时  1-更改购物车商品数量
+     * @param model    0-加入购物车时  1-更改购物车商品数量
      */
     private void checkPromotionLimit(Long skuId, Integer quantity, Integer model) {
         //查找spu促销类型
         Sku sku = skuMapper.selectById(skuId);
         Spu spu = spuMapper.selectById(sku.getSpuId());
         Integer promotionType = spu.getPromotionType();
-        if(promotionType.equals(BooleanEnum.NO.getValue())) {
+        if (promotionType.equals(BooleanEnum.NO.getValue())) {
             return;
         }
         Integer promotionPerLimit = spu.getPromotionPerLimit();
         //计算购物车该spu现有购买数
         Integer existQuantity = baseMapper.sumSpu(spu.getId());
-        if((Objects.equals(model, BooleanEnum.NO.getValue()) && existQuantity + quantity > promotionPerLimit) ||
-        ((Objects.equals(model, BooleanEnum.YES.getValue()) && quantity > promotionPerLimit))) {
+        if ((Objects.equals(model, BooleanEnum.NO.getValue()) && existQuantity + quantity > promotionPerLimit) ||
+                ((Objects.equals(model, BooleanEnum.YES.getValue()) && quantity > promotionPerLimit))) {
             throw new BusinessException(PortalErrorCode.PROMOTION_LIMIT_EXCEED);
         }
     }
@@ -111,7 +115,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         Sku sku = skuMapper.selectById(param.getSkuId());
         //spu信息
         Spu spu = spuMapper.selectById(sku.getSpuId());
-        if(spu.getSaleStatus().equals(BooleanEnum.NO.getValue())) {
+        if (spu.getSaleStatus().equals(BooleanEnum.NO.getValue())) {
             throw new BusinessException(PortalErrorCode.SPU_PULL_OFF);
         }
         //sku属性信息
@@ -151,6 +155,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         LambdaQueryWrapper<Cart> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Cart::getCustomerId, customerId);
         wrapper.eq(Cart::getDelStatus, DelFlagEnum.NO.getValue());
+        wrapper.orderByAsc(Cart::getShopId);
         List<Cart> cartList = baseMapper.selectList(wrapper);
         if (!CollectionUtils.isEmpty(cartList)) {
             //分摊优惠
@@ -173,6 +178,9 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         Set<Long> skuIds = cartList.stream().map(Cart::getSkuId).collect(Collectors.toSet());
         List<Sku> skuList = skuMapper.selectBatchIds(skuIds);
         Map<Long, Sku> skuMap = skuList.stream().collect(Collectors.toMap(Sku::getId, Function.identity()));
+        Set<Long> shopIds = cartList.stream().map(Cart::getShopId).collect(Collectors.toSet());
+        List<Shop> shopList = shopMapper.selectBatchIds(shopIds);
+        Map<Long, Shop> shopMap = shopList.stream().collect(Collectors.toMap(Shop::getId, Function.identity()));
         //计算优惠情况
         for (Map.Entry<Long, List<Cart>> entry : spuIdCartMap.entrySet()) {
             Long spuId = entry.getKey();
@@ -181,7 +189,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
             Integer promotionType = spuPromotionVO.getPromotionType();
             if (promotionType.equals(PromotionTypeEnum.TIME_LIMIT.getValue())) {
                 //限时促销
-                handleReduce(carts, cartPromotionVOList, skuMap, promotionType, BooleanEnum.YES.getValue());
+                handleReduce(carts, cartPromotionVOList, skuMap, shopMap, promotionType, BooleanEnum.YES.getValue());
             } else if (promotionType.equals(PromotionTypeEnum.FULL_REDUCTION.getValue())) {
                 //满减促销  计算总金额
                 BigDecimal totalAmount = getCartTotalAmount(carts, skuMap);
@@ -192,19 +200,22 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
                         CartPromotionVO cartPromotionVO = new CartPromotionVO();
                         BeanUtils.copyProperties(cart, cartPromotionVO);
                         Sku sku = skuMap.get(cart.getSkuId());
-                        BigDecimal perReduceAmount = sku.getPrice().divide(totalAmount, RoundingMode.HALF_EVEN).multiply(fullReduction.getReducePrice());
-                        cartPromotionVO.setPerReduceAmount(perReduceAmount);
-                        cartPromotionVO.setPerIntegration(new Double(sku.getOriginalPrice().subtract(perReduceAmount).doubleValue()*1000).intValue());
+                        Shop shop = shopMap.get(cart.getShopId());
+                        BigDecimal perReduceAmount = sku.getPrice().divide(totalAmount, 3, RoundingMode.HALF_EVEN).multiply(fullReduction.getReducePrice());
+                        cartPromotionVO.setPerReduceAmount(perReduceAmount.setScale(2, BigDecimal.ROUND_HALF_UP));
                         cartPromotionVO.setPromotionType(promotionType);
+                        cartPromotionVO.setSkuName(sku.getSkuName());
+                        cartPromotionVO.setSkuLockStock(sku.getLockStock());
+                        cartPromotionVO.setShopName(shop.getName());
                         cartPromotionVOList.add(cartPromotionVO);
                     }
                 } else {
                     //默认按限时促销规则  时间只是个营销方式
-                    handleReduce(carts, cartPromotionVOList, skuMap, promotionType, BooleanEnum.NO.getValue());
+                    handleReduce(carts, cartPromotionVOList, skuMap, shopMap, promotionType, BooleanEnum.NO.getValue());
                 }
             } else {
                 //默认按限时促销规则  时间只是个营销方式
-                handleReduce(carts, cartPromotionVOList, skuMap, promotionType, BooleanEnum.NO.getValue());
+                handleReduce(carts, cartPromotionVOList, skuMap, shopMap, promotionType, BooleanEnum.NO.getValue());
             }
         }
         return cartPromotionVOList;
@@ -212,30 +223,35 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     /**
      * 处理优惠扣减
+     *
      * @param carts
      * @param cartPromotionVOList
      * @param skuMap
      * @param promotionType
-     * @param type 0:无优惠  1-限时优惠
+     * @param type                0:无优惠  1-限时优惠
      */
-    private void handleReduce(List<Cart> carts, List<CartPromotionVO> cartPromotionVOList, Map<Long, Sku> skuMap, Integer promotionType, Integer type) {
-        for(Cart cart: carts) {
+    private void handleReduce(List<Cart> carts, List<CartPromotionVO> cartPromotionVOList, Map<Long, Sku> skuMap, Map<Long, Shop> shopMap, Integer promotionType, Integer type) {
+        for (Cart cart : carts) {
             CartPromotionVO cartPromotionVO = new CartPromotionVO();
             BeanUtils.copyProperties(cart, cartPromotionVO);
             Sku sku = skuMap.get(cart.getSkuId());
-            cartPromotionVO.setPerIntegration(new Double(sku.getPrice().doubleValue() * 100).intValue());
-            if(type.equals(BooleanEnum.NO.getValue())) {
+            Shop shop = shopMap.get(cart.getShopId());
+            if (type.equals(BooleanEnum.NO.getValue())) {
                 cartPromotionVO.setPerReduceAmount(new BigDecimal(0));
             } else {
                 cartPromotionVO.setPerReduceAmount(sku.getOriginalPrice().subtract(sku.getPrice()));
             }
             cartPromotionVO.setPromotionType(promotionType);
+            cartPromotionVO.setSkuName(sku.getSkuName());
+            cartPromotionVO.setSkuLockStock(sku.getLockStock());
+            cartPromotionVO.setShopName(shop.getName());
             cartPromotionVOList.add(cartPromotionVO);
         }
     }
 
     /**
      * 获取合适的满减策略
+     *
      * @param totalAmount
      * @param spuFullReductionSimpleVOList
      * @return
@@ -300,7 +316,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
             BeanUtils.copyProperties(spu, spuPromotionVO);
             spuPromotionVO.setSpuFullReductionList(spuFullReductionMap.get(x.getSpuId()) == null ? Lists.newArrayList() : spuFullReductionMap.get(x.getSpuId()));
             return spuPromotionVO;
-        }, (key1 , key2)-> key2));
+        }, (key1, key2) -> key2));
         return spuPromotionVOMap;
     }
 
@@ -322,7 +338,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     @Override
     public Integer removeCartList(Long customerId, Collection<Long> ids) {
-        if(CollectionUtils.isEmpty(ids)) {
+        if (CollectionUtils.isEmpty(ids)) {
             throw new BusinessException(PortalErrorCode.CART_CAN_NOT_EMPTY);
         }
         return baseMapper.removeCartList(customerId, ids);

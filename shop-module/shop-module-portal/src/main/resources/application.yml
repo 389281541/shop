@@ -21,6 +21,18 @@ spring:
     username: rainbow
     password: rainbow
     publisher-confirms: true #如果对异步消息需要回调必须设置为true
+    template:
+      receive-timeout: 30000
+      reply-timeout: 30000
+      retry:
+        enabled: false
+      listener:
+        direct:
+          retry:
+            enabled: false
+        default-requeue-rejected: true
+        retry:
+          enabled: false
   autoconfigure:
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
@@ -82,3 +94,9 @@ rabbitmq:
       cancelOrder: cancelOrderQueue
 
 
+rainbow:
+  alipay:
+    callback:
+      url: http://localhost:8099/payment/alipayCallback
+    qrCode:
+      path: D:\zhifubao\

@@ -28,6 +28,4 @@ public class CartPromotionVO extends CartSimpleVO {
     @ApiModelProperty(value = "分配到每项促销优惠金额")
     private BigDecimal perReduceAmount;
 
-    @ApiModelProperty(value = "每项获取的积分")
-    private Integer perIntegration;
 }

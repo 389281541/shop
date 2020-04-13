@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.rainbow.api.dto.OrderGenerateDTO;
+import com.rainbow.api.dto.ParentOrderNoDTO;
 import com.rainbow.api.dto.SelfOrderSearchDTO;
 import com.rainbow.api.entity.*;
 import com.rainbow.api.enums.*;
@@ -23,6 +24,7 @@ import com.rainbow.portal.service.ICartService;
 import com.rainbow.portal.service.ICouponService;
 import com.rainbow.portal.service.IOrderService;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,12 +97,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         ConfirmOrderVO confirmOrderVO = new ConfirmOrderVO();
         //购物车列表带促销信息
         List<CartPromotionVO> cartPromotionVOList = cartService.list(customerId);
+        if (CollectionUtils.isEmpty(cartPromotionVOList)) {
+            throw new BusinessException(PortalErrorCode.CART_CAN_NOT_EMPTY);
+        }
         confirmOrderVO.setCartPromotionList(cartPromotionVOList);
+        Set<Long> shopIdSet = cartPromotionVOList.stream().map(CartPromotionVO::getShopId).collect(Collectors.toSet());
+        confirmOrderVO.setOrderNum(shopIdSet.size());
         //收货地址
         List<CustomerAddressVO> customerAddressVOList = addressService.listAddress(customerId);
         confirmOrderVO.setCustomerAddressList(customerAddressVOList);
         //计算订单能使用的最大积分
-        confirmOrderVO.setRecommendIntegration(calculateMaxCanUseIntegration(cartPromotionVOList));
+        confirmOrderVO.setRecommendIntegration(calculateMaxCanUseIntegration(cartPromotionVOList, customerId));
         //可以使用的优惠券列表
         List<CouponCustomerDetailVO> couponCustomerDetailVOList = couponService.listOrderAvailable(customerId, cartPromotionVOList, BooleanEnum.YES.getValue());
         confirmOrderVO.setCouponList(convertCoupon(couponCustomerDetailVOList));
@@ -109,18 +116,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 计算最大可用积分
+     *
      * @param cartPromotionVOList
      * @return
      */
-    private Integer calculateMaxCanUseIntegration(List<CartPromotionVO> cartPromotionVOList) {
-        if(CollectionUtils.isEmpty(cartPromotionVOList)) {
+    private Integer calculateMaxCanUseIntegration(List<CartPromotionVO> cartPromotionVOList, Long customerId) {
+        if (CollectionUtils.isEmpty(cartPromotionVOList)) {
             throw new BusinessException(PortalErrorCode.CART_CAN_NOT_EMPTY);
         }
         //1、计算购物车原价总金额
         //积分使用规则
         IntegrationRuleSetting integrationRuleSetting = integrationRuleSettingMapper.selectById(1);
         BigDecimal totalAmount = new BigDecimal(0);
-        for (CartPromotionVO cartPromotionVO: cartPromotionVOList) {
+        for (CartPromotionVO cartPromotionVO : cartPromotionVOList) {
             totalAmount = totalAmount.add(cartPromotionVO.getOriginalPrice());
         }
         //2、计算订单抵扣最大积分限制
@@ -130,12 +138,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         List<Spu> spuList = spuMapper.listBySpuIds(spuIds);
         Map<Long, Spu> spuMap = spuList.stream().collect(Collectors.toMap(Spu::getId, Function.identity()));
         Integer skuTotalIntegrationLimit = 0;
-        for (CartPromotionVO cartPromotionVO: cartPromotionVOList) {
+        for (CartPromotionVO cartPromotionVO : cartPromotionVOList) {
             Spu spu = spuMap.get(cartPromotionVO.getSpuId());
             skuTotalIntegrationLimit = skuTotalIntegrationLimit + spu.getUseIntegrationLimit() * cartPromotionVO.getQuantity();
         }
         //4、计算最大抵扣积分
-        return Math.min(maxBillIntegeration, skuTotalIntegrationLimit);
+        Customer customer = customerMapper.selectById(customerId);
+        if (customer == null) {
+            throw new BusinessException(PortalErrorCode.USER_NOT_EXIST);
+        }
+        return Math.min(Math.min(maxBillIntegeration, skuTotalIntegrationLimit), customer.getIntegration());
     }
 
     private List<CouponSimpleVO> convertCoupon(List<CouponCustomerDetailVO> couponCustomerDetailVOList) {
@@ -150,28 +162,48 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
-    public Boolean generateOrder(OrderGenerateDTO param) {
-        //1、获取购物车列表
+    public String generateOrder(OrderGenerateDTO param) {
         List<CartPromotionVO> cartPromotionVOList = cartService.list(param.getCustomerId());
         if (CollectionUtils.isEmpty(cartPromotionVOList)) {
             throw new BusinessException(PortalErrorCode.CART_CAN_NOT_EMPTY);
         }
+        //生成交易单号
+        String parentOrderNo = generateParentOrderNO(param.getCustomerId());
+        Map<Long, List<CartPromotionVO>> shopIdCartMap = cartPromotionVOList.stream().collect(Collectors.groupingBy(CartPromotionVO::getShopId));
+        for (Map.Entry<Long, List<CartPromotionVO>> entry : shopIdCartMap.entrySet()) {
+            List<CartPromotionVO> cartPromotionVOS = entry.getValue();
+            generateOrderByShopId(cartPromotionVOS, param, parentOrderNo);
+        }
+        return parentOrderNo;
+    }
+
+    private String generateParentOrderNO(Long customerId) {
+        StringBuilder sb = new StringBuilder();
+        String datetime = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+        sb.append(datetime);
+        sb.append(String.format("%06d", customerId));
+        return sb.toString();
+    }
+
+    public Boolean generateOrderByShopId(List<CartPromotionVO> cartPromotionVOList, OrderGenerateDTO param, String parentOrderNo) {
+        //1、获取orderSkuList
         List<OrderSkuPromotionVO> orderSkuList = getOrderSkuList(cartPromotionVOList);
         //2、存储校验
         checkStock(cartPromotionVOList);
         //3、优惠券使用处理
         handleCoupon(param.getCustomerId(), param.getCouponId(), cartPromotionVOList, orderSkuList);
         //4、积分抵扣处理
-        handleIntegration(param.getCustomerId(), param.getUseIntegration(), cartPromotionVOList, orderSkuList, param.getCouponId());
+        Integer useIntegration = calculateMaxCanUseIntegration(cartPromotionVOList, param.getCustomerId());
+        handleIntegration(param.getCustomerId(), useIntegration, orderSkuList, param.getCouponId());
         //5、计算支付金额
         calculatePerRealAmount(orderSkuList);
         //6、锁定存储
         lockStock(cartPromotionVOList);
         //7、构建订单信息并入库
-        Long orderId = buildAndInsertOrder(orderSkuList, param);
+        Long orderId = buildAndInsertOrder(orderSkuList, param, parentOrderNo);
         //8、更改优惠券使用状态、扣减积分
         couponService.updateCouponStatus(param.getCustomerId(), param.getCouponId(), BooleanEnum.YES.getValue());
-        reduceCustomerIntegration(param.getCustomerId(), param.getUseIntegration());
+        reduceCustomerIntegration(param.getCustomerId(), useIntegration);
         //9、删除购物车列表
         reomoveCartList(param.getCustomerId(), cartPromotionVOList);
         //10、发送订单取消延迟消息
@@ -184,8 +216,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      */
     public void sendCalcelOrderDelayMessage(Long orderId) {
         //获取普通订单超时时间
-        OrderSetting orderSetting = orderSettingMapper.selectById(1L);
-        cancelOrderSender.sendMessage(orderId, orderSetting.getNormalOrderOvertime() * 60 * 1000L);
+//        OrderSetting orderSetting = orderSettingMapper.selectById(1L);
+//        cancelOrderSender.sendMessage(orderId, orderSetting.getNormalOrderOvertime() * 60 * 1000L);
     }
 
 
@@ -227,13 +259,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      * @param orderSkuList
      * @param param
      */
-    private Long buildAndInsertOrder(List<OrderSkuPromotionVO> orderSkuList, OrderGenerateDTO param) {
+    private Long buildAndInsertOrder(List<OrderSkuPromotionVO> orderSkuList, OrderGenerateDTO param, String parentOrderNO) {
         if (CollectionUtils.isEmpty(orderSkuList)) {
             throw new BusinessException(PortalErrorCode.EMPTY_ORDER_SKU);
         }
         Order order = new Order();
         order.setTotalAmount(calculateTotalAmount(orderSkuList));
-        order.setDeliverFee(new BigDecimal(0));
+        order.setDeliverFee(param.getDeliverFee());
+        order.setPayType(param.getPayType());
         order.setPromotionAmount(calculatePromotionAmount(orderSkuList));
         if (param.getCouponId() == null) {
             order.setCouponAmount(new BigDecimal(0));
@@ -274,14 +307,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setDelStatus(DelFlagEnum.NO.getValue());
         order.setIntegrationAward(calculateIntegrationAward(orderSkuList));
         //order入库
+        order.setCreateTime(LocalDateTime.now());
         order.setOrderNo(generateOrderNo(order));
+        order.setParentOrderNo(parentOrderNO);
+        OrderSetting orderSetting = orderSettingMapper.selectById(1L);
+        order.setAutoConfirmDay(orderSetting.getConfirmOvertime());
         orderMapper.insert(order);
         List<OrderSku> orderSkuSaveList = Lists.newArrayList();
         for (OrderSkuPromotionVO orderSkuPromotionVO : orderSkuList) {
             OrderSku orderSku = new OrderSku();
-            orderSkuPromotionVO.setOrderId(order.getId());
-            orderSkuPromotionVO.setOrderNo(order.getOrderNo());
             BeanUtils.copyProperties(orderSkuPromotionVO, orderSku);
+            orderSku.setOrderId(order.getId());
+            orderSku.setOrderNo(order.getOrderNo());
+            orderSku.setSkuName(orderSkuPromotionVO.getSpuName());
             orderSkuSaveList.add(orderSku);
         }
         //order_sku入库
@@ -354,7 +392,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 integrationAmount = integrationAmount.add(orderSkuPromotionVO.getIntegrationAmount().multiply(new BigDecimal(orderSkuPromotionVO.getQuantity())));
             }
         }
-        return integrationAmount;
+        return integrationAmount.setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
     /**
@@ -370,7 +408,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 promotionAmount = promotionAmount.add(orderSkuPromotionVO.getPromotionAmount().multiply(new BigDecimal(orderSkuPromotionVO.getQuantity())));
             }
         }
-        return promotionAmount;
+        return promotionAmount.setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
     /**
@@ -403,7 +441,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                     .subtract(orderSku.getPromotionAmount())
                     .subtract(orderSku.getCouponAmount())
                     .subtract(orderSku.getIntegrationAmount());
-            orderSku.setRealAmount(realAmount);
+            orderSku.setRealAmount(realAmount.setScale(0, BigDecimal.ROUND_HALF_UP));
         });
     }
 
@@ -412,17 +450,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      *
      * @param customerId
      * @param useIntegration
-     * @param cartList
      * @param orderSkuList
      * @param couponId
      */
-    private void handleIntegration(Long customerId, Integer useIntegration, List<CartPromotionVO> cartList, List<OrderSkuPromotionVO> orderSkuList, Long couponId) {
+    private void handleIntegration(Long customerId, Integer useIntegration, List<OrderSkuPromotionVO> orderSkuList, Long couponId) {
         if (CollectionUtils.isEmpty(orderSkuList)) {
             throw new BusinessException(PortalErrorCode.EMPTY_ORDER_SKU);
         }
-        if (useIntegration == null) {
+        if (useIntegration == null || useIntegration.equals(0)) {
             //不使用积分
-            orderSkuList.stream().forEach(x -> x.setIntegrationAmount(new BigDecimal(0)));
+            orderSkuList.stream().forEach(x -> {
+                x.setIntegrationAmount(new BigDecimal(0));
+                x.setIntegrationAward(x.getPrice().intValue());
+            });
         } else {
             //使用积分
             BigDecimal totalAmount = calculateTotalAmount(orderSkuList);
@@ -430,7 +470,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             if (integrationAmount.compareTo(new BigDecimal(0)) > 0) {
                 orderSkuList.stream().forEach(x -> {
                     BigDecimal perAmount = x.getPrice().divide(totalAmount, 3, RoundingMode.HALF_EVEN).multiply(integrationAmount);
-                    x.setIntegrationAmount(perAmount);
+                    x.setIntegrationAmount(perAmount.setScale(2, BigDecimal.ROUND_HALF_UP));
+                    x.setIntegrationAward(x.getPrice().intValue());
                 });
             }
         }
@@ -440,18 +481,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      * 获取可用积分抵扣金额
      *
      * @param customerId
-     * @param userIntegration
+     * @param useIntegration
      * @param totalAmount
      * @param useCouponFlag
      * @return
      */
-    private BigDecimal getUseIntegrationAmount(Long customerId, Integer userIntegration, BigDecimal totalAmount, Boolean useCouponFlag) {
+    private BigDecimal getUseIntegrationAmount(Long customerId, Integer useIntegration, BigDecimal totalAmount, Boolean useCouponFlag) {
         Customer customer = customerMapper.selectById(customerId);
         if (customer == null) {
             throw new BusinessException(PortalErrorCode.USER_NOT_EXIST);
         }
         // 用户没有那么多积分
-        if (userIntegration.compareTo(customer.getIntegration()) > 0) {
+        if (useIntegration.compareTo(customer.getIntegration()) > 0) {
             throw new BusinessException(PortalErrorCode.INTEGRATION_NOT_ENOUGH);
         }
         IntegrationRuleSetting integrationRuleSetting = integrationRuleSettingMapper.selectById(1L);
@@ -460,17 +501,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
         //如果积分不可以和优惠券一起使用
         if (useCouponFlag && integrationRuleSetting.getCouponStatus().equals(BooleanEnum.NO.getValue())) {
-            throw new BusinessException(PortalErrorCode.INTEGRATION_CAN_NOT_USE);
+            return new BigDecimal(0);
         }
         //如果没有达到积分所用的最小单位
-        if (userIntegration.compareTo(integrationRuleSetting.getUseUnit()) > 0) {
-            throw new BusinessException(PortalErrorCode.INTEGRATION_CAN_NOT_USE);
+        if (useIntegration.compareTo(integrationRuleSetting.getUseUnit()) < 0) {
+            return new BigDecimal(0);
         }
 
         //计算积分抵扣额
-        BigDecimal integrationAmount = new BigDecimal(userIntegration).divide(new BigDecimal(integrationRuleSetting.getUseUnit()), 2, RoundingMode.HALF_EVEN);
+        BigDecimal integrationAmount = new BigDecimal(useIntegration).divide(new BigDecimal(integrationRuleSetting.getUseUnit()), 2, RoundingMode.HALF_EVEN);
         BigDecimal maxPercent = new BigDecimal(integrationRuleSetting.getMaxPercentPerOrder()).divide(new BigDecimal(100), 2, RoundingMode.HALF_EVEN);
-        if (new BigDecimal(userIntegration).compareTo(totalAmount.multiply(maxPercent)) > 0) {
+        if (new BigDecimal(useIntegration).compareTo(totalAmount.multiply(maxPercent)) > 0) {
             //超过了积分抵扣上限
             throw new BusinessException(PortalErrorCode.INTEGRATION_CAN_NOT_USE);
         }
@@ -570,8 +611,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         BigDecimal totalAmount = calculateTotalAmount(orderSkuList);
         for (OrderSkuPromotionVO orderSkuPromotionVO : orderSkuList) {
             //(商品价格/可用商品总价)*优惠券面额
-            BigDecimal couponAmount = orderSkuPromotionVO.getPrice().divide(totalAmount, RoundingMode.HALF_EVEN).multiply(coupon.getAmount());
-            orderSkuPromotionVO.setCouponAmount(couponAmount);
+            BigDecimal couponAmount = orderSkuPromotionVO.getPrice().divide(totalAmount, 3, RoundingMode.HALF_EVEN).multiply(coupon.getAmount());
+            orderSkuPromotionVO.setCouponAmount(couponAmount.setScale(2, BigDecimal.ROUND_HALF_UP));
         }
     }
 
@@ -588,7 +629,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 couponAmount = couponAmount.add(orderSkuPromotionVO.getCouponAmount().multiply(new BigDecimal(orderSkuPromotionVO.getQuantity())));
             }
         }
-        return couponAmount;
+        return couponAmount.setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
     /**
@@ -641,13 +682,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             orderSkuPromotionVO.setSkuPic(skuImgMap.get(x.getSkuId()));
             orderSkuPromotionVO.setBrandId(spu.getBrandId());
             orderSkuPromotionVO.setBrandName(spu.getBrandName());
+            orderSkuPromotionVO.setSpuName(spu.getName());
             orderSkuPromotionVO.setItemId(x.getItemId());
             orderSkuPromotionVO.setShopId(x.getShopId());
             orderSkuPromotionVO.setQuantity(x.getQuantity());
             orderSkuPromotionVO.setPrice(x.getPrice());
             orderSkuPromotionVO.setPromotionName(PromotionTypeEnum.getNameFromType(x.getPromotionType()));
             orderSkuPromotionVO.setPromotionAmount(x.getPerReduceAmount());
-            orderSkuPromotionVO.setIntegrationAward(x.getPerIntegration());
             return orderSkuPromotionVO;
         }).collect(Collectors.toList());
         return orderSkuPromotionVOList;
@@ -722,20 +763,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
     }
 
-
     @Override
-    public void paySucessCallback(Long orderId) {
-        //1、修改订单状态
-        Order updateOrder = new Order();
-        updateOrder.setId(orderId);
-        updateOrder.setUpdateTime(LocalDateTime.now());
-        updateOrder.setStatus(OrderStatusEnum.NON_DELIVER.getValue());
-        //2、释放锁定库存，扣减真实库存
-        List<OrderSku> orderSkuList = orderSkuMapper.listByOrderId(orderId);
-        if (CollectionUtils.isEmpty(orderSkuList)) {
-            throw new BusinessException(PortalErrorCode.EMPTY_ORDER_SKU);
+    public Boolean getOrderStatus(ParentOrderNoDTO param) {
+        List<Order> orderList = orderMapper.getByParentOrderNo(param.getCustomerId(), param.getParentOrderNo());
+        if (CollectionUtils.isEmpty(orderList)) {
+            throw new BusinessException(PortalErrorCode.ORDER_NOT_EXIST);
         }
-        orderSkuMapper.updateSkuStock(orderSkuList);
-
+        for (Order order : orderList) {
+            if (!order.getStatus().equals(OrderStatusEnum.NON_DELIVER)) {
+                return Boolean.FALSE;
+            }
+        }
+        return Boolean.TRUE;
     }
 }

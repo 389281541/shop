@@ -40,11 +40,12 @@
         <result column="del_status" property="delStatus" />
         <result column="update_time" property="updateTime" />
         <result column="create_time" property="createTime" />
+        <result column="p_order_no" property="parentOrderNo" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, order_no, customer_id, customer_name, pay_type, status, order_type, auto_confirm_day, trade_no, promotion_amount, integration_amount, promotion_info, integration_award, coupon_amount, total_amount, flow_id, delivery_company, delivery_bill_no, deliver_mode, deliver_fee, receiver_name, receiver_phone, receiver_post_code, receiver_province, receiver_city, receiver_region, receiver_detail_address, note, confirm_status, use_integration, payment_time, delivery_time, receive_time, del_status, update_time, create_time
+        id, order_no, customer_id, customer_name, pay_type, status, order_type, auto_confirm_day, trade_no, promotion_amount, integration_amount, promotion_info, integration_award, coupon_amount, total_amount, flow_id, delivery_company, delivery_bill_no, deliver_mode, deliver_fee, receiver_name, receiver_phone, receiver_post_code, receiver_province, receiver_city, receiver_region, receiver_detail_address, note, confirm_status, use_integration, payment_time, delivery_time, receive_time,  del_status, p_order_no, update_time, create_time
     </sql>
 
     <select id="pageOrder" parameterType="com.rainbow.api.dto.SelfOrderSearchDTO" resultMap="BaseResultMap">
@@ -65,6 +66,14 @@
                 #{orderId}
             </foreach>
         </if>
+    </select>
+
+
+    <select id="getByParentOrderNo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_
+        where customer_id = #{customerId} and p_order_no = #{parentOrderNo} and status = 0 and del_status = 0
     </select>
 
 </mapper>
