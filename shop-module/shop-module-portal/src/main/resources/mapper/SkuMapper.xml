@@ -25,4 +25,15 @@
         id, sku_no, spu_id, stock, low_stock, sale, weight, dimension, original_price, price, del_status, update_time, create_time, sku_name
     </sql>
 
+
+    <select id="getMinPriceSkuBySpuId" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from sku
+        where
+            del_status = 0 and spu_id = #{spuId}
+        order by price asc
+        limit 1
+    </select>
+
 </mapper>

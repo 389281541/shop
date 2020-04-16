@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/nav")
 @Api(value = "/nav", tags = "导航页服务")
-public class HomeController {
+public class IndexController {
 
     @Autowired
     private INavgationService navgationService;

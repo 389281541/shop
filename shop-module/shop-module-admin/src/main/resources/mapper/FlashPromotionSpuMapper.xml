@@ -44,7 +44,7 @@
         WHERE
             r.flash_promotion_id = #{flashPromotionId}
             AND r.flash_promotion_session_id = #{flashPromotionSessionId}
-        ORDER BY r.sort_id DESC
+        ORDER BY r.sort_id asc
     </select>
 
 </mapper>

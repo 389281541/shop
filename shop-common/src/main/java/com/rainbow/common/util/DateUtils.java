@@ -1,5 +1,7 @@
 package com.rainbow.common.util;
 
+import com.rainbow.common.model.HMS;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -704,6 +706,28 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         long minute = TimeUnit.SECONDS.toMinutes(seconds) - TimeUnit.SECONDS.toMinutes(TimeUnit.SECONDS.toHours(seconds));
         long second = TimeUnit.SECONDS.toSeconds(seconds) - TimeUnit.SECONDS.toSeconds(TimeUnit.SECONDS.toMinutes(seconds));
         System.out.println("Day" + day + " Hour" + hours + " Minute" + minute + " Seconds" + second);
+    }
+
+
+    public static HMS convertMills2HMS(Long milliSeconds) {
+        int hour = 0;
+        int minute = 0;
+        int second = 0;
+        HMS hms = new HMS();
+        second = milliSeconds.intValue() / 1000;
+
+        if (second > 60) {
+            minute = second / 60;
+            second = second % 60;
+        }
+        if (minute > 60) {
+            hour = minute / 60;
+            minute = minute % 60;
+        }
+        hms.setHour(hour);
+        hms.setMinute(minute);
+        hms.setSecond(second);
+        return hms;
     }
 
 

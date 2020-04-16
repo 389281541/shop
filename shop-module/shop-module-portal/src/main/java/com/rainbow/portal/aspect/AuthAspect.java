@@ -1,7 +1,6 @@
 package com.rainbow.portal.aspect;
 
 import com.rainbow.api.enums.AdminErrorCode;
-import com.rainbow.api.enums.PortalErrorCode;
 import com.rainbow.common.annotation.NeedLogin;
 import com.rainbow.common.annotation.NeedLoginLevelEnum;
 import com.rainbow.common.dto.token.AuthToken;

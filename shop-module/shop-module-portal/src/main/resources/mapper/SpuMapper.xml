@@ -101,7 +101,7 @@
         select
         <include refid="Base_Column_List"/>
         from spu sp
-        where id in
+        where del_status = 0 and id in
         <foreach collection="list" item="spuId" index="index" open="(" close=")" separator=",">
             #{spuId}
         </foreach>

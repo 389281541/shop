@@ -28,7 +28,7 @@ public class MpGenerator {
     public void generateCode() {
         String packageName = "com.rainbow.portal";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "payment_record");
+        generateByTables(serviceNameStartWithI, packageName, "flash_promotion_spu");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
@@ -102,9 +102,9 @@ public class MpGenerator {
 //                        return false;
 //                    }
 //                }
-                if(FileType.ENTITY==fileType) {
-                    return true;
-                }
+//                if(FileType.ENTITY==fileType) {
+//                    return true;
+//                }
                 if (filePath.contains("Mapper")){
                     return true;
                 }
