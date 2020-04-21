@@ -3,6 +3,7 @@ package com.rainbow.portal.controller;
 import com.rainbow.api.dto.CustomerAddressSaveDTO;
 import com.rainbow.api.dto.CustomerAddressUpdateDTO;
 import com.rainbow.api.vo.CustomerAddressVO;
+import com.rainbow.common.annotation.NeedLogin;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.dto.token.RB;
@@ -35,6 +36,7 @@ public class AddressController {
 
     @ApiOperation(value = "修改收货地址", notes = "修改收货地址", httpMethod = "POST")
     @PostMapping("/update")
+    @NeedLogin
     public R<Boolean> updateAddress(@Valid @RequestBody CustomerAddressUpdateDTO param) {
         param.setCustomerId(RB.getUserId());
         Integer res = addressService.updateAddress(param);
@@ -43,6 +45,7 @@ public class AddressController {
 
     @ApiOperation(value = "添加收货地址", notes = "添加收货地址", httpMethod = "POST")
     @PostMapping("/add")
+    @NeedLogin
     public R<Boolean> addAddress(@Valid @RequestBody CustomerAddressSaveDTO param) {
         param.setCustomerId(RB.getUserId());
         Integer res = addressService.addAddress(param);
@@ -51,6 +54,7 @@ public class AddressController {
 
     @ApiOperation(value = "查看收货地址", notes = "查看收货地址", httpMethod = "POST")
     @PostMapping("/get")
+    @NeedLogin
     public R<CustomerAddressVO> get(@Valid @RequestBody IdDTO param) {
         return new R<>(addressService.getAddressDetail(param));
     }
@@ -58,6 +62,7 @@ public class AddressController {
 
     @ApiOperation(value = "删除收货地址", notes = "删除收货地址", httpMethod = "POST")
     @PostMapping("/remove")
+    @NeedLogin
     public R<Boolean> remove(@Valid @RequestBody IdDTO param) {
         Integer res = addressService.removeAddress(param);
         return new R<>(res > 0 ? Boolean.TRUE : Boolean.FALSE);
@@ -66,12 +71,14 @@ public class AddressController {
 
     @ApiOperation(value = "收货地址列表", notes = "收货地址列表", httpMethod = "POST")
     @PostMapping("/list")
+    @NeedLogin
     public R<List<CustomerAddressVO>> list() {
         return new R<>(addressService.listAddress(RB.getUserId()));
     }
 
     @ApiOperation(value = "设为默认", notes = "设为默认", httpMethod = "POST")
     @PostMapping("/setDefault")
+    @NeedLogin
     public R<Boolean> setDefault(@Valid @RequestBody IdDTO param) {
         return new R<>(addressService.setDefault(RB.getUserId(), param.getId()));
     }

@@ -71,7 +71,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         //查看是否限购
         checkPromotionLimit(param.getSkuId(), param.getQuantity(), BooleanEnum.NO.getValue());
         if (cartInfo == null) {
-            return baseMapper.insert(buildCartInfo(param));
+            return baseMapper.insert(buildCartInfo(param.getSkuId(), param.getQuantity(), param.getCustomerId()));
         } else {
             cartInfo.setUpdateTime(LocalDateTime.now());
             cartInfo.setQuantity(cartInfo.getQuantity() + param.getQuantity());
@@ -106,23 +106,24 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     /**
      * 构建cart
-     *
-     * @param param
+     * @param skuId
+     * @param quantity
+     * @param customerId
      * @return
      */
-    private Cart buildCartInfo(CartSaveDTO param) {
+    public Cart buildCartInfo(Long skuId, Integer quantity, Long customerId) {
         //sku信息
-        Sku sku = skuMapper.selectById(param.getSkuId());
+        Sku sku = skuMapper.selectById(skuId);
         //spu信息
         Spu spu = spuMapper.selectById(sku.getSpuId());
         if (spu.getSaleStatus().equals(BooleanEnum.NO.getValue())) {
             throw new BusinessException(PortalErrorCode.SPU_PULL_OFF);
         }
         //sku属性信息
-        List<SkuSpec> skuSpecList = skuSpecMapper.listBySkuId(param.getSkuId());
+        List<SkuSpec> skuSpecList = skuSpecMapper.listBySkuId(skuId);
         LambdaQueryWrapper<SpuImg> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(SpuImg::getSpuId, spu.getId());
-        wrapper.eq(SpuImg::getSkuId, param.getSkuId());
+        wrapper.eq(SpuImg::getSkuId, skuId);
         //sku图片
         SpuImg spuImg = spuImgMapper.selectOne(wrapper);
         JSONArray jsonArray = new JSONArray();
@@ -133,9 +134,9 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
             jsonArray.add(jsonObject);
         }
         Cart cart = new Cart();
-        cart.setCustomerId(param.getCustomerId());
-        cart.setSkuId(param.getSkuId());
-        cart.setQuantity(param.getQuantity());
+        cart.setCustomerId(customerId);
+        cart.setSkuId(skuId);
+        cart.setQuantity(quantity);
         cart.setSpuId(sku.getSpuId());
         cart.setSkuSpec(jsonArray.toJSONString());
         cart.setSkuStock(sku.getStock());

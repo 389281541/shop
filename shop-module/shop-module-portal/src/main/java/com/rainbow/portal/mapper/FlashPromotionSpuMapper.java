@@ -18,9 +18,18 @@ import java.util.List;
 public interface FlashPromotionSpuMapper extends BaseMapper<FlashPromotionSpu> {
 
     /**
-     * 获取当前
+     * 获取全部当前时间段的秒杀商品
      * @param sessionId
      * @return
      */
     List<FlashPromotionSpu> listBySessionId(@Param("sessionId") Long sessionId, @Param("list")Collection<Long> list);
+
+    /**
+     * 获取当前spu是否处于秒杀状态
+     * @param sessionId
+     * @param list
+     * @param spuId
+     * @return
+     */
+    FlashPromotionSpu getFlashPromotionSpu(@Param("sessionId") Long sessionId, @Param("list")Collection<Long> list, @Param("spuId")Long spuId);
 }

@@ -57,7 +57,7 @@ public class AuthAspect {
         log.debug("AuthAspect==> authtoken = {}", authTokenStr);
 
         AuthToken authToken = null;
-        if (!StringUtils.isEmpty(authTokenStr)) {
+        if (!StringUtils.isEmpty(authTokenStr) && !authTokenStr.equals("undefined")) {
             // 授权解析异常
             try {
                 authToken = EncryptUtils.strDecode(authTokenStr);

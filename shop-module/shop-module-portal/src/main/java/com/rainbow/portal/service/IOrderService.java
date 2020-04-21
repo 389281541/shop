@@ -6,11 +6,11 @@ import com.rainbow.api.dto.OrderGenerateDTO;
 import com.rainbow.api.dto.ParentOrderNoDTO;
 import com.rainbow.api.dto.SelfOrderSearchDTO;
 import com.rainbow.api.entity.Order;
-import com.rainbow.api.vo.ConfirmOrderVO;
-import com.rainbow.api.vo.OrderDetailVO;
-import com.rainbow.api.vo.OrderSimpleVO;
+import com.rainbow.api.vo.*;
 import com.rainbow.common.dto.IdDTO;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 订单表 服务类
@@ -64,4 +64,20 @@ public interface IOrderService extends IService<Order> {
      * @return
      */
     Boolean getOrderStatus(ParentOrderNoDTO param);
+
+    /**
+     * 计算可用积分最大值
+     * @param cartPromotionVOList
+     * @param customerId
+     * @return
+     */
+    Integer calculateMaxCanUseIntegration(List<CartPromotionVO> cartPromotionVOList, Long customerId);
+
+
+    /**
+     * 转换coupon
+     * @param couponCustomerDetailVOList
+     * @return
+     */
+    List<CouponSimpleVO> convertCoupon(List<CouponCustomerDetailVO> couponCustomerDetailVOList);
 }

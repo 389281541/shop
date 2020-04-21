@@ -120,7 +120,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      * @param cartPromotionVOList
      * @return
      */
-    private Integer calculateMaxCanUseIntegration(List<CartPromotionVO> cartPromotionVOList, Long customerId) {
+    public Integer calculateMaxCanUseIntegration(List<CartPromotionVO> cartPromotionVOList, Long customerId) {
         if (CollectionUtils.isEmpty(cartPromotionVOList)) {
             throw new BusinessException(PortalErrorCode.CART_CAN_NOT_EMPTY);
         }
@@ -150,7 +150,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return Math.min(Math.min(maxBillIntegeration, skuTotalIntegrationLimit), customer.getIntegration());
     }
 
-    private List<CouponSimpleVO> convertCoupon(List<CouponCustomerDetailVO> couponCustomerDetailVOList) {
+    public List<CouponSimpleVO> convertCoupon(List<CouponCustomerDetailVO> couponCustomerDetailVOList) {
         if (org.springframework.util.CollectionUtils.isEmpty(couponCustomerDetailVOList)) {
             return Lists.newArrayList();
         }

@@ -64,6 +64,7 @@ public class CustomerController {
 
     @ApiOperation(value = "修改用户信息", notes = "修改用户信息", httpMethod = "POST")
     @PostMapping("/updateInfo")
+    @NeedLogin
     public R<Boolean> updateInfo(@Valid @RequestBody CustomerUpdateDTO param) {
         Integer res = customerService.updateInfo(param);
         return new R<>(res > 0 ? Boolean.TRUE : Boolean.FALSE);

@@ -26,7 +26,6 @@ public class SmsController {
 
     @ApiOperation(value = "发送验证码", notes = "发送验证码", httpMethod = "POST")
     @PostMapping("/send")
-    @NeedLogin
     public R<Boolean> send(@Valid @RequestBody SmsSendDTO param) {
         return new R<>(smsService.sendVerifyCode(param.getMobile()));
     }

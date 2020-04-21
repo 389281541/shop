@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import com.rainbow.api.dto.GoodsSearchDTO;
 import com.rainbow.api.dto.RecommendGoodsDTO;
 import com.rainbow.api.entity.*;
+import com.rainbow.api.enums.FlashProcessStatusEnum;
 import com.rainbow.api.vo.*;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.enums.BooleanEnum;
@@ -15,9 +16,11 @@ import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.vo.FatherChildrenVO;
 import com.rainbow.common.vo.IdNameVO;
 import com.rainbow.portal.mapper.*;
+import com.rainbow.portal.service.IFlashService;
 import com.rainbow.portal.service.IGoodsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -52,6 +55,15 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Resource
     private SpuSpecMapper spuSpecMapper;
+
+    @Autowired
+    private IFlashService flashService;
+
+    @Resource
+    private FlashPromotionMapper flashPromotionMapper;
+
+    @Resource
+    private FlashPromotionSpuMapper flashPromotionSpuMapper;
 
 
     @Override
@@ -141,6 +153,7 @@ public class GoodsServiceImpl implements IGoodsService {
         goodsDetailVO.setName(spu.getName());
         goodsDetailVO.setMinPrice(spu.getMinPrice());
         goodsDetailVO.setSale(spu.getSale());
+        goodsDetailVO.setPromotionPerLimit(spu.getPromotionPerLimit());
         goodsDetailVO.setShop(new IdNameVO(spu.getShopId(), spu.getShopName()));
         goodsDetailVO.setPromotionType(spu.getPromotionType());
         goodsDetailVO.setPromotionStartTime(spu.getPromotionStartTime());
@@ -155,6 +168,24 @@ public class GoodsServiceImpl implements IGoodsService {
         goodsDetailVO.setSpecNameList(getSpecValueList(param.getId()));
         //获取商品参数
         goodsDetailVO.setSpuParameters(getSpuSpecList(param.getId()));
+        //获取秒杀信息
+        //获取秒杀状态和秒杀倒计时
+        FlashCurrentSessionVO currentPromotionSession = flashService.getCurrentPromotionSession();
+        //获取所有上线的秒杀活动
+        FlashPromotionSpuInfoVO flashPromotionSpuInfo = new FlashPromotionSpuInfoVO();
+        flashPromotionSpuInfo.setFlashFlag(BooleanEnum.NO.getValue());
+        List<FlashPromotion> flashPromotionList = flashPromotionMapper.listByStatus(BooleanEnum.YES.getValue());
+        if (currentPromotionSession != null && !CollectionUtils.isEmpty(flashPromotionList)) {
+            Set<Long> flashPromotionIds = flashPromotionList.stream().map(FlashPromotion::getId).collect(Collectors.toSet());
+            FlashPromotionSpu flashPromotionSpu = flashPromotionSpuMapper.getFlashPromotionSpu(currentPromotionSession.getId(), flashPromotionIds, param.getId());
+            if (flashPromotionSpu != null) {
+                BeanUtils.copyProperties(flashPromotionSpu, flashPromotionSpuInfo);
+                flashPromotionSpuInfo.setFlashFlag(BooleanEnum.YES.getValue());
+            }
+            flashPromotionSpuInfo.setHms(currentPromotionSession.getHms());
+            flashPromotionSpuInfo.setFlashStatus(currentPromotionSession.getFlashStatus());
+        }
+        goodsDetailVO.setFlashSpuInfo(flashPromotionSpuInfo);
         return goodsDetailVO;
     }
 
@@ -175,6 +206,7 @@ public class GoodsServiceImpl implements IGoodsService {
 
     /**
      * 获取主图信息
+     *
      * @param spuId
      * @param goodsDetailVO
      */
@@ -197,6 +229,7 @@ public class GoodsServiceImpl implements IGoodsService {
 
     /**
      * 获取满减信息
+     *
      * @param spuId
      * @return
      */
@@ -218,6 +251,7 @@ public class GoodsServiceImpl implements IGoodsService {
 
     /**
      * 获取sku列表信息
+     *
      * @param spuId
      * @return
      */
@@ -239,6 +273,7 @@ public class GoodsServiceImpl implements IGoodsService {
 
     /**
      * 获取商品属性信息
+     *
      * @param spuId
      * @return
      */
@@ -246,7 +281,7 @@ public class GoodsServiceImpl implements IGoodsService {
         List<FatherChildrenVO> fatherChildrenVOList = Lists.newArrayList();
         List<SkuSpec> skuSpecList = skuSpecMapper.listBySpuId(spuId);
         if (!CollectionUtils.isEmpty(skuSpecList)) {
-            Map<Long, String> specNameMap = skuSpecList.stream().collect(Collectors.toMap(SkuSpec::getSpecNameId, SkuSpec::getSpecName, (x, y)->y));
+            Map<Long, String> specNameMap = skuSpecList.stream().collect(Collectors.toMap(SkuSpec::getSpecNameId, SkuSpec::getSpecName, (x, y) -> y));
             Map<Long, List<SkuSpec>> membersMap = skuSpecList.stream().collect(Collectors.groupingBy(SkuSpec::getSpecNameId));
             Iterator<Map.Entry<Long, List<SkuSpec>>> it = membersMap.entrySet().iterator();
             while (it.hasNext()) {

@@ -1,6 +1,7 @@
 package com.rainbow.portal.controller;
 
 import com.rainbow.api.dto.ReturnOrderDTO;
+import com.rainbow.common.annotation.NeedLogin;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.dto.token.RB;
 import com.rainbow.portal.service.IReturnOrderService;
@@ -30,6 +31,7 @@ public class ReturnOrderController {
 
     @ApiOperation(value = "退单", notes = "退单", httpMethod = "POST")
     @PostMapping("/create")
+    @NeedLogin
     public R<Integer> pageOrder(@Valid @RequestBody ReturnOrderDTO param) {
         param.setCustomerId(RB.getUserId());
         return new R<>(returnOrderService.create(param));

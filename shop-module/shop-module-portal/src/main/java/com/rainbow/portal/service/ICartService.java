@@ -57,4 +57,13 @@ public interface ICartService extends IService<Cart> {
      * @return
      */
     Integer removeCartList(Long customerId, Collection<Long> ids);
+
+    /**
+     * 构建购物车信息
+     * @param skuId
+     * @param quantity
+     * @param customerId
+     * @return
+     */
+    Cart buildCartInfo(Long skuId, Integer quantity, Long customerId);
 }

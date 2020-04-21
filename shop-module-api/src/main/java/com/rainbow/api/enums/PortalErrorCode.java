@@ -33,7 +33,7 @@ public enum PortalErrorCode implements UniverseErrorCode {
     ALIPAY_EXCEPTION_UNKNOWN(10000019, "支付宝下单位置错误"),
     ALIPAY_UNSUPPORT_EXCEPTION(10000020, "不支持的交易状态"),
     ALIPAY_VERIFY_ERROR(10000021, "非法请求,验证不通过"),
-
+    FLASH_CONFIRM_ORDER_EXPIRED(10000022, "秒杀订单失效"),
     ;
 
     private ErrorSideEnum errorSideEnum;

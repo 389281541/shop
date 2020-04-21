@@ -66,8 +66,8 @@ public interface RedisKeyEnums {
     @AllArgsConstructor
     enum PORTAL implements RedisKeyEnums {
 
-        REDIS_KEY_PREFIX_ORDER_ID("redis_key_prefix_order_id", "报名人次"),;
-
+        REDIS_KEY_PREFIX_ORDER_ID("redis_key_prefix_order_id", "报名人次"),
+        REDIS_KEY_PREFIX_FLASH_GOODS_KEY("redis_key_prefix_flash_goods_key", "秒杀"),;
         private String businessKey;
 
         private String desc;

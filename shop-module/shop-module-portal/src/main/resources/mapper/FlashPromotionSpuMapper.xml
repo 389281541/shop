@@ -31,4 +31,18 @@
         </foreach>
     </select>
 
+    <select id="getFlashPromotionSpu" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from flash_promotion_spu
+        where
+        flash_promotion_session_id = #{sessionId}
+        and spu_id = #{spuId}
+        and flash_promotion_id in
+        <foreach collection="list" item="flashPromotionId" index="index" open="(" close=")" separator=",">
+            #{flashPromotionId}
+        </foreach>
+        limit 1
+    </select>
+
 </mapper>

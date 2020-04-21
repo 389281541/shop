@@ -1,5 +1,6 @@
 package com.rainbow.api.vo;
 
+import com.rainbow.common.model.HMS;
 import com.rainbow.common.vo.FatherChildrenVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -36,6 +37,9 @@ public class GoodsDetailVO extends GoodsSimpleVO {
     @ApiModelProperty(value = "促销结束时间")
     private LocalDateTime promotionEndTime;
 
+    @ApiModelProperty(value = "活动限购数量")
+    private Integer promotionPerLimit;
+
     @ApiModelProperty(value = "商品相册图")
     private List<String> photoList;
 
@@ -50,5 +54,8 @@ public class GoodsDetailVO extends GoodsSimpleVO {
 
     @ApiModelProperty(value = "选择属性列表")
     private List<FatherChildrenVO> specNameList;
+
+    @ApiModelProperty(value = "秒杀商品信息")
+    private FlashPromotionSpuInfoVO flashSpuInfo;
 
 }

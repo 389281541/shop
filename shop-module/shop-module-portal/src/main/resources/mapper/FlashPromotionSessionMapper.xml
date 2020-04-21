@@ -33,7 +33,7 @@
         from flash_promotion_session
         where start_time between #{startTime} and #{endTime}
             and status = 1 and del_status = 0
-        order by start_time desc
+        order by start_time asc
         limit 1
     </select>
 

@@ -2,6 +2,7 @@ package com.rainbow.portal.controller;
 
 import com.rainbow.api.dto.ParentOrderNoDTO;
 import com.rainbow.api.vo.UploadImageVO;
+import com.rainbow.common.annotation.NeedLogin;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.dto.token.RB;
 import com.rainbow.portal.service.IPaymentService;
@@ -32,6 +33,7 @@ public class PaymentController {
 
     @ApiOperation(value = "创建支付二维码", notes = "创建支付二维码", httpMethod = "POST")
     @PostMapping("/createQrCodeImage")
+    @NeedLogin
     public R<UploadImageVO> createQrCodeImage(@Valid @RequestBody ParentOrderNoDTO param) {
         param.setCustomerId(RB.getUserId());
         return new R<>(paymentService.createPayQrCodeImage(param));
@@ -40,6 +42,7 @@ public class PaymentController {
 
     @ApiOperation(value = "支付宝支付成功回调", notes = "支付宝支付成功回调", httpMethod = "POST")
     @PostMapping("/alipayCallback")
+    @NeedLogin
     public R<Boolean> alipayCallback(HttpServletRequest request) {
         return new R<>(paymentService.paySucessCallback(RB.getUserId(), request));
     }

@@ -1,5 +1,10 @@
 package com.rainbow.portal.service;
 
+import com.rainbow.api.dto.GenerateFlashConfirmOrderDTO;
+import com.rainbow.api.dto.GoConfirmOrderDTO;
+import com.rainbow.api.entity.FlashPromotionSpu;
+import com.rainbow.api.vo.ConfirmOrderVO;
+import com.rainbow.api.vo.FlashCurrentSessionVO;
 import com.rainbow.api.vo.FlashThemeVO;
 
 import java.util.List;
@@ -17,4 +22,24 @@ public interface IFlashService {
      * @return
      */
     List<FlashThemeVO> listFlashThemes();
+
+    /**
+     * 获取当前session
+     * @return
+     */
+    FlashCurrentSessionVO getCurrentPromotionSession();
+
+    /**
+     * 生成秒杀订单
+     * @param customerId
+     * @return
+     */
+    ConfirmOrderVO generateFlashOrder(Long customerId);
+
+    /**
+     * 秒杀
+     * @param param
+     * @return
+     */
+    Boolean goConfirmOrder(GoConfirmOrderDTO param);
 }

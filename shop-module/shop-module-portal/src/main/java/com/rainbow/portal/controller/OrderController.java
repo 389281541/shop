@@ -8,6 +8,7 @@ import com.rainbow.api.dto.SelfOrderSearchDTO;
 import com.rainbow.api.vo.ConfirmOrderVO;
 import com.rainbow.api.vo.OrderDetailVO;
 import com.rainbow.api.vo.OrderSimpleVO;
+import com.rainbow.common.annotation.NeedLogin;
 import com.rainbow.common.dto.IdDTO;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.dto.token.RB;
@@ -39,6 +40,7 @@ public class OrderController {
 
     @ApiOperation(value = "生成确认订单", notes = "生成确认订单", httpMethod = "POST")
     @PostMapping("/generateConfirmOrder")
+    @NeedLogin
     public R<ConfirmOrderVO> generateConfirmOrder() {
         return new R<>(orderService.generateConfirmOrder(RB.getUserId()));
     }
@@ -46,6 +48,7 @@ public class OrderController {
 
     @ApiOperation(value = "生成订单", notes = "生成订单", httpMethod = "POST")
     @PostMapping("/generateOrder")
+    @NeedLogin
     public R<String> generateOrder(@Valid @RequestBody OrderGenerateDTO param) {
         param.setCustomerId(RB.getUserId());
         return new R<>(orderService.generateOrder(param));
@@ -54,6 +57,7 @@ public class OrderController {
 
     @ApiOperation(value = "订单列表", notes = "订单列表", httpMethod = "POST")
     @PostMapping("/page")
+    @NeedLogin
     public R<IPage<OrderSimpleVO>> pageOrder(@Valid @RequestBody SelfOrderSearchDTO param) {
         param.setCustomerId(RB.getUserId());
         return new R<>(orderService.pageOrder(param));
@@ -62,6 +66,7 @@ public class OrderController {
 
     @ApiOperation(value = "订单详情", notes = "订单详情", httpMethod = "POST")
     @PostMapping("/get")
+    @NeedLogin
     public R<OrderDetailVO> pageOrder(@Valid @RequestBody IdDTO param) {
         return new R<>(orderService.getOrderDetailById(param));
     }
@@ -70,6 +75,7 @@ public class OrderController {
 
     @ApiOperation(value = "订单状态", notes = "订单状态", httpMethod = "POST")
     @PostMapping("/status")
+    @NeedLogin
     public R<Boolean> status(@Valid @RequestBody ParentOrderNoDTO param) {
         param.setCustomerId(RB.getUserId());
         return new R<>(orderService.getOrderStatus(param));
