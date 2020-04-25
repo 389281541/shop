@@ -1,6 +1,7 @@
 package com.rainbow.portal.controller;
 
 import com.rainbow.api.dto.GoConfirmOrderDTO;
+import com.rainbow.api.dto.OrderGenerateDTO;
 import com.rainbow.api.vo.ConfirmOrderVO;
 import com.rainbow.api.vo.FlashThemeVO;
 import com.rainbow.common.dto.R;
@@ -47,9 +48,18 @@ public class FlashController {
 
     @ApiOperation(value = "进行秒杀", notes = "进行秒杀", httpMethod = "POST")
     @PostMapping("/generateFlashConfirmOrder")
-    public R<ConfirmOrderVO> generateFlashOrder() {
-        return new R<>(flashService.generateFlashOrder(RB.getUserId()));
+    public R<ConfirmOrderVO> generateFlashConfirmOrder() {
+        return new R<>(flashService.generateFlashConfirmOrder(RB.getUserId()));
     }
+
+
+    @ApiOperation(value = "生成秒杀订单", notes = "生成秒杀订单", httpMethod = "POST")
+    @PostMapping("/generateOrder")
+    public R<Boolean> generateFlashOrder(@Valid @RequestBody OrderGenerateDTO param) {
+        param.setCustomerId(RB.getUserId());
+        return new R<>(flashService.generateFlashOrder(param));
+    }
+
 
 
 }

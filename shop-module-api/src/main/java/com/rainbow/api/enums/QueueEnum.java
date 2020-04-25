@@ -14,7 +14,11 @@ public enum QueueEnum {
     /**
      * 消息通知ttl队列
      */
-    QUEUE_TTL_ORDER_CANCEL("rainbow.order.direct.ttl", "rainbow.order.cancel.ttl", "rainbow.order.cancel.ttl");
+    QUEUE_TTL_ORDER_CANCEL("rainbow.order.direct.ttl", "rainbow.order.cancel.ttl", "rainbow.order.cancel.ttl"),
+    /**
+     * 消息通知ttl队列
+     */
+    QUEUE_FLASH("rainbow.flash", "rainbow.flash", "rainbow.flash");
 
     /**
      * 交换名称

@@ -6,6 +6,7 @@ import com.rainbow.api.dto.OrderGenerateDTO;
 import com.rainbow.api.dto.ParentOrderNoDTO;
 import com.rainbow.api.dto.SelfOrderSearchDTO;
 import com.rainbow.api.entity.Order;
+import com.rainbow.api.enums.OrderTypeEnum;
 import com.rainbow.api.vo.*;
 import com.rainbow.common.dto.IdDTO;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,4 +81,14 @@ public interface IOrderService extends IService<Order> {
      * @return
      */
     List<CouponSimpleVO> convertCoupon(List<CouponCustomerDetailVO> couponCustomerDetailVOList);
+
+    /**
+     * 按店铺ID生成订单
+     * @param cartPromotionVOList
+     * @param param
+     * @param parentOrderNo
+     * @param orderTypeEnum
+     * @return
+     */
+    Boolean generateOrderByShopId(List<CartPromotionVO> cartPromotionVOList, OrderGenerateDTO param, String parentOrderNo, OrderTypeEnum orderTypeEnum);
 }

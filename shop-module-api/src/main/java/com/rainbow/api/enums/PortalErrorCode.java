@@ -34,6 +34,8 @@ public enum PortalErrorCode implements UniverseErrorCode {
     ALIPAY_UNSUPPORT_EXCEPTION(10000020, "不支持的交易状态"),
     ALIPAY_VERIFY_ERROR(10000021, "非法请求,验证不通过"),
     FLASH_CONFIRM_ORDER_EXPIRED(10000022, "秒杀订单失效"),
+    FLASH_REPEAT_ERROR(10000023, "重复秒杀错误"),
+    FLASH_IS_OVER(10000024, "商品已经秒杀完毕"),
     ;
 
     private ErrorSideEnum errorSideEnum;

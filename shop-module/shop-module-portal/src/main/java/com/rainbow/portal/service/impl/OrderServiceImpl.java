@@ -43,6 +43,8 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.rainbow.common.util.PortalUtils.generateParentOrderNO;
+
 /**
  * 订单表 服务实现类
  *
@@ -172,20 +174,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         Map<Long, List<CartPromotionVO>> shopIdCartMap = cartPromotionVOList.stream().collect(Collectors.groupingBy(CartPromotionVO::getShopId));
         for (Map.Entry<Long, List<CartPromotionVO>> entry : shopIdCartMap.entrySet()) {
             List<CartPromotionVO> cartPromotionVOS = entry.getValue();
-            generateOrderByShopId(cartPromotionVOS, param, parentOrderNo);
+            generateOrderByShopId(cartPromotionVOS, param, parentOrderNo, OrderTypeEnum.COMMON);
         }
         return parentOrderNo;
     }
 
-    private String generateParentOrderNO(Long customerId) {
-        StringBuilder sb = new StringBuilder();
-        String datetime = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
-        sb.append(datetime);
-        sb.append(String.format("%06d", customerId));
-        return sb.toString();
-    }
 
-    public Boolean generateOrderByShopId(List<CartPromotionVO> cartPromotionVOList, OrderGenerateDTO param, String parentOrderNo) {
+
+    public Boolean generateOrderByShopId(List<CartPromotionVO> cartPromotionVOList, OrderGenerateDTO param, String parentOrderNo, OrderTypeEnum orderTypeEnum) {
         //1、获取orderSkuList
         List<OrderSkuPromotionVO> orderSkuList = getOrderSkuList(cartPromotionVOList);
         //2、存储校验
@@ -200,7 +196,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         //6、锁定存储
         lockStock(cartPromotionVOList);
         //7、构建订单信息并入库
-        Long orderId = buildAndInsertOrder(orderSkuList, param, parentOrderNo);
+        Long orderId = buildAndInsertOrder(orderSkuList, param, parentOrderNo, orderTypeEnum);
         //8、更改优惠券使用状态、扣减积分
         couponService.updateCouponStatus(param.getCustomerId(), param.getCouponId(), BooleanEnum.YES.getValue());
         reduceCustomerIntegration(param.getCustomerId(), useIntegration);
@@ -259,7 +255,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      * @param orderSkuList
      * @param param
      */
-    private Long buildAndInsertOrder(List<OrderSkuPromotionVO> orderSkuList, OrderGenerateDTO param, String parentOrderNO) {
+    private Long buildAndInsertOrder(List<OrderSkuPromotionVO> orderSkuList, OrderGenerateDTO param, String parentOrderNO, OrderTypeEnum orderTypeEnum) {
         if (CollectionUtils.isEmpty(orderSkuList)) {
             throw new BusinessException(PortalErrorCode.EMPTY_ORDER_SKU);
         }
@@ -291,7 +287,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         //订单状态
         order.setStatus(OrderStatusEnum.NON_PAY.getValue());
         //设置订单类型 0-普通订单 1-秒杀订单
-        order.setOrderType(OrderTypeEnum.COMMON.getValue());
+        order.setOrderType(orderTypeEnum.getValue());
         CustomerAddress customerAddress = addressService.getById(param.getAddressId());
         if (customerAddress == null) {
             throw new BusinessException(PortalErrorCode.ADDRESS_NOT_EXIST);

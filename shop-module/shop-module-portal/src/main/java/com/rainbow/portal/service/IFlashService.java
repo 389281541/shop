@@ -1,8 +1,7 @@
 package com.rainbow.portal.service;
 
-import com.rainbow.api.dto.GenerateFlashConfirmOrderDTO;
 import com.rainbow.api.dto.GoConfirmOrderDTO;
-import com.rainbow.api.entity.FlashPromotionSpu;
+import com.rainbow.api.dto.OrderGenerateDTO;
 import com.rainbow.api.vo.ConfirmOrderVO;
 import com.rainbow.api.vo.FlashCurrentSessionVO;
 import com.rainbow.api.vo.FlashThemeVO;
@@ -34,7 +33,7 @@ public interface IFlashService {
      * @param customerId
      * @return
      */
-    ConfirmOrderVO generateFlashOrder(Long customerId);
+    ConfirmOrderVO generateFlashConfirmOrder(Long customerId);
 
     /**
      * 秒杀
@@ -42,4 +41,12 @@ public interface IFlashService {
      * @return
      */
     Boolean goConfirmOrder(GoConfirmOrderDTO param);
+
+
+    /**
+     * 生成秒杀订单
+     * @param param
+     * @return
+     */
+    Boolean generateFlashOrder(OrderGenerateDTO param);
 }
