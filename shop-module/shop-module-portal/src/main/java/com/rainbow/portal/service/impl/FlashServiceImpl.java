@@ -3,7 +3,6 @@ package com.rainbow.portal.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Lists;
-import com.netflix.discovery.util.StringUtil;
 import com.rainbow.api.dto.GoConfirmOrderDTO;
 import com.rainbow.api.dto.OrderGenerateDTO;
 import com.rainbow.api.entity.*;
@@ -16,6 +15,7 @@ import com.rainbow.common.enums.RedisKeyEnums;
 import com.rainbow.common.exception.BusinessException;
 import com.rainbow.common.model.HMS;
 import com.rainbow.common.util.DateUtils;
+import com.rainbow.common.util.PortalUtils;
 import com.rainbow.portal.mapper.*;
 import com.rainbow.portal.mq.FlashMessage;
 import com.rainbow.portal.mq.FlashMessageSender;
@@ -252,7 +252,7 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
         flashGoodsInfo.put("skuId", param.getSkuId());
         flashGoodsInfo.put("quantity", param.getQuantity());
         flashGoodsInfo.put("flashPrice", param.getFlashPrice());
-        String key = StringUtil.join("_", RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_FLASH_GOODS_KEY.getRedisKey(), String.valueOf(param.getCustomerId()));
+        String key = RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_FLASH_GOODS_KEY.getRedisKey() + "_" + param.getCustomerId();
         redisTemplate.opsForValue().set(key, flashGoodsInfo.toJSONString(), 1, TimeUnit.DAYS);
         return Boolean.TRUE;
     }
@@ -269,13 +269,13 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
             return;
         }
         for(FlashPromotionSpu flashPromotionSpu: flashPromotionSpuList) {
-            String key = StringUtil.join("_", RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_STOCK_KEY.getRedisKey(), String.valueOf(flashPromotionSpu.getFlashPromotionSessionId()), String.valueOf(flashPromotionSpu.getSpuId()));
+            String key =  RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_STOCK_KEY.getRedisKey() + "_" + flashPromotionSpu.getFlashPromotionSessionId() + "_" + flashPromotionSpu.getSpuId();
             redisTemplate.opsForValue().set(key, String.valueOf(flashPromotionSpu.getFlashPromotionNum()));
         }
     }
 
     @Override
-    public Boolean generateFlashOrder(OrderGenerateDTO param) {
+    public String generateFlashOrder(OrderGenerateDTO param) {
         //查询秒杀商品
         JSONObject flashGoodsInfo = getFlashGoodsInfo(param.getCustomerId());
         Long skuId = flashGoodsInfo.getLong("skuId");
@@ -284,7 +284,8 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
             throw new BusinessException(PortalErrorCode.EMPTY_ORDER_SKU);
         }
         //查看是否秒杀到
-        String key = StringUtil.join("_", RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_FLASH_ORDER_KEY.getRedisKey(), String.valueOf(param.getCustomerId()), String.valueOf(skuId));
+        String key = RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_FLASH_ORDER_KEY.getRedisKey() + "_" + param.getCustomerId() + "_" + skuId;
+
         String s = redisTemplate.opsForValue().get(key);
         if(Strings.isNotBlank(s)) {
             throw new BusinessException(PortalErrorCode.FLASH_REPEAT_ERROR);
@@ -296,7 +297,8 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
         }
         //获取当前时间段
         FlashCurrentSessionVO currentPromotionSession = flashService.getCurrentPromotionSession();
-        String stockKey = StringUtil.join("_", RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_STOCK_KEY.getRedisKey(), String.valueOf(currentPromotionSession.getId()), String.valueOf(sku.getSpuId()));
+        String stockKey = RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_STOCK_KEY.getRedisKey() + "_" + currentPromotionSession.getId() + "_" + sku.getSpuId();
+
         String stock = redisTemplate.opsForValue().get(stockKey);
         if(Strings.isBlank(stock)) {
             throw new BusinessException(PortalErrorCode.FLASH_CONFIRM_ORDER_EXPIRED);
@@ -307,10 +309,12 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
             throw new BusinessException(PortalErrorCode.FLASH_IS_OVER);
         }
         //发送秒杀信息
+        String parentOrderNO = PortalUtils.generateParentOrderNO(param.getCustomerId());
         FlashMessage flashMessage = new FlashMessage();
         BeanUtils.copyProperties(param, flashMessage);
         flashMessage.setCartPromotionVOList(getCartPromotionList(flashGoodsInfo, param.getCustomerId()));
+        flashMessage.setParentOrderNO(parentOrderNO);
         flashMessageSender.sendFlashMessage(flashMessage);
-        return  Boolean.TRUE;
+        return parentOrderNO;
     }
 }

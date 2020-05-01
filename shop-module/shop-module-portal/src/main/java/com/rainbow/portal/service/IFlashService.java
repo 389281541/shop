@@ -48,5 +48,5 @@ public interface IFlashService {
      * @param param
      * @return
      */
-    Boolean generateFlashOrder(OrderGenerateDTO param);
+    String generateFlashOrder(OrderGenerateDTO param);
 }

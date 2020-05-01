@@ -18,8 +18,23 @@ public enum QueueEnum {
     /**
      * 消息通知ttl队列
      */
-    QUEUE_FLASH("rainbow.flash", "rainbow.flash", "rainbow.flash");
-
+    QUEUE_FLASH("rainbow.flash", "rainbow.flash", "rainbow.flash"),
+    /**
+     * topic队列1
+     */
+    QUEUE_TOPIC_1("rainbow.topic.exchange","rainbow.topic.queue1","rainbow.topic.key1"),
+    /**
+     * topic队列2
+     */
+    QUEUE_TOPIC_2("rainbow.topic.exchange","rainbow.topic.queue2","rainbow.topic.key2"),
+    /**
+     * FANOUT模式队列
+     */
+    QUEUE_FANOUT("rainbow.fanout.exchange","rainbow.fanout.queue","rainbow.fanout.key"),
+    /**
+     * HEADER模式队列
+     */
+    QUEUE_HEADER("rainbow.header.exchange","rainbow.header.queue","rainbow.header.key");
     /**
      * 交换名称
      */

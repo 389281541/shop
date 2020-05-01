@@ -814,6 +814,219 @@ CREATE TABLE vvshop_goods.home_advertise
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '轮播图表';
 
+DROP TABLE vvshop_goods.groupon_activity;
+CREATE TABLE vvshop_goods.groupon_activity
+(
+    id              bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    name            varchar(256) NOT NULL COMMENT '拼团活动名称',
+    activity_no     varchar(256) NOT NULL COMMENT '团购活动编号',
+    spu_id          bigint(20) NOT NULL COMMENT '商品id',
+    cover_url       varchar(520) NOT NULL COMMENT '封面url',
+    status          tinyint(2) NOT NULL COMMENT '活动状态：0:下线 1：上线',
+    introduction    text NOT NULL COMMENT '介绍（富文本）',
+    start_time      timestamp NOT NULL  COMMENT '开始时间',
+    end_time        timestamp NOT NULL  COMMENT '结束时间',
+    original_price  decimal(20, 2) NOT NULL COMMENT '课程原价',
+    group_price     decimal(20, 2) NOT NULL COMMENT '团购价格',
+    unit            int(11) NOT NULL COMMENT '拼团人数',
+    del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '团购活动表';
+
+
+DROP TABLE vvshop_goods.groupon;
+CREATE TABLE vvshop_goods.groupon
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    creator_id          int(11) NOT NULL COMMENT '创建人用户Id',
+    creator_name        varchar(256) NULL DEFAULT NULL COMMENT '创建人name',
+    groupon_activity_id int(11) NOT NULL DEFAULT 0 COMMENT '拼团活动id',
+    success_time        timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '订单完成时间',
+    status              tinyint(2) NOT NULL COMMENT '拼团状态:0 拼团中 1成功  2失败',
+    type                tinyint(2) NOT NULL COMMENT '成团类型 ：0 学员拼团成功 1机构手动成团',
+    del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '团购表';
+
+
+DROP TABLE vvshop_goods.groupon_order;
+CREATE TABLE vvshop_goods.groupon_order
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    customer_id         int(11)     NOT NULL  COMMENT '学生ID',
+    order_id            bigint(20)  NOT NULL  COMMENT '订单ID',
+    pay_order_id        bigint(20) NOT NULL  COMMENT '支付订单ID',
+    trade_no            bigint(20) NOT NULL  COMMENT '交易流水号',
+    groupon_activity_id int(11) NOT NULL COMMENT '拼团活动id',
+    groupon_id          int(11) NOT NULL COMMENT '团id',
+    total_amount        decimal(20, 2) NOT NULL COMMENT '总金额',
+    discount_amount    decimal(20, 2) NOT NULL COMMENT '优惠金额',
+    status              tinyint(2) NOT NULL  COMMENT '订单状态:0：待付款，1 取消 2 待成团  3 拼团成功 4退款中5 拼团失败',
+    operate_type        tinyint(2) NOT NULL  COMMENT '操作类型 ：0 手动成团 1 手动退款',
+    del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+    update_time         timestamp default NULL NULL COMMENT '更新时间',
+    create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    success_time        timestamp DEFAULT NULL NULL COMMENT '订单完成时间',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '团购订单表';
+
+
+DROP TABLE vvshop_goods.groupon_order_sku;
+CREATE TABLE vvshop_goods.groupon_order_sku
+(
+    id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+    spu_id              int(11)         NOT NULL  COMMENT '商品ID',
+    spu_name            varchar(256)     NOT NULL  COMMENT '商品name',
+    sku_id              int(11)     NOT NULL  COMMENT '商品skuID',
+    sku_name            varchar(256)     NOT NULL  COMMENT 'skuName',
+    groupon_order_id    bigint(20) DEFAULT NULL COMMENT '订单id',
+    groupon_order_no    varchar(256) NOT NULL COMMENT '订单编号',
+    sku_spec            varchar(1024) DEFAULT NULL COMMENT 'sku属性JSON',
+    brand_id            bigint(20) NOT NULL COMMENT '品牌ID',
+    brand_name          varchar(256) NOT NULL COMMENT '品牌名称',
+    shop_id             bigint(20) NOT NULL COMMENT '店铺ID',
+    shop_name           varchar(256) NOT NULL COMMENT '店铺名称',
+    quantity            int(11) NOT NULL COMMENT '购买数量',
+    price               bigint(20) NOT NULL COMMENT '价格',
+    item_id             bigint(20) NOT NULL COMMENT '类别ID',
+    discount_amount    decimal(10,2) DEFAULT NULL COMMENT '商品促销分解金额',
+    real_amount         decimal(10,2) DEFAULT NULL COMMENT '该商品经过优惠后的分解金额',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '团购订单表';
+
+
+CREATE TABLE vvshop_goods.shop_wechat_info (
+     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+     shop_id             bigint(11) NOT NULL  COMMENT '店铺id',
+     open_id            varchar(256) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '收款微信openId',
+     real_name          varchar(256) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '收款微信持有人真实姓名',
+     nick_name          varchar(256) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '收款微信昵称',
+     sex                tinyint(1)  DEFAULT 0 COMMENT '收款微信性别，值为1时是男性，值为2时是女性，值为0时是未知',
+     head_img_url       varchar(400) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头\\n  像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。',
+     del_status          tinyint   default 0 NOT NULL COMMENT '删除状态 0-未删除 1-已删除',
+     update_time         timestamp default NULL NULL COMMENT '更新时间',
+     create_time         timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+     PRIMARY KEY (id),
+     KEY idx_shop_id (shop_id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '团购商铺收款微信信息';
+
+
+CREATE TABLE vvshop_goods.wx_pay_order (
+     id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+     order_status        tinyint(4) unsigned DEFAULT 0 COMMENT '交易状态',
+     pay_order_no       bigint(20) unsigned NOT NULL COMMENT '支付订单号',
+     trade_order_no     bigint(20) DEFAULT NULL COMMENT '有效交易订单号',
+     pay_money          bigint(20) NOT NULL DEFAULT '0' COMMENT '订单实付金额（分）',
+     callback_url       varchar(1000) DEFAULT NULL COMMENT '支付成功通知业务库接口',
+     notify_url         varchar(1000) DEFAULT NULL COMMENT '支付成功通知支付库接口',
+     goods_body         varchar(512) NOT NULL COMMENT '商品描述',
+     goods_detail       varchar(512) NOT NULL COMMENT '商品详情',
+     trade_succ_time    timestamp NULL DEFAULT '0000-00-00 00:00:00' COMMENT '支付时间',
+     update_time        timestamp default NULL NULL COMMENT '更新时间',
+     create_time        timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+     shop_id        bigint(20) unsigned NOT NULL COMMENT '支付userid',
+     PRIMARY KEY (id),
+     unique key(pay_order_no),
+     KEY idx_trade_order_no (trade_order_no)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '团购支付订单';
+
+CREATE TABLE vvshop_goods.wx_trade_order (
+   id                  bigint(20) AUTO_INCREMENT COMMENT '主键ID',
+   trade_order_no       bigint(20) NOT NULL  COMMENT '交易订单号',
+   pay_order_no         bigint(20) unsigned NOT NULL COMMENT '支付订单号',
+   order_status         tinyint(4) unsigned DEFAULT 0 COMMENT '交易状态',
+   transaction_id       varchar(64) NOT NULL DEFAULT '' COMMENT '微信支付订单号',
+   pay_money            bigint(20) NOT NULL DEFAULT '0' COMMENT '订单实付金额（分）',
+   terminal_ip          varchar(32) NOT NULL DEFAULT '' COMMENT '支付终端IP',
+   response_info        varchar(1024) NOT NULL DEFAULT '' COMMENT '返回信息',
+   trade_succ_time      timestamp NULL DEFAULT NULL COMMENT '支付时间',
+   update_time          timestamp default NULL NULL COMMENT '更新时间',
+   create_time          timestamp default CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+   shop_id              bigint(20) unsigned NOT NULL COMMENT '支付userid',
+   PRIMARY KEY (id),
+   unique key(trade_order_no),
+   KEY idx_trade_order_no (trade_order_no)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '团购交易订单';
+
+
+CREATE TABLE vvshop_goods.wx_refund_order (
+    id bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+    refund_status tinyint(4) DEFAULT '0' COMMENT '退款状态 ',
+    refund_order_no bigint(20) NOT NULL DEFAULT '0' COMMENT '支付库退款订单编号',
+    pay_order_no bigint(20) DEFAULT '0' COMMENT '支付订单编号',
+    trade_order_no bigint(20) DEFAULT '0' COMMENT '交易订单编号',
+    refund_reason varchar(250) NOT NULL DEFAULT '' COMMENT '退款原因',
+    refund_money decimal(10,2) COMMENT '订单退款金额，分',
+    pay_money bigint(20) NOT NULL DEFAULT '0' COMMENT '订单实付金额（分）',
+    callback_url varchar(1000) DEFAULT '' COMMENT '退款结果通知业务库接口',
+    notify_url varchar(1000) DEFAULT '' COMMENT '退款状态变更通知地址',
+    refund_recv_accout varchar(1000) DEFAULT '' COMMENT '退款入账账户',
+    refund_channel varchar(1000) DEFAULT '' COMMENT 'ORIGINAL—原路退款 BALANCE—退回到余额',
+    third_refund_id varchar(128) DEFAULT '0' COMMENT '三方退款订单号',
+    finish_time timestamp DEFAULT '0000-00-00 00:00:00' COMMENT '退款处理完成时间',
+    create_time timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    shop_id bigint(20) unsigned NOT NULL COMMENT '支付userid',
+    PRIMARY KEY (id),
+    unique key(refund_order_no),
+    unique key(trade_order_no)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '退款订单表';
+
+
+CREATE TABLE vvshop_goods.wx_payment_record (
+  id bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  trade_money decimal(10,2) NOT NULL DEFAULT '0' COMMENT '交易金额，单位为分',
+  fee_money decimal(10,2) NOT NULL DEFAULT '0' COMMENT '手续费，单位为分',
+  settle_money decimal(10,2) NOT NULL DEFAULT '0' COMMENT '结算金额，单位为分',
+  payment_status int(11) NOT NULL DEFAULT '0' COMMENT '打款状态',
+  receiver varchar(128) NOT NULL DEFAULT '' COMMENT '收款人',
+  name varchar(32) NOT NULL DEFAULT '' COMMENT '收款人姓名',
+  payment_no bigint(20) NOT NULL DEFAULT '0' COMMENT '打款流水号',
+  wx_payment_no varchar(128) DEFAULT NULL COMMENT '微信打款流水号',
+  reject_reason varchar(1024) NOT NULL DEFAULT '' COMMENT '终止打款原因',
+  pay_success_time timestamp NOT NULL COMMENT '打款成功日期',
+  create_time timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  update_time timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  shop_id bigint(20) unsigned NOT NULL COMMENT '支付userid',
+  PRIMARY KEY (id),
+  unique key(payment_no)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '团购微信打款记录';
 
 
 
+CREATE TABLE vvshop_goods.wx_settle_record (
+     id bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+     payment_type tinyint(4) DEFAULT 0 COMMENT '打款方式 0：企业付款到微信 1：标记打款',
+     settle_status varchar(128) NOT NULL DEFAULT '' COMMENT '付款状态',
+     payment_no bigint(20) NOT NULL DEFAULT 0 COMMENT '打款流水号',
+     order_money int(11) NOT NULL DEFAULT 0 COMMENT '原订单金额，单位为分',
+     transaction_id varchar(64) NOT NULL DEFAULT '' COMMENT '微信支付订单号',
+     settle_money int(11) NOT NULL DEFAULT 0 COMMENT '结算金额，单位为分',
+     fee_money int(11) NOT NULL DEFAULT 0 COMMENT '手续费，单位为分',
+     trade_no varchar(128) NOT NULL DEFAULT '' COMMENT '交易单号',
+     trade_time timestamp NOT NULL COMMENT '交易成功日期',
+     create_time timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+     update_time timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+     shop_id bigint(20) unsigned NOT NULL COMMENT '支付userid',
+     PRIMARY KEY (id),
+     unique key(trade_no),
+     KEY idx_payment_no (payment_no)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '团购微信结算记录';
+
+CREATE TABLE vvshop_goods.wx_core_log (
+    id bigint(21) NOT NULL AUTO_INCREMENT COMMENT 'id',
+    info_level varchar(32) DEFAULT NULL COMMENT '级别',
+    info_keyword varchar(128) DEFAULT NULL COMMENT '关键字',
+    search_keyword varchar(128) DEFAULT NULL COMMENT '搜索关键字',
+    info_body varchar(1024) DEFAULT NULL COMMENT '参数',
+    order_no bigint(21) DEFAULT NULL COMMENT '订单号',
+    cur_host varchar(128) DEFAULT NULL COMMENT '主机',
+    create_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
+    pay_exception varchar(5280) NULL COMMENT '支付错误',
+    alarm_msg varchar(255) NULL COMMENT '报警日志',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin comment '微信日志';

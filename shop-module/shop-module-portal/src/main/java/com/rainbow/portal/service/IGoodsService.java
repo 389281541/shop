@@ -3,7 +3,6 @@ package com.rainbow.portal.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rainbow.api.dto.GoodsSearchDTO;
 import com.rainbow.api.dto.RecommendGoodsDTO;
-import com.rainbow.api.vo.FlashGoodsSimpleVO;
 import com.rainbow.api.vo.GoodsDetailVO;
 import com.rainbow.api.vo.GoodsSimpleVO;
 import com.rainbow.common.dto.IdDTO;

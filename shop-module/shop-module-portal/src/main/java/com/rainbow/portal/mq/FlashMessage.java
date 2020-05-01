@@ -34,6 +34,9 @@ public class FlashMessage {
     @ApiModelProperty(value = "使用的积分数")
     private Integer useIntegration;
 
+    @ApiModelProperty(value = "父订单号")
+    private String parentOrderNO;
+
     @ApiModelProperty(value = "用户ID", hidden = true)
     private Long customerId;
 

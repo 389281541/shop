@@ -55,7 +55,7 @@ public class FlashController {
 
     @ApiOperation(value = "生成秒杀订单", notes = "生成秒杀订单", httpMethod = "POST")
     @PostMapping("/generateOrder")
-    public R<Boolean> generateFlashOrder(@Valid @RequestBody OrderGenerateDTO param) {
+    public R<String> generateFlashOrder(@Valid @RequestBody OrderGenerateDTO param) {
         param.setCustomerId(RB.getUserId());
         return new R<>(flashService.generateFlashOrder(param));
     }

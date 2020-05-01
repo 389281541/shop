@@ -30,7 +30,7 @@ public class FlashMessageReceiver {
         List<CartPromotionVO> cartPromotionVOList = flashMessage.getCartPromotionVOList();
         OrderGenerateDTO orderGenerateDTO = new OrderGenerateDTO();
         BeanUtils.copyProperties(flashMessage, orderGenerateDTO);
-        String parentOrderNO = PortalUtils.generateParentOrderNO(flashMessage.getCustomerId());
+        String parentOrderNO = flashMessage.getParentOrderNO();
         orderService.generateOrderByShopId(cartPromotionVOList, orderGenerateDTO, parentOrderNO, OrderTypeEnum.FLASH);
         log.info("process parentOrderNO:{}", parentOrderNO);
     }
