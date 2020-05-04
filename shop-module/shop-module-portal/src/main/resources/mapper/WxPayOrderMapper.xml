@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.WxPayOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.WxPayOrder">
+        <id column="id" property="id" />
+        <result column="order_status" property="orderStatus" />
+        <result column="pay_order_no" property="payOrderNo" />
+        <result column="trade_order_no" property="tradeOrderNo" />
+        <result column="pay_money" property="payMoney" />
+        <result column="callback_url" property="callbackUrl" />
+        <result column="notify_url" property="notifyUrl" />
+        <result column="goods_body" property="goodsBody" />
+        <result column="goods_detail" property="goodsDetail" />
+        <result column="trade_succ_time" property="tradeSuccTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+        <result column="shop_id" property="shopId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_status, pay_order_no, trade_order_no, pay_money, callback_url, notify_url, goods_body, goods_detail, trade_succ_time, update_time, create_time, shop_id
+    </sql>
+
+</mapper>

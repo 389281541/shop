@@ -9,12 +9,18 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * 团购活动更新DTO
+ *
+ * @author lujinwei
+ * @since 2020/5/2
+ */
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "HomeAdvertiseUpdateDTO", description = "首页广告更新DTO")
-public class HomeAdvertiseUpdateDTO extends HomeAdvertiseSaveDTO {
+@ApiModel(value = "GrouponActivityUpdateDTO", description = "团购活动更新DTO")
+public class GrouponActivityUpdateDTO extends GrouponActivitySaveDTO {
 
     @ApiModelProperty(value = "主键ID")
     @NotNull(message = "ID不能为空")

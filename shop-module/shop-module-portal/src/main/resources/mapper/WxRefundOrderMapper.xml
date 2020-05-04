@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.WxRefundOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.WxRefundOrder">
+        <id column="id" property="id" />
+        <result column="refund_status" property="refundStatus" />
+        <result column="refund_order_no" property="refundOrderNo" />
+        <result column="pay_order_no" property="payOrderNo" />
+        <result column="trade_order_no" property="tradeOrderNo" />
+        <result column="refund_reason" property="refundReason" />
+        <result column="refund_money" property="refundMoney" />
+        <result column="pay_money" property="payMoney" />
+        <result column="callback_url" property="callbackUrl" />
+        <result column="notify_url" property="notifyUrl" />
+        <result column="refund_recv_accout" property="refundRecvAccout" />
+        <result column="refund_channel" property="refundChannel" />
+        <result column="third_refund_id" property="thirdRefundId" />
+        <result column="finish_time" property="finishTime" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="shop_id" property="shopId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, refund_status, refund_order_no, pay_order_no, trade_order_no, refund_reason, refund_money, pay_money, callback_url, notify_url, refund_recv_accout, refund_channel, third_refund_id, finish_time, create_time, update_time, shop_id
+    </sql>
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.WxPaymentRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.WxPaymentRecord">
+        <id column="id" property="id" />
+        <result column="trade_money" property="tradeMoney" />
+        <result column="fee_money" property="feeMoney" />
+        <result column="settle_money" property="settleMoney" />
+        <result column="payment_status" property="paymentStatus" />
+        <result column="receiver" property="receiver" />
+        <result column="name" property="name" />
+        <result column="payment_no" property="paymentNo" />
+        <result column="wx_payment_no" property="wxPaymentNo" />
+        <result column="reject_reason" property="rejectReason" />
+        <result column="pay_success_time" property="paySuccessTime" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="shop_id" property="shopId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, trade_money, fee_money, settle_money, payment_status, receiver, name, payment_no, wx_payment_no, reject_reason, pay_success_time, create_time, update_time, shop_id
+    </sql>
+
+</mapper>

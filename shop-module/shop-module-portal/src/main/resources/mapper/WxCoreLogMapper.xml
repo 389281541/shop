@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.WxCoreLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.WxCoreLog">
+        <id column="id" property="id" />
+        <result column="info_level" property="infoLevel" />
+        <result column="info_keyword" property="infoKeyword" />
+        <result column="search_keyword" property="searchKeyword" />
+        <result column="info_body" property="infoBody" />
+        <result column="order_no" property="orderNo" />
+        <result column="cur_host" property="curHost" />
+        <result column="create_time" property="createTime" />
+        <result column="pay_exception" property="payException" />
+        <result column="alarm_msg" property="alarmMsg" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, info_level, info_keyword, search_keyword, info_body, order_no, cur_host, create_time, pay_exception, alarm_msg
+    </sql>
+
+</mapper>

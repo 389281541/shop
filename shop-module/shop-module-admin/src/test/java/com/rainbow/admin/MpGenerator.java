@@ -28,7 +28,7 @@ public class MpGenerator {
     public void generateCode() {
         String packageName = "com.rainbow.admin";
         boolean serviceNameStartWithI = true;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "home_advertise");
+        generateByTables(serviceNameStartWithI, packageName, "groupon_order");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
@@ -103,18 +103,18 @@ public class MpGenerator {
 //                    }
 //                }
 
-//                if (FileType.ENTITY==fileType||filePath.contains("Mapper")){
-//                    return true;
-//                }else {
-//                    return false;
-//                }
+                if (filePath.contains("Service")){
+                    return true;
+                }else {
+                    return false;
+                }
                 //不存在的文件都需要创建
 //                if (filePath.endsWith("Mapper.xml")) {
 //                    return true;
 //                } else {
 //                    return false;
 //                }
-                return  true;
+//                return  true;
             }
         });
         if (!serviceNameStartWithI) {

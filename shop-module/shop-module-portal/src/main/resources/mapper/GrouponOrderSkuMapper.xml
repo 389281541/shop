@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.portal.mapper.GrouponOrderSkuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.rainbow.api.entity.GrouponOrderSku">
+        <id column="id" property="id" />
+        <result column="spu_id" property="spuId" />
+        <result column="spu_name" property="spuName" />
+        <result column="sku_id" property="skuId" />
+        <result column="sku_name" property="skuName" />
+        <result column="groupon_order_id" property="grouponOrderId" />
+        <result column="groupon_order_no" property="grouponOrderNo" />
+        <result column="sku_spec" property="skuSpec" />
+        <result column="brand_id" property="brandId" />
+        <result column="brand_name" property="brandName" />
+        <result column="shop_id" property="shopId" />
+        <result column="shop_name" property="shopName" />
+        <result column="quantity" property="quantity" />
+        <result column="price" property="price" />
+        <result column="item_id" property="itemId" />
+        <result column="discount_amount" property="discountAmount" />
+        <result column="real_amount" property="realAmount" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, spu_id, spu_name, sku_id, sku_name, groupon_order_id, groupon_order_no, sku_spec, brand_id, brand_name, shop_id, shop_name, quantity, price, item_id, discount_amount, real_amount
+    </sql>
+
+</mapper>
