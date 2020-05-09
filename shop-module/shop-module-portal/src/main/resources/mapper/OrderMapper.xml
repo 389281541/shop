@@ -53,9 +53,9 @@
         FROM
         order_
         WHERE
-        del_status = 0 and customer_id = #{customerId}
+        del_status = 0 and customer_id = #{param.customerId}
         <if test="param.orderNo != null and param.orderNo != ''">
-            AND order_no = #{param.orderNo}
+            AND order_no like CONCAT('%',#{param.orderNo},'%')
         </if>
         <if test="param.status != null and param.status != ''">
             AND status = #{param.status}

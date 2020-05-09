@@ -44,6 +44,13 @@ public interface IOrderService extends IService<Order> {
 
 
     /**
+     * 移除订单
+     * @param param
+     * @return
+     */
+    Boolean removeOrder(IdDTO param);
+
+    /**
      * 获取订单详情
      * @param param
      * @return

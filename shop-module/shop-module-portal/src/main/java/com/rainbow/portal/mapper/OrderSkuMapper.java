@@ -4,6 +4,7 @@ import com.rainbow.api.entity.OrderSku;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.rainbow.api.vo.OrderSkuPromotionVO;
+import com.rainbow.common.model.KV;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
@@ -55,10 +56,10 @@ public interface OrderSkuMapper extends BaseMapper<OrderSku> {
 
     /**
      * 通过spuName查询
-     * @param spuName
+     * @param orderNo
      * @return
      */
-    List<OrderSku> listBySpuName(@Param("spuName") String spuName);
+    List<OrderSku> listByOrderNo(@Param("orderNo") String orderNo);
 
 
     /**
@@ -69,4 +70,11 @@ public interface OrderSkuMapper extends BaseMapper<OrderSku> {
      */
     List<OrderSku> listByOrderNoAndCustomerId(@Param("orderNo") String orderNo, @Param("customerId")Long customerId);
 
+
+    /**
+     * 获取订单封面图
+     * @param list
+     * @return
+     */
+    List<KV<Long, String>> listCoverImgByOrderIds(Collection<Long> list);
 }

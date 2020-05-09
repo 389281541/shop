@@ -1,5 +1,6 @@
 package com.rainbow.portal.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -17,6 +18,7 @@ import com.rainbow.common.enums.BooleanEnum;
 import com.rainbow.common.enums.DelFlagEnum;
 import com.rainbow.common.enums.RedisKeyEnums;
 import com.rainbow.common.exception.BusinessException;
+import com.rainbow.common.model.KV;
 import com.rainbow.portal.mapper.*;
 import com.rainbow.portal.mq.CancelOrderSender;
 import com.rainbow.portal.service.IAddressService;
@@ -694,7 +696,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public IPage<OrderSimpleVO> pageOrder(SelfOrderSearchDTO param) {
         log.info("pageOrder, OrderSearchDTO param = {}", param);
-        List<OrderSku> orderSkuList = orderSkuMapper.listBySpuName(param.getSpuName());
+        List<OrderSku> orderSkuList = orderSkuMapper.listByOrderNo(param.getOrderNo());
         Set<Long> orderIdSet = Sets.newHashSet();
         if (CollectionUtils.isNotEmpty(orderSkuList)) {
             orderIdSet = orderSkuList.stream().map(OrderSku::getOrderId).collect(Collectors.toSet());
@@ -710,13 +712,28 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             orderSimpleVOIPage.setTotal(0L);
             return orderSimpleVOIPage;
         }
+        List<Order> records = orderIPage.getRecords();
+        List<Long> orderIds = records.stream().map(Order::getId).collect(Collectors.toList());
+        List<KV<Long,String>> kvList = orderSkuMapper.listCoverImgByOrderIds(orderIds);
+        final Map<Long, String> coverImgMap = kvList.stream().collect(Collectors.toMap(KV::getK, KV::getV, (x1, x2)->x2));
         return orderIPage.convert(x -> {
             OrderSimpleVO orderSimpleVO = new OrderSimpleVO();
+            orderSimpleVO.setCoverImg(coverImgMap.get(x.getId()));
             BeanUtils.copyProperties(x, orderSimpleVO);
             return orderSimpleVO;
         });
     }
 
+    @Override
+    public Boolean removeOrder(IdDTO param) {
+        Order record = new Order();
+        record.setDelStatus(BooleanEnum.YES.getValue());
+        LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<>();
+        wrapper.in(Order::getId, param.getId());
+        wrapper.eq(Order::getDelStatus, BooleanEnum.NO.getValue());
+        int res = baseMapper.update(record, wrapper);
+        return res > 0;
+    }
 
     @Override
     public OrderDetailVO getOrderDetailById(IdDTO param) {

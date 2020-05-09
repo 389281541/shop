@@ -72,6 +72,13 @@ public class OrderController {
     }
 
 
+    @ApiOperation(value = "删除订单", notes = "删除订单", httpMethod = "POST")
+    @PostMapping("/remove")
+    @NeedLogin
+    public R<Boolean> removeOrder(@Valid @RequestBody IdDTO param) {
+        return new R<>(orderService.removeOrder(param));
+    }
+
 
     @ApiOperation(value = "订单状态", notes = "订单状态", httpMethod = "POST")
     @PostMapping("/status")

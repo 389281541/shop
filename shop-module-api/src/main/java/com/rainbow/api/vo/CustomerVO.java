@@ -23,9 +23,6 @@ public class CustomerVO extends BaseDTO {
     @ApiModelProperty(value = "用户名")
     private String userName;
 
-    @ApiModelProperty(value = "输入密码")
-    private String password;
-
     @ApiModelProperty(value = "用户电话")
     private String mobile;
 

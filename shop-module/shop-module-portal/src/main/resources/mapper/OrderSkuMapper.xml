@@ -61,6 +61,16 @@
         </foreach>
         and del_status = 0
     </select>
+    
+    <select id="listCoverImgByOrderIds" resultType="com.rainbow.common.model.KV">
+        select os.order_id as k, si.img_url as v from
+        order_sku os
+        left join spu_img si on os.spu_id = si.spu_id
+        where si.is_cover = 1 and os.order_id in
+        <foreach collection="list" item="orderId" index="index" open="(" close=")" separator=",">
+            #{orderId}
+        </foreach>
+    </select>
 
     <select id="listByOrderId" resultMap="BaseResultMap">
         select
@@ -104,17 +114,17 @@
         </foreach>
     </update>
 
-    <select id="listBySpuName" resultMap="BaseResultMap">
-        select order_id order_sku os
-            left join sku s on os.sku_id = s.id
-            left join spu sp on sp.id = s.spu_id
-        where sp.name like CONCAT('%',#{spuName},'%')
+    <select id="listByOrderNo" resultMap="BaseResultMap">
+        select
+            os.*
+        from order_sku os
+        where os.order_no like CONCAT('%',#{orderNo},'%')
     </select>
 
-    <select id="listByOrderNoAndCustomerId">
+    <select id="listByOrderNoAndCustomerId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from order_sku
-        where order_no = #{orderNo} and customerId and del_status = 0
+        where order_no = #{orderNo} and customerId=#{customerId} and del_status = 0
     </select>
 </mapper>

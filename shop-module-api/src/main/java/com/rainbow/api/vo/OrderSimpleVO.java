@@ -24,6 +24,9 @@ public class OrderSimpleVO extends BaseDTO {
     @ApiModelProperty(value = "订单编号")
     private String orderNo;
 
+    @ApiModelProperty(value = "封面图片")
+    private String coverImg;
+
     @ApiModelProperty(value = "用户名称")
     private String customerName;
 
