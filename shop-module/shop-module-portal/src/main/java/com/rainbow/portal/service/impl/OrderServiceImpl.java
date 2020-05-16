@@ -26,12 +26,12 @@ import com.rainbow.portal.service.ICartService;
 import com.rainbow.portal.service.ICouponService;
 import com.rainbow.portal.service.IOrderService;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -45,7 +45,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.rainbow.common.util.PortalUtils.generateParentOrderNO;
+import static com.rainbow.common.util.GeneratorUtils.generateParentOrderNO;
 
 /**
  * 订单表 服务实现类
@@ -214,8 +214,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      */
     public void sendCalcelOrderDelayMessage(Long orderId) {
         //获取普通订单超时时间
-//        OrderSetting orderSetting = orderSettingMapper.selectById(1L);
-//        cancelOrderSender.sendMessage(orderId, orderSetting.getNormalOrderOvertime() * 60 * 1000L);
+        OrderSetting orderSetting = orderSettingMapper.selectById(1L);
+        cancelOrderSender.sendMessage(orderId, orderSetting.getNormalOrderOvertime() * 60 * 1000L);
     }
 
 
@@ -747,10 +747,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
 
     @Override
+    @Transactional
     public void cancelOrder(Long orderId) {
         //1、查看订单状态，如果已经支付了，就不做处理
         Order order = orderMapper.selectById(orderId);
-        if (!order.getStatus().equals(OrderStatusEnum.NON_PAY)) {
+        if (!order.getStatus().equals(OrderStatusEnum.NON_PAY.getValue())) {
             return;
         }
         //2、修改订单状态
@@ -769,11 +770,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         if (order.getUseCouponId() != null) {
             couponService.updateCouponStatus(order.getCustomerId(), order.getUseCouponId(), BooleanEnum.NO.getValue());
         }
-        //5、返还积分
-        if (order.getUseIntegration() != null) {
-            Customer customer = customerMapper.selectById(order.getCustomerId());
-            customerMapper.updateIntegration(order.getCustomerId(), customer.getIntegration() + order.getUseIntegration());
-        }
+    }
+
+    public void returnCustomerIntegration(Long orderId) {
+        Order order = orderMapper.selectById(orderId);
+        Customer customer = customerMapper.selectById(order.getCustomerId());
+        customerMapper.updateIntegration(order.getCustomerId(), customer.getIntegration() + order.getUseIntegration());
     }
 
     @Override

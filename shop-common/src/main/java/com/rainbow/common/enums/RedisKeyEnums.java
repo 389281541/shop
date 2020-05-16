@@ -69,7 +69,8 @@ public interface RedisKeyEnums {
         REDIS_KEY_PREFIX_ORDER_ID("redis_key_prefix_order_id", "报名人次"),
         REDIS_KEY_PREFIX_FLASH_GOODS_KEY("redis_key_prefix_flash_goods_key", "秒杀"),
         REDIS_KEY_PREFIX_STOCK_KEY("redis_key_prefix_stock_key", "秒杀商品库存"),
-        REDIS_KEY_PREFIX_FLASH_ORDER_KEY("redis_key_prefix_flash_order_key", "秒杀订单");
+        REDIS_KEY_PREFIX_FLASH_ORDER_KEY("redis_key_prefix_flash_order_key", "秒杀订单"),
+        REDIS_KEY_PREFIX_FLASH_PATH_KEY("redis_key_prefix_flash_path_key", "秒杀路径");
         private String businessKey;
 
         private String desc;

@@ -48,5 +48,11 @@ public interface IFlashService {
      * @param param
      * @return
      */
-    String generateFlashOrder(OrderGenerateDTO param);
+    String generateFlashOrder(OrderGenerateDTO param, String path);
+
+    /**
+     * 获取秒杀地址
+     * @return
+     */
+    String getPath(Long customerId);
 }

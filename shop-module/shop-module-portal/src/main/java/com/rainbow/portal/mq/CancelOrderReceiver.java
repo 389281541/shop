@@ -21,6 +21,7 @@ public class CancelOrderReceiver {
     @RabbitHandler
     public void handle(Long orderId) {
         orderService.cancelOrder(orderId);
+        orderService.returnCustomerIntegration(orderId);
         log.info("process orderId:{}", orderId);
     }
 }

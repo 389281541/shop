@@ -88,6 +88,11 @@ public class RabbitMqConfiguration {
     }
 
     @Bean
+    public Queue flashQueue() {
+        return new Queue(QueueEnum.QUEUE_FLASH.getName(), true);
+    }
+
+    @Bean
     public Queue topicQueue2() {
         return new Queue(QueueEnum.QUEUE_TOPIC_2.getName(), true);
     }

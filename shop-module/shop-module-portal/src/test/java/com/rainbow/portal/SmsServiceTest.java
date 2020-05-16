@@ -1,6 +1,7 @@
 package com.rainbow.portal;
 
 
+import com.rainbow.portal.mq.CancelOrderSender;
 import com.rainbow.portal.service.ISmsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,10 +18,15 @@ public class SmsServiceTest {
     @Autowired
     private ISmsService smsService;
 
+    @Autowired
+    private CancelOrderSender cancelOrderSender;
+
 
 
     @Test
     public void testSendMsg() {
+//        cancelOrderSender.sendMessage(18L,2000L);
+//        System.out.println("123");
     }
 
 }

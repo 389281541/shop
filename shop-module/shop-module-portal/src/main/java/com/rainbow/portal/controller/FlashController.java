@@ -10,10 +10,7 @@ import com.rainbow.portal.service.IFlashService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -54,12 +51,19 @@ public class FlashController {
 
 
     @ApiOperation(value = "生成秒杀订单", notes = "生成秒杀订单", httpMethod = "POST")
-    @PostMapping("/generateOrder")
-    public R<String> generateFlashOrder(@Valid @RequestBody OrderGenerateDTO param) {
+    @PostMapping("/{path}/generateOrder")
+    public R<String> generateFlashOrder(@Valid @RequestBody OrderGenerateDTO param, @PathVariable("path") String path) {
         param.setCustomerId(RB.getUserId());
-        return new R<>(flashService.generateFlashOrder(param));
+        return new R<>(flashService.generateFlashOrder(param, path));
     }
 
+
+    @ApiOperation(value = "获取秒杀路径", notes = "生成秒杀订单", httpMethod = "POST")
+    @PostMapping("/path/get")
+    public R<String> getPath() {
+        Long customerId = RB.getUserId();
+        return new R<>(flashService.getPath(customerId));
+    }
 
 
 }

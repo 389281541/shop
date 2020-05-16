@@ -15,7 +15,7 @@ spring:
     port: 6379
     password: 123456
   rabbitmq:
-    host: 192.168.113.128
+    host: 192.168.113.129
     port: 5672
     virtual-host: rainbow
     username: rainbow

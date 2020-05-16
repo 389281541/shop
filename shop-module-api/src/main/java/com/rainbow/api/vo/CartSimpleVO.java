@@ -18,8 +18,6 @@ import java.math.BigDecimal;
  */
 @Data
 @Accessors(chain = true)
-@NoArgsConstructor
-@AllArgsConstructor
 @ApiModel(value = "CartSimpleVO", description = "购物车VO")
 public class CartSimpleVO extends BaseDTO {
 

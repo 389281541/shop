@@ -15,7 +15,8 @@ import com.rainbow.common.enums.RedisKeyEnums;
 import com.rainbow.common.exception.BusinessException;
 import com.rainbow.common.model.HMS;
 import com.rainbow.common.util.DateUtils;
-import com.rainbow.common.util.PortalUtils;
+import com.rainbow.common.util.GeneratorUtils;
+import com.rainbow.common.util.MD5Utils;
 import com.rainbow.portal.mapper.*;
 import com.rainbow.portal.mq.FlashMessage;
 import com.rainbow.portal.mq.FlashMessageSender;
@@ -34,10 +35,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -70,7 +68,7 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
     private SkuMapper skuMapper;
 
     @Autowired
-    AmqpTemplate amqpTemplate ;
+    AmqpTemplate amqpTemplate;
 
     @Resource
     private CustomerMapper customerMapper;
@@ -102,14 +100,14 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
     /**
      * 秒杀完成标志map
      */
-    private ConcurrentHashMap<Long, Boolean> flashOverMap = new ConcurrentHashMap<>();
+    private HashMap<Long, Boolean> flashOverMap = new HashMap<>();
 
     @Override
     public List<FlashThemeVO> listFlashThemes() {
         //1、获取秒杀状态和秒杀倒计时
         //判断当前时间是否在秒杀时间内 如果在秒杀时间内
         FlashCurrentSessionVO currentPromotionSession = getCurrentPromotionSession();
-        if(currentPromotionSession == null) {
+        if (currentPromotionSession == null) {
             return Lists.newArrayList();
         }
         //2、获取所有上线的秒杀活动
@@ -120,21 +118,21 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
         //3、获取各个上线状态的秒杀商品列表
         List<Long> flashPromotionIds = flashPromotionList.stream().map(FlashPromotion::getId).collect(Collectors.toList());
         List<FlashPromotionSpu> flashPromotionSpuList = flashPromotionSpuMapper.listBySessionId(currentPromotionSession.getId(), flashPromotionIds);
-        if(CollectionUtils.isEmpty(flashPromotionSpuList)) {
+        if (CollectionUtils.isEmpty(flashPromotionSpuList)) {
             return Lists.newArrayList();
         }
         Set<Long> spuIds = flashPromotionSpuList.stream().map(FlashPromotionSpu::getSpuId).collect(Collectors.toSet());
         List<Spu> spuList = spuMapper.listBySpuIds(spuIds);
-        final Map<Long, BigDecimal> flashPriceMap = flashPromotionSpuList.stream().collect(Collectors.toMap(FlashPromotionSpu::getSpuId, FlashPromotionSpu::getFlashDiscountPrice, (v1, v2)->v2));
+        final Map<Long, BigDecimal> flashPriceMap = flashPromotionSpuList.stream().collect(Collectors.toMap(FlashPromotionSpu::getSpuId, FlashPromotionSpu::getFlashDiscountPrice, (v1, v2) -> v2));
         final Map<Long, String> spuNameMap = spuList.stream().collect(Collectors.toMap(Spu::getId, Spu::getName));
         List<SpuImg> spuImgList = spuImgMapper.listCoversBySpuIds(spuIds);
         final Map<Long, String> spuCoverMap = spuImgList.stream().collect(Collectors.toMap(SpuImg::getSpuId, SpuImg::getImgUrl));
-        final Map<Long, List<FlashGoodsSimpleVO>> flashPromotionMap = flashPromotionSpuList.stream().map(x->{
+        final Map<Long, List<FlashGoodsSimpleVO>> flashPromotionMap = flashPromotionSpuList.stream().map(x -> {
             FlashGoodsSimpleVO flashGoodsSimpleVO = new FlashGoodsSimpleVO();
             flashGoodsSimpleVO.setId(x.getSpuId());
             flashGoodsSimpleVO.setFlashPromotionId(x.getFlashPromotionId());
             String spuName = spuNameMap.get(x.getSpuId());
-            if(spuName.length() > 30) {
+            if (spuName.length() > 30) {
                 spuName = spuName.substring(0, 30) + "...";
             }
             flashGoodsSimpleVO.setName(spuName);
@@ -154,7 +152,7 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
             flashThemeVO.setFlashGoodsList(flashPromotionMap.get(x.getId()));
             flashThemeVO.setFlashStatus(lambdaFlashProcessStatus);
             return flashThemeVO;
-        }).filter(x->CollectionUtils.isNotEmpty(x.getFlashGoodsList())).collect(Collectors.toList());
+        }).filter(x -> CollectionUtils.isNotEmpty(x.getFlashGoodsList())).collect(Collectors.toList());
         return flashThemeVOList;
     }
 
@@ -180,8 +178,8 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
             }
         }
         // 如果当前时间不是秒杀时间 获取秒杀倒计时
-        if(flashProcessStatusEnum.equals(FlashProcessStatusEnum.WAIT_TO_FLASH)) {
-            FlashPromotionSession recentSession = flashPromotionSessionMapper.getRecentSession(LocalTime.now(), LocalTime.of(23,59,59));
+        if (flashProcessStatusEnum.equals(FlashProcessStatusEnum.WAIT_TO_FLASH)) {
+            FlashPromotionSession recentSession = flashPromotionSessionMapper.getRecentSession(LocalTime.now(), LocalTime.of(23, 59, 59));
             LocalTime startTime = recentSession.getStartTime();
             Duration duration = Duration.between(now, startTime);
             hms = DateUtils.convertMills2HMS(duration.toMillis());
@@ -216,13 +214,14 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
 
     /**
      * 获取当前秒杀商品
+     *
      * @param customerId
      * @return
      */
     private JSONObject getFlashGoodsInfo(Long customerId) {
         String key = RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_FLASH_GOODS_KEY.getRedisKey() + "_" + customerId;
         String goodsInfo = redisTemplate.opsForValue().get(key);
-        if(Strings.isBlank(goodsInfo)) {
+        if (Strings.isBlank(goodsInfo)) {
             throw new BusinessException(PortalErrorCode.FLASH_CONFIRM_ORDER_EXPIRED);
         }
         return JSONObject.parseObject(goodsInfo);
@@ -240,6 +239,7 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
         cartPromotionVO.setPerReduceAmount(cart.getOriginalPrice().subtract(flashPrice));
         Shop shop = shopMapper.selectById(cart.getShopId());
         cartPromotionVO.setShopName(shop.getName());
+        cartPromotionVO.setPrice(flashPrice);
         cartPromotionVOList.add(cartPromotionVO);
         return cartPromotionVOList;
     }
@@ -259,39 +259,45 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
 
     /**
      * 系统初始化，将所有秒杀商品库存放入redis中
+     *
      * @throws Exception
      */
     @Override
     public void afterPropertiesSet() throws Exception {
         LambdaQueryWrapper<FlashPromotionSpu> wrapper = new LambdaQueryWrapper<>();
         List<FlashPromotionSpu> flashPromotionSpuList = flashPromotionSpuMapper.selectList(wrapper);
-        if(CollectionUtils.isEmpty(flashPromotionSpuList)) {
+        if (CollectionUtils.isEmpty(flashPromotionSpuList)) {
             return;
         }
-        for(FlashPromotionSpu flashPromotionSpu: flashPromotionSpuList) {
-            String key =  RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_STOCK_KEY.getRedisKey() + "_" + flashPromotionSpu.getFlashPromotionSessionId() + "_" + flashPromotionSpu.getSpuId();
+        for (FlashPromotionSpu flashPromotionSpu : flashPromotionSpuList) {
+            String key = RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_STOCK_KEY.getRedisKey() + "_" + flashPromotionSpu.getFlashPromotionSessionId() + "_" + flashPromotionSpu.getSpuId();
             redisTemplate.opsForValue().set(key, String.valueOf(flashPromotionSpu.getFlashPromotionNum()));
         }
     }
 
     @Override
-    public String generateFlashOrder(OrderGenerateDTO param) {
+    public String generateFlashOrder(OrderGenerateDTO param, String path) {
         //查询秒杀商品
         JSONObject flashGoodsInfo = getFlashGoodsInfo(param.getCustomerId());
         Long skuId = flashGoodsInfo.getLong("skuId");
         Sku sku = skuMapper.selectById(skuId);
-        if(sku == null) {
+        if (sku == null) {
             throw new BusinessException(PortalErrorCode.EMPTY_ORDER_SKU);
+        }
+
+        boolean checkPath = checkFlashPath(param.getCustomerId(), skuId, path);
+        if (!checkPath) {
+            throw new BusinessException(PortalErrorCode.FLASH_PATH_ERROR);
         }
         //查看是否秒杀到
         String key = RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_FLASH_ORDER_KEY.getRedisKey() + "_" + param.getCustomerId() + "_" + skuId;
 
         String s = redisTemplate.opsForValue().get(key);
-        if(Strings.isNotBlank(s)) {
+        if (Strings.isNotBlank(s)) {
             throw new BusinessException(PortalErrorCode.FLASH_REPEAT_ERROR);
         }
         //预减库存
-        boolean over = flashOverMap.get(sku.getSpuId());
+        boolean over = flashOverMap.getOrDefault(sku.getSpuId(), false);
         if (over) {
             throw new BusinessException(PortalErrorCode.FLASH_IS_OVER);
         }
@@ -300,7 +306,7 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
         String stockKey = RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_STOCK_KEY.getRedisKey() + "_" + currentPromotionSession.getId() + "_" + sku.getSpuId();
 
         String stock = redisTemplate.opsForValue().get(stockKey);
-        if(Strings.isBlank(stock)) {
+        if (Strings.isBlank(stock)) {
             throw new BusinessException(PortalErrorCode.FLASH_CONFIRM_ORDER_EXPIRED);
         }
         Long reducedStock = redisTemplate.opsForValue().increment(stockKey, -1);
@@ -309,12 +315,43 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
             throw new BusinessException(PortalErrorCode.FLASH_IS_OVER);
         }
         //发送秒杀信息
-        String parentOrderNO = PortalUtils.generateParentOrderNO(param.getCustomerId());
+        String parentOrderNO = GeneratorUtils.generateParentOrderNO(param.getCustomerId());
         FlashMessage flashMessage = new FlashMessage();
         BeanUtils.copyProperties(param, flashMessage);
         flashMessage.setCartPromotionVOList(getCartPromotionList(flashGoodsInfo, param.getCustomerId()));
         flashMessage.setParentOrderNO(parentOrderNO);
         flashMessageSender.sendFlashMessage(flashMessage);
         return parentOrderNO;
+    }
+
+
+    @Override
+    public String getPath(Long customerId) {
+        Customer customer = customerMapper.selectById(customerId);
+        if (customer == null) {
+            throw new BusinessException(PortalErrorCode.USER_NOT_EXIST);
+        }
+
+        JSONObject flashGoodsInfo = getFlashGoodsInfo(customerId);
+        Long skuId = flashGoodsInfo.getLong("skuId");
+        return createFlashPath(skuId, customerId);
+    }
+
+    private boolean checkFlashPath(Long customerId, Long skuId, String path) {
+        if (customerId == null || skuId == null || Strings.isBlank(path)) {
+            return false;
+        }
+
+        String redisPath = redisTemplate.opsForValue().get(RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_FLASH_PATH_KEY.getRedisKey() + "_" + skuId + "_" + customerId);
+        return Objects.equals(path, redisPath);
+    }
+
+    private String createFlashPath(Long skuId, Long customerId) {
+        if (skuId == null || customerId == null) {
+            return null;
+        }
+        String str = MD5Utils.encodeByMd5AndSalt(GeneratorUtils.generateUUID(), "987654");
+        redisTemplate.opsForValue().set(RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_FLASH_PATH_KEY.getRedisKey() + "_" + skuId + "_" + customerId, str);
+        return str;
     }
 }

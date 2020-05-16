@@ -9,7 +9,6 @@ import com.rainbow.api.entity.Order;
 import com.rainbow.api.enums.OrderTypeEnum;
 import com.rainbow.api.vo.*;
 import com.rainbow.common.dto.IdDTO;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -62,8 +61,14 @@ public interface IOrderService extends IService<Order> {
      * 取消订单
      * @param orderId
      */
-    @Transactional
     void cancelOrder(Long orderId);
+
+
+    /**
+     * 返还用户积分
+     * @param orderId
+     */
+    void returnCustomerIntegration(Long orderId);
 
 
     /**

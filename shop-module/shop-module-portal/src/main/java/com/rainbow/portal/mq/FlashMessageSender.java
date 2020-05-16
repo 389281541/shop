@@ -1,7 +1,7 @@
 package com.rainbow.portal.mq;
 
+import com.google.gson.Gson;
 import com.rainbow.api.enums.QueueEnum;
-import com.rainbow.common.util.PortalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class FlashMessageSender {
 
 
     public void sendFlashMessage(FlashMessage fm) {
-        String msg = PortalUtils.beanToString(fm);
+        String msg = new Gson().toJson(fm);
         log.info("send message:"+msg);
         amqpTemplate.convertAndSend(QueueEnum.QUEUE_FLASH.getName(), msg);
     }
