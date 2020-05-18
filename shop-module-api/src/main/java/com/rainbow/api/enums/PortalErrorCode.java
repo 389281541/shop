@@ -37,6 +37,7 @@ public enum PortalErrorCode implements UniverseErrorCode {
     FLASH_REPEAT_ERROR(10000023, "重复秒杀错误"),
     FLASH_IS_OVER(10000024, "商品已经秒杀完毕"),
     FLASH_PATH_ERROR(10000025, "秒杀路径错误"),
+    ALIPAY_GOPAY_ERROR(10000026, "支付宝支付错误"),
     ;
 
     private ErrorSideEnum errorSideEnum;

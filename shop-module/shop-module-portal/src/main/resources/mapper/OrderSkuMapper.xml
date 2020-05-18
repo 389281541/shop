@@ -95,7 +95,7 @@
     </update>
 
     <update id="updateSkuStock" parameterType="java.util.List">
-        UPDATE pms_sku_stock
+        UPDATE sku
         SET
         stock = CASE id
         <foreach collection="list" item="item">

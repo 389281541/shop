@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "ParentOrderNoDTO", description = "父订单号DTO")
 public class ParentOrderNoDTO extends BaseDTO {
 
-    @ApiModelProperty(value = "店铺ID")
+    @ApiModelProperty(value = "父订单")
     @NotNull(message = "订单")
     private String parentOrderNo;
 
