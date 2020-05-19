@@ -1,7 +1,6 @@
 package com.rainbow.portal.controller;
 
 
-import com.rainbow.common.annotation.NeedLogin;
 import com.rainbow.common.dto.R;
 import com.rainbow.common.dto.SmsSendDTO;
 import com.rainbow.common.dto.SmsVerifyDTO;

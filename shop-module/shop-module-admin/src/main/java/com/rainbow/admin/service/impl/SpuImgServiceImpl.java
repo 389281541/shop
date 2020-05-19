@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -53,8 +54,17 @@ public class SpuImgServiceImpl extends ServiceImpl<SpuImgMapper, SpuImg> impleme
             spuImgSimpleVOList = spuImgList.stream().map(x -> {
                 SpuImgSimpleVO spuImgSimpleVO = new SpuImgSimpleVO();
                 BeanUtils.copyProperties(x, spuImgSimpleVO);
-                spuImgSimpleVO.setSkuSpecList(skuIdDic.get(x.getSkuId()));
-                Map<String, String> skuSpecMap = skuSpecSimpleVOList.stream().collect(Collectors.toMap(SkuSpecSimpleVO::getSpecName, SkuSpecSimpleVO::getSpecValue, (value1, value2 )-> value2));
+                Long skuId;
+                if(x.getSkuId() == null) {
+                    //没有skuId表示为master主图，默认第一个
+                    SpuImg spuImg = spuImgList.get(0);
+                    skuId = spuImg.getSkuId();
+                } else {
+                    skuId = x.getSkuId();
+                }
+                List<SkuSpecSimpleVO> skuSpecList = skuIdDic.get(skuId);
+                spuImgSimpleVO.setSkuSpecList(skuSpecList);
+                Map<String, String> skuSpecMap = skuSpecList.stream().collect(Collectors.toMap(SkuSpecSimpleVO::getSpecName, SkuSpecSimpleVO::getSpecValue, (value1, value2 )-> value2));
                 spuImgSimpleVO.setSkuSpecMap(skuSpecMap);
                 return spuImgSimpleVO;
             }).collect(Collectors.toList());
