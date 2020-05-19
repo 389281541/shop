@@ -60,12 +60,12 @@
 
 
 类别管理：
-![](https://image.songshupinpin.com/43e503e8932340bf9eb7bfa83859c85a)
+![](https://image.songshupinpin.com/31ff00b22a384f349fdd6fc97affbe50)
 
 
 
 品牌管理：
-![](https://image.songshupinpin.com/74354af7c63b4c2eb7ac93d3deb6c6c6)
+![](https://image.songshupinpin.com/7d550e3ec223444cae95518a37523f7e)
 
 
 
@@ -80,7 +80,7 @@
 
 
 订单管理：
-![](https://image.songshupinpin.com/e35e14395e4c40cf908d3d9619576b34)
+![](https://image.songshupinpin.com/e0edc4b3fa6f48bd82cead39872ecb67)
 
 
 
@@ -107,12 +107,12 @@
 
 
 商品详情页：
-![](https://image.songshupinpin.com/865946109c9240d88b331cde6da9a69d)
+![](https://image.songshupinpin.com/e28f916af71b45bea9be1ff647021f26)
 
 
 
 购物车列表页：
-![](https://image.songshupinpin.com/d0db4cc25bdd42b885ec12e27c81c3d6)
+![](https://image.songshupinpin.com/98f406bd5ff247cab1c4b47f660a3099)
 
 
 
