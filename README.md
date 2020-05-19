@@ -50,39 +50,30 @@
 ### 后台管理系统
 
 登录：
-
 ![](https://image.songshupinpin.com/a22daff982e7427c82812729a8d0e6cf)
 
 商品管理：
-
 ![](https://image.songshupinpin.com/844d037620454367ae7c4e127d4a7899)
 
 类别管理：
-
 ![](https://image.songshupinpin.com/43e503e8932340bf9eb7bfa83859c85a)
 
 品牌管理：
-
 ![](https://image.songshupinpin.com/74354af7c63b4c2eb7ac93d3deb6c6c6)
 
 商品属性管理：
-
 ![](https://image.songshupinpin.com/77ebf245be444f6aa2c9595226755652)
 
 商铺管理：
-
 ![](https://image.songshupinpin.com/0d5bdcd9187d4d2fb8a3d7bd8b175c67)
 
 订单管理：
-
 ![](https://image.songshupinpin.com/e35e14395e4c40cf908d3d9619576b34)
 
 优惠券：
-
 ![](https://image.songshupinpin.com/4afc7e61841e4aed8c7ee33f64b5efd6)
 
 秒杀管理：
-
 ![](https://image.songshupinpin.com/1de9486b050944f2933f93910917ceec)
 
 
@@ -90,27 +81,21 @@
 ### 前台商城系统
 
 首页：
-
 ![](https://image.songshupinpin.com/f48cbf1f81f342ffa3b9a9f6f57759f7)
 
 商品列表页：
-
 ![](https://image.songshupinpin.com/62ab8b5e931f486f92777d4cd46931dc)
 
 商品详情页：
-
 ![](https://image.songshupinpin.com/865946109c9240d88b331cde6da9a69d)
 
 购物车列表页：
-
 ![](https://image.songshupinpin.com/d0db4cc25bdd42b885ec12e27c81c3d6)
 
 确认订单页：
-
 ![](https://image.songshupinpin.com/8d65dd6cba87450ca60e446de94f3aef)
 
 支付跳转页：
-
 ![](https://image.songshupinpin.com/c38dcd3a395448658f9c9cbf2fae4597)
 
 
