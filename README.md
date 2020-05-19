@@ -60,7 +60,7 @@
 
 
 类别管理：
-![](https://image.songshupinpin.com/31ff00b22a384f349fdd6fc97affbe50)
+![](https://image.songshupinpin.com/518971b9c76c48cb8cc6b38990af5c06)
 
 
 
