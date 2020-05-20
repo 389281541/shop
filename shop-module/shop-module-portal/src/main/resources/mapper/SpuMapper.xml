@@ -107,4 +107,8 @@
         </foreach>
     </select>
 
+    <update id="updateSale">
+        update spu set sale = sale + #{sale} where id = #{spuId};
+    </update>
+
 </mapper>

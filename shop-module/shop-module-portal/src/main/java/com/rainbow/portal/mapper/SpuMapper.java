@@ -62,4 +62,10 @@ public interface SpuMapper extends BaseMapper<Spu> {
     List<Spu> listBySpuIds(@Param("list") Collection<Long> list);
 
 
+    /**
+     * 更新商品销量
+     * @param sale
+     * @return
+     */
+    Integer updateSale(@Param("spuId")Long spuId, @Param("sale")Integer sale);
 }

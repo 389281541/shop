@@ -67,9 +67,6 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
     @Resource
     private SkuMapper skuMapper;
 
-    @Autowired
-    AmqpTemplate amqpTemplate;
-
     @Resource
     private CustomerMapper customerMapper;
 
@@ -252,6 +249,9 @@ public class FlashServiceImpl implements IFlashService, InitializingBean {
         flashGoodsInfo.put("skuId", param.getSkuId());
         flashGoodsInfo.put("quantity", param.getQuantity());
         flashGoodsInfo.put("flashPrice", param.getFlashPrice());
+        flashGoodsInfo.put("flashPromotionId", param.getFlashPromotionId());
+        flashGoodsInfo.put("flashPromotionSessionId", param.getFlashPromotionSessionId());
+        flashGoodsInfo.put("flashPromotionNum", param.getFlashPromotionNum());
         String key = RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_FLASH_GOODS_KEY.getRedisKey() + "_" + param.getCustomerId();
         redisTemplate.opsForValue().set(key, flashGoodsInfo.toJSONString(), 1, TimeUnit.DAYS);
         return Boolean.TRUE;

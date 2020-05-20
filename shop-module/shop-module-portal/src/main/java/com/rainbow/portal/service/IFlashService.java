@@ -1,5 +1,6 @@
 package com.rainbow.portal.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.rainbow.api.dto.GoConfirmOrderDTO;
 import com.rainbow.api.dto.OrderGenerateDTO;
 import com.rainbow.api.vo.ConfirmOrderVO;

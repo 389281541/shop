@@ -32,4 +32,14 @@ public interface FlashPromotionSpuMapper extends BaseMapper<FlashPromotionSpu> {
      * @return
      */
     FlashPromotionSpu getFlashPromotionSpu(@Param("sessionId") Long sessionId, @Param("list")Collection<Long> list, @Param("spuId")Long spuId);
+
+
+    /**
+     * 更新秒杀商品库存
+     * @param sessionId
+     * @param flashPromotionId
+     * @param spuId
+     * @return
+     */
+    Integer updateFlashSpuStock(@Param("sessionId") Long sessionId, @Param("flashPromotionId") Long flashPromotionId, @Param("spuId") Long spuId, @Param("quantity") Integer quantity);
 }

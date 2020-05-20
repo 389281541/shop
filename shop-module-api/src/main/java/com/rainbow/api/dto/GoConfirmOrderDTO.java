@@ -26,6 +26,18 @@ public class GoConfirmOrderDTO extends BaseDTO {
     @NotNull(message = "购买数量不能为空")
     private Integer quantity;
 
+    @ApiModelProperty(value = "秒杀活动ID")
+    @NotNull(message = "秒杀活动ID")
+    private Long flashPromotionId;
+
+    @ApiModelProperty(value = "秒杀时间段ID")
+    @NotNull(message = "秒杀时间段ID")
+    private Long flashPromotionSessionId;
+
+    @ApiModelProperty(value = "秒杀商品数量")
+    @NotNull(message = "秒杀商品数量")
+    private Long flashPromotionNum;
+
     @ApiModelProperty(value = "秒杀价格")
     @NotNull(message = "秒杀价格不能为空")
     private BigDecimal flashPrice;

@@ -1,5 +1,6 @@
 package com.rainbow.portal.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -11,18 +12,21 @@ import com.rainbow.api.dto.ParentOrderNoDTO;
 import com.rainbow.api.entity.Order;
 import com.rainbow.api.entity.OrderSku;
 import com.rainbow.api.entity.PaymentRecord;
+import com.rainbow.api.entity.Sku;
 import com.rainbow.api.enums.OrderStatusEnum;
 import com.rainbow.api.enums.PayTypeEnum;
 import com.rainbow.api.enums.PortalErrorCode;
+import com.rainbow.common.enums.RedisKeyEnums;
 import com.rainbow.common.exception.BusinessException;
 import com.rainbow.portal.config.yml.AliPayConfiguration;
-import com.rainbow.portal.mapper.OrderMapper;
-import com.rainbow.portal.mapper.OrderSkuMapper;
-import com.rainbow.portal.mapper.PaymentRecordMapper;
+import com.rainbow.portal.mapper.*;
 import com.rainbow.portal.service.IAliPayService;
+import com.rainbow.portal.service.IFlashService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -57,6 +61,18 @@ public class AliPayServiceImpl implements IAliPayService {
     @Resource
     private PaymentRecordMapper paymentRecordMapper;
 
+    @Resource
+    private SkuMapper skuMapper;
+
+    @Resource
+    private SpuMapper spuMapper;
+
+    @Resource
+    private FlashPromotionSpuMapper flashPromotionSpuMapper;
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
 
     @Override
     public String goPay(ParentOrderNoDTO param) {
@@ -89,11 +105,11 @@ public class AliPayServiceImpl implements IAliPayService {
         // 该笔订单允许的最晚付款时间，逾期将关闭交易。取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m。
         String timeout_express = "1c";
 
-        alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
-                + "\"total_amount\":\""+ total_amount +"\","
-                + "\"subject\":\""+ subject +"\","
-                + "\"body\":\""+ body +"\","
-                + "\"timeout_express\":\""+ timeout_express +"\","
+        alipayRequest.setBizContent("{\"out_trade_no\":\"" + out_trade_no + "\","
+                + "\"total_amount\":\"" + total_amount + "\","
+                + "\"subject\":\"" + subject + "\","
+                + "\"body\":\"" + body + "\","
+                + "\"timeout_express\":\"" + timeout_express + "\","
                 + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
 
         //请求
@@ -109,6 +125,7 @@ public class AliPayServiceImpl implements IAliPayService {
 
     /**
      * 计算总金额
+     *
      * @param orderList
      * @return
      */
@@ -122,11 +139,12 @@ public class AliPayServiceImpl implements IAliPayService {
 
     /**
      * 计算商品数量
+     *
      * @param orderList
      * @return
      */
     private Integer calculateGoodsQuantity(List<Order> orderList) {
-        if(CollectionUtils.isEmpty(orderList)) {
+        if (CollectionUtils.isEmpty(orderList)) {
             throw new BusinessException(PortalErrorCode.EMPTY_ORDER_SKU);
         }
         Set<Long> orderIds = orderList.stream().map(Order::getId).collect(Collectors.toSet());
@@ -168,13 +186,13 @@ public class AliPayServiceImpl implements IAliPayService {
         try {
             for (Field field : fields) {
                 field.setAccessible(true);
-                result.put(field.getName(), (String)field.get(param));
+                result.put(field.getName(), (String) field.get(param));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        log.info("支付宝回调,sign:{}, 参数:{}", param.getSign(),  result.toString());
+        log.info("支付宝回调,sign:{}, 参数:{}", param.getSign(), result.toString());
         return result;
     }
 
@@ -186,15 +204,16 @@ public class AliPayServiceImpl implements IAliPayService {
         //修改订单状态
 
         List<Order> orderList = orderMapper.getByParentOrderNo(customerId, orderNo);
-        if(CollectionUtils.isEmpty(orderList)) {
+        if (CollectionUtils.isEmpty(orderList)) {
             return;
         }
-        for (Order order: orderList) {
-            if(order.getStatus().equals(OrderStatusEnum.NON_DELIVER.getValue())) {
+        for (Order order : orderList) {
+            //幂等性
+            if (order.getStatus().equals(OrderStatusEnum.NON_DELIVER.getValue())) {
                 return;
             }
         }
-        for (Order order: orderList) {
+        for (Order order : orderList) {
             order.setUpdateTime(LocalDateTime.now());
             DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             order.setPaymentTime(LocalDateTime.parse(params.get("timestamp"), df));
@@ -208,7 +227,36 @@ public class AliPayServiceImpl implements IAliPayService {
         if (CollectionUtils.isEmpty(orderSkuList)) {
             throw new BusinessException(PortalErrorCode.EMPTY_ORDER_SKU);
         }
-        orderSkuMapper.updateSkuStock(orderSkuList);
+        List<Long> skuIdList = orderSkuList.stream().map(OrderSku::getSkuId).collect(Collectors.toList());
+        String key = RedisKeyEnums.PORTAL.REDIS_KEY_PREFIX_FLASH_GOODS_KEY.getRedisKey() + "_" + customerId;
+        String goodsInfo = redisTemplate.opsForValue().get(key);
+        boolean flashFlag = false;
+        JSONObject goods = new JSONObject();
+        if (Strings.isNotBlank(goodsInfo)) {
+            goods = JSONObject.parseObject(goodsInfo);
+            Long skuId = goods.getLong("skuId");
+            if(skuIdList.get(0).equals(skuId)) {
+                flashFlag = true;
+            }
+        }
+        if(flashFlag) {
+            Long skuId = goods.getLong("skuId");
+            Sku sku = skuMapper.selectById(skuId);
+            Long flashPromotionId = goods.getLong("flashPromotionId");
+            Long flashPromotionSessionId = goods.getLong("flashPromotionSessionId");
+            Integer flashPromotionNum = goods.getInteger("flashPromotionNum");
+            Integer quantity = goods.getInteger("quantity");
+            flashPromotionSpuMapper.updateFlashSpuStock(flashPromotionSessionId, flashPromotionId, sku.getSpuId(), flashPromotionNum - quantity);
+            spuMapper.updateSale(sku.getSpuId(), quantity);
+        } else {
+            orderSkuMapper.updateSkuStock(orderSkuList);
+            Map<Long, Integer> spuQuantityMap = calculateQuantity(orderSkuList);
+            for(Map.Entry<Long, Integer> entry: spuQuantityMap.entrySet()) {
+                spuMapper.updateSale(entry.getKey(), entry.getValue());
+            }
+        }
+        //更新spu销量
+
         PaymentRecord paymentRecord = new PaymentRecord();
         paymentRecord.setCustomerId(customerId);
         paymentRecord.setParentOrderNo(orderNo);
@@ -217,5 +265,26 @@ public class AliPayServiceImpl implements IAliPayService {
         paymentRecord.setPayPlatform(PayTypeEnum.ALI_PAY.getValue());
         paymentRecord.setCreateTime(LocalDateTime.now());
         paymentRecordMapper.insert(paymentRecord);
+    }
+
+
+    private Map<Long, Integer> calculateQuantity(List<OrderSku> orderSkuList) {
+        Map<Long, Integer> quantityMap = Maps.newHashMap();
+        if(CollectionUtils.isEmpty(orderSkuList)) {
+            throw new BusinessException(PortalErrorCode.EMPTY_ORDER_SKU);
+        }
+        Map<Long, List<OrderSku>> spuMap = orderSkuList.stream().collect(Collectors.groupingBy(OrderSku::getSpuId));
+        for(Map.Entry<Long, List<OrderSku>> entry: spuMap.entrySet()) {
+            quantityMap.put(entry.getKey(), calculateQuantityPerSpu(entry.getValue()));
+        }
+        return quantityMap;
+    }
+
+    private Integer calculateQuantityPerSpu(List<OrderSku> orderSkuList) {
+        Integer total = 0;
+        for(OrderSku orderSku: orderSkuList) {
+            total += orderSku.getQuantity();
+        }
+        return total;
     }
 }
