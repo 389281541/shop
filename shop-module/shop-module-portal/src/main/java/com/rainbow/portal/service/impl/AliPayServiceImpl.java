@@ -21,7 +21,6 @@ import com.rainbow.common.exception.BusinessException;
 import com.rainbow.portal.config.yml.AliPayConfiguration;
 import com.rainbow.portal.mapper.*;
 import com.rainbow.portal.service.IAliPayService;
-import com.rainbow.portal.service.IFlashService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.logging.log4j.util.Strings;
