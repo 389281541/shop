@@ -43,6 +43,12 @@ public class AddressServiceImpl extends ServiceImpl<CustomerAddressMapper, Custo
     public Integer addAddress(CustomerAddressSaveDTO param) {
         CustomerAddress customerAddress = new CustomerAddress();
         BeanUtils.copyProperties(param, customerAddress);
+        List<CustomerAddressVO> customerAddressVOList = listAddress(param.getCustomerId());
+        if(CollectionUtils.isEmpty(customerAddressVOList)) {
+            customerAddress.setIsDefault(BooleanEnum.YES.getValue());
+        } else {
+            customerAddress.setIsDefault(BooleanEnum.NO.getValue());
+        }
         return baseMapper.insert(customerAddress);
     }
 

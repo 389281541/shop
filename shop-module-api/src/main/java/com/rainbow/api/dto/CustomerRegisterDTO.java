@@ -42,7 +42,7 @@ public class CustomerRegisterDTO extends BaseDTO {
     private String email;
 
     @ApiModelProperty(value = "性别: 0-男 1-女")
-    private Boolean gender;
+    private Integer gender;
 
     @ApiModelProperty(value = "用户生日")
     private LocalDate birthday;

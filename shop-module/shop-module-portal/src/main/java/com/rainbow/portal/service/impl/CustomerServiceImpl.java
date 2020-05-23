@@ -6,7 +6,6 @@ import com.rainbow.api.dto.CustomerRegisterDTO;
 import com.rainbow.api.dto.CustomerUpdateDTO;
 import com.rainbow.api.entity.Customer;
 import com.rainbow.api.enums.AdminErrorCode;
-import com.rainbow.api.enums.PortalErrorCode;
 import com.rainbow.api.vo.CustomerVO;
 import com.rainbow.common.constant.Constant;
 import com.rainbow.common.enums.BooleanEnum;
