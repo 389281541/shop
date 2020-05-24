@@ -57,7 +57,7 @@
         <if test="param.orderNo != null and param.orderNo != ''">
             AND order_no like CONCAT('%',#{param.orderNo},'%')
         </if>
-        <if test="param.status != null and param.status != ''">
+        <if test="param.status != null">
             AND status = #{param.status}
         </if>
         <if test="param.orderIds != null and param.orderIds.size() > 0">
